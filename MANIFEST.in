@@ -1,0 +1,4 @@
+include INSTALL
+include LICENSE
+include CHANGES
+include README.markdown

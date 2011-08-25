@@ -1,2 +1,6 @@
 *.pyc
-site
+MANIFEST
+build/
+dist/
+geeklog.egg-info
+geeklog/site/

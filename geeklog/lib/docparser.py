@@ -38,7 +38,10 @@ class DocParser():
         self.response.begin()
 
     def getfields(self, name):
-        return re.split(',\s*', self.getheader(name))
+        val = self.getheader(name)
+        if val is not None:
+            return re.split(',\s*', val)
+        return []
 
     def getbody(self):
         return self.response.read()
