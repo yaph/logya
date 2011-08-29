@@ -12,11 +12,10 @@ from docwriter import DocWriter
 from jinja2 import Environment, PackageLoader
 
 template_env = Environment(loader=PackageLoader('example_site', 'templates'))
+doc = DocWriter(template_env)
 
-posts = glob.glob(os.path.join(cwd, 'example_site', 'posts', '*.html'))
-for p in posts:
-    doc = DocWriter(p, template_env)
-    doc.write()
+docs = glob.glob(os.path.join(cwd, 'example_site', 'posts', '*.html'))
+doc.writedocs(docs)
 
 # copy static files
 src = os.path.join(cwd, 'example_site', 'static')
