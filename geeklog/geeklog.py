@@ -11,7 +11,7 @@ sys.path.append(os.path.join(cwd, 'lib'))
 from docwriter import DocWriter
 from jinja2 import Environment, PackageLoader
 
-src_site = 'example_site' # TODO use command, e.g. ./geeklog create .
+src_site = 'example_site' # TODO use command, e.g. ./geeklog run .
 src = os.path.join(cwd, src_site)
 config = ConfigParser.ConfigParser()
 config.readfp(open(os.path.join(src, 'site.cfg')))
