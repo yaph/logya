@@ -3,9 +3,10 @@ import os
 from docparser import DocParser
 
 class DocWriter:
-    def __init__(self, template_env):
+    def __init__(self, base_path, template_env):
         self.docs = []
         self.cwd = os.getcwd()
+        self.base_path = base_path
         self.template_env = template_env
 
     def getfile(self, doc):
@@ -22,7 +23,7 @@ class DocWriter:
         template = doc.getheader('template')
         page = self.template_env.get_template(template)
         f = self.getfile(doc)
-        c = page.render(title=title, body=body)
+        c = page.render(title=title, body=body, base_path=self.base_path)
         f.write(c.encode('utf-8'))
 
     def writedocs(self, files):
