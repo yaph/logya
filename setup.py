@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+#http://packages.python.org/distribute/setuptools.html#specifying-your-project-s-version
+
+from setuptools import setup
 from geeklog import __version__
 
 setup(
@@ -17,7 +19,7 @@ setup(
     maintainer_email='web@ramiro.org',
     keywords=['Website Generator'],
     license='MIT',
-    packages=['geeklog'],
+    packages = find_packages(),
     test_suite='tests.all_tests',
     classifiers=[
         'Development Status :: 1 - Planning',
@@ -26,4 +28,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python'],
+    install_requires=['distribute']
 )
+
+

@@ -1,2 +1,2 @@
 Please use
-sudo easy_install geeklog
+sudo pip install geeklog
