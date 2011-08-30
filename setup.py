@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#http://packages.python.org/distribute/setuptools.html#specifying-your-project-s-version
+#http://packages.python.org/distribute/setuptools.html#using-find-packages
 
 from setuptools import setup
 from geeklog import __version__
@@ -28,7 +28,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python'],
-    install_requires=['distribute']
+    install_requires=['distribute', 'jinja2']
 )
-
-
