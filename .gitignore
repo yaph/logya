@@ -3,6 +3,3 @@ MANIFEST
 build/
 dist/
 geeklog.egg-info
-geeklog/site/
-geeklog/example_site/static/css/lib/
-geeklog/example_site/static/js/lib/

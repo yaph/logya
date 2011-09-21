@@ -11,7 +11,7 @@ class DocWriter:
 
     def getfile(self, doc):
         url = doc.getheader('url')
-        directory = os.path.join(self.cwd, 'site', url.lstrip('/'))
+        directory = os.path.join(self.cwd, 'deploy', url.lstrip('/'))
         if not os.path.exists(directory):
             os.makedirs(directory)
         return open(os.path.join(directory, 'index.html'), 'w')
