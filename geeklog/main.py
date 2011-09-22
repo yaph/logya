@@ -27,7 +27,7 @@ def main():
     p_generate = subparsers.add_parser('generate', help=msg_generate)
     p_generate.set_defaults(func=generate)
     p_gen = subparsers.add_parser('gen', help=msg_generate)
-    p_generate.set_defaults(func=generate)
+    p_gen.set_defaults(func=generate)
 
     # make help act the same as -h and --help
     p_help = subparsers.add_parser('help')
