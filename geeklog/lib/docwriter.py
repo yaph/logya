@@ -3,15 +3,15 @@ import os
 from docparser import DocParser
 
 class DocWriter:
-    def __init__(self, base_path, template_env):
+    def __init__(self, dir_dst, template_env, base_path):
         self.docs = []
-        self.cwd = os.getcwd()
-        self.base_path = base_path
+        self.dir_dst = dir_dst
         self.template_env = template_env
+        self.base_path = base_path
 
     def getfile(self, doc):
         url = doc.getheader('url')
-        directory = os.path.join(self.cwd, 'deploy', url.lstrip('/'))
+        directory = os.path.join(self.dir_dst, url.lstrip('/'))
         if not os.path.exists(directory):
             os.makedirs(directory)
         return open(os.path.join(directory, 'index.html'), 'w')
