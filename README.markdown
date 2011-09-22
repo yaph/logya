@@ -1,3 +1,13 @@
+Geeklog is a static Web site generator written in Python designed to be easy
+to use and flexible.
+
+# Features
+* Create responsive static Web sites
+
+# Requirements
+* [Python 2.7](http://python.org/)
+* [Jinja2](http://jinja.pocoo.org/)
+
 # Directory Structure
 
 ## Geeklog Source
@@ -32,8 +42,7 @@
 
 * make geeklog docs the example site that is created with ./geeklog init example_site
 
-
-# Further Plans
+## Further Plans
 
 * minify and concatenate CSS and JS
 * configurable application modules

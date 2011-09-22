@@ -17,13 +17,12 @@ class Geeklog():
         self.dir_current = os.getcwd()
         self.dir_dst = os.path.join(self.dir_current, 'deploy')
 
-    def create(self):
-        site_name = 'geeksta' # TODO read from commandline, e.g. geeklog create geeksta
-        src = os.path.join(self.dir_src, 'sites', site_name)
+    def create(self, site_name):
+        src = os.path.join(self.dir_src, 'sites', 'geeksta') # TODO make docs default site
         dst = os.path.join(self.dir_current, site_name)
         shutil.copytree(src, dst)
 
-    def run():
+    def generate():
         src_site = 'geeksta' # TODO use command, e.g. ./geeklog run .
         src = os.path.join(self.dir_src, 'sites', src_site)
 

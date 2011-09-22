@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#http://packages.python.org/distribute/setuptools.html#using-find-packages
+#http://packages.python.org/distribute/setuptools.html#declaring-dependencies
 
 from setuptools import setup
 from geeklog import __version__
@@ -28,5 +28,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python'],
-    install_requires=['distribute', 'jinja2']
+    install_requires=['distribute', 'jinja2'],
+    entry_points = {
+        'console_scripts': [
+            'geeklog = geeklog.main:main'
+        ]
+    }
 )
