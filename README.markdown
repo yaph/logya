@@ -3,7 +3,7 @@ to use and flexible.
 
 # Features
 * Create responsive static Web sites
-* Built-in Web server
+* Built-in Web server for immediate editing feedback
 * Commands for site creation, generation, and serving
 
 # Requirements

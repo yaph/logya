@@ -22,10 +22,16 @@ class DocWriter:
         body = doc.getbody().decode('utf-8')
         title = doc.getheader('title').decode('utf-8')
         scripts = doc.getscripts()
+        styles = doc.getstyles()
         template = doc.getheader('template')
         page = self.template_env.get_template(template)
         f = self.getfile(doc)
-        c = page.render(title=title, body=body, base_path=self.base_path)
+        c = page.render(
+            title=title,
+            body=body,
+            base_path=self.base_path,
+            styles=styles,
+            scripts=scripts)
         f.write(c.encode('utf-8'))
 
 
