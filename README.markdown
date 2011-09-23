@@ -3,6 +3,8 @@ to use and flexible.
 
 # Features
 * Create responsive static Web sites
+* Built-in Web server
+* Commands for site creation, generation, and serving
 
 # Requirements
 * [Python 2.7](http://python.org/)
@@ -12,8 +14,8 @@ to use and flexible.
 
 ## Geeklog Source
 * geeklog
+    * ext
     * sites
-    * lib
 * tests
 
 ## Site Source
@@ -23,26 +25,25 @@ to use and flexible.
 
 ## Generated Site
 * deploy
+    * content
+    * static
 
 # Roadmap
 
-## Version 0.2
-
-* write basic commands for site creation and generation
-
-## Version 0.3
+## Version 0.4
 
 * site and content configuration
 
-## Version 0.4
+## Version 0.5
 
 * make distribute work
 
-## Version 0.5
+## Version 0.6
 
 * make geeklog docs the example site that is created with ./geeklog init example_site
 
 ## Further Plans
 
 * minify and concatenate CSS and JS
-* configurable application modules
+* configurable plugins
+* XML and HTML sitemap generation

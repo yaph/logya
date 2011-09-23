@@ -10,6 +10,9 @@ def create(args):
 def generate(args):
     Geeklog().generate()
 
+def serve(args):
+    Geeklog().serve()
+
 def help(args):
     args.parser.print_help()
 
@@ -28,6 +31,10 @@ def main():
     p_generate.set_defaults(func=generate)
     p_gen = subparsers.add_parser('gen', help=msg_generate)
     p_gen.set_defaults(func=generate)
+
+    # serve static pages
+    p_serve = subparsers.add_parser('serve', help='Serve static pages from deploy directory.')
+    p_serve.set_defaults(func=serve)
 
     # make help act the same as -h and --help
     p_help = subparsers.add_parser('help')

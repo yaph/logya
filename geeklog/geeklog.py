@@ -4,16 +4,14 @@ import sys
 import glob
 import shutil
 import config
-
-dir_src = sys.path[0]
-sys.path.append(os.path.join(dir_src, 'lib'))
 from docwriter import DocWriter
+from server import GeeklogServer, GeeklogHTTPRequestHandler
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
 class Geeklog():
 
     def __init__(self):
-        self.dir_src = dir_src
+        self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
 
 
@@ -56,14 +54,17 @@ class Geeklog():
         shutil.copytree(src, dst)
 
 
+    # TODO implement incremental site generation
     def generate(self):
         """Generate a Web site to deploy from the current directory as the source."""
 
         self.init_env()
+        print "Generating site in directory: %s" % self.dir_dst
 
         base_path = self.config.get('site', 'base_path')
 
         doc = DocWriter(self.dir_dst, self.template_env, base_path)
+        # TODO recurse through sub directories
         docs = glob.glob(os.path.join(self.dir_content, '*.html'))
         doc.writedocs(docs)
 
@@ -72,6 +73,10 @@ class Geeklog():
         dst_static = os.path.join(self.dir_dst, 'static')
         shutil.rmtree(dst_static, True)
         shutil.copytree(src_static, dst_static)
+
+
+    def serve(self):
+        GeeklogServer(self, 'localhost', 8080).serve()
 
 
 class GeeklogLoader(BaseLoader):

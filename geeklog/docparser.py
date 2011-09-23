@@ -1,13 +1,14 @@
+# -*- coding: utf-8 -*-
 import re
 import StringIO
 import httplib
 
 class FakeSocket:
-    '''Code copied from pypy / lib-python / 2.7.1 / test / test_httplib.py
+    """Code copied from pypy / lib-python / 2.7.1 / test / test_httplib.py
     See
     https://github.com/pypy/pypy/raw/cc0b90a9458a4d8146e7ff7ad757d63a7a97a535/lib-python/2.7.1/test/test_httplib.py
     http://pypy.org/
-    '''
+    """
     def __init__(self, text, fileclass=StringIO.StringIO):
         self.text = text
         self.fileclass = fileclass
@@ -20,9 +21,9 @@ class FakeSocket:
 
 
 class FileResponse(httplib.HTTPResponse):
-    '''See
+    """See
     http://svn.python.org/view/python/trunk/Lib/httplib.py?view=markup
-    '''
+    """
     def __init__(self, filename):
         f = open(filename)
         httplib.HTTPResponse.__init__(self, FakeSocket(f.read()))
