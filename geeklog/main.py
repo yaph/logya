@@ -13,9 +13,6 @@ def generate(args):
 def serve(args):
     Geeklog().serve()
 
-def help(args):
-    args.parser.print_help()
-
 def main():
     parser = argparse.ArgumentParser(description='Geeklog a static Web site generator.', version=__version__)
     subparsers = parser.add_subparsers()
@@ -26,19 +23,11 @@ def main():
     p_create.set_defaults(func=create)
 
     # generate a site for deployment, generate and gen sub commands do the same
-    msg_generate = 'Generate the Web site to deploy from the current directory.'
-    p_generate = subparsers.add_parser('generate', help=msg_generate)
-    p_generate.set_defaults(func=generate)
-    p_gen = subparsers.add_parser('gen', help=msg_generate)
-    p_gen.set_defaults(func=generate)
+    msg = 'Generate the Web site to deploy from the current directory.'
+    [subparsers.add_parser(c, help=msg).set_defaults(func=generate) for c in ['generate', 'gen']]
 
     # serve static pages
-    p_serve = subparsers.add_parser('serve', help='Serve static pages from deploy directory.')
-    p_serve.set_defaults(func=serve)
-
-    # make help act the same as -h and --help
-    p_help = subparsers.add_parser('help')
-    p_help.set_defaults(func=help, parser=parser)
+    subparsers.add_parser('serve', help='Serve static pages from deploy directory.').set_defaults(func=serve)
 
     # process arguments
     args = parser.parse_args()
