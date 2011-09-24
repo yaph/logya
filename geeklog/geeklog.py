@@ -14,37 +14,33 @@ class Geeklog():
         self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
 
+    def test_and_get_path(self, name):
+        """Test whether resource exists at path relative to current directory and return its full path."""
+
+        path = os.path.join(self.dir_current, name)
+        if not os.path.exists(path):
+            raise Exception('Path "%s" does not exist.' % path)
+        return path
 
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
 
         This function reads the Web site configuration, sets up the template
-        environment and later used object properties, and checks if required
-        files and directories exist.
+        environment and sets object properties.
         """
 
-        file_conf = os.path.join(self.dir_current, 'site.cfg')
-        if not os.path.exists(file_conf):
-            raise Exception('Configuration file does not exist.')
+        file_conf = self.test_and_get_path('site.cfg')
         self.config = config.get(file_conf)
 
-        self.dir_content = os.path.join(self.dir_current, 'content')
-        if not os.path.exists(self.dir_content):
-            raise Exception('Content directory does not exist.')
+        self.dir_content = self.test_and_get_path('content')
+        self.dir_static = self.test_and_get_path('static')
 
-        self.dir_static = os.path.join(self.dir_current, 'static')
-        if not os.path.exists(self.dir_static):
-            raise Exception('Static files directory does not exist.')
-
-        dir_templates = os.path.join(self.dir_current, 'templates')
-        if not os.path.exists(dir_templates):
-            raise Exception('Template directory does not exist.')
+        dir_templates = self.test_and_get_path('templates')
         self.template_env = Environment(loader=GeeklogLoader(dir_templates))
 
         self.dir_dst = os.path.join(self.dir_current, 'deploy')
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
-
 
     def create(self, site_name):
         """Create a basic template for generating a Web site with geeklog."""
@@ -52,7 +48,6 @@ class Geeklog():
         src = os.path.join(self.dir_src, 'sites', 'geeksta') # TODO make docs default site
         dst = os.path.join(self.dir_current, site_name)
         shutil.copytree(src, dst)
-
 
     # TODO implement incremental site generation
     def generate(self):
@@ -74,10 +69,8 @@ class Geeklog():
         shutil.rmtree(dst_static, True)
         shutil.copytree(src_static, dst_static)
 
-
     def serve(self):
         GeeklogServer(self, 'localhost', 8080).serve()
-
 
 class GeeklogLoader(BaseLoader):
 
