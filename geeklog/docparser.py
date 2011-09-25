@@ -20,14 +20,13 @@ class FakeSocket:
             raise httplib.UnimplementedFileMode()
         return self.fileclass(self.text)
 
-class FileResponse(httplib.HTTPResponse):
+class DocResponse(httplib.HTTPResponse):
     """See
     http://svn.python.org/view/python/trunk/Lib/httplib.py?view=markup
     """
 
-    def __init__(self, filename):
-        f = open(filename)
-        httplib.HTTPResponse.__init__(self, FakeSocket(f.read()))
+    def __init__(self, doc):
+        httplib.HTTPResponse.__init__(self, FakeSocket(doc))
 
     def _read_status(self):
         [version, status, reason] = 'HTTP/1.0 200 OK'.split(None, 2)
@@ -35,8 +34,8 @@ class FileResponse(httplib.HTTPResponse):
 
 class DocParser():
 
-    def __init__(self, filename):
-        self.response = FileResponse(filename)
+    def __init__(self, doc):
+        self.response = DocResponse(doc)
         self.response.begin()
 
     def getfields(self, name):

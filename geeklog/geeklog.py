@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import glob
 import shutil
 import config
+from docreader import DocReader
+from docparser import DocParser
 from docwriter import DocWriter
-from server import GeeklogServer, GeeklogHTTPRequestHandler
+from server import GeeklogServer
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
 class Geeklog():
@@ -42,6 +43,14 @@ class Geeklog():
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
 
+    def copy_static(self):
+        """Copy static files from source to deploy."""
+
+        src_static = os.path.join(self.dir_current, 'static')
+        dst_static = os.path.join(self.dir_dst, 'static')
+        shutil.rmtree(dst_static, True)
+        shutil.copytree(src_static, dst_static)
+
     def create(self, site_name):
         """Create a basic template for generating a Web site with geeklog."""
 
@@ -57,20 +66,22 @@ class Geeklog():
         print "Generating site in directory: %s" % self.dir_dst
 
         base_path = self.config.get('site', 'base_path')
+        dw = DocWriter(self.dir_dst, self.template_env, base_path)
+        docs = DocReader(self.dir_content).get_docs()
+        for doc in docs:
+            dw.write(DocParser(doc))
 
-        doc = DocWriter(self.dir_dst, self.template_env, base_path)
-        # TODO recurse through sub directories
-        docs = glob.glob(os.path.join(self.dir_content, '*.html'))
-        doc.writedocs(docs)
-
-        # copy static files
-        src_static = os.path.join(self.dir_current, 'static')
-        dst_static = os.path.join(self.dir_dst, 'static')
-        shutil.rmtree(dst_static, True)
-        shutil.copytree(src_static, dst_static)
+        self.copy_static()
 
     def serve(self):
         GeeklogServer(self, 'localhost', 8080).serve()
+
+    def test(self):
+        self.init_env()
+        docs = DocReader(self.dir_content).get_docs()
+        for doc in docs:
+            dp = DocParser(doc)
+            print dp
 
 class GeeklogLoader(BaseLoader):
 

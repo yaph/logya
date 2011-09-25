@@ -13,6 +13,9 @@ def generate(args):
 def serve(args):
     Geeklog().serve()
 
+def test(args):
+    Geeklog().test()
+
 def main():
     parser = argparse.ArgumentParser(description='Geeklog a static Web site generator.', version=__version__)
     subparsers = parser.add_subparsers()
@@ -28,6 +31,9 @@ def main():
 
     # serve static pages
     subparsers.add_parser('serve', help='Serve static pages from deploy directory.').set_defaults(func=serve)
+
+    # test stuff
+    subparsers.add_parser('test', help='Test stuff.').set_defaults(func=test)
 
     # process arguments
     args = parser.parse_args()
