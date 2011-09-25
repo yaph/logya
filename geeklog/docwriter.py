@@ -3,12 +3,12 @@ import os
 from docparser import DocParser
 
 class DocWriter:
+
     def __init__(self, dir_dst, template_env, base_path):
         self.docs = []
         self.dir_dst = dir_dst
         self.template_env = template_env
         self.base_path = base_path
-
 
     def getfile(self, doc):
         url = doc.getheader('url')
@@ -16,7 +16,6 @@ class DocWriter:
         if not os.path.exists(directory):
             os.makedirs(directory)
         return open(os.path.join(directory, 'index.html'), 'w')
-
 
     def write(self, doc):
         body = doc.getbody().decode('utf-8')
@@ -33,7 +32,6 @@ class DocWriter:
             styles=styles,
             scripts=scripts)
         f.write(c.encode('utf-8'))
-
 
     def writedocs(self, files):
         for f in files:

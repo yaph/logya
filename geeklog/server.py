@@ -17,7 +17,6 @@ class GeeklogServer(HTTPServer):
         print 'Serving on http://%s:%s/' % (self.address, self.port)
         self.serve_forever()
 
-
 class GeeklogHTTPRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
