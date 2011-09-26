@@ -13,39 +13,37 @@ to use and flexible.
 # Directory Structure
 
 ## Geeklog Source
-* geeklog
-    * ext
-    * sites
+* geeklog       all geeklog source files needed for running
+    * ext       extension modules
+    * sites     barebone example Web sites
 * tests
 
 ## Site Source
+The following folders and files are required for generating a Web site with Geeklog
 * content
 * static
 * templates
-
-## Generated Site
-* deploy
-    * content
-    * static
+* site.cfg
 
 # Roadmap
 
-## Version 0.4
-
-* DONE implement refresh_resource in geeklog to not regenerate the whole site on each request in serve mode
-* DONE use logging in server
-* site and content configuration
-
 ## Version 0.5
 
-* make distribute work
+* site and content configuration
+* index generation
 
 ## Version 0.6
 
 * make geeklog docs the example site that is created with ./geeklog init example_site
 
+## Version 0.7
+
+* make distribute work
+
 ## Further Plans
 
+* RSS feed generation
+* XML and HTML sitemap generation
 * minify and concatenate CSS and JS
 * configurable plugins
-* XML and HTML sitemap generation
+* content snippets that are replaced when generating document

@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+import os
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
 class Template():
 
-    def __init__(self):
+    def __init__(self, dir_templates):
         self.vars = {}
+        self.dir_templates = dir_templates
+
+    def get_env(self):
+        return Environment(loader=GeeklogLoader(self.dir_templates))
 
     def add_var(self, name, value):
         self.vars[name] = value

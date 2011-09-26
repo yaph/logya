@@ -6,12 +6,15 @@ import config
 from docreader import DocReader
 from docparser import DocParser
 from docwriter import DocWriter
+from template import Template
 from server import GeeklogServer
-from jinja2 import Environment, BaseLoader, TemplateNotFound
 
 class Geeklog():
 
     def __init__(self):
+        # a dictionary of parsed documents indexed by resource paths
+        self.docs_parsed = {}
+
         self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
 
@@ -37,7 +40,7 @@ class Geeklog():
         self.dir_static = self.test_and_get_path('static')
 
         dir_templates = self.test_and_get_path('templates')
-        self.template_env = Environment(loader=GeeklogLoader(dir_templates))
+        self.template = Template(dir_templates)
 
         self.dir_dst = os.path.join(self.dir_current, 'deploy')
         if not os.path.exists(self.dir_dst):
@@ -66,10 +69,13 @@ class Geeklog():
         print "Generating site in directory: %s" % self.dir_dst
 
         base_path = self.config.get('site', 'base_path')
-        dw = DocWriter(self.dir_dst, self.template_env, base_path)
+        dw = DocWriter(self.dir_dst, self.template.get_env(), base_path)
         docs = DocReader(self.dir_content).get_docs()
         for doc in docs:
-            dw.write(DocParser(doc))
+            dp = DocParser(doc)
+            url = dp.getheader('url')
+            self.docs_parsed[url] = dp
+            dw.write(dp)
 
         self.copy_static()
 
@@ -94,10 +100,11 @@ class Geeklog():
         for doc in docs:
             dp = DocParser(doc)
             url = dp.getheader('url')
+            self.docs_parsed[url] = dp
             # Is it the requested doc? Be forgiving about trailing slashes.
             if path.rstrip('/') == url.rstrip('/'):
                 base_path = self.config.get('site', 'base_path')
-                dw = DocWriter(self.dir_dst, self.template_env, base_path)
+                dw = DocWriter(self.dir_dst, self.template.get_env(), base_path)
                 dw.write(dp)
                 return "Refreshed doc at URL: %s" % url
 
@@ -107,16 +114,3 @@ class Geeklog():
     def test(self):
         self.refresh_resource('/static/js/script.js')
 
-class GeeklogLoader(BaseLoader):
-
-    def __init__(self, path):
-        self.path = path
-
-    def get_source(self, environment, template):
-        path = os.path.join(self.path, template)
-        if not os.path.exists(path):
-            raise TemplateNotFound(template)
-        mtime = os.path.getmtime(path)
-        with file(path) as f:
-            source = f.read().decode('utf-8')
-        return source, path, lambda: mtime == os.path.getmtime(path)
