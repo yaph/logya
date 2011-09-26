@@ -19,7 +19,9 @@ to use and flexible.
 * tests
 
 ## Site Source
+
 The following folders and files are required for generating a Web site with Geeklog
+
 * content
 * static
 * templates
