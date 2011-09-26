@@ -41,6 +41,7 @@ class Geeklog():
 
         dir_templates = self.test_and_get_path('templates')
         self.template = Template(dir_templates)
+        self.template.add_var('base_path', self.config.get('site', 'base_path'))
 
         self.dir_dst = os.path.join(self.dir_current, 'deploy')
         if not os.path.exists(self.dir_dst):
@@ -68,8 +69,7 @@ class Geeklog():
         self.init_env()
         print "Generating site in directory: %s" % self.dir_dst
 
-        base_path = self.config.get('site', 'base_path')
-        dw = DocWriter(self.dir_dst, self.template.get_env(), base_path)
+        dw = DocWriter(self.dir_dst, self.template)
         docs = DocReader(self.dir_content).get_docs()
         for doc in docs:
             dp = DocParser(doc)
@@ -103,8 +103,7 @@ class Geeklog():
             self.docs_parsed[url] = dp
             # Is it the requested doc? Be forgiving about trailing slashes.
             if path.rstrip('/') == url.rstrip('/'):
-                base_path = self.config.get('site', 'base_path')
-                dw = DocWriter(self.dir_dst, self.template.get_env(), base_path)
+                dw = DocWriter(self.dir_dst, self.template)
                 dw.write(dp)
                 return "Refreshed doc at URL: %s" % url
 
