@@ -3,7 +3,7 @@ to use and flexible.
 
 # Features
 * Create responsive static Web sites
-* Built-in Web server for immediate editing feedback
+* Built-in Web server with info level logging for immediate editing feedback
 * Commands for site creation, generation, and serving
 
 # Requirements
@@ -33,7 +33,7 @@ to use and flexible.
 ## Version 0.4
 
 * DONE implement refresh_resource in geeklog to not regenerate the whole site on each request in serve mode
-* use logging in server
+* DONE use logging in server
 * site and content configuration
 
 ## Version 0.5

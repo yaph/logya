@@ -87,8 +87,7 @@ class Geeklog():
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             shutil.copyfile(file_src, file_dst)
-            print "Copied file %s to %s" % (file_src, file_dst)
-            return
+            return "Copied file %s to %s" % (file_src, file_dst)
 
         # find doc that corresponds to path, regenerate it and return
         docs = DocReader(self.dir_content).get_docs()
@@ -100,8 +99,7 @@ class Geeklog():
                 base_path = self.config.get('site', 'base_path')
                 dw = DocWriter(self.dir_dst, self.template_env, base_path)
                 dw.write(dp)
-                print "Refreshed doc at URL: %s" % url
-                return
+                return "Refreshed doc at URL: %s" % url
 
     def serve(self):
         GeeklogServer(self, 'localhost', 8080).serve()

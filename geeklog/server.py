@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import logging
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 
@@ -9,10 +10,13 @@ class GeeklogServer(HTTPServer):
         self.geeklog = geeklog
         self.address = address
         self.port = port
+
+        self.geeklog.init_env()
+        log_file = os.path.join(self.geeklog.dir_current, 'server.log')
+        logging.basicConfig(filename=log_file, level=logging.INFO)
         HTTPServer.__init__(self, (address, port), GeeklogHTTPRequestHandler)
 
     def serve(self):
-        self.geeklog.init_env()
         os.chdir(self.geeklog.dir_dst)
         print 'Serving on http://%s:%s/' % (self.address, self.port)
         self.serve_forever()
@@ -20,6 +24,6 @@ class GeeklogServer(HTTPServer):
 class GeeklogHTTPRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        print "Requested resource: %s" % self.path
-        self.server.geeklog.refresh_resource(self.path)
+        logging.info("Requested resource: %s" % self.path)
+        logging.info(self.server.geeklog.refresh_resource(self.path))
         SimpleHTTPRequestHandler.do_GET(self)
