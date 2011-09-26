@@ -32,7 +32,7 @@ to use and flexible.
 
 ## Version 0.4
 
-* implement refresh_resource in geeklog to not regenerate the whole site on each request in serve mode
+* DONE implement refresh_resource in geeklog to not regenerate the whole site on each request in serve mode
 * use logging in server
 * site and content configuration
 

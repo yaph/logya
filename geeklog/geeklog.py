@@ -73,15 +73,41 @@ class Geeklog():
 
         self.copy_static()
 
+    def refresh_resource(self, path):
+        """Refresh resource corresponding to given path.
+
+        Static files are simply coypied, documents are read, parsed and 
+        written to the corresponding destination in the deploy directory."""
+
+        self.init_env()
+
+        # if a file relative to static source is requested copy it and return
+        path_rel = path.lstrip('/')
+        file_src = os.path.join(self.dir_current, path_rel)
+        if os.path.isfile(file_src):
+            file_dst = os.path.join(self.dir_dst, path_rel)
+            shutil.copyfile(file_src, file_dst)
+            print "Copied file %s to %s" % (file_src, file_dst)
+            return
+
+        # find doc that corresponds to path, regenerate it and return
+        docs = DocReader(self.dir_content).get_docs()
+        for doc in docs:
+            dp = DocParser(doc)
+            url = dp.getheader('url')
+            # Is it the requested doc? Be forgiving about trailing slashes.
+            if path.rstrip('/') == url.rstrip('/'):
+                base_path = self.config.get('site', 'base_path')
+                dw = DocWriter(self.dir_dst, self.template_env, base_path)
+                dw.write(dp)
+                print "Refreshed doc at URL: %s" % url
+                return
+
     def serve(self):
         GeeklogServer(self, 'localhost', 8080).serve()
 
     def test(self):
-        self.init_env()
-        docs = DocReader(self.dir_content).get_docs()
-        for doc in docs:
-            dp = DocParser(doc)
-            print dp
+        self.refresh_resource('/static/js/script.js')
 
 class GeeklogLoader(BaseLoader):
 

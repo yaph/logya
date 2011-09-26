@@ -20,6 +20,6 @@ class GeeklogServer(HTTPServer):
 class GeeklogHTTPRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        print self.path
-        self.server.geeklog.generate()
+        print "Requested resource: %s" % self.path
+        self.server.geeklog.refresh_resource(self.path)
         SimpleHTTPRequestHandler.do_GET(self)
