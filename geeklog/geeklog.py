@@ -111,5 +111,7 @@ class Geeklog():
         GeeklogServer(self, 'localhost', 8080).serve()
 
     def test(self):
-        self.refresh_resource('/static/js/script.js')
-
+        from ext import ExtensionLoader
+        el = ExtensionLoader()
+        print el.get_by_type('doc')
+        print el.get_by_type('index')
