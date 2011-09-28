@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import pkgutil
 from abc import ABCMeta, abstractmethod
 
@@ -20,6 +21,14 @@ class ExtensionLoader():
 class Extension:
 
     __metaclass__ = ABCMeta
+
+    def set_geeklog(self, geeklog):
+        self.geeklog = geeklog
+
+    def set_template(self, template):
+        print __file__
+        print dir(self)
+        self.template = template
 
     @abstractmethod
     def process(self, arg):

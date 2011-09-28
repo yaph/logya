@@ -113,5 +113,11 @@ class Geeklog():
     def test(self):
         from ext import ExtensionLoader
         el = ExtensionLoader()
-        print el.get_by_type('doc')
-        print el.get_by_type('index')
+ #       print el.get_by_type('doc')
+#        print el.get_by_type('index')
+
+        for e in el.get_by_type('doc'):
+            e.set_geeklog(self)
+            e.set_template('template')
+            print 1
+            e.process('doc')

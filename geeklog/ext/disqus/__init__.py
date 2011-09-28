@@ -11,4 +11,4 @@ class Disqus(Extension):
         return 'doc'
 
     def process(self, doc):
-        print doc
+        print self.geeklog
