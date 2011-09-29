@@ -116,8 +116,9 @@ class Geeklog():
  #       print el.get_by_type('doc')
 #        print el.get_by_type('index')
 
+        self.init_env()
+        test_doc = DocParser(list(DocReader(self.dir_content).get_docs())[0])
         for e in el.get_by_type('doc'):
             e.set_geeklog(self)
             e.set_template('template')
-            print 1
-            e.process('doc')
+            e.process(test_doc)
