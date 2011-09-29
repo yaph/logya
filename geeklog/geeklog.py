@@ -52,6 +52,21 @@ class Geeklog():
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
 
+    def generate_indexes(self):
+        """Generate index.html files in all created directories.
+
+        Files are only created if they do not exist yet.
+        """
+
+        # process all directories in deploy except static
+        for path in os.listdir(self.dir_dst):
+            start_path = os.path.join(self.dir_dst, path)
+            if os.path.isdir(start_path) and 'static' != path:
+                for dirpath, dirnames, filenames in os.walk(start_path):
+                    index_file = os.path.join(dirpath, 'index.html')
+                    if not os.path.exists(index_file):
+                        print index_file
+
     def copy_static(self):
         """Copy static files from source to deploy."""
 
@@ -67,7 +82,6 @@ class Geeklog():
         dst = os.path.join(self.dir_current, site_name)
         shutil.copytree(src, dst)
 
-    # TODO implement incremental site generation
     def generate(self):
         """Generate a Web site to deploy from the current directory as the source."""
 
@@ -82,6 +96,7 @@ class Geeklog():
             self.docs_parsed[url] = dp
             dw.write(dp)
 
+        self.generate_indexes()
         self.copy_static()
 
     def refresh_resource(self, path):
