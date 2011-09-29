@@ -44,6 +44,7 @@ The following folders and files are required for generating a Web site with Geek
 
 ## Further Plans
 
+* Add geeklog extension create name command
 * RSS feed generation
 * XML and HTML sitemap generation
 * minify and concatenate CSS and JS
