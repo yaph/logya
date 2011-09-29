@@ -18,6 +18,11 @@ class Geeklog():
         self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
 
+    def set_dir_current(self, dir_current):
+        """Called from tests."""
+
+        self.dir_current = dir_current
+
     def test_and_get_path(self, name):
         """Test whether resource exists at path relative to current directory and return its full path."""
 
@@ -113,7 +118,7 @@ class Geeklog():
     def test(self):
         from ext import ExtensionLoader
         el = ExtensionLoader()
- #       print el.get_by_type('doc')
+#        print el.get_by_type('doc')
 #        print el.get_by_type('index')
 
         self.init_env()

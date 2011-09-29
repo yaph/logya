@@ -10,6 +10,7 @@ class ExtensionLoader():
         for importer, modname, is_pkg in pkgutil.iter_modules([__path__[0]]):
             module = importer.find_module(modname).load_module(modname)
             extension = module.main()
+            extension.set_module_name(modname)
             extension.set_directory(os.path.dirname(module.__file__))
             ext_type = extension.get_type()
             if not self.extensions.has_key(ext_type):
@@ -23,6 +24,14 @@ class Extension:
 
     __metaclass__ = ABCMeta
 
+    @abstractmethod
+    def get_type(self):
+        pass
+
+    @abstractmethod
+    def process(self, arg):
+        pass
+
     def set_directory(self, directory):
         """Set the property containing the extension source directory."""
 
@@ -33,16 +42,19 @@ class Extension:
 
         return self.directory
 
+    def set_module_name(self, module_name):
+        """Set the name of the extension module."""
+        self.module_name = module_name
+
+    def get_module_name(self):
+        """Get the name of the extension module.
+
+        The module name is used in unit tests.
+        """
+        return self.module_name
+
     def set_geeklog(self, geeklog):
         self.geeklog = geeklog
 
     def set_template(self, template):
         self.template = template
-
-    @abstractmethod
-    def process(self, arg):
-        pass
-
-    @abstractmethod
-    def get_type(self):
-        pass
