@@ -52,11 +52,19 @@ class Geeklog():
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
 
-    def generate_index(self, file_name):
+    def get_docs_in_dir(self, dirpath):
+        docs = []
+        for url, doc in self.docs_parsed.items():
+            if url.startswith(dirpath):
+                docs.append(doc)
+        return docs
+
+    def generate_index(self, dirpath):
         template = self.config.get('templates', 'index')
-        resource_path = file_name.replace(self.dir_dst, '')
-        print resource_path
-        #print template
+        index_file = os.path.join(dirpath, 'index.html')
+        if not os.path.exists(index_file):
+            resource_path = dirpath.replace(self.dir_dst, '')
+            print self.get_docs_in_dir(resource_path)
 
     def generate_indexes(self):
         """Generate index.html files in all created directories.
@@ -69,9 +77,7 @@ class Geeklog():
             start_path = os.path.join(self.dir_dst, path)
             if os.path.isdir(start_path) and 'static' != path:
                 for dirpath, dirnames, filenames in os.walk(start_path):
-                    index_file = os.path.join(dirpath, 'index.html')
-                    if not os.path.exists(index_file):
-                        print self.generate_index(index_file)
+                    self.generate_index(dirpath)
 
     def copy_static(self):
         """Copy static files from source to deploy."""
