@@ -60,11 +60,20 @@ class Geeklog():
         return docs
 
     def generate_index(self, dirpath):
+        """Generate index.html files in deploy directories where non exists."""
+
         template = self.config.get('templates', 'index')
         index_file = os.path.join(dirpath, 'index.html')
         if not os.path.exists(index_file):
             resource_path = dirpath.replace(self.dir_dst, '')
-            print self.get_docs_in_dir(resource_path)
+            docs = self.get_docs_in_dir(resource_path)
+            index = []
+            for doc in docs:
+                index.append({'title':doc.getheader('title'),
+                              'url':doc.getheader('url')})
+            page = self.template.get_env().get_template(template)
+            file = open(index_file, 'w')
+            file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
 
     def generate_indexes(self):
         """Generate index.html files in all created directories.
@@ -114,7 +123,7 @@ class Geeklog():
     def refresh_resource(self, path):
         """Refresh resource corresponding to given path.
 
-        Static files are simply coypied, documents are read, parsed and 
+        Static files are simply copied, documents are read, parsed and 
         written to the corresponding destination in the deploy directory."""
 
         self.init_env()
@@ -122,6 +131,8 @@ class Geeklog():
         # if a file relative to static source is requested copy it and return
         path_rel = path.lstrip('/')
         file_src = os.path.join(self.dir_current, path_rel)
+        # TODO compare modification time of source and target and only copy if
+        # target is older
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             shutil.copyfile(file_src, file_dst)
@@ -143,14 +154,15 @@ class Geeklog():
         GeeklogServer(self, 'localhost', 8080).serve()
 
     def test(self):
-        from ext import ExtensionLoader
-        el = ExtensionLoader()
+        self.init_env()
+        self.refresh_resource('/shop/')
+#        from ext import ExtensionLoader
+#        el = ExtensionLoader()
 #        print el.get_by_type('doc')
 #        print el.get_by_type('index')
-
-        self.init_env()
-        test_doc = DocParser(list(DocReader(self.dir_content).get_docs())[0])
-        for e in el.get_by_type('doc'):
-            e.set_geeklog(self)
-            e.set_template('template')
-            e.process(test_doc)
+#
+#        test_doc = DocParser(list(DocReader(self.dir_content).get_docs())[0])
+#        for e in el.get_by_type('doc'):
+#            e.set_geeklog(self)
+#            e.set_template('template')
+#            e.process(test_doc)

@@ -16,6 +16,7 @@ class DocWriter:
 
     def getfile(self, doc):
         url = doc.getheader('url')
+        # TODO if url ends with a file exension like .html generate a file of that name
         directory = os.path.join(self.dir_dst, url.lstrip('/'))
         if not os.path.exists(directory):
             os.makedirs(directory)
