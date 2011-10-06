@@ -120,23 +120,30 @@ class Geeklog():
         self.generate_indexes()
         self.copy_static()
 
+    def update_file(self, src, dst):
+        """Copy source file to destination file if source is newer."""
+
+        if os.path.getmtime(src) > os.path.getmtime(dst):
+            shutil.copyfile(src, dst)
+            return True
+        return False
+
     def refresh_resource(self, path):
         """Refresh resource corresponding to given path.
 
-        Static files are simply copied, documents are read, parsed and 
+        Static files are updated if necessary, documents are read, parsed and 
         written to the corresponding destination in the deploy directory."""
 
         self.init_env()
 
-        # if a file relative to static source is requested copy it and return
+        # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
         file_src = os.path.join(self.dir_current, path_rel)
-        # TODO compare modification time of source and target and only copy if
-        # target is older
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
-            shutil.copyfile(file_src, file_dst)
-            return "Copied file %s to %s" % (file_src, file_dst)
+            if self.update_file(file_src, file_dst):
+                return "Copied file %s to %s" % (file_src, file_dst)
+            return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
         # find doc that corresponds to path, regenerate it and return
         docs = DocReader(self.dir_content).get_docs()
