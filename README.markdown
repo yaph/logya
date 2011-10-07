@@ -5,6 +5,8 @@ to use and flexible.
 * Create responsive static Web sites
 * Built-in Web server with info level logging for immediate editing feedback
 * Commands for site creation, generation, and serving
+* Automatic index generation in created folders
+* Site configuration
 
 # Requirements
 * [Python 2.7](http://python.org/)
@@ -29,14 +31,9 @@ The following folders and files are required for generating a Web site with Geek
 
 # Roadmap
 
-## Version 0.5
-
-* site and content configuration
-* index generation
-
 ## Version 0.6
 
-* make geeklog docs the example site that is created with ./geeklog init example_site
+* make geeklog docs the example site
 
 ## Version 0.7
 
