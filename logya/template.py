@@ -7,7 +7,7 @@ class Template():
     def __init__(self, dir_templates):
         self.vars = {}
         self.dir_templates = dir_templates
-        self.env = Environment(loader=GeeklogLoader(self.dir_templates))
+        self.env = Environment(loader=LogyaLoader(self.dir_templates))
 
     def get_env(self):
         return self.env
@@ -21,7 +21,7 @@ class Template():
     def get_vars(self):
         return self.vars
 
-class GeeklogLoader(BaseLoader):
+class LogyaLoader(BaseLoader):
 
     def __init__(self, path):
         self.path = path

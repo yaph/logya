@@ -7,9 +7,9 @@ from docreader import DocReader
 from docparser import DocParser
 from docwriter import DocWriter
 from template import Template
-from server import GeeklogServer
+from server import LogyaServer
 
-class Geeklog():
+class Logya:
 
     def __init__(self):
         # a dictionary of parsed documents indexed by resource paths
@@ -97,7 +97,7 @@ class Geeklog():
         shutil.copytree(src_static, dst_static)
 
     def create(self, site_name):
-        """Create a basic template for generating a Web site with geeklog."""
+        """Create a basic template for generating a Web site with Logya."""
 
         src = os.path.join(self.dir_src, 'sites', 'geeksta') # TODO make docs default site
         dst = os.path.join(self.dir_current, site_name)
@@ -158,7 +158,7 @@ class Geeklog():
                 return "Refreshed doc at URL: %s" % url
 
     def serve(self):
-        GeeklogServer(self, 'localhost', 8080).serve()
+        LogyaServer(self, 'localhost', 8080).serve()
 
     def test(self):
         self.init_env()
@@ -170,6 +170,6 @@ class Geeklog():
 #
 #        test_doc = DocParser(list(DocReader(self.dir_content).get_docs())[0])
 #        for e in el.get_by_type('doc'):
-#            e.set_geeklog(self)
+#            e.set_logya(self)
 #            e.set_template('template')
 #            e.process(test_doc)

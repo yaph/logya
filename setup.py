@@ -4,15 +4,15 @@
 #http://packages.python.org/distribute/setuptools.html#declaring-dependencies
 
 from setuptools import setup
-from geeklog import __version__
+from logya import __version__
 
 setup(
-    name='geeklog',
+    name='logya',
     version=__version__,
     description='TODO',
     long_description=open('README.markdown').read(),
     url='TODO',
-    download_url='TODO-geeklog-%s.tar.gz' % __version__,
+    download_url='TODO-logya-%s.tar.gz' % __version__,
     author='Ramiro Gómez',
     author_email='web@ramiro.org',
     maintainer='Ramiro Gómez',
@@ -31,7 +31,7 @@ setup(
     install_requires=['distribute', 'jinja2'],
     entry_points = {
         'console_scripts': [
-            'geeklog = geeklog.main:main'
+            'logya = logya.main:main'
         ]
     }
 )

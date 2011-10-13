@@ -2,22 +2,22 @@
 # -*- coding: utf-8 -*-
 from __init__ import __version__
 import argparse
-from geeklog import Geeklog
+from logya import Logya
 
 def create(args):
-    Geeklog().create(args.name)
+    Logya().create(args.name)
 
 def generate(args):
-    Geeklog().generate()
+    Logya().generate()
 
 def serve(args):
-    Geeklog().serve()
+    Logya().serve()
 
 def test(args):
-    Geeklog().test()
+    Logya().test()
 
 def main():
-    parser = argparse.ArgumentParser(description='Geeklog a static Web site generator.', version=__version__)
+    parser = argparse.ArgumentParser(description='Logya a static Web site generator.', version=__version__)
     subparsers = parser.add_subparsers()
 
     # create a basic site with the given name

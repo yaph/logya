@@ -53,8 +53,8 @@ class Extension:
         """
         return self.module_name
 
-    def set_geeklog(self, geeklog):
-        self.geeklog = geeklog
+    def set_logya(self, logya):
+        self.logya = logya
 
     def set_template(self, template):
         self.template = template

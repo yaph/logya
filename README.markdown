@@ -1,4 +1,4 @@
-Geeklog is a static Web site generator written in Python designed to be easy
+Logya is a static Web site generator written in Python designed to be easy
 to use and flexible.
 
 # Features
@@ -14,15 +14,15 @@ to use and flexible.
 
 # Directory Structure
 
-## Geeklog Source
-* geeklog       all geeklog source files needed for running
+## Logya Source
+* logya       all logya source files needed for running
     * ext       extension modules
     * sites     barebone example Web sites
 * tests
 
 ## Site Source
 
-The following folders and files are required for generating a Web site with Geeklog
+The following folders and files are required for generating a Web site with Logya
 
 * content
 * static
@@ -33,7 +33,7 @@ The following folders and files are required for generating a Web site with Geek
 
 ## Version 0.6
 
-* make geeklog docs the example site
+* make logya docs the example site
 
 ## Version 0.7
 
@@ -41,7 +41,7 @@ The following folders and files are required for generating a Web site with Geek
 
 ## Further Plans
 
-* Add geeklog extension create name command
+* Add logya extension create name command
 * RSS feed generation
 * XML and HTML sitemap generation
 * minify and concatenate CSS and JS
