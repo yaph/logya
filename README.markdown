@@ -47,3 +47,10 @@ The following folders and files are required for generating a Web site with Logy
 * minify and concatenate CSS and JS
 * configurable plugins
 * content snippets that are replaced when generating document
+* shared extensions .logya/ext
+* shared libraries for extensions .logya/lib
+* specify indexes in configuration?
+* Use mongodb and implement the following sub commands:
+    * logya import - import documents info database, existing ones that are not older than source file modification will be kept
+    * logya refresh - refresh existing deployment, update indexes and recreate updated content
+    * logya generate - complete generation of deployment files
