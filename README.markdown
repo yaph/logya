@@ -54,3 +54,8 @@ The following folders and files are required for generating a Web site with Logy
     * logya import - import documents info database, existing ones that are not older than source file modification will be kept
     * logya refresh - refresh existing deployment, update indexes and recreate updated content
     * logya generate - complete generation of deployment files
+    * example document:
+        * filepath /index.html
+        * urlpath /index/
+        * title "title"
+        * content "<p>page content</p>"
