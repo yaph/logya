@@ -147,14 +147,10 @@ class Logya:
         """Add a doc to indexes determined given path."""
 
         dirs = self.get_dirs_from_path(path)
-        num_dirs = len(dirs)
-        if 1 == num_dirs:
-            self.update_index(doc, dirs[0])
-        elif 1 < num_dirs:
-            start = 1
-            for d in dirs[1:]:
-                start += 1
-                self.update_index(doc, '/'.join(dirs[:start]))
+        last = 0
+        for d in dirs:
+            last += 1
+            self.update_index(doc, '/'.join(dirs[:last]))
 
     def build_indexes(self):
         docs = DocReader(self.dir_content).get_docs()
