@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 import config
+from common import deprecated
 from docreader import DocReader
 from docparser import DocParser
 from docwriter import DocWriter
@@ -14,6 +15,9 @@ class Logya:
     def __init__(self):
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
+
+        # a dictionary of indexes with parsed documents
+        self.indexes = {}
 
         self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
@@ -52,6 +56,7 @@ class Logya:
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
 
+    @deprecated
     def get_docs_in_dir(self, dirpath):
         docs = []
         for url, doc in self.docs_parsed.items():
@@ -59,6 +64,7 @@ class Logya:
                 docs.append(doc)
         return docs
 
+    @deprecated
     def generate_index(self, dirpath):
         """Generate index.html files in deploy directories where non exists."""
 
@@ -75,6 +81,7 @@ class Logya:
             file = open(index_file, 'w')
             file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
 
+    @deprecated
     def generate_indexes(self):
         """Generate index.html files in all created directories.
 
@@ -103,6 +110,7 @@ class Logya:
         dst = os.path.join(self.dir_current, site_name)
         shutil.copytree(src, dst)
 
+    @deprecated
     def generate(self):
         """Generate a Web site to deploy from the current directory as the source."""
 
@@ -119,6 +127,54 @@ class Logya:
 
         self.generate_indexes()
         self.copy_static()
+
+    def get_dirs_from_path(self, url):
+        """Returns a list of directories from given url.
+
+        The last directory is omitted as it contains and index.html file
+        containing the content of the appropriate document."""
+
+        return filter(None, url.strip('/').split('/'))[:-1]
+
+    def update_index(self, doc, index):
+        """Add a doc to given index."""
+
+        if not self.indexes.has_key(index):
+            self.indexes[index] = []
+        self.indexes[index].append(doc)
+
+    def update_indexes(self, doc, path):
+        """Add a doc to indexes determined given path."""
+
+        dirs = self.get_dirs_from_path(path)
+        num_dirs = len(dirs)
+        if 1 == num_dirs:
+            self.update_index(doc, dirs[0])
+        elif 1 < num_dirs:
+            start = 1
+            for d in dirs[1:]:
+                start += 1
+                self.update_index(doc, '/'.join(dirs[:start]))
+
+    def build_indexes(self):
+        docs = DocReader(self.dir_content).get_docs()
+        for doc in docs:
+            dp = DocParser(doc)
+            url = dp.getheader('url')
+            self.update_indexes(dp, url)
+            self.docs_parsed[url] = dp
+
+    def generate2(self):
+        """Generate a Web site to deploy from the current directory as the source."""
+
+        self.init_env()
+        print "Generating site in directory: %s" % self.dir_dst
+
+        self.build_indexes()
+        for idx, docs in self.indexes.items():
+            print idx
+            for doc in docs:
+                print doc.getheader('url')
 
     def update_file(self, src, dst):
         """Copy source file to destination file if source is newer."""

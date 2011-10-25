@@ -33,9 +33,13 @@ The following folders and files are required for generating a Web site with Logy
 
 ## Version 0.6
 
-* make logya docs the example site
+* in generate mode, read all docs completely and build indexes before starting to write html files
 
 ## Version 0.7
+
+* make logya docs the example site
+
+## Version 0.8
 
 * make distribute work
 

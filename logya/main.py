@@ -8,7 +8,7 @@ def create(args):
     Logya().create(args.name)
 
 def generate(args):
-    Logya().generate()
+    Logya().generate2()
 
 def serve(args):
     Logya().serve()
@@ -38,7 +38,6 @@ def main():
     # process arguments
     args = parser.parse_args()
     args.func(args)
-
 
 if __name__ == "__main__":
     main()
