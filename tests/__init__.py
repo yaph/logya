@@ -24,5 +24,10 @@ class TestExtensionDirectory(TestLogya):
             if 'disqus' == e.get_module_name():
                 self.assertTrue(e.get_directory().endswith(expected))
 
+# TODO
+class TestUpdateIndexes(TestLogya):
+    """Provide paths to test correct index associations."""
+    pass
+
 if __name__ == '__main__':
     unittest.main()

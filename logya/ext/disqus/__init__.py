@@ -12,4 +12,3 @@ class Disqus(Extension):
 
     def process(self, doc):
         print self.get_directory()
-        #print doc.getheader('url')

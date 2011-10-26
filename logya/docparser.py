@@ -34,24 +34,25 @@ class DocResponse(httplib.HTTPResponse):
 
 class DocParser():
 
-    def __init__(self, doc):
+    multi_value_fields = ['scripts', 'styles', 'tags']
+
+    # TODO make this callable from extensions
+    def add_multi_value_field(self, name):
+        """Add given name to the list of multi value document fields."""
+
+        self.multi_value_fields.append(name)
+
+    def parse(self, doc):
+        """Parse document and return a dictionary of header fields and body."""
+
         self.response = DocResponse(doc)
         self.response.begin()
-
-    def getfields(self, name):
-        val = self.getheader(name)
-        if val is not None:
-            return re.split(',\s*', val)
-        return []
-
-    def getbody(self):
-        return self.response.read()
-
-    def getheader(self, name, default=None):
-        return self.response.getheader(name, default)
-
-    def getscripts(self):
-        return self.getfields('scripts')
-
-    def getstyles(self):
-        return self.getfields('styles')
+        self.parsed = {}
+        for field, val in self.response.getheaders():
+            if val is not None:
+                if field in self.multi_value_fields:
+                    self.parsed[field] = re.split(',\s*', val)
+                else:
+                    self.parsed[field] = val
+        self.parsed['body'] = self.response.read()
+        return self.parsed

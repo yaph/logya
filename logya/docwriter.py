@@ -8,14 +8,13 @@ class DocWriter:
         self.template = template
 
     def set_template_vars(self, doc):
-        self.template.add_var('body', doc.getbody().decode('utf-8'))
-        self.template.add_var('title', doc.getheader('title').decode('utf-8'))
-        self.template.add_var('scripts', doc.getscripts())
-        self.template.add_var('styles', doc.getstyles())
-        self.template.add_var('template', doc.getheader('template'))
+        for field, val in doc.items():
+            if isinstance(val, str):
+                val = val.decode('utf-8')
+            self.template.add_var(field, val)
 
     def getfile(self, doc):
-        url = doc.getheader('url')
+        url = doc['url']
         # TODO if url ends with a file exension like .html generate a file of that name
         directory = os.path.join(self.dir_dst, url.lstrip('/'))
         if not os.path.exists(directory):
@@ -24,6 +23,6 @@ class DocWriter:
 
     def write(self, doc):
         self.set_template_vars(doc)
-        page = self.template.get_env().get_template(doc.getheader('template'))
+        page = self.template.get_env().get_template(doc['template'])
         f = self.getfile(doc)
         f.write(page.render(self.template.get_vars()).encode('utf-8'))

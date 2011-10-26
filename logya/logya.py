@@ -8,9 +8,10 @@ from docreader import DocReader
 from docparser import DocParser
 from docwriter import DocWriter
 from template import Template
-from server import LogyaServer
+from server import Server
 
 class Logya:
+    """Class with main logic for creating, building and serving a static Web site."""
 
     def __init__(self):
         # a dictionary of parsed documents indexed by resource paths
@@ -75,8 +76,8 @@ class Logya:
             docs = self.get_docs_in_dir(resource_path)
             index = []
             for doc in docs:
-                index.append({'title':doc.getheader('title'),
-                              'url':doc.getheader('url')})
+                index.append({'title':doc['title'],
+                              'url':doc['url']})
             page = self.template.get_env().get_template(template)
             file = open(index_file, 'w')
             file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
@@ -119,11 +120,12 @@ class Logya:
 
         dw = DocWriter(self.dir_dst, self.template)
         docs = DocReader(self.dir_content).get_docs()
+        dp = DocParser()
         for doc in docs:
-            dp = DocParser(doc)
-            url = dp.getheader('url')
-            self.docs_parsed[url] = dp
-            dw.write(dp)
+            d = dp.parse(doc)
+            url = d['url']
+            self.docs_parsed[url] = d
+            dw.write(d)
 
         self.generate_indexes()
         self.copy_static()
@@ -154,11 +156,12 @@ class Logya:
 
     def build_indexes(self):
         docs = DocReader(self.dir_content).get_docs()
+        dp = DocParser()
         for doc in docs:
-            dp = DocParser(doc)
-            url = dp.getheader('url')
-            self.update_indexes(dp, url)
-            self.docs_parsed[url] = dp
+            d = dp.parse(doc)
+            url = d['url']
+            self.update_indexes(d, url)
+            self.docs_parsed[url] = d
 
     def generate2(self):
         """Generate a Web site to deploy from the current directory as the source."""
@@ -170,7 +173,7 @@ class Logya:
         for idx, docs in self.indexes.items():
             print idx
             for doc in docs:
-                print doc.getheader('url')
+                print doc['url']
 
     def update_file(self, src, dst):
         """Copy source file to destination file if source is newer."""
@@ -199,18 +202,19 @@ class Logya:
 
         # find doc that corresponds to path, regenerate it and return
         docs = DocReader(self.dir_content).get_docs()
+        dp = DocParser()
         for doc in docs:
-            dp = DocParser(doc)
-            url = dp.getheader('url')
-            self.docs_parsed[url] = dp
+            d = dp.parse(doc)
+            url = d['url']
+            self.docs_parsed[url] = d
             # Is it the requested doc? Be forgiving about trailing slashes.
             if path.rstrip('/') == url.rstrip('/'):
                 dw = DocWriter(self.dir_dst, self.template)
-                dw.write(dp)
+                dw.write(d)
                 return "Refreshed doc at URL: %s" % url
 
     def serve(self):
-        LogyaServer(self, 'localhost', 8080).serve()
+        Server(self, 'localhost', 8080).serve()
 
     def test(self):
         self.init_env()
@@ -219,9 +223,3 @@ class Logya:
 #        el = ExtensionLoader()
 #        print el.get_by_type('doc')
 #        print el.get_by_type('index')
-#
-#        test_doc = DocParser(list(DocReader(self.dir_content).get_docs())[0])
-#        for e in el.get_by_type('doc'):
-#            e.set_logya(self)
-#            e.set_template('template')
-#            e.process(test_doc)
