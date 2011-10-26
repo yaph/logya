@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 import re
 import StringIO
 import httplib
+from datetime import datetime
 
 class FakeSocket:
     """Code copied from pypy / lib-python / 2.7.1 / test / test_httplib.py
@@ -20,13 +22,13 @@ class FakeSocket:
             raise httplib.UnimplementedFileMode()
         return self.fileclass(self.text)
 
-class DocResponse(httplib.HTTPResponse):
+class FileResponse(httplib.HTTPResponse):
     """See
     http://svn.python.org/view/python/trunk/Lib/httplib.py?view=markup
     """
 
-    def __init__(self, doc):
-        httplib.HTTPResponse.__init__(self, FakeSocket(doc))
+    def __init__(self, file):
+        httplib.HTTPResponse.__init__(self, FakeSocket(open(file).read()))
 
     def _read_status(self):
         [version, status, reason] = 'HTTP/1.0 200 OK'.split(None, 2)
@@ -42,10 +44,11 @@ class DocParser():
 
         self.multi_value_fields.append(name)
 
-    def parse(self, doc):
+    def parse(self, file):
         """Parse document and return a dictionary of header fields and body."""
 
-        self.response = DocResponse(doc)
+        stat = os.stat(file)
+        self.response = FileResponse(file)
         self.response.begin()
         self.parsed = {}
         for field, val in self.response.getheaders():
@@ -54,5 +57,10 @@ class DocParser():
                     self.parsed[field] = re.split(',\s*', val)
                 else:
                     self.parsed[field] = val
+
+        # override created time with file modification time if not set
+        if not self.parsed.has_key('created'):
+            self.parsed['created'] = datetime.fromtimestamp(stat.st_mtime).isoformat()
+
         self.parsed['body'] = self.response.read()
         return self.parsed

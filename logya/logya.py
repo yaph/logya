@@ -14,8 +14,8 @@ class Logya:
     """Class with main logic for creating, building and serving a static Web site."""
 
     def __init__(self):
-        # a dictionary of parsed documents indexed by resource paths
-        self.docs_parsed = {}
+        # a list of parsed documents indexed by resource paths
+        self.docs_parsed = []
 
         # a dictionary of indexes with parsed documents
         self.indexes = {}
@@ -57,45 +57,6 @@ class Logya:
         if not os.path.exists(self.dir_dst):
             os.makedirs(self.dir_dst)
 
-    @deprecated
-    def get_docs_in_dir(self, dirpath):
-        docs = []
-        for url, doc in self.docs_parsed.items():
-            if url.startswith(dirpath):
-                docs.append(doc)
-        return docs
-
-    @deprecated
-    def generate_index(self, dirpath):
-        """Generate index.html files in deploy directories where non exists."""
-
-        template = self.config.get('templates', 'index')
-        index_file = os.path.join(dirpath, 'index.html')
-        if not os.path.exists(index_file):
-            resource_path = dirpath.replace(self.dir_dst, '')
-            docs = self.get_docs_in_dir(resource_path)
-            index = []
-            for doc in docs:
-                index.append({'title':doc['title'],
-                              'url':doc['url']})
-            page = self.template.get_env().get_template(template)
-            file = open(index_file, 'w')
-            file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
-
-    @deprecated
-    def generate_indexes(self):
-        """Generate index.html files in all created directories.
-
-        Files are only created if they do not exist yet.
-        """
-
-        # process all directories in deploy except static
-        for path in os.listdir(self.dir_dst):
-            start_path = os.path.join(self.dir_dst, path)
-            if os.path.isdir(start_path) and 'static' != path:
-                for dirpath, dirnames, filenames in os.walk(start_path):
-                    self.generate_index(dirpath)
-
     def copy_static(self):
         """Copy static files from source to deploy."""
 
@@ -110,25 +71,6 @@ class Logya:
         src = os.path.join(self.dir_src, 'sites', 'geeksta') # TODO make docs default site
         dst = os.path.join(self.dir_current, site_name)
         shutil.copytree(src, dst)
-
-    @deprecated
-    def generate(self):
-        """Generate a Web site to deploy from the current directory as the source."""
-
-        self.init_env()
-        print "Generating site in directory: %s" % self.dir_dst
-
-        dw = DocWriter(self.dir_dst, self.template)
-        docs = DocReader(self.dir_content).get_docs()
-        dp = DocParser()
-        for doc in docs:
-            d = dp.parse(doc)
-            url = d['url']
-            self.docs_parsed[url] = d
-            dw.write(d)
-
-        self.generate_indexes()
-        self.copy_static()
 
     def get_dirs_from_path(self, url):
         """Returns a list of directories from given url.
@@ -145,35 +87,62 @@ class Logya:
             self.indexes[index] = []
         self.indexes[index].append(doc)
 
-    def update_indexes(self, doc, path):
-        """Add a doc to indexes determined given path."""
+    def update_indexes(self, doc):
+        """Add a doc to indexes determined from doc url."""
 
-        dirs = self.get_dirs_from_path(path)
+        dirs = self.get_dirs_from_path(doc['url'])
         last = 0
         for d in dirs:
             last += 1
             self.update_index(doc, '/'.join(dirs[:last]))
 
     def build_indexes(self):
-        docs = DocReader(self.dir_content).get_docs()
-        dp = DocParser()
-        for doc in docs:
-            d = dp.parse(doc)
-            url = d['url']
-            self.update_indexes(d, url)
-            self.docs_parsed[url] = d
+        """Build indexes of documents for content directories to be created."""
 
-    def generate2(self):
+        docs = DocReader(self.dir_content, DocParser()).get_docs()
+        for doc in docs:
+            self.update_indexes(doc)
+            self.docs_parsed.append(doc)
+
+    def write_indexes(self):
+        """Write index.html files to deploy directories where non exists."""
+
+        template = self.config.get('templates', 'index')
+
+        for dir, docs in self.indexes.items():
+            index_file = os.path.join(self.dir_dst, dir, 'index.html')
+            # FIXME check whether a document from content dir exists at target
+            # so generated indexes can be overwritten
+            if not os.path.exists(index_file):
+                resource_path = dir.replace(self.dir_dst, '')
+                index = []
+                for doc in docs:
+                    index.append({'title':doc['title'],
+                                  'url':doc['url']})
+                page = self.template.get_env().get_template(template)
+                file = open(index_file, 'w')
+                file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
+                file.close()
+
+    def generate(self):
         """Generate a Web site to deploy from the current directory as the source."""
 
         self.init_env()
         print "Generating site in directory: %s" % self.dir_dst
 
+        print "Build document indexes"
         self.build_indexes()
-        for idx, docs in self.indexes.items():
-            print idx
-            for doc in docs:
-                print doc['url']
+
+        print "Write documents to deploy directory"
+        dw = DocWriter(self.dir_dst, self.template)
+        for doc in self.docs_parsed:
+            dw.write(doc)
+
+        print "Write indexes"
+        self.write_indexes()
+
+        print "Copy static files"
+        self.copy_static()
 
     def update_file(self, src, dst):
         """Copy source file to destination file if source is newer."""
@@ -201,16 +170,13 @@ class Logya:
             return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
         # find doc that corresponds to path, regenerate it and return
-        docs = DocReader(self.dir_content).get_docs()
-        dp = DocParser()
+        docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
-            d = dp.parse(doc)
-            url = d['url']
-            self.docs_parsed[url] = d
+            url = doc['url']
             # Is it the requested doc? Be forgiving about trailing slashes.
             if path.rstrip('/') == url.rstrip('/'):
                 dw = DocWriter(self.dir_dst, self.template)
-                dw.write(d)
+                dw.write(doc)
                 return "Refreshed doc at URL: %s" % url
 
     def serve(self):

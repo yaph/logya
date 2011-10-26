@@ -26,3 +26,4 @@ class DocWriter:
         page = self.template.get_env().get_template(doc['template'])
         f = self.getfile(doc)
         f.write(page.render(self.template.get_vars()).encode('utf-8'))
+        f.close()

@@ -31,17 +31,23 @@ The following folders and files are required for generating a Web site with Logy
 
 # Roadmap
 
-## Version 0.6
-
-* in generate mode, read all docs completely and build indexes before starting to write html files
-
 ## Version 0.7
 
-* make logya docs the example site
+* add FileWriter and IndexWriter classes in writer module together with DocWriter
+* add optional server dir to site structure that contains server specific configuration files, e.g. .htaccess, that are copied to the deploy root directory
+* add --verbose option
 
 ## Version 0.8
 
-* make distribute work
+* make logya docs the example site
+
+## Version 0.9
+
+* make distribute work and add to PyPI
+
+## Version 1.0
+
+* rebuild everything :D
 
 ## Further Plans
 

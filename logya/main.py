@@ -8,7 +8,7 @@ def create(args):
     Logya().create(args.name)
 
 def generate(args):
-    Logya().generate2()
+    Logya().generate()
 
 def serve(args):
     Logya().serve()
