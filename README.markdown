@@ -33,7 +33,6 @@ The following folders and files are required for generating a Web site with Logy
 
 ## Version 0.7
 
-* add FileWriter and IndexWriter classes in writer module together with DocWriter
 * add --verbose option
 
 ## Version 0.8

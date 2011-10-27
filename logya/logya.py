@@ -7,7 +7,7 @@ from operator import itemgetter
 from common import deprecated
 from docreader import DocReader
 from docparser import DocParser
-from docwriter import DocWriter
+from writer import FileWriter, DocWriter
 from template import Template
 from server import Server
 
@@ -102,17 +102,19 @@ class Logya:
         """Write index.html files to deploy directories where non exists."""
 
         template = self.config.get('templates', 'index')
+        filename = 'index.html'
 
         for dir, docs in self.indexes.items():
-            index_file = os.path.join(self.dir_dst, dir, 'index.html')
+            dir_dst = os.path.join(self.dir_dst, dir)
+            index_file = os.path.join(dir_dst, filename)
             # FIXME check whether a document from content dir exists at target
             # so generated indexes can be overwritten
             if not os.path.exists(index_file):
                 docs = sorted(docs, key=itemgetter('created'), reverse=True)
                 page = self.template.get_env().get_template(template)
-                file = open(index_file, 'w')
-                file.write(page.render(index=docs, title=dir).encode('utf-8'))
-                file.close()
+                fw = FileWriter()
+                file = fw.getfile(dir_dst, filename)
+                fw.write(file, page.render(index=docs, title=dir).encode('utf-8'))
 
     def generate(self):
         """Generate a Web site to deploy from the current directory as the source."""
