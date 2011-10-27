@@ -55,16 +55,6 @@ class Logya:
         self.template.add_var('base_path', self.config.get('site', 'base_path'))
 
         self.dir_dst = os.path.join(self.dir_current, 'deploy')
-        if not os.path.exists(self.dir_dst):
-            os.makedirs(self.dir_dst)
-
-    def copy_static(self):
-        """Copy static files from source to deploy."""
-
-        src_static = os.path.join(self.dir_current, 'static')
-        dst_static = os.path.join(self.dir_dst, 'static')
-        shutil.rmtree(dst_static, True)
-        shutil.copytree(src_static, dst_static)
 
     def create(self, site_name):
         """Create a basic template for generating a Web site with Logya."""
@@ -102,6 +92,9 @@ class Logya:
 
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
+            # ignore documents that have no url
+            if not doc.has_key('url'):
+                continue
             self.update_indexes(doc)
             self.docs_parsed.append(doc)
 
@@ -127,6 +120,13 @@ class Logya:
         self.init_env()
         print "Generating site in directory: %s" % self.dir_dst
 
+        print "Remove existing deploy directory"
+        shutil.rmtree(self.dir_dst, True)
+
+        print "Copy static files"
+        # has do take place before indexes are built
+        shutil.copytree(os.path.join(self.dir_current, 'static'), self.dir_dst)
+
         print "Build document indexes"
         self.build_indexes()
 
@@ -137,9 +137,6 @@ class Logya:
 
         print "Write indexes"
         self.write_indexes()
-
-        print "Copy static files"
-        self.copy_static()
 
     def update_file(self, src, dst):
         """Copy source file to destination file if source is newer."""
@@ -169,6 +166,8 @@ class Logya:
         # find doc that corresponds to path, regenerate it and return
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
+            if not doc.has_key('url'):
+                continue
             url = doc['url']
             # Is it the requested doc? Be forgiving about trailing slashes.
             if path.rstrip('/') == url.rstrip('/'):
@@ -177,9 +176,13 @@ class Logya:
                 return "Refreshed doc at URL: %s" % url
 
     def serve(self):
+        """Serve files from deploy directory."""
+
         Server(self, 'localhost', 8080).serve()
 
     def test(self):
+        """Test new features."""
+
         self.init_env()
         self.refresh_resource('/shop/')
 #        from ext import ExtensionLoader

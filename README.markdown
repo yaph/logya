@@ -25,7 +25,7 @@ to use and flexible.
 The following folders and files are required for generating a Web site with Logya
 
 * content
-* static
+* static    TODO make this optional
 * templates
 * site.cfg
 
@@ -34,7 +34,6 @@ The following folders and files are required for generating a Web site with Logy
 ## Version 0.7
 
 * add FileWriter and IndexWriter classes in writer module together with DocWriter
-* add optional server dir to site structure that contains server specific configuration files, e.g. .htaccess, that are copied to the deploy root directory
 * add --verbose option
 
 ## Version 0.8
