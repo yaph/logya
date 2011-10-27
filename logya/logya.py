@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 import config
+from operator import itemgetter
 from common import deprecated
 from docreader import DocReader
 from docparser import DocParser
@@ -114,14 +115,10 @@ class Logya:
             # FIXME check whether a document from content dir exists at target
             # so generated indexes can be overwritten
             if not os.path.exists(index_file):
-                resource_path = dir.replace(self.dir_dst, '')
-                index = []
-                for doc in docs:
-                    index.append({'title':doc['title'],
-                                  'url':doc['url']})
+                docs = sorted(docs, key=itemgetter('created'), reverse=True)
                 page = self.template.get_env().get_template(template)
                 file = open(index_file, 'w')
-                file.write(page.render(index=index,title=resource_path.lstrip('/')).encode('utf-8'))
+                file.write(page.render(index=docs, title=dir).encode('utf-8'))
                 file.close()
 
     def generate(self):
@@ -155,7 +152,7 @@ class Logya:
     def refresh_resource(self, path):
         """Refresh resource corresponding to given path.
 
-        Static files are updated if necessary, documents are read, parsed and 
+        Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
         self.init_env()
