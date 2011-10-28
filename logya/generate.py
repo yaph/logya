@@ -13,16 +13,16 @@ class Generate(Logya):
 
     def __init__(self, **kwargs):
 
-        super(self.__class__, self).__init__()
+        super(self.__class__, self).__init__(**kwargs)
         self.init_env()
         self.info("Generating site in directory: %s" % self.dir_dst)
 
         self.info("Remove existing deploy directory")
         shutil.rmtree(self.dir_dst, True)
 
-        self.info("Copy static files")
-        # has do take place before indexes are built
-        shutil.copytree(os.path.join(self.dir_current, 'static'), self.dir_dst)
+        if os.path.exists(self.dir_static):
+            self.info("Copy static files")
+            shutil.copytree(self.dir_static, self.dir_dst)
 
         self.info("Build document indexes")
         self.build_indexes()
@@ -76,9 +76,8 @@ class Generate(Logya):
         If there is no template file specified in configuration indexes won't be written.
         """
 
-        try:
-            template = self.config.get('templates', 'index')
-        except config.ConfigParser.NoSectionError:
+        template = self.config.get('templates', 'index')
+        if not template:
             return
 
         filename = 'index.html'

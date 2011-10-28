@@ -22,18 +22,17 @@ to use and flexible.
 
 ## Site Source
 
-The following folders and files are required for generating a Web site with Logya
+The following folders and files are recognized when generating a Web site with Logya.
 
-* content
-* static    TODO make this optional
-* templates
-* site.cfg
+* content - required
+* templates - required
+* site.cfg - required   TODO make this optional?
+* static -optional
 
 # Roadmap
 
 ## Version 0.8
 
-* make logya docs the example site
 * move Template class from logya.py to classes that need it?
 
 ## Version 0.9
@@ -44,13 +43,13 @@ The following folders and files are required for generating a Web site with Logy
 
 * rebuild everything :D
 
-## Further Plans
+## Further Plans and Ideas
 
 * Add logya extension create name command
 * RSS feed generation
 * XML and HTML sitemap generation
 * minify and concatenate CSS and JS
-* configurable plugins
+* configurable extensions
 * content snippets that are replaced when generating document
 * shared extensions .logya/ext
 * shared libraries for extensions .logya/lib

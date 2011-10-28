@@ -2,7 +2,7 @@
 import os
 import sys
 import shutil
-import config
+from config import Config
 from template import Template
 
 class Logya(object):
@@ -35,12 +35,15 @@ class Logya(object):
 
         self.dir_current = dir_current
 
-    def test_and_get_path(self, name):
-        """Test whether resource exists at path relative to current directory and return its full path."""
+    def get_path(self, name, required=False):
+        """Get path relative to current working directory for given name.
+
+        Raises an exception if resource is required and doesn't exist.
+        """
 
         path = os.path.join(self.dir_current, name)
-        if not os.path.exists(path):
-            raise Exception('Path "%s" does not exist.' % path)
+        if required and not os.path.exists(path):
+            raise Exception('Resource at path "%s" does not exist.' % path)
         return path
 
     def init_env(self):
@@ -50,14 +53,14 @@ class Logya(object):
         environment and sets object properties.
         """
 
-        file_conf = self.test_and_get_path('site.cfg')
-        self.config = config.get(file_conf)
+        self.dir_content = self.get_path('content', required=True)
+        self.config = Config(self.get_path('site.cfg', required=True))
 
-        self.dir_content = self.test_and_get_path('content')
-        self.dir_static = self.test_and_get_path('static')
-
-        dir_templates = self.test_and_get_path('templates')
+        dir_templates = self.get_path('templates', required=True)
         self.template = Template(dir_templates)
         self.template.add_var('base_path', self.config.get('site', 'base_path'))
 
-        self.dir_dst = os.path.join(self.dir_current, 'deploy')
+        # optional directory with static files like style sheets, scripts and images
+        self.dir_static = self.get_path('static')
+
+        self.dir_dst = self.get_path('deploy')
