@@ -33,11 +33,12 @@ The following folders and files are required for generating a Web site with Logy
 
 ## Version 0.7
 
-* add --verbose option
+* add --host/-h and --port/-p options to serve sub command
 
 ## Version 0.8
 
 * make logya docs the example site
+* move Template class from logya.py to classes that need it?
 
 ## Version 0.9
 
