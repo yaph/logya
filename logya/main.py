@@ -14,7 +14,7 @@ def generate(args):
     Generate(verbose=args.verbose)
 
 def serve(args):
-    Serve()
+    Serve(host=args.host, port=args.port)
 
 def test(args):
     Test()
@@ -35,7 +35,10 @@ def main():
     [subparsers.add_parser(c, help=msg).set_defaults(func=generate) for c in ['generate', 'gen']]
 
     # serve static pages
-    subparsers.add_parser('serve', help='serve static pages from deploy directory').set_defaults(func=serve)
+    sp_serve = subparsers.add_parser('serve', help='serve static pages from deploy directory')
+    sp_serve.set_defaults(func=serve)
+    sp_serve.add_argument('--port', type=int, help='server port to listen')
+    sp_serve.add_argument('--host', help='server host name or IP')
 
     # test stuff
     subparsers.add_parser('test', help='test stuff').set_defaults(func=test)

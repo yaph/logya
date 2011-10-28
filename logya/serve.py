@@ -20,7 +20,7 @@ class Serve(Logya):
 
         port = 8080
         if kwargs.has_key('port') and kwargs['port']:
-            host =  kwargs['port']
+            port =  kwargs['port']
 
         super(self.__class__, self).__init__()
         Server(self, host, port).serve()

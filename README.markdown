@@ -31,10 +31,6 @@ The following folders and files are required for generating a Web site with Logy
 
 # Roadmap
 
-## Version 0.7
-
-* add --host/-h and --port/-p options to serve sub command
-
 ## Version 0.8
 
 * make logya docs the example site
