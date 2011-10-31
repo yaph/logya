@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import unittest
-from tests import all_tests
+from tests import All
 
 if __name__ == "__main__":
-    tests = all_tests()
-    results = unittest.TextTestRunner().run(tests)
+    testsuite = All()
+    testsuite.run()

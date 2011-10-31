@@ -1,3 +1,4 @@
+#http://docs.python.org/library/unittest.html#test-discovery
 import os
 import sys
 import unittest
@@ -5,14 +6,14 @@ cwd = sys.path[0]
 dir_app = os.path.join(os.path.dirname(cwd), 'logya')
 sys.path.append(dir_app)
 
-from logya import Logya
-from ext import ExtensionLoader
+from logya.logya import Logya
+from logya.ext import ExtensionLoader
 
 class TestLogya(unittest.TestCase):
 
     def setUp(self):
         self.logya = Logya()
-        self.logya.set_dir_current(os.path.join(dir_app, 'sites', 'geeksta'))
+        self.logya.set_dir_current(os.path.join(dir_app, 'sites', 'docs'))
         self.logya.init_env()
         self.extension_loader = ExtensionLoader()
 
@@ -28,6 +29,12 @@ class TestExtensionDirectory(TestLogya):
 class TestUpdateIndexes(TestLogya):
     """Provide paths to test correct index associations."""
     pass
+
+# used for running all tests from single commmand
+class All(unittest.TestSuite):
+
+    def __init__(self):
+        self.addTest(TestExtensionDirectory())
 
 if __name__ == '__main__':
     unittest.main()
