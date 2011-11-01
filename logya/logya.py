@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import shutil
 from config import Config
 from template import Template
 
 class Logya(object):
-    """Class with main logic for creating, building and serving a static Web site."""
+    """Main logic for creating, building and serving a static site."""
 
     def __init__(self, **kwargs):
+        """Set required logya object properties."""
 
         if kwargs.has_key('verbose') and kwargs['verbose']:
             self.verbose = True

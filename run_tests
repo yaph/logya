@@ -1,7 +1,3 @@
 #!/usr/bin/env python
-import unittest
-from tests import All
-
-if __name__ == "__main__":
-    testsuite = All()
-    testsuite.run()
+import tests
+tests.run()
