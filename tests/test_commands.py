@@ -7,19 +7,23 @@ import unittest
 
 class TestCommand(unittest.TestCase):
     def setUp(self):
-        self.dir_site = tempfile.mkdtemp()
-        os.chdir(self.dir_site)
-        subprocess.call(['logya', 'create', 'logyatest'])
+        self.name = 'logyatest'
+        self.dir_root = tempfile.mkdtemp()
+        self.dir_site = os.path.join(self.dir_root, self.name)
+        os.chdir(self.dir_root)
 
     def tearDown(self):
-        #shutil.rmtree(self.dir_site, True)
+        #shutil.rmtree(self.dir_root, True)
         pass
 
     def test_create(self):
-        self.assertEqual(1, 1)
+        subprocess.call(['logya', 'create', self.name])
+        # test whether required directories were created
+        for d in ['content', 'templates']:
+            self.assertTrue(os.path.exists(os.path.join(self.dir_site, d)))
 
-    def test_generate(self):
-        pass
+    #~ def test_generate(self):
+        #~ pass
 
 
 if __name__ == '__main__':
