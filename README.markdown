@@ -31,11 +31,6 @@ The following folders and files are recognized when generating a Web site with L
 
 # Roadmap
 
-## Version 0.8
-
-* write tests for create and generate sub commands with files created in system tmp dir
-* move Template class from logya.py to classes that need it?
-
 ## Version 0.9
 
 * make distribute work and add to PyPI
