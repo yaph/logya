@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+from pkg_resources import resource_filename
 from logya import Logya
 
 class Create(Logya):
@@ -9,6 +10,6 @@ class Create(Logya):
     def __init__(self, name):
 
         super(self.__class__, self).__init__()
-        src = os.path.join(self.dir_src, 'sites', 'docs')
+        src = resource_filename(__name__, 'sites/docs')
         dst = os.path.join(self.dir_current, name)
         shutil.copytree(src, dst)

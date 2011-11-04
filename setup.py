@@ -3,13 +3,13 @@
 
 #http://packages.python.org/distribute/setuptools.html#declaring-dependencies
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from logya import __version__
 
 setup(
     name='logya',
     version=__version__,
-    description='TODO',
+    description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
     long_description=open('README.markdown').read(),
     url='TODO',
     download_url='TODO-logya-%s.tar.gz' % __version__,
@@ -20,14 +20,15 @@ setup(
     keywords=['Website Generator'],
     license='MIT',
     packages = find_packages(),
-    test_suite='tests.all_tests',
+    #test_suite='tests.all_tests',
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python'],
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Internet :: WWW/HTTP :: Site Management'],
     install_requires=['distribute', 'jinja2'],
     entry_points = {
         'console_scripts': [

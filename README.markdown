@@ -33,11 +33,16 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 0.9
 
-* make distribute work and add to PyPI
+* add package data http://packages.python.org/distribute/setuptools.html#including-data-files
+* http://packages.python.org/distribute/setuptools.html#accessing-data-files-at-runtime
+* http://peak.telecommunity.com/DevCenter/PythonEggs#accessing-package-resources
+* make distribute work and 
 
 ## Version 1.0
 
-* rebuild everything :D
+* documentation
+* replace 0.9
+* add to PyPI
 
 ## Further Plans and Ideas
 

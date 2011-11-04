@@ -21,7 +21,6 @@ class Logya(object):
         # a dictionary of indexes with parsed documents
         self.indexes = {}
 
-        self.dir_src = sys.path[0]
         self.dir_current = os.getcwd()
 
     def info(self, msg):
