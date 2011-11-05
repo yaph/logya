@@ -26,11 +26,24 @@ class Serve(Logya):
         Server(self, host, port).serve()
 
     def update_file(self, src, dst):
-        """Copy source file to destination file if source is newer."""
+        """Copy source file to destination file if source is newer.
+
+        Creates destination directory and file if they don't exist.
+        """
+
+        # make sure destination directory exists
+        dir_dst = os.path.dirname(dst)
+        if not os.path.exists(dir_dst):
+            os.makedirs(dir_dst)
+
+        if not os.path.isfile(dst):
+            shutil.copy(src, dir_dst)
+            return True
 
         if os.path.getmtime(src) > os.path.getmtime(dst):
             shutil.copyfile(src, dst)
             return True
+
         return False
 
     def refresh_resource(self, path):

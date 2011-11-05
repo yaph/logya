@@ -20,6 +20,12 @@ setup(
     keywords=['Website Generator'],
     license='MIT',
     packages = find_packages(),
+    package_data={'logya':
+                  ['sites/docs/*.*',
+                   'sites/docs/content/*.*',
+                   'sites/docs/templates/*.*']
+                  },
+    exclude_package_data={'myproject': ['bin/*.pyc']},
     #test_suite='tests.all_tests',
     classifiers=[
         'Development Status :: 4 - Beta',

@@ -34,9 +34,7 @@ The following folders and files are recognized when generating a Web site with L
 ## Version 0.9
 
 * add package data http://packages.python.org/distribute/setuptools.html#including-data-files
-* http://packages.python.org/distribute/setuptools.html#accessing-data-files-at-runtime
-* http://peak.telecommunity.com/DevCenter/PythonEggs#accessing-package-resources
-* make distribute work and 
+* make distribute work
 
 ## Version 1.0
 
@@ -44,13 +42,25 @@ The following folders and files are recognized when generating a Web site with L
 * replace 0.9
 * add to PyPI
 
+## Version 1.1
+
+* implement scripts and styles as extensions that process multi value document header fields
+* add support for default scripts and styles in site configuration
+
+## Version 1.1
+
+* define types of extensions, re-think index and doc
+* options to enable and or disable extensions in site configuration
+
+## Version 1.2
+
+* RSS feed generation from indexes as extension
+* XML and HTML sitemap generation as extension
+
 ## Further Plans and Ideas
 
 * Add logya extension create name command
-* RSS feed generation
-* XML and HTML sitemap generation
 * minify and concatenate CSS and JS
-* configurable extensions
 * content snippets that are replaced when generating document
 * shared extensions .logya/ext
 * shared libraries for extensions .logya/lib
