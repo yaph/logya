@@ -206,6 +206,34 @@ td { vertical-align: top; }
    Author:
    ========================================================================== */
 #wrapper {width:60%;margin:0 auto;}
+#headerIndex li {
+list-style:none;
+}
+.headerIndexH1 {
+font-size:1em;
+padding-left:em;
+}
+.headerIndexH2 {
+font-size:.9em;
+padding-left:1em;
+}
+.headerIndexH3 {
+font-size:.8em;
+padding-left:1.5em;
+}
+.headerIndexH4 {
+font-size:.7em;
+padding-left:2.0em;
+}
+.headerIndexH5 {
+font-size:.6em;
+padding-left:2.5em;
+}
+.headerIndexH6 {
+font-size:.5em;
+padding-left:3em;
+}
+
 
 
 
