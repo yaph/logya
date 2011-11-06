@@ -12,18 +12,27 @@
   <body>
     <div id="wrapper">
 
-      {% block content %}{% endblock %}
+    <header id="header" class="clearfix">
+        <div id="logo"><a href="{{ base_path }}/" title="Logya a static Web site generator"><img src="{{ base_path }}/img/logya.png" alt="Logya Logo"></a></div>
+        <div id="subtitle">Generate Static Web Sites</div>
+        <div id="github_ribbon">
+            <a href="https://github.com/yaph/logya"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/abad93f42020b733148435e2cd92ce15c542d320/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub"></a>
+        </div>
+    </header>
 
-    </div> <!-- /wrapper -->
-
-    <div id="github_ribbon">
-        <a href="https://github.com/yaph/logya"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/abad93f42020b733148435e2cd92ce15c542d320/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub"></a>
+    <div id="content">
+        {% block content %}{% endblock %}
     </div>
+
+    <footer id="footer">
+    <p>Logya documentation site created with <a href="https://github.com/yaph/logya">Logya</a>.</p>
+    </footer>
+    </div> <!-- /wrapper -->
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{ base_path }}/js/jquery.headerindex.js"></script>
     <script type="text/javascript">
-    $('#wrapper').headerIndex();
+    $('#content').headerIndex();
     </script>
   </body>
 </html>

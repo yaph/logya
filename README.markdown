@@ -31,36 +31,35 @@ The following folders and files are recognized when generating a Web site with L
 
 # Roadmap
 
-## Version 0.9
-
-* add package data http://packages.python.org/distribute/setuptools.html#including-data-files
-* make distribute work
-
 ## Version 1.0
 
 * documentation
-* replace 0.9
+* replace 1.0dev
 * add to PyPI
 
 ## Version 1.1
 
 * implement scripts and styles as extensions that process multi value document header fields
 * add support for default scripts and styles in site configuration
+* add tags extension
 
-## Version 1.1
+## Version 1.2
 
 * define types of extensions, re-think index and doc
 * options to enable and or disable extensions in site configuration
 
-## Version 1.2
+## Version 1.3
 
 * RSS feed generation from indexes as extension
 * XML and HTML sitemap generation as extension
 
-## Further Plans and Ideas
+## Version 1.4
 
 * Add logya extension create name command
 * minify and concatenate CSS and JS
+
+## Further Plans and Ideas
+
 * content snippets that are replaced when generating document
 * shared extensions .logya/ext
 * shared libraries for extensions .logya/lib

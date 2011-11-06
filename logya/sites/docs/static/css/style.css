@@ -203,35 +203,60 @@ td { vertical-align: top; }
 
 
 /* ==|== primary styles =====================================================
-   Author:
+   Author: Ramiro Gómez
    ========================================================================== */
-#wrapper {width:60%;margin:0 auto;}
+p {
+font-size:1.2em;
+}
+#header {position: fixed;left:20%;background:#fff;width:80%;}
+#content {width:60%;margin:0 auto;padding:6em 0 2em 0;z-index:-1;}
+#logo, #subtitle {
+float:left;
+}
+#subtitle {
+font-size:3em;
+margin:.3em .5em;
+}
+#headerIndex {
+position:fixed;
+width:18%;
+margin-left:-20%;
+overflow:auto;
+margin-top:-6em;
+}
 #headerIndex li {
 list-style:none;
+padding-top:.2em;
 }
 .headerIndexH1 {
-font-size:1em;
-padding-left:em;
+font-size:1.1em;
+padding-left:0em;
 }
 .headerIndexH2 {
-font-size:.9em;
-padding-left:1em;
+font-size:.95em;
+padding-left:0em;
 }
 .headerIndexH3 {
 font-size:.8em;
-padding-left:1.5em;
+padding-left:1em;
 }
 .headerIndexH4 {
 font-size:.7em;
-padding-left:2.0em;
+padding-left:1.5em;
 }
 .headerIndexH5 {
 font-size:.6em;
-padding-left:2.5em;
+padding-left:2em;
 }
 .headerIndexH6 {
-font-size:.5em;
+font-size:2.5em;
 padding-left:3em;
+}
+#footer {
+padding:.1em 0;
+background:#ddd;
+text-align:center;
+font-size:.9em;
 }
 
 

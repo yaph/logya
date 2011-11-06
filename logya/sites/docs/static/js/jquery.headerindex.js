@@ -32,10 +32,6 @@
       HTML += '<li class="headerIndex' + tag + '"><a href="#' + h + '">' + content + '</li>';
     }
     HTML += '</ul>';
-    $('#headerIndex').html(HTML)
-      .css('position', 'fixed')
-      .css('width', '18%')
-      .css('margin-left', '-20%')
-      .css('overflow', 'auto');
+    $('#headerIndex').html(HTML);
   };
 })( jQuery );
