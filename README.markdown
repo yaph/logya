@@ -26,16 +26,10 @@ The following folders and files are recognized when generating a Web site with L
 
 * content - required
 * templates - required
-* site.cfg - required   TODO make this optional?
-* static -optional
+* site.cfg - required
+* static - optional
 
 # Roadmap
-
-## Version 1.0
-
-* documentation
-* replace 1.0dev
-* add to PyPI
 
 ## Version 1.1
 
@@ -64,6 +58,7 @@ The following folders and files are recognized when generating a Web site with L
 * shared extensions .logya/ext
 * shared libraries for extensions .logya/lib
 * specify indexes in configuration?
+* make site.cfg optional?
 * Use mongodb and implement the following sub commands:
     * logya import - import documents info database, existing ones that are not older than source file modification will be kept
     * logya refresh - refresh existing deployment, update indexes and recreate updated content
