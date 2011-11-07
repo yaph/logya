@@ -208,8 +208,8 @@ td { vertical-align: top; }
 p {
 font-size:1.2em;
 }
-#header {position: fixed;left:20%;background:#fff;width:80%;}
-#content {width:60%;margin:0 auto;padding:6em 0 2em 0;z-index:-1;}
+#header {width:60%;margin:0 auto;background:#fff;}
+#content {width:60%;margin:0 auto;}
 #logo, #subtitle {
 float:left;
 }
