@@ -77,8 +77,11 @@ class Serve(Logya):
                 return "Refreshed doc at URL: %s" % url
 
 class Server(HTTPServer):
+    """Logya HTTPServer based class to serve generated site."""
 
     def __init__(self, logya, address, port):
+        """Initialize HTTPServer listening on the specified address and port."""
+
         self.logya = logya
         self.address = address
         self.port = port
@@ -89,13 +92,18 @@ class Server(HTTPServer):
         HTTPServer.__init__(self, (address, port), HTTPRequestHandler)
 
     def serve(self):
+        """Serve static files from logya deploy directory."""
+
         os.chdir(self.logya.dir_dst)
         print 'Serving on http://%s:%s/' % (self.address, self.port)
         self.serve_forever()
 
 class HTTPRequestHandler(SimpleHTTPRequestHandler):
+    """Logya SimpleHTTPRequestHandler based class to return resources."""
 
     def do_GET(self):
+        """Return refreshed resource."""
+
         logging.info("Requested resource: %s" % self.path)
         logging.info(self.server.logya.refresh_resource(self.path))
         SimpleHTTPRequestHandler.do_GET(self)

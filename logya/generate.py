@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
-import config
 from operator import itemgetter
 from logya import Logya
 from docreader import DocReader

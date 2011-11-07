@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
-import re
 
 class FileWriter(object):
+    """Class for writing site files."""
 
     def getfile(self, dir_dst, path):
         """Determine file name to create and return an open file handle for writing.
@@ -22,22 +22,31 @@ class FileWriter(object):
         return open(os.path.join(directory, filename), 'w')
 
     def write(self, file, content):
+        """Write content to file and close it."""
+
         file.write(content)
         file.close()
 
 class DocWriter(FileWriter):
+    """Class for writing site documents."""
 
     def __init__(self, dir_dst, template):
+        """Set required properties."""
+
         self.dir_dst = dir_dst
         self.template = template
 
     def set_template_vars(self, doc):
+        """Set template variables."""
+
         for field, val in doc.items():
             if isinstance(val, str):
                 val = val.decode('utf-8')
             self.template.add_var(field, val)
 
     def write(self, doc):
+        """Render and write document to created file."""
+
         self.set_template_vars(doc)
         page = self.template.get_env().get_template(doc['template'])
         f = self.getfile(self.dir_dst, doc['url'])
