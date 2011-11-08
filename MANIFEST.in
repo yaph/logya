@@ -2,3 +2,11 @@ include INSTALL
 include LICENSE
 include CHANGES
 include README.markdown
+
+exclude *.pyc MANIFEST.in
+include setup.py
+include distribute_setup.py
+recursive-include logya *.py
+recursive-include logya/tests *.py
+recursive-include logya/ext *.py
+recursive-include logya/sites *.*
