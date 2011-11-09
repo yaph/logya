@@ -33,7 +33,6 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.1
 
-* add exclude option to exclude headings , e.g. h1, to jquery.headerindex.js
 * implement scripts and styles as extensions that process multi value document header fields
 * add support for default scripts and styles in site configuration
 * add tags extension

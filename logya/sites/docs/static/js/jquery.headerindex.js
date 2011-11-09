@@ -1,9 +1,17 @@
 (function( $ ){
 
-  $.fn.headerIndex = function() {
-    // TODO add exclude option to exclude headings , e.g. h1
+  $.fn.headerIndex = function(options) {
     var headings = {};
+
+    var settings = $.extend({
+      'exclude': []
+    }, options);
+
     $(":header").each(function(index, element){
+      // make sure tag is not excluded
+      if (-1 !== settings.exclude.indexOf(element.nodeName.toLowerCase()))
+        return true;
+
       var id = '';
       if ('undefined' !== typeof $(element).attr('id')) {
         id = $(element).attr('id');
