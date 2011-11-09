@@ -1,8 +1,7 @@
 (function( $ ){
 
   $.fn.headerIndex = function() {
-    // TODO add sticky option to move with the page when scrolled
-    // TODO add indent option to indent by level of heading
+    // TODO add exclude option to exclude headings , e.g. h1
     var headings = {};
     $(":header").each(function(index, element){
       var id = '';
