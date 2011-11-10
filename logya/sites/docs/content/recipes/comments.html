@@ -1,7 +1,13 @@
 title: Conditional Comments in Documents
 url: /recipes/conditional-comments-in-documents/
+comments:
 
-Add a document header field <code>comment</code>
-<pre>comment: 1</pre>
+<p>Add a document header field <code>comments</code>:</p>
+<pre>comments: 0</pre>
 
-In the template check for the value of the comment field
+<p>In the template check for the value of the comment field</p>
+<pre>
+{% if comments %}
+    comments go here
+{% endif %}
+</pre>

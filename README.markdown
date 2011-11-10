@@ -33,14 +33,14 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.1
 
-* implement scripts and styles as extensions that process multi value document header fields
+* define types of extensions, re-think index and doc
 * add support for default scripts and styles in site configuration
 * add tags extension
 
 ## Version 1.2
 
-* define types of extensions, re-think index and doc
 * options to enable and or disable extensions in site configuration
+* implement scripts and styles as extensions that process multi value document header fields
 
 ## Version 1.3
 
@@ -54,6 +54,7 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Further Plans and Ideas
 
+* menu extension to group docs in menus, e.g. menus: nav, links
 * content snippets that are replaced when generating document
 * shared extensions .logya/ext
 * shared libraries for extensions .logya/lib

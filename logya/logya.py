@@ -44,6 +44,15 @@ class Logya(object):
             raise Exception('Resource at path "%s" does not exist.' % path)
         return path
 
+    def get_doc_template(self, doc):
+        """Try to get template setting from doc otherwise from configuration."""
+
+        if doc.has_key('template'):
+            template = doc['template']
+        else:
+            template = self.config.get('templates', 'doc')
+        return template
+
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
 

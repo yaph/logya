@@ -8,7 +8,11 @@ template: post.html
 <p>Logya provides a serve command to immediately view changes in the browser when source documents and static files were changed.</p>
 
 <h2>Installation</h2>
-<p>Logya is an open source Python application that can be <a href="https://github.com/yaph/logya/downloads">downloaded from</a> and <a href="https://github.com/yaph/logya">forked on Github</a>.</p>
+<p>Logya is an open source Python application that can be <a href="https://github.com/yaph/logya/downloads">downloaded from</a> and <a href="https://github.com/yaph/logya">forked on Github</a>. To install it with pip run:</p>
+<pre>sudo pip install logya</pre>
+
+<p>If you downloaded the source files, you can install Logya from the project's root directory with the following command:</p>
+<pre>sudo python setup.py install</pre>
 
 <h2>Getting Started</h2>
 
@@ -33,7 +37,33 @@ template: post.html
 
 <h2>Document Structure</h2>
 <p>Documents are basically html files containing the content of a page with header information to specify title, url, description, scripts and style sheets to include and self defined variables that can be accessed in templates.</p>
+<p>The header of this file looks like:</p>
+<pre>
+url: /
+title: Logya Documentation
+template: post.html
+</pre>
+<p>The content is what you read right now ;)</p>
 
+<h2>Configuration Settings</h2>
+<p>Below you find configuration sections and settings:</p>
+
+<h3>[site] section</h3>
+<dl>
+  <dt>base_path</dt>
+    <dd>If set will be available in all templates as base_path variable.</dd>
+</dl>
+
+<h3>[templates] section</h3>
+<dl>
+  <dt>index</dt>
+    <dd>The template to use for generated index.html files. If not set, indexes won't be created.</dd>
+  <dt>doc</dt>
+    <dd>The template to use for generated content documents. If not set, the document won't be created.</dd>
+</dl>
+
+<h3>[extensions] section</h3>
+<p>Currently this section is not supported. I consider using it for turning extensions on and off.</p>
 <h2>Development Tips</h2>
 <p>The following tips are intended for people developing logya application code.</p>
 <h3>Create a command that points to the development source:</h3>

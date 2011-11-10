@@ -73,7 +73,7 @@ class Serve(Logya):
             # be forgiving about trailing slashes when checking for requested doc
             if path.rstrip('/') == url.rstrip('/'):
                 dw = DocWriter(self.dir_dst, self.template)
-                dw.write(doc)
+                dw.write(doc, self.get_doc_template(doc))
                 return "Refreshed doc at URL: %s" % url
 
 class Server(HTTPServer):

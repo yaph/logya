@@ -2,5 +2,13 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
+
 {{ body }}
+
+    {% if comments %}
+        <hr>
+        This is the comment area to include an external comment system like Disqus or Facebook comments.
+        <hr>
+    {% endif %}
+
 {% endblock %}

@@ -44,11 +44,17 @@ class DocWriter(FileWriter):
                 val = val.decode('utf-8')
             self.template.add_var(field, val)
 
-    def write(self, doc):
-        """Render and write document to created file."""
+    def write(self, doc, template):
+        """Render and write document to created file.
+
+        Returns False if template is False.
+        """
+
+        if not template:
+            return False
 
         self.set_template_vars(doc)
-        page = self.template.get_env().get_template(doc['template'])
+        page = self.template.get_env().get_template(template)
         f = self.getfile(self.dir_dst, doc['url'])
         f.write(page.render(self.template.get_vars()).encode('utf-8'))
         f.close()

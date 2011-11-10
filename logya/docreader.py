@@ -8,7 +8,10 @@ class DocReader():
         self.dir_base = dir_base
         self.parser = parser
         # TODO recurse through sub directories
-        self.files = glob.glob(os.path.join(self.dir_base, '*.html'))
+        self.files = []
+        for root, dirs, files in os.walk(self.dir_base):
+            self.files.extend([os.path.join(root, f) for f in files])
+
 
     def get_docs(self):
         """Generator that reads all docs from base directory."""
