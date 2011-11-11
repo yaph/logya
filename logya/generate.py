@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
-from operator import itemgetter
 from logya import Logya
-from writer import FileWriter, DocWriter
+from writer import DocWriter
 
 class Generate(Logya):
     """Generate a Web site to deploy from the current directory as the source."""
@@ -31,25 +30,3 @@ class Generate(Logya):
 
         self.info("Write indexes")
         self.write_indexes()
-
-    def write_indexes(self):
-        """Write index.html files to deploy directories where non exists.
-
-        If there is no template file specified in configuration indexes won't be written.
-        """
-
-        template = self.config.get('templates', 'index')
-        if not template:
-            return
-
-        filename = 'index.html'
-
-        for dir, docs in self.indexes.items():
-            url_path = '/%s' % os.path.join(dir, filename)
-            # make sure there exists no document at the index path
-            if not self.docs_parsed.has_key(url_path):
-                docs = sorted(docs, key=itemgetter('created'), reverse=True)
-                page = self.template.get_env().get_template(template)
-                fw = FileWriter()
-                file = fw.getfile(os.path.join(self.dir_dst, dir), filename)
-                fw.write(file, page.render(index=docs, title=dir, indexes=self.indexes).encode('utf-8'))

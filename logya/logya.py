@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
+from operator import itemgetter
 from config import Config
 from docreader import DocReader
 from docparser import DocParser
 from template import Template
+from writer import FileWriter
 
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
@@ -15,12 +17,6 @@ class Logya(object):
             self.verbose = True
         else:
             self.verbose = False
-
-        # a dictionary of parsed documents indexed by resource paths
-        self.docs_parsed = {}
-
-        # a dictionary of indexes with parsed documents
-        self.indexes = {}
 
         self.dir_current = os.getcwd()
 
@@ -101,6 +97,12 @@ class Logya(object):
     def build_indexes(self):
         """Build indexes of documents for content directories to be created."""
 
+        # a dictionary of parsed documents indexed by resource paths
+        self.docs_parsed = {}
+
+        # a dictionary of indexes with parsed documents
+        self.indexes = {}
+
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
             # ignore documents that have no url
@@ -108,5 +110,28 @@ class Logya(object):
                 continue
             self.update_indexes(doc)
             self.docs_parsed[doc['url']] = doc
+
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
+
+    def write_indexes(self):
+        """Write index.html files to deploy directories where non exists.
+
+        If there is no template file specified in configuration indexes won't be written.
+        """
+
+        template = self.config.get('templates', 'index')
+        if not template:
+            return
+
+        filename = 'index.html'
+
+        for dir, docs in self.indexes.items():
+            url_path = '/%s' % os.path.join(dir, filename)
+            # make sure there exists no document at the index path
+            if not self.docs_parsed.has_key(url_path):
+                docs = sorted(docs, key=itemgetter('created'), reverse=True)
+                page = self.template.get_env().get_template(template)
+                fw = FileWriter()
+                file = fw.getfile(os.path.join(self.dir_dst, dir), filename)
+                fw.write(file, page.render(index=docs, title=dir, indexes=self.indexes).encode('utf-8'))

@@ -62,10 +62,12 @@ class Serve(Logya):
             return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
         # try to get doc at path, regenerate it and return
+        self.build_indexes()
         if self.docs_parsed.has_key(path):
             doc = self.docs_parsed[path]
             dw = DocWriter(self.dir_dst, self.template)
             dw.write(doc, self.get_doc_template(doc))
+            self.write_indexes()
             return "Refreshed doc at URL: %s" % path
 
 class Server(HTTPServer):
@@ -79,7 +81,6 @@ class Server(HTTPServer):
         self.port = port
 
         self.logya.init_env()
-        self.logya.build_indexes()
 
         log_file = os.path.join(self.logya.dir_current, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
