@@ -19,6 +19,7 @@ class FileWriter(object):
         filename = os.path.basename(path)
         if not filename:
             filename = 'index.html'
+
         return open(os.path.join(directory, filename), 'w')
 
     def write(self, file, content):
@@ -56,6 +57,5 @@ class DocWriter(FileWriter):
         self.set_template_vars(doc)
         page = self.template.get_env().get_template(template)
         f = self.getfile(self.dir_dst, doc['url'])
-        print self.template.get_vars()
         f.write(page.render(self.template.get_vars()).encode('utf-8'))
         f.close()

@@ -55,21 +55,18 @@ class Serve(Logya):
         # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
         file_src = os.path.join(self.dir_static, path_rel)
-
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             if self.update_file(file_src, file_dst):
                 return "Copied file %s to %s" % (file_src, file_dst)
             return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
-        # find doc that corresponds to path, regenerate it and return
-        # FIXME lookup doc in dict like docs_parse.has_key(path)
-        for url, doc in self.docs_parsed.iteritems():
-            # be forgiving about trailing slashes when checking for requested doc
-            if path.rstrip('/') == url.rstrip('/'):
-                dw = DocWriter(self.dir_dst, self.template)
-                dw.write(doc, self.get_doc_template(doc))
-                return "Refreshed doc at URL: %s" % url
+        # try to get doc at path, regenerate it and return
+        if self.docs_parsed.has_key(path):
+            doc = self.docs_parsed[path]
+            dw = DocWriter(self.dir_dst, self.template)
+            dw.write(doc, self.get_doc_template(doc))
+            return "Refreshed doc at URL: %s" % path
 
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""
@@ -83,8 +80,10 @@ class Server(HTTPServer):
 
         self.logya.init_env()
         self.logya.build_indexes()
+
         log_file = os.path.join(self.logya.dir_current, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
+
         HTTPServer.__init__(self, (address, port), HTTPRequestHandler)
 
     def serve(self):

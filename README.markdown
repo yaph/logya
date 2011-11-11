@@ -5,7 +5,7 @@ to use and flexible.
 * Create responsive static Web sites
 * Built-in Web server with info level logging for immediate editing feedback
 * Commands for site creation, generation, and serving
-* Automatic index generation in created folders
+* Automatic generation of document indexes in created directories
 * Site configuration
 
 # Requirements
@@ -33,8 +33,6 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.1
 
-* make indexes template variable available to generated index files
-* define types of extensions, re-think index and doc
 * add support for default scripts and styles in site configuration
 * add tags extension
 
@@ -55,6 +53,7 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Further Plans and Ideas
 
+* automatic description generation as parser extension
 * menu extension to group docs in menus, e.g. menus: nav, links
 * content snippets that are replaced when generating document
 * shared extensions .logya/ext

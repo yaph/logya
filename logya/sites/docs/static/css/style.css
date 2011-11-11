@@ -208,8 +208,15 @@ td { vertical-align: top; }
 p {
 font-size:1.2em;
 }
-#header {width:60%;margin:0 auto;background:#fff;}
-#content {width:60%;margin:0 auto;}
+.box {
+width:60%;margin:0 auto;
+}
+#top {
+width:100%;
+}
+#wrapper {
+position:relative;
+}
 #logo, #subtitle {
 float:left;
 }
@@ -222,7 +229,7 @@ position:fixed;
 width:18%;
 margin-left:-20%;
 overflow:auto;
-margin-top:-6em;
+margin-top:-8em;
 }
 #headerIndex li {
 list-style:none;
@@ -258,20 +265,65 @@ padding: 0.5em 20%;
 background:#ddd;
 font-size:.9em;
 }
-#mainnav {
-clear:both;
+/* main navigation css dropdown */
+#top {
+background:#000;
+height:2.5em;
 }
-#mainnav > li {
+#nav {
+list-style:none;
+font-weight:bold;
+float:left;
+width:100%;
+position:relative;
+z-index:5;
+margin-left:-.8em;
+}
+#nav li {
 text-transform: capitalize;
 float:left;
+position:relative;
+padding:.2em 1em .2em .8em;
+}
+#nav > li {
 font-size:1.2em;
-padding:.2em 1em .2em 0;
 }
-.subnav {
-display:none;
+#nav a {
+display:block;
+padding:.2em 0 .2em 0;
+color:#fff;
+text-decoration:none;
 }
+#nav a:hover{
+background:#000;
+}
+#nav ul{
+background:#000;
+background:rgba(255,255,255,0);
+list-style:none;
+position:absolute;
+left:-9999px;
+}
+#nav ul li{
+float:none;
+}
+#nav ul a{
+white-space:nowrap;
+}
+#nav li:hover ul{
+left:0;
+background:#000;
+}
+#nav li:hover a {
+background:#000;
+text-decoration:none;
+}
+#nav li:hover ul a {
+text-decoration:none;
+}
+#nav li:hover ul li a:hover {
 
-
+}
 
 
 
