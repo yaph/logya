@@ -109,5 +109,4 @@ class Logya(object):
             self.update_indexes(doc)
             self.docs_parsed[doc['url']] = doc
         # make indexes available to templates
-        #self.template.add_var('indexes', self.indexes)
-        self.template.add_var('indexes', [1,2,3])
+        self.template.add_var('indexes', self.indexes)

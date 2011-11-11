@@ -52,4 +52,4 @@ class Generate(Logya):
                 page = self.template.get_env().get_template(template)
                 fw = FileWriter()
                 file = fw.getfile(os.path.join(self.dir_dst, dir), filename)
-                fw.write(file, page.render(index=docs, title=dir).encode('utf-8'))
+                fw.write(file, page.render(index=docs, title=dir, indexes=self.indexes).encode('utf-8'))

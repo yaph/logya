@@ -33,6 +33,7 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.1
 
+* make indexes template variable available to generated index files
 * define types of extensions, re-think index and doc
 * add support for default scripts and styles in site configuration
 * add tags extension

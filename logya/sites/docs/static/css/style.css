@@ -258,7 +258,18 @@ padding: 0.5em 20%;
 background:#ddd;
 font-size:.9em;
 }
-
+#mainnav {
+clear:both;
+}
+#mainnav > li {
+text-transform: capitalize;
+float:left;
+font-size:1.2em;
+padding:.2em 1em .2em 0;
+}
+.subnav {
+display:none;
+}
 
 
 

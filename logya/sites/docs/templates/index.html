@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<ul>
+{% for doc in index %}
+    <li><a href="{{ doc.url }}">{{ doc.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

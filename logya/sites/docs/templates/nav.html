@@ -1,0 +1,16 @@
+{% if indexes %}
+<nav>
+<ul id="mainnav">
+<li><a href="{{base_path}}/">Home</a></li>
+{% for i in indexes %}
+<li><a href="{{base_path}}/{{ i }}/">{{ i }}</a>
+    <ul class="subnav">
+        {% for doc in indexes[i] %}
+            <li><a href="{{base_path}}{{ doc.url }}">{{ doc.title }}</a></li>
+        {% endfor %}
+    </ul>
+</li>
+{% endfor %}
+</ul>
+</nav>
+{% endif %}
