@@ -11,6 +11,9 @@
 
   <body>
     <div id="wrapper">
+        {% for i in indexes %}
+            <pre>{{ i }}</pre>
+        {% endfor %}
 
     <header id="header" class="clearfix">
         <div id="logo"><a href="{{ base_path }}/" title="Logya a static Web site generator"><img src="{{ base_path }}/img/logya.png" alt="Logya Logo"></a></div>
@@ -28,11 +31,11 @@
     <footer id="footer">
     <p>Logya documentation site created with <a href="https://github.com/yaph/logya">Logya</a>.</p>
 
-    <div><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></div>    
+    <div><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></div>
     <div><g:plusone annotation="inline"></g:plusone></div>
     <div><fb:like send="true" width="450" show_faces="true"></fb:like></div>
 
-    
+
 
     </footer>
     </div> <!-- /wrapper -->

@@ -52,8 +52,6 @@ class Serve(Logya):
         Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
-        self.init_env()
-
         # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
         file_src = os.path.join(self.dir_static, path_rel)
@@ -65,11 +63,8 @@ class Serve(Logya):
             return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
         # find doc that corresponds to path, regenerate it and return
-        docs = DocReader(self.dir_content, DocParser()).get_docs()
-        for doc in docs:
-            if not doc.has_key('url'):
-                continue
-            url = doc['url']
+        # FIXME lookup doc in dict like docs_parse.has_key(path)
+        for url, doc in self.docs_parsed.iteritems():
             # be forgiving about trailing slashes when checking for requested doc
             if path.rstrip('/') == url.rstrip('/'):
                 dw = DocWriter(self.dir_dst, self.template)
@@ -87,6 +82,7 @@ class Server(HTTPServer):
         self.port = port
 
         self.logya.init_env()
+        self.logya.build_indexes()
         log_file = os.path.join(self.logya.dir_current, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
         HTTPServer.__init__(self, (address, port), HTTPRequestHandler)

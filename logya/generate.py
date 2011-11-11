@@ -3,8 +3,6 @@ import os
 import shutil
 from operator import itemgetter
 from logya import Logya
-from docreader import DocReader
-from docparser import DocParser
 from writer import FileWriter, DocWriter
 
 class Generate(Logya):
@@ -26,9 +24,6 @@ class Generate(Logya):
         self.info("Build document indexes")
         self.build_indexes()
 
-        # make indexes available to templates
-        self.template.add_var('indexes', self.indexes)
-
         self.info("Write documents to deploy directory")
         dw = DocWriter(self.dir_dst, self.template)
         for doc in self.docs_parsed.itervalues():
@@ -36,41 +31,6 @@ class Generate(Logya):
 
         self.info("Write indexes")
         self.write_indexes()
-
-    def get_dirs_from_path(self, url):
-        """Returns a list of directories from given url.
-
-        The last directory is omitted as it contains and index.html file
-        containing the content of the appropriate document."""
-
-        return filter(None, url.strip('/').split('/'))[:-1]
-
-    def update_index(self, doc, index):
-        """Add a doc to given index."""
-
-        if not self.indexes.has_key(index):
-            self.indexes[index] = []
-        self.indexes[index].append(doc)
-
-    def update_indexes(self, doc):
-        """Add a doc to indexes determined from doc url."""
-
-        dirs = self.get_dirs_from_path(doc['url'])
-        last = 0
-        for d in dirs:
-            last += 1
-            self.update_index(doc, '/'.join(dirs[:last]))
-
-    def build_indexes(self):
-        """Build indexes of documents for content directories to be created."""
-
-        docs = DocReader(self.dir_content, DocParser()).get_docs()
-        for doc in docs:
-            # ignore documents that have no url
-            if not doc.has_key('url'):
-                continue
-            self.update_indexes(doc)
-            self.docs_parsed[doc['url']] = doc
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
