@@ -132,6 +132,10 @@ class Logya(object):
             if not self.docs_parsed.has_key(url_path):
                 docs = sorted(docs, key=itemgetter('created'), reverse=True)
                 page = self.template.get_env().get_template(template)
+
+                self.template.add_var('index', docs)
+                self.template.add_var('title', dir)
+
                 fw = FileWriter()
                 file = fw.getfile(os.path.join(self.dir_dst, dir), filename)
-                fw.write(file, page.render(index=docs, title=dir, indexes=self.indexes).encode('utf-8'))
+                fw.write(file, page.render(self.template.get_vars()).encode('utf-8'))
