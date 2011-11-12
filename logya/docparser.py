@@ -35,6 +35,7 @@ class FileResponse(httplib.HTTPResponse):
         return version, status, reason
 
 class DocParser():
+    """Class for parsing content documents."""
 
     multi_value_fields = ['scripts', 'styles', 'tags']
 
