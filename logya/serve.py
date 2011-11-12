@@ -52,6 +52,9 @@ class Serve(Logya):
         Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
+        # has to be done here too to keep track of configuration changes
+        self.init_env()
+
         # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
         file_src = os.path.join(self.dir_static, path_rel)
