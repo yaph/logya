@@ -32,7 +32,6 @@ The following folders and files are recognized when generating a Web site with L
 # Known issues in 1.1dev
 
 * indexes are not refreshed in serve mode, when generated index is requested as it is not part of docs parsed
-* request paths like /recipes/conditional-comments-in-documents/index.html are not refreshed in serve mode
 
 # Roadmap
 

@@ -5,8 +5,6 @@ import logging
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 from logya import Logya
-from docreader import DocReader
-from docparser import DocParser
 from writer import DocWriter
 
 class Serve(Logya):
@@ -64,14 +62,28 @@ class Serve(Logya):
                 return "Copied file %s to %s" % (file_src, file_dst)
             return "Source %s is not newer than destination %s" % (file_src, file_dst)
 
-        # try to get doc at path, regenerate it and return
+        # build indexes and docs_parsed dict
         self.build_indexes()
+
+        # try to get doc at path, regenerate it and return
+        doc = None
         if self.docs_parsed.has_key(path):
             doc = self.docs_parsed[path]
+        else:
+            # if a path like /index.html is requested also try to find /
+            alt_path = os.path.dirname(path)
+            if not alt_path.endswith('/'):
+                alt_path = '%s/' % alt_path
+            if self.docs_parsed.has_key(alt_path):
+                doc = self.docs_parsed[alt_path]
+
+        if doc:
             dw = DocWriter(self.dir_dst, self.template)
             dw.write(doc, self.get_doc_template(doc))
             self.write_indexes()
             return "Refreshed doc at URL: %s" % path
+
+        # TODO refresh index if auto-generated index file is requested
 
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""
