@@ -4,23 +4,36 @@ import os
 class FileWriter(object):
     """Class for writing site files."""
 
+    def get_canonical_filename(self, name):
+        """Get file name from given path or file.
+
+        If name is not recognized as a file name a /index.html is added.
+        Leading slashes are stripped off.
+        """
+
+        if not name.startswith('/'):
+            name = '/%s' % name
+
+        if not os.path.splitext(name)[1]:
+            name = os.path.join(name, 'index.html')
+
+        return name.lstrip('/')
+
     def getfile(self, dir_dst, path):
-        """Determine file name to create and return an open file handle for writing.
+        """Determine file to create and return an open file handle for writing.
 
         Paths pointing to a file name will be created as they are. When a path points
         to a directory a file named index.html will be created in that directory.
         """
 
-        directory = os.path.join(dir_dst, os.path.dirname(path).lstrip('/'))
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        filename = self.get_canonical_filename(path)
 
-        # the resulting filename won't have an extension for paths like /path/file
-        filename = os.path.basename(path)
-        if not filename:
-            filename = 'index.html'
+        # create target directory if it doesn't exist
+        dir_target = os.path.join(dir_dst, os.path.dirname(filename))
+        if not os.path.exists(dir_target):
+            os.makedirs(dir_target)
 
-        return open(os.path.join(directory, filename), 'w')
+        return open(os.path.join(dir_dst, filename), 'w')
 
     def write(self, file, content):
         """Write content to file and close it."""
@@ -56,6 +69,7 @@ class DocWriter(FileWriter):
 
         self.set_template_vars(doc)
         page = self.template.get_env().get_template(template)
+        # FIXME remove first argument from getfile?
         f = self.getfile(self.dir_dst, doc['url'])
         f.write(page.render(self.template.get_vars()).encode('utf-8'))
         f.close()

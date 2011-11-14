@@ -37,6 +37,7 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.1
 
+* write unittest for FileWriter.get_canonical_filename()
 * provide extension hooks in build_indexes and DocParser
 * add support for default scripts and styles in site configuration
 * add tags extension

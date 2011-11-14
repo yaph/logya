@@ -20,6 +20,8 @@ class Logya(object):
 
         self.dir_current = os.getcwd()
 
+        self.index_filename = 'index.html'
+
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
 
@@ -114,6 +116,25 @@ class Logya(object):
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
 
+    def write_index(self, directory, template):
+        """Write an auto-generated index.html file."""
+
+        url_path = '/%s' % os.path.join(directory, self.index_filename)
+        # make sure there exists no document at the index path
+        if not self.docs_parsed.has_key(url_path):
+            docs = sorted(self.indexes[directory],
+                          key=itemgetter('created'),
+                          reverse=True)
+            page = self.template.get_env().get_template(template)
+
+            self.template.add_var('index', docs)
+            self.template.add_var('title', directory)
+
+            # FIXME create FileWriter outside of this method
+            fw = FileWriter()
+            fw.write(fw.getfile(self.dir_dst, directory),
+                     page.render(self.template.get_vars()).encode('utf-8'))
+
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
 
@@ -124,18 +145,5 @@ class Logya(object):
         if not template:
             return
 
-        filename = 'index.html'
-
-        for dir, docs in self.indexes.items():
-            url_path = '/%s' % os.path.join(dir, filename)
-            # make sure there exists no document at the index path
-            if not self.docs_parsed.has_key(url_path):
-                docs = sorted(docs, key=itemgetter('created'), reverse=True)
-                page = self.template.get_env().get_template(template)
-
-                self.template.add_var('index', docs)
-                self.template.add_var('title', dir)
-
-                fw = FileWriter()
-                file = fw.getfile(os.path.join(self.dir_dst, dir), filename)
-                fw.write(file, page.render(self.template.get_vars()).encode('utf-8'))
+        for directory in self.indexes.keys():
+            self.write_index(directory, template)
