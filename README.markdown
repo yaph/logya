@@ -30,7 +30,7 @@ The following folders and files are recognized when generating a Web site with L
 * static - optional
 
 # Known issues in 1.1dev
-* python run_tests raises an ImportError: cannot import name TestLogya
+* python run_tests raises "ImportError: cannot import name TestLogya" when both text_extensions and test_writer tests are imported
 
 # Roadmap
 
