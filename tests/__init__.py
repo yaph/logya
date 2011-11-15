@@ -4,6 +4,7 @@ import sys
 import unittest
 import test_commands
 import test_extensions
+import test_writer
 
 cwd = sys.path[0]
 dir_app = os.path.join(os.path.dirname(cwd), 'logya', 'logya')
@@ -13,6 +14,7 @@ def run():
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromModule(test_commands)
     suite.addTests(loader.loadTestsFromModule(test_extensions))
+    suite.addTests(loader.loadTestsFromModule(test_writer))
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)
 
