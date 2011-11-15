@@ -5,7 +5,7 @@ import logging
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 from logya import Logya
-from writer import DocWriter
+from writer import FileWriter, DocWriter
 
 class Serve(Logya):
     """Serve files from deploy directory."""
@@ -44,45 +44,6 @@ class Serve(Logya):
 
         return False
 
-    # TODO make this approach better or let it be
-    def get_resource_info(self, path):
-        """Get information like type, source path and destination path.
-
-        Returns a dict containing the type, i.e. static, doc, or index and
-        the source file name and for static files the destination file name
-        for the given path. Raises a LookupError if resource does not exist.
-        """
-
-        # check for a static resource
-        path_rel = path.lstrip('/')
-        file_src = os.path.join(self.dir_static, path_rel)
-        if os.path.isfile(file_src):
-            return {'type':'static',
-                    'source': file_src,
-                    'destination': os.path.join(self.dir_dst, path_rel)}
-
-        # check for a content document
-        if self.docs_parsed.has_key(path):
-            return {'type':'doc',
-                    'source': path}
-        else:
-            # if a path like /index.html is requested also try to find /
-            alt_path = os.path.dirname(path)
-            if not alt_path.endswith('/'):
-                alt_path = '%s/' % alt_path
-            if self.docs_parsed.has_key(alt_path):
-                return {'type':'doc',
-                        'source': alt_path}
-
-        # check for an auto-generated index
-        index_paths = self.indexes.keys()
-        path_normalized = path.strip('/')
-        if path_normalized in index_paths:
-            return {'type':'index',
-                    'source': path_normalized}
-
-        raise LookupError('No resource found at: %s' % path)
-
     def refresh_resource(self, path):
         """Refresh resource corresponding to given path.
 
@@ -117,8 +78,8 @@ class Serve(Logya):
                 doc = self.docs_parsed[alt_path]
 
         if doc:
-            dw = DocWriter(self.dir_dst, self.template)
-            dw.write(doc, self.get_doc_template(doc))
+            docwriter = DocWriter(self.dir_dst, self.template)
+            docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
             return "Refreshed doc at URL: %s" % path
         else:
@@ -126,8 +87,9 @@ class Serve(Logya):
             index_paths = self.indexes.keys()
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
-                print self.indexes[path_normalized]
-        # TODO refresh index if auto-generated index file is requested
+                template = self.config.get('templates', 'index')
+                if template:
+                    self.write_index(FileWriter(), path_normalized, template)
 
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""

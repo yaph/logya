@@ -325,7 +325,17 @@ text-decoration:none;
 
 }
 
-
+/* auto-generated indexes */
+.index_docs {
+padding-left:0;
+}
+.index_docs li {
+list-style:none;
+font-size:1.4em;
+}
+.index_heading {
+text-transform:capitalize;
+}
 
 
 

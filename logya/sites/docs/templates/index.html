@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<ul>
+<h1 class="index_heading">{{ title }}</h1>
+<ul class="index_docs">
 {% for doc in index %}
     <li><a href="{{ base_path }}{{ doc.url }}">{{ doc.title }}</a></li>
 {% endfor %}

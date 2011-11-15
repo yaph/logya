@@ -116,7 +116,7 @@ class Logya(object):
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
 
-    def write_index(self, directory, template):
+    def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
         url_path = '/%s' % os.path.join(directory, self.index_filename)
@@ -125,15 +125,14 @@ class Logya(object):
             docs = sorted(self.indexes[directory],
                           key=itemgetter('created'),
                           reverse=True)
-            page = self.template.get_env().get_template(template)
 
             self.template.add_var('index', docs)
             self.template.add_var('title', directory)
 
-            # FIXME create FileWriter outside of this method
-            fw = FileWriter()
-            fw.write(fw.getfile(self.dir_dst, directory),
-                     page.render(self.template.get_vars()).encode('utf-8'))
+            page = self.template.get_env().get_template(template)
+            filewriter.write(filewriter.getfile(self.dir_dst, directory),
+                             page.render(self.template.get_vars())
+                             .encode('utf-8'))
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
@@ -146,4 +145,4 @@ class Logya(object):
             return
 
         for directory in self.indexes.keys():
-            self.write_index(directory, template)
+            self.write_index(FileWriter(), directory, template)

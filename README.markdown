@@ -29,10 +29,6 @@ The following folders and files are recognized when generating a Web site with L
 * site.cfg - required
 * static - optional
 
-# Known issues in 1.1dev
-
-* indexes are not refreshed in serve mode, when generated index is requested as it is not part of docs parsed
-
 # Roadmap
 
 ## Version 1.1
@@ -44,6 +40,8 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 1.2
 
+* use rst for README?
+* move roadmap to docs?
 * options to enable and or disable extensions in site configuration
 * implement scripts and styles as extensions that process multi value document header fields
 
