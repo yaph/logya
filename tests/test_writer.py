@@ -1,8 +1,7 @@
-from __init__ import TestLogya
-
+import unittest
 from logya.writer import FileWriter
 
-class TestFileWriter(TestLogya):
+class TestFileWriter(unittest.TestCase):
 
     def setUp(self):
         self.filewriter = FileWriter()

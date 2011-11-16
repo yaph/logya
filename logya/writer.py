@@ -69,7 +69,7 @@ class DocWriter(FileWriter):
 
         self.set_template_vars(doc)
         page = self.template.get_env().get_template(template)
-        # FIXME remove first argument from getfile?
-        f = self.getfile(self.dir_dst, doc['url'])
-        f.write(page.render(self.template.get_vars()).encode('utf-8'))
-        f.close()
+
+        file = self.getfile(self.dir_dst, doc['url'])
+        file.write(page.render(self.template.get_vars()).encode('utf-8'))
+        file.close()
