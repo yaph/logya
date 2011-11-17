@@ -10,7 +10,7 @@ cwd = sys.path[0]
 dir_app = os.path.join(cwd, 'logya')
 sys.path.insert(0, dir_app)
 
-from logya.logya import Logya
+from logya import Logya
 
 def run():
     """Run logya tests."""

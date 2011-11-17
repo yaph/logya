@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
-from logya import Logya
+from __init__ import Logya
 from writer import DocWriter
 
 class Generate(Logya):

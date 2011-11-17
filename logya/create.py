@@ -2,7 +2,7 @@
 import os
 import shutil
 from pkg_resources import resource_filename
-from logya import Logya
+from __init__ import Logya
 
 class Create(Logya):
     """Create a basic template for generating a Web site with Logya."""

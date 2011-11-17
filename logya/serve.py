@@ -4,7 +4,7 @@ import shutil
 import logging
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
-from logya import Logya
+from __init__ import Logya
 from writer import FileWriter, DocWriter
 
 class Serve(Logya):
