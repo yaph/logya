@@ -53,7 +53,7 @@ class DocParser():
         self.response.begin()
         self.parsed = {}
         for field, val in self.response.getheaders():
-            if val is not None:
+            if val:
                 if field in self.multi_value_fields:
                     self.parsed[field] = re.split(',\s*', val)
                 else:
