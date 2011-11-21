@@ -70,6 +70,6 @@ class DocWriter(FileWriter):
         self.set_template_vars(doc)
         page = self.template.get_env().get_template(template)
 
-        file = self.getfile(self.dir_dst, doc['url'])
-        file.write(page.render(self.template.get_vars()).encode('utf-8'))
-        file.close()
+        out = self.getfile(self.dir_dst, doc['url'])
+        out.write(page.render(self.template.get_vars()).encode('utf-8'))
+        out.close()
