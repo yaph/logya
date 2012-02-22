@@ -2,6 +2,7 @@ from __init__ import TestLogya
 
 from logya.ext import ExtensionLoader
 
+
 class TestExtensions(TestLogya):
 
     def setUp(self):

@@ -4,6 +4,7 @@ import os
 from setuptools import setup, find_packages
 from logya import __version__
 
+
 def get_package_data():
     """Return a list of files in sites dir to include in package."""
 
@@ -26,7 +27,7 @@ setup(
     maintainer_email='web@ramiro.org',
     keywords=['Website Generator'],
     license='MIT',
-    packages = find_packages(),
+    packages=find_packages(),
     package_data={'logya': get_package_data()},
     #test_suite='tests.all_tests',
     classifiers=[
@@ -38,7 +39,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Topic :: Internet :: WWW/HTTP :: Site Management'],
     install_requires=['distribute', 'jinja2'],
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'logya = logya.main:main'
         ]

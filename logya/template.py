@@ -2,6 +2,7 @@
 import os
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
+
 class Template():
     """Class to handle templates."""
 
@@ -31,6 +32,7 @@ class Template():
         """Return all template variables."""
 
         return self.vars
+
 
 class TemplateLoader(BaseLoader):
     """Class to handle template Loading."""

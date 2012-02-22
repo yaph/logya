@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from ext import Extension
 
+
 def main():
     return Sitemap()
+
 
 class Sitemap(Extension):
 

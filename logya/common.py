@@ -2,6 +2,7 @@
 import warnings
 import functools
 
+
 def deprecated(func):
     """This is a decorator which can be used to mark functions
     as deprecated. It will result in a warning being emitted
@@ -10,7 +11,7 @@ def deprecated(func):
     Code from
     http://wiki.python.org/moin/PythonDecoratorLibrary#Generating_Deprecation_Warnings
     """
-    
+
     @functools.wraps(func)
     def new_func(*args, **kwargs):
         warnings.warn_explicit(

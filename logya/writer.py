@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+
 class FileWriter(object):
     """Class for writing site files."""
 
@@ -22,8 +23,9 @@ class FileWriter(object):
     def getfile(self, dir_dst, path):
         """Determine file to create and return an open file handle for writing.
 
-        Paths pointing to a file name will be created as they are. When a path points
-        to a directory a file named index.html will be created in that directory.
+        Paths pointing to a file name will be created as they are. When a path
+        points to a directory a file named index.html will be created in that
+        directory.
         """
 
         filename = self.get_canonical_filename(path)
@@ -40,6 +42,7 @@ class FileWriter(object):
 
         file.write(content)
         file.close()
+
 
 class DocWriter(FileWriter):
     """Class for writing site documents."""

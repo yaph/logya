@@ -12,6 +12,7 @@ sys.path.insert(0, dir_app)
 
 from logya import Logya
 
+
 def run():
     """Run logya tests."""
 
@@ -21,6 +22,7 @@ def run():
     suite.addTests(loader.loadTestsFromModule(test_writer))
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
+
 
 class TestLogya(unittest.TestCase):
     """Base class for logya tests."""

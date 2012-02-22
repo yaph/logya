@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __init__ import Logya
 
+
 class Test(Logya):
     """Test new features."""
 

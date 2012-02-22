@@ -5,6 +5,7 @@ import StringIO
 import httplib
 from datetime import datetime
 
+
 class FakeSocket:
     """Code copied from pypy / lib-python / 2.7.1 / test / test_httplib.py
     See
@@ -22,6 +23,7 @@ class FakeSocket:
             raise httplib.UnimplementedFileMode()
         return self.fileclass(self.text)
 
+
 class FileResponse(httplib.HTTPResponse):
     """See
     http://svn.python.org/view/python/trunk/Lib/httplib.py?view=markup
@@ -33,6 +35,7 @@ class FileResponse(httplib.HTTPResponse):
     def _read_status(self):
         [version, status, reason] = 'HTTP/1.0 200 OK'.split(None, 2)
         return version, status, reason
+
 
 class DocParser():
     """Class for parsing content documents."""
@@ -60,7 +63,7 @@ class DocParser():
                     self.parsed[field] = val
 
         # override created time with file modification time if not set
-        if not self.parsed.has_key('created'):
+        if not 'created' in self.parsed:
             self.parsed['created'] = datetime.fromtimestamp(stat.st_mtime).isoformat()
 
         self.parsed['body'] = self.response.read()

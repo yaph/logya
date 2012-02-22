@@ -4,8 +4,9 @@ import shutil
 from __init__ import Logya
 from writer import DocWriter
 
+
 class Generate(Logya):
-    """Generate a Web site to deploy from the current directory as the source."""
+    """Generate a Web site to deploy from current directory as source."""
 
     def __init__(self, **kwargs):
 

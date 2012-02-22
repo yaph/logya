@@ -7,17 +7,22 @@ from generate import Generate
 from serve import Serve
 from test import Test
 
+
 def create(args):
     Create(args.name)
+
 
 def generate(args):
     Generate(verbose=args.verbose)
 
+
 def serve(args):
     Serve(host=args.host, port=args.port)
 
+
 def test(args):
     Test()
+
 
 def main():
     parser = argparse.ArgumentParser(description='Logya a static Web site generator.', version=__version__)

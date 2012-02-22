@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+
 class DocReader:
     """A class for reading content documents."""
 

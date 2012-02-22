@@ -5,6 +5,7 @@ import tempfile
 import subprocess
 import unittest
 
+
 class TestCommand(unittest.TestCase):
     """Test logya commands."""
 

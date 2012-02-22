@@ -7,18 +7,19 @@ from BaseHTTPServer import HTTPServer
 from __init__ import Logya
 from writer import FileWriter, DocWriter
 
+
 class Serve(Logya):
     """Serve files from deploy directory."""
 
     def __init__(self, **kwargs):
 
         host = 'localhost'
-        if kwargs.has_key('host') and kwargs['host']:
-            host =  kwargs['host']
+        if 'host' in kwargs and kwargs['host']:
+            host = kwargs['host']
 
         port = 8080
-        if kwargs.has_key('port') and kwargs['port']:
-            port =  kwargs['port']
+        if 'port' in kwargs and kwargs['port']:
+            port = kwargs['port']
 
         super(self.__class__, self).__init__()
         Server(self, host, port).serve()
@@ -60,21 +61,21 @@ class Serve(Logya):
             file_dst = os.path.join(self.dir_dst, path_rel)
             if self.update_file(file_src, file_dst):
                 return "Copied file %s to %s" % (file_src, file_dst)
-            return "Source %s is not newer than destination %s" % (file_src, file_dst)
+            return "src %s not newer than dest %s" % (file_src, file_dst)
 
         # build indexes and docs_parsed dict
         self.build_indexes()
 
         # try to get doc at path, regenerate it and return
         doc = None
-        if self.docs_parsed.has_key(path):
+        if path in self.docs_parsed:
             doc = self.docs_parsed[path]
         else:
             # if a path like /index.html is requested also try to find /
             alt_path = os.path.dirname(path)
             if not alt_path.endswith('/'):
                 alt_path = '%s/' % alt_path
-            if self.docs_parsed.has_key(alt_path):
+            if alt_path in self.docs_parsed:
                 doc = self.docs_parsed[alt_path]
 
         if doc:
@@ -90,6 +91,7 @@ class Serve(Logya):
                 template = self.config.get('templates', 'index')
                 if template:
                     self.write_index(FileWriter(), path_normalized, template)
+
 
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""
@@ -114,6 +116,7 @@ class Server(HTTPServer):
         os.chdir(self.logya.dir_dst)
         print 'Serving on http://%s:%s/' % (self.address, self.port)
         self.serve_forever()
+
 
 class HTTPRequestHandler(SimpleHTTPRequestHandler):
     """Logya SimpleHTTPRequestHandler based class to return resources."""

@@ -2,8 +2,10 @@
 # see https://github.com/jarodl/disqus.py
 from ext import Extension
 
+
 def main():
     return Disqus()
+
 
 class Disqus(Extension):
 

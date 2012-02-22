@@ -9,13 +9,14 @@ from writer import FileWriter
 
 __version__ = '1.1dev'
 
+
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
 
     def __init__(self, **kwargs):
         """Set required logya object properties."""
 
-        if kwargs.has_key('verbose') and kwargs['verbose']:
+        if 'verbose' in kwargs and kwargs['verbose']:
             self.verbose = True
         else:
             self.verbose = False
@@ -68,7 +69,7 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Try to get template setting from doc otherwise from configuration."""
 
-        if doc.has_key('template'):
+        if 'template' in doc:
             template = doc['template']
         else:
             template = self.config.get('templates', 'doc')
@@ -85,7 +86,7 @@ class Logya(object):
     def update_index(self, doc, index):
         """Add a doc to given index."""
 
-        if not self.indexes.has_key(index):
+        if not index in self.indexes:
             self.indexes[index] = []
         self.indexes[index].append(doc)
 
@@ -110,7 +111,7 @@ class Logya(object):
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
             # ignore documents that have no url
-            if not doc.has_key('url'):
+            if not 'url' in doc:
                 continue
             self.update_indexes(doc)
             self.docs_parsed[doc['url']] = doc
@@ -123,7 +124,7 @@ class Logya(object):
 
         url_path = '/%s' % os.path.join(directory, self.index_filename)
         # make sure there exists no document at the index path
-        if not self.docs_parsed.has_key(url_path):
+        if not url_path in self.docs_parsed:
             docs = sorted(self.indexes[directory],
                           key=itemgetter('created'),
                           reverse=True)

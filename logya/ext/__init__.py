@@ -3,6 +3,7 @@ import os
 import pkgutil
 from abc import ABCMeta, abstractmethod
 
+
 class ExtensionLoader():
 
     def __init__(self):
@@ -13,12 +14,13 @@ class ExtensionLoader():
             extension.set_module_name(modname)
             extension.set_directory(os.path.dirname(module.__file__))
             ext_type = extension.get_type()
-            if not self.extensions.has_key(ext_type):
+            if not ext_type in self.extensions:
                 self.extensions[ext_type] = []
             self.extensions[ext_type].append(extension)
 
     def get_by_type(self, name):
         return self.extensions[name]
+
 
 class Extension:
 

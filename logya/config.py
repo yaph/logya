@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import ConfigParser
 
+
 class Config:
     """Site configuration access."""
 
