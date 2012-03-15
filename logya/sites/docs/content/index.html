@@ -1,7 +1,8 @@
+---
 url: /
 title: Logya Documentation
 template: post.html
-
+---
 <p>Logya is a command line tool to generate static Web sites, designed to be easy to use and flexible.</p>
 <p>Content documents contain header information like url, title, scripts and style sheets to use and a body marked up with HTML, they are stored in .html files.</p>
 <p>A site's layout and design are fully controlled by the user, templates are rendered with jinja2.</p>
@@ -38,13 +39,15 @@ template: post.html
 
 <h2>Document Structure</h2>
 <p>Documents are basically html files containing the content of a page with header information to specify title, url, description, scripts and style sheets to include and self defined variables that can be accessed in templates.</p>
-<p>The header of this file looks like:</p>
 <pre>
+---
 url: /
 title: Logya Documentation
 template: post.html
+---
+&lt;h1&gt;This is a heading&lt;/h1&gt;<br/>&lt;p&gt;This is a paragraph&lt;/p&gt;
 </pre>
-<p>The content is what you read right now ;)</p>
+<p>The header is in <a href="http://yaml.org/">YAML</a> format. It starts and ends with 3 dashes. The remaining part of the document is treated as the content that goes in the body of the created HTML page. This content can be marked up with any HTML tags that can be in the body of an HTML document.</p>
 
 <h2>Configuration Settings</h2>
 <p>Below you find configuration sections and settings:</p>

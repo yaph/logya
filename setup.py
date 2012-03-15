@@ -30,6 +30,10 @@ setup(
     packages=find_packages(),
     package_data={'logya': get_package_data()},
     #test_suite='tests.all_tests',
+    install_requires=(
+        'Jinja2',
+        'PyYAML'
+    ),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

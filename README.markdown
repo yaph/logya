@@ -11,6 +11,7 @@ to use and flexible.
 # Requirements
 * [Python 2.7](http://python.org/)
 * [Jinja2](http://jinja.pocoo.org/)
+* [PyYAML](http://pyyaml.org/)
 
 # Directory Structure
 
@@ -29,31 +30,31 @@ The following folders and files are recognized when generating a Web site with L
 * site.cfg - required
 * static - optional
 
-# Known issues in 1.1dev
+# Known issues in 2.1dev
 * python run_tests raises "ImportError: cannot import name TestLogya" when both text_extensions and test_writer tests are imported
 
 # Roadmap
 
-## Version 1.1
+## Version 2.1
 
 * move common functions to common.py
 * provide extension hooks in build_indexes and DocParser
 * add support for default scripts and styles in site configuration
 * add tags extension
 
-## Version 1.2
+## Version 2.2
 
 * use rst for README?
 * move roadmap to docs?
 * options to enable and or disable extensions in site configuration
 * implement scripts and styles as extensions that process multi value document header fields
 
-## Version 1.3
+## Version 2.3
 
 * RSS feed generation from indexes as extension
 * XML and HTML sitemap generation as extension
 
-## Version 1.4
+## Version 2.4
 
 * Add logya extension create name command
 * minify and concatenate CSS and JS
