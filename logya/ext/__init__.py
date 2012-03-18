@@ -14,7 +14,7 @@ class ExtensionLoader():
             extension.set_module_name(modname)
             extension.set_directory(os.path.dirname(module.__file__))
             ext_type = extension.get_type()
-            if not ext_type in self.extensions:
+            if ext_type not in self.extensions:
                 self.extensions[ext_type] = []
             self.extensions[ext_type].append(extension)
 

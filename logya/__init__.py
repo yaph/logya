@@ -86,7 +86,7 @@ class Logya(object):
     def update_index(self, doc, index):
         """Add a doc to given index."""
 
-        if not index in self.indexes:
+        if index not in self.indexes:
             self.indexes[index] = []
         self.indexes[index].append(doc)
 
@@ -111,7 +111,7 @@ class Logya(object):
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
             # ignore documents that have no url
-            if not 'url' in doc:
+            if 'url' not in doc:
                 continue
             self.update_indexes(doc)
             self.docs_parsed[doc['url']] = doc
@@ -124,7 +124,7 @@ class Logya(object):
 
         url_path = '/%s' % os.path.join(directory, self.index_filename)
         # make sure there exists no document at the index path
-        if not url_path in self.docs_parsed:
+        if url_path not in self.docs_parsed:
             docs = sorted(self.indexes[directory],
                           key=itemgetter('created'),
                           reverse=True)

@@ -23,8 +23,8 @@ class DocParser():
         self.parsed = yaml.load(header)
         self.parsed['body'] = body
 
-        # override created time with file modification time if not set
-        if not 'created' in self.parsed:
-            self.parsed['created'] = datetime.fromtimestamp(stat.st_mtime).isoformat()
+        # use file modification time if created is not set
+        if 'created' not in self.parsed:
+            self.parsed['created'] = datetime.fromtimestamp(stat.st_mtime)
 
         return self.parsed

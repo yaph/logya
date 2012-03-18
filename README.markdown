@@ -1,34 +1,13 @@
 Logya is a static Web site generator written in Python designed to be easy
 to use and flexible.
 
-# Features
-* Create responsive static Web sites
-* Built-in Web server with info level logging for immediate editing feedback
-* Commands for site creation, generation, and serving
-* Automatic generation of document indexes in created directories
-* Site configuration
+Please see the [documentation](http://yaph.github.com/logya/) for more information on how to use logya for creating Web sites.
 
-# Requirements
-* [Python 2.7](http://python.org/)
-* [Jinja2](http://jinja.pocoo.org/)
-* [PyYAML](http://pyyaml.org/)
-
-# Directory Structure
-
-## Logya Source
+# Logya Source Directory Structure
 * logya       all logya source files needed for running
     * ext       extension modules
     * sites     barebone example Web sites
 * tests
-
-## Site Source
-
-The following folders and files are recognized when generating a Web site with Logya.
-
-* content - required
-* templates - required
-* site.cfg - required
-* static - optional
 
 # Known issues in 2.1dev
 * python run_tests raises "ImportError: cannot import name TestLogya" when both text_extensions and test_writer tests are imported
@@ -37,9 +16,9 @@ The following folders and files are recognized when generating a Web site with L
 
 ## Version 2.1
 
+* Inform users during generate when doc URL is used more the once
 * move common functions to common.py
 * provide extension hooks in build_indexes and DocParser
-* add support for default scripts and styles in site configuration
 * add tags extension
 
 ## Version 2.2
