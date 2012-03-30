@@ -30,7 +30,6 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 ## Version 2.3
 
-* RSS feed generation from indexes as extension
 * XML and HTML sitemap generation as extension
 
 ## Version 2.4

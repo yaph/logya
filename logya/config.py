@@ -21,3 +21,6 @@ class Config:
                 return False
         else:
             return val
+
+    def items(self, section):
+        return self.config.items(section)

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import datetime
+import PyRSS2Gen
 from operator import itemgetter
 from config import Config
 from docreader import DocReader
@@ -25,6 +27,8 @@ class Logya(object):
 
         self.index_filename = 'index.html'
 
+        self.feed_limit = 10
+
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
 
@@ -37,12 +41,18 @@ class Logya(object):
 
         dir_templates = self.get_path('templates', required=True)
         self.template = Template(dir_templates)
-        self.template.add_var('base_path', self.config.get('site', 'base_path'))
+
+        # make all settings in site section available to templates
+        for key, val in self.config.items('site'):
+            self.template.add_var(key, val)
 
         # optional directory with static files like style sheets, scripts and images
         self.dir_static = self.get_path('static')
 
         self.dir_dst = self.get_path('deploy')
+
+        # feeds are only generated, if base_url is set in site section of config
+        self.base_url = self.config.get('site', 'base_url')
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -119,6 +129,42 @@ class Logya(object):
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
 
+    def write_rss(self, directory, docs):
+        """Write RSS 2.0 XML file in target directory"""
+
+        items = []
+        for d in docs[0:self.feed_limit]:
+            # omit start page
+            if '/' == d['url']:
+                continue
+
+            url = self.base_url + d['url']
+            title = d['title']
+
+            description = title
+            # TODO make sure description is set in Parser class
+            if 'description' in d:
+                description = d['description']
+
+            items.append(PyRSS2Gen.RSSItem(
+                title = title,
+                link = url,
+                description = description,
+                guid = url,
+                pubDate = d['created']))
+
+        rss = PyRSS2Gen.RSS2(
+            title = directory,
+            link = self.base_url + os.path.join('/', directory, 'rss.xml'),
+            description = directory,
+            lastBuildDate = datetime.datetime.now(),
+            items = items)
+
+        rss_file_name = os.path.join(self.dir_dst, directory, 'rss.xml')
+        rss_file = open(rss_file_name, 'w')
+        rss.write_xml(rss_file)
+        rss_file.close()
+
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
@@ -130,12 +176,16 @@ class Logya(object):
                           reverse=True)
 
             self.template.add_var('index', docs)
-            self.template.add_var('title', directory)
+            self.template.add_var('directory', directory)
 
             page = self.template.get_env().get_template(template)
             filewriter.write(filewriter.getfile(self.dir_dst, directory),
                              page.render(self.template.get_vars())
                              .encode('utf-8'))
+
+            # write directory RSS file
+            if self.base_url:
+                self.write_rss(directory, docs)
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
@@ -149,3 +199,10 @@ class Logya(object):
 
         for directory in self.indexes.keys():
             self.write_index(FileWriter(), directory, template)
+
+        # write root RSS file
+        if self.base_url:
+            docs = sorted(self.docs_parsed.values(),
+                          key=itemgetter('created'),
+                          reverse=True)
+            self.write_rss('', docs)

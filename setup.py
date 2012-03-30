@@ -32,7 +32,8 @@ setup(
     #test_suite='tests.all_tests',
     install_requires=(
         'Jinja2',
-        'PyYAML'
+        'PyYAML',
+        'PyRSS2Gen'
     ),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
