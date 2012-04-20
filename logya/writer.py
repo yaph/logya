@@ -56,6 +56,8 @@ class DocWriter(FileWriter):
     def set_template_vars(self, doc):
         """Set template variables."""
 
+        # start with an empty vars dictionary to not retain previous doc values
+        self.template.reset_vars()
         for field, val in doc.items():
             if isinstance(val, str):
                 val = val.decode('utf-8')

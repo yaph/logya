@@ -18,6 +18,10 @@ class Template():
 
         return self.env
 
+    def reset_vars(self):
+        """Empty vars dictionary."""
+        self.vars = {}
+
     def add_var(self, name, value):
         """Add to template variables."""
 
