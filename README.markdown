@@ -11,6 +11,8 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 # Known issues in 2.1dev
 * python run_tests raises "ImportError: cannot import name TestLogya" when both text_extensions and test_writer tests are imported
+* preview image gets added to all posts when post template contains the following condition
+{% if image %}<div class="well post_image"><img src="{{image}}" alt="{{title}}"></div>{% endif %}
 
 # Roadmap
 
