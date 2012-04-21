@@ -190,7 +190,7 @@ class Logya(object):
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
 
-        If there is no template file specified in configuration indexes won't be written.
+        If no template file is specified in configuration indexes won't be written.
         """
 
         template = self.config.get('templates', 'index')

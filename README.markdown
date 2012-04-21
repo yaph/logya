@@ -16,6 +16,7 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 ## Version 2.1
 
+* Refactor template var setting and getting, fixes are ugly
 * Inform users during generate when doc URL is used more the once
 * move common functions to common.py
 * provide extension hooks in build_indexes and DocParser

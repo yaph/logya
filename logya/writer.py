@@ -56,12 +56,12 @@ class DocWriter(FileWriter):
     def set_template_vars(self, doc):
         """Set template variables."""
 
-        # start with an empty vars dictionary to not retain previous doc values
-        self.template.reset_vars()
+        # start with an empty doc vars dictionary to not retain previous doc values
+        self.template.empty_doc_vars()
         for field, val in doc.items():
             if isinstance(val, str):
                 val = val.decode('utf-8')
-            self.template.add_var(field, val)
+            self.template.add_doc_var(field, val)
 
     def write(self, doc, template):
         """Render and write document to created file.
@@ -76,5 +76,5 @@ class DocWriter(FileWriter):
         page = self.template.get_env().get_template(template)
 
         out = self.getfile(self.dir_dst, doc['url'])
-        out.write(page.render(self.template.get_vars()).encode('utf-8'))
+        out.write(page.render(self.template.get_all_vars()).encode('utf-8'))
         out.close()

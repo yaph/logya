@@ -10,6 +10,7 @@ class Template():
         """Initialize template environment."""
 
         self.vars = {}
+        self.doc_vars = {}
         self.dir_templates = dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
 
@@ -18,14 +19,20 @@ class Template():
 
         return self.env
 
-    def reset_vars(self):
-        """Empty vars dictionary."""
-        self.vars = {}
-
     def add_var(self, name, value):
         """Add to template variables."""
 
         self.vars[name] = value
+
+    def add_doc_var(self, name, value):
+        """Add to template variables."""
+
+        self.doc_vars[name] = value
+
+    def empty_doc_vars(self):
+        """Empty doc_vars dictionary."""
+
+        self.doc_vars = {}
 
     def get_var(self, name):
         """Return value of template variables with given name."""
@@ -33,12 +40,20 @@ class Template():
         return self.vars[name]
 
     def get_vars(self):
-        """Return all template variables."""
+        """Return non doc-specific template variables."""
 
         return self.vars
 
+    def get_all_vars(self):
+        """Return alltemplate variables combines."""
+
+        all_vars = self.vars.copy()
+        all_vars.update(self.doc_vars)
+        return all_vars
+
 
 class TemplateLoader(BaseLoader):
+
     """Class to handle template Loading."""
 
     def __init__(self, path):
