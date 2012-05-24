@@ -10,7 +10,7 @@ from docparser import DocParser
 from template import Template
 from writer import FileWriter
 
-__version__ = '2.0dev'
+__version__ = '2.0alpha'
 
 
 class Logya(object):

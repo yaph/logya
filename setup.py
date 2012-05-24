@@ -43,7 +43,6 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 2.7',
         'Topic :: Internet :: WWW/HTTP :: Site Management'],
-    install_requires=['distribute', 'jinja2'],
     entry_points={
         'console_scripts': [
             'logya = logya.main:main'
