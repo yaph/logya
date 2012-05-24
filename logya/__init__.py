@@ -156,6 +156,12 @@ class Logya(object):
         self.template.add_var('indexes', self.indexes)
 
 
+    def index_title(self, s):
+        """Title for index pages, usually created from directory paths."""
+
+        return ' - '.join(s.split('/')).title()
+
+
     def write_rss(self, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
 
@@ -181,7 +187,7 @@ class Logya(object):
                 pubDate = d['created']))
 
         rss = PyRSS2Gen.RSS2(
-            title = directory,
+            title = self.index_title(directory),
             link = self.base_url + os.path.join('/', directory, 'rss.xml'),
             description = directory,
             lastBuildDate = datetime.datetime.now(),
@@ -204,7 +210,7 @@ class Logya(object):
                           reverse=True)
 
             self.template.add_var('index', docs)
-            self.template.add_var('title', ' - '.join(directory.split('/')).title())
+            self.template.add_var('title', self.index_title(directory))
             self.template.add_var('directory', directory)
 
             page = self.template.get_env().get_template(template)
