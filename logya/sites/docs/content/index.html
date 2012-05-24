@@ -99,7 +99,7 @@ tags: [example tag 1, example tag 2, example tag 3]
 <pre>
 {% if tag_links %}
   {% for url, anchor in tag_links %}
-    <span class="tag"><a href="{{url|e}}">{{anchor|e}}</a></span>
+    &lt;span class=&quot;tag&quot;&gt;&lt;a href=&quot;{{url|e}}&quot;&gt;{{anchor|e}}&lt;/a&gt;&lt;/span&gt;
   {% endfor %}
 {% endif %}
 </pre>
