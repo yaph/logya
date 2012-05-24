@@ -88,6 +88,22 @@ created: 2012-03-18 13:59:16
 <h3>Document Header</h3>
 <p>Each document must specify the <code>url</code> and <code>title</code> attributes in the header, all other attributes are optional. Attribute values can range from simple strings to nested data structures that are automatically available in templates.</p>
 <p>The only exception with a pre-defined value format is the <code>created</code> attribute. If you set it, it must adhere to the format <code>YYYY-MM-DDTHH:MM:SS</code> without surrounding quotes as shown in the example above. If you don't set the creation time in a document header, the file modification time will be used for sorting documents in indexes.</p>
+
+<h3>Tags</h3>
+<p>You can tag documents using the <code>tags</code> attribute, which is assigned a list of comma separated tags, for example:</p>
+<pre>
+tags: [example tag 1, example tag 2, example tag 3]
+</pre>
+<p>If you specify document tags the <code>tags</code> sub-directory will be created containing indexes with links to the corresponding documents, in this case don't create document URLs that start with <code>/tags/</code>.</p>
+<p>To create a list of links to these index pages from a post you can access the <code>tags_links</code> template variable, which is populated automatically and mustn't be specified manually in the document header:</p>
+<pre>
+{% if tag_links %}
+  {% for url, anchor in tag_links %}
+    <span class="tag"><a href="{{url|e}}">{{anchor|e}}</a></span>
+  {% endfor %}
+{% endif %}
+</pre>
+
 <h2>Configuration Settings</h2>
 <p>Below you find configuration sections and settings:</p>
 
