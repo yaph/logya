@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import datetime
 import PyRSS2Gen
 from operator import itemgetter
@@ -14,6 +15,8 @@ __version__ = '2.0dev'
 
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
+
+    re_url_replace = re.compile(r'[\s_]+')
 
     def __init__(self, **kwargs):
         """Set required logya object properties."""
@@ -54,16 +57,19 @@ class Logya(object):
         # feeds are only generated, if base_url is set in site section of config
         self.base_url = self.config.get('site', 'base_url')
 
+
     def info(self, msg):
         """Print message if in verbose mode."""
 
         if self.verbose:
             print msg
 
+
     def set_dir_current(self, dir_current):
         """Called from tests."""
 
         self.dir_current = dir_current
+
 
     def get_path(self, name, required=False):
         """Get path relative to current working directory for given name.
@@ -76,6 +82,7 @@ class Logya(object):
             raise Exception('Resource at path "%s" does not exist.' % path)
         return path
 
+
     def get_doc_template(self, doc):
         """Try to get template setting from doc otherwise from configuration."""
 
@@ -85,6 +92,7 @@ class Logya(object):
             template = self.config.get('templates', 'doc')
         return template
 
+
     def get_dirs_from_path(self, url):
         """Returns a list of directories from given url.
 
@@ -93,6 +101,7 @@ class Logya(object):
 
         return filter(None, url.strip('/').split('/'))[:-1]
 
+
     def update_index(self, doc, index):
         """Add a doc to given index."""
 
@@ -100,14 +109,28 @@ class Logya(object):
             self.indexes[index] = []
         self.indexes[index].append(doc)
 
-    def update_indexes(self, doc):
-        """Add a doc to indexes determined from doc url."""
 
-        dirs = self.get_dirs_from_path(doc['url'])
+    def update_indexes(self, doc, url):
+        """Add a doc to indexes determined from given url."""
+
+        dirs = self.get_dirs_from_path(url)
         last = 0
         for d in dirs:
             last += 1
             self.update_index(doc, '/'.join(dirs[:last]))
+
+
+    def update_tags(self, doc):
+        """Update index of tags."""
+
+        for tag in doc['tags']:
+            url = '/tags/%s/' % re.sub(self.re_url_replace, '-', tag).lower()
+            if 'tag_links' not in doc:
+                doc['tag_links'] = []
+            doc['tag_links'].append((url, tag))
+            # must append path after tag string to create subdir
+            self.update_indexes(doc, url + 'index.html')
+
 
     def build_indexes(self):
         """Build indexes of documents for content directories to be created."""
@@ -123,11 +146,15 @@ class Logya(object):
             # ignore documents that have no url
             if 'url' not in doc:
                 continue
-            self.update_indexes(doc)
-            self.docs_parsed[doc['url']] = doc
+            url = doc['url']
+            self.update_indexes(doc, url)
+            if 'tags' in doc:
+                self.update_tags(doc)
+            self.docs_parsed[url] = doc
 
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
+
 
     def write_rss(self, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
@@ -165,6 +192,7 @@ class Logya(object):
         rss.write_xml(rss_file)
         rss_file.close()
 
+
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
@@ -176,6 +204,7 @@ class Logya(object):
                           reverse=True)
 
             self.template.add_var('index', docs)
+            self.template.add_var('title', ' - '.join(directory.split('/')).title())
             self.template.add_var('directory', directory)
 
             page = self.template.get_env().get_template(template)
@@ -186,6 +215,7 @@ class Logya(object):
             # write directory RSS file
             if self.base_url:
                 self.write_rss(directory, docs)
+
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.

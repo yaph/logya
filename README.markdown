@@ -20,7 +20,6 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 * Inform users during generate when doc URL is used more the once
 * move common functions to common.py
 * provide extension hooks in build_indexes and DocParser
-* add tags extension
 
 ## Version 2.2
 
