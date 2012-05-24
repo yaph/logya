@@ -102,12 +102,10 @@ class Logya(object):
         return filter(None, url.strip('/').split('/'))[:-1]
 
 
-    def update_index(self, doc, index):
-        """Add a doc to given index."""
+    def update_index(self, doc, path):
+        """Add a doc to given path index."""
 
-        if index not in self.indexes:
-            self.indexes[index] = []
-        self.indexes[index].append(doc)
+        self.indexes[path] = self.indexes.get(path, []) + [doc]
 
 
     def update_indexes(self, doc, url):
@@ -125,11 +123,9 @@ class Logya(object):
 
         for tag in doc['tags']:
             url = '/tags/%s/' % re.sub(self.re_url_replace, '-', tag).lower()
-            if 'tag_links' not in doc:
-                doc['tag_links'] = []
-            doc['tag_links'].append((url, tag))
+            doc['tag_links'] = doc.get('tag_links', []) + [(url, tag)]
             # must append path after tag string to create subdir
-            self.update_indexes(doc, url + 'index.html')
+            self.update_indexes(doc, url + self.index_filename)
 
 
     def build_indexes(self):
@@ -209,6 +205,8 @@ class Logya(object):
                           key=itemgetter('created'),
                           reverse=True)
 
+            # remove the file name part if it's index.html
+            self.template.add_var('url', url_path.replace(self.index_filename, ''))
             self.template.add_var('index', docs)
             self.template.add_var('title', self.index_title(directory))
             self.template.add_var('directory', directory)
