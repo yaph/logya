@@ -14,6 +14,12 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 # Roadmap
 
+## Version 2.0
+
+* make a useful tags index pages
+* multiple feeds with main feed first on tags pages?
+* make tags dir configurable in site.cfg?
+
 ## Version 2.1
 
 * Refactor template var setting and getting, fixes are ugly
