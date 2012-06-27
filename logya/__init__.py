@@ -148,6 +148,12 @@ class Logya(object):
                 self.update_tags(doc)
             self.docs_parsed[url] = doc
 
+        # sort indexes by descending docs creation dates
+        for idx in self.indexes:
+            self.indexes[idx] = sorted(self.indexes[idx],
+                                       key=itemgetter('created'),
+                                       reverse=True)
+
         # make indexes available to templates
         self.template.add_var('indexes', self.indexes)
 
@@ -201,9 +207,7 @@ class Logya(object):
         url_path = '/%s' % os.path.join(directory, self.index_filename)
         # make sure there exists no document at the index path
         if url_path not in self.docs_parsed:
-            docs = sorted(self.indexes[directory],
-                          key=itemgetter('created'),
-                          reverse=True)
+            docs = self.indexes[directory]
 
             # remove the file name part if it's index.html
             self.template.add_var('url', url_path.replace(self.index_filename, ''))
