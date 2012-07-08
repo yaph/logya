@@ -140,13 +140,16 @@ class Logya(object):
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
             # ignore documents that have no url
-            if 'url' not in doc:
-                continue
+            if 'url' not in doc: continue
             url = doc['url']
-            self.update_indexes(doc, url)
-            if 'tags' in doc:
-                self.update_tags(doc)
             self.docs_parsed[url] = doc
+
+            # don't index documents with noindex set
+            if 'noindex' in doc and doc['noindex']: continue
+
+            self.update_indexes(doc, url)
+            if 'tags' in doc: self.update_tags(doc)
+
 
         # sort indexes by descending docs creation dates
         for idx in self.indexes:
