@@ -147,6 +147,8 @@ class Logya(object):
             # don't index documents with noindex set
             if 'noindex' in doc and doc['noindex']: continue
 
+            # add to special __index__ for RSS generation
+            self.update_indexes(doc, '__index__/index/')
             self.update_indexes(doc, url)
             if 'tags' in doc: self.update_tags(doc)
 
@@ -243,7 +245,7 @@ class Logya(object):
 
         # write root RSS file
         if self.base_url:
-            docs = sorted(self.docs_parsed.values(),
+            docs = sorted(self.indexes['__index__'],
                           key=itemgetter('created'),
                           reverse=True)
             self.write_rss('', docs)
