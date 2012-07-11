@@ -16,6 +16,7 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 ## Version 2.0
 
+* add env var in config to set the evironment, if env is set to "dev" additional values will be read fom site_dev.cfg and override existing ones
 * make a useful tags index pages
 * multiple feeds with main feed first on tags pages?
 * make tags dir configurable in site.cfg?
@@ -40,8 +41,9 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
 
 ## Version 2.4
 
-* Add logya extension create name command
-* minify and concatenate CSS and JS
+* Add `logya ext create EXTNAME` command
+* minify and concatenate CSS and JS, see
+    * http://pypi.python.org/pypi/slimit/
 
 ## Further Plans and Ideas
 

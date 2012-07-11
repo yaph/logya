@@ -32,6 +32,10 @@ class Logya(object):
 
         self.feed_limit = 10
 
+        # a dictionary of parsed documents indexed by resource paths
+        self.docs_parsed = {}
+
+
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
 
@@ -44,6 +48,8 @@ class Logya(object):
 
         dir_templates = self.get_path('templates', required=True)
         self.template = Template(dir_templates)
+
+        self.dir_bin = self.get_path('bin')
 
         # make all settings in site section available to templates
         for key, val in self.config.items('site'):
@@ -108,7 +114,7 @@ class Logya(object):
         self.indexes[path] = self.indexes.get(path, []) + [doc]
 
 
-    def update_indexes(self, doc, url):
+    def _update_indexes(self, doc, url):
         """Add a doc to indexes determined from given url."""
 
         dirs = self.get_dirs_from_path(url)
@@ -118,6 +124,17 @@ class Logya(object):
             self.update_index(doc, '/'.join(dirs[:last]))
 
 
+    def update_indexes(self, doc, url):
+        """Add all indexes for doc determined from headers."""
+
+        # don't index documents with noindex set
+        if 'noindex' in doc and doc['noindex']: return
+        self._update_indexes(doc, doc['url'])
+        # add to special __index__ for RSS generation
+        self._update_indexes(doc, '__index__/index/')
+        if 'tags' in doc: self.update_tags(doc)
+
+
     def update_tags(self, doc):
         """Update index of tags."""
 
@@ -125,14 +142,11 @@ class Logya(object):
             url = '/tags/%s/' % re.sub(self.re_url_replace, '-', tag).lower()
             doc['tag_links'] = doc.get('tag_links', []) + [(url, tag)]
             # must append path after tag string to create subdir
-            self.update_indexes(doc, url + self.index_filename)
+            self._update_indexes(doc, url + self.index_filename)
 
 
     def build_indexes(self):
         """Build indexes of documents for content directories to be created."""
-
-        # a dictionary of parsed documents indexed by resource paths
-        self.docs_parsed = {}
 
         # a dictionary of indexes with parsed documents
         self.indexes = {}
@@ -144,14 +158,8 @@ class Logya(object):
             url = doc['url']
             self.docs_parsed[url] = doc
 
-            # don't index documents with noindex set
-            if 'noindex' in doc and doc['noindex']: continue
-
-            # add to special __index__ for RSS generation
-            self.update_indexes(doc, '__index__/index/')
+        for url, doc in self.docs_parsed.items():
             self.update_indexes(doc, url)
-            if 'tags' in doc: self.update_tags(doc)
-
 
         # sort indexes by descending docs creation dates
         for idx in self.indexes:
@@ -249,3 +257,22 @@ class Logya(object):
                           key=itemgetter('created'),
                           reverse=True)
             self.write_rss('', docs)
+
+
+    def get_execs(self, path):
+        """Generator yielding paths to executable files in given directory."""
+
+        for p in os.listdir(path):
+            fpath = os.path.join(path, p)
+            if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
+                yield fpath
+
+
+    def exec_bin(self):
+        """Execute binary files in bin dir."""
+
+        dir_bin = self.get_path('bin')
+        if os.path.exists(dir_bin):
+            args = {'logya': self}
+            for exe in self.get_execs(dir_bin):
+                execfile(exe, args)

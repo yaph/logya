@@ -24,6 +24,7 @@ template: post.html
 <li>Site configuration</li>
 <li>No server side scripting security issues</li>
 <li>RSS feed generation for directories</li>
+<li>Execute code in bin dir during generation and serving</li>
 </ul>
 
 <h2>Requirements</h2>
@@ -72,6 +73,9 @@ template: post.html
 <p>This file contains the site configuration.</p>
 <h3>static - optional</h3>
 <p>This static directory contains all static resources like JavaScript, CSS, image, and server configuration files.</p>
+<h3>bin - optional</h3>
+<p>This directory contains scripts that are called during generation and serving. Scripts can for example generate pages from content that is fetched from a database or from the web.</p>
+<p>Python scripts can access the logya object via the logya global variable.</p>
 
 <h2>Document Structure</h2>
 <p>Documents are basically html files containing the content of a page with header information to specify title, url, description, scripts and style sheets to include and self defined variables that can be accessed in templates.</p>

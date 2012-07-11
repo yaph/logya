@@ -63,7 +63,8 @@ class Serve(Logya):
                 return "Copied file %s to %s" % (file_src, file_dst)
             return "src %s not newer than dest %s" % (file_src, file_dst)
 
-        # build indexes and docs_parsed dict
+        # newly build generated docs and indexes
+        self.exec_bin()
         self.build_indexes()
 
         # try to get doc at path, regenerate it and return
