@@ -5,18 +5,26 @@ import os
 class FileWriter(object):
     """Class for writing site files."""
 
+    allowed_exts = ['html', 'htm', 'xml', 'json', 'js', 'css', 'php']
 
     def get_canonical_filename(self, name):
         """Get file name from given path or file.
 
         If name is not recognized as a file name a /index.html is added.
+        To be recognized as a file name it must end in one of self.allowed_exts.
         Leading slashes are stripped off.
         """
 
+        # TODO explain this
         if not name.startswith('/'):
             name = '/%s' % name
-        if not os.path.splitext(name)[1]:
+
+        # only allowed extension will be written to a file, otherwise a 
+        # directory with the name is created and content written to index.html
+        fext = os.path.splitext(name)[1]
+        if not fext or fext.lstrip('.') not in self.allowed_exts:
             name = os.path.join(name, 'index.html')
+
         return name.lstrip('/')
 
 
