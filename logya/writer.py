@@ -57,7 +57,7 @@ class DocWriter(FileWriter):
     def set_template_vars(self, doc):
         """Set template variables."""
 
-        # start with an empty doc vars dictionary to not retain previous doc values
+        # empty doc vars dictionary to not retain previous doc values
         self.template.empty_doc_vars()
         for field, val in doc.items():
             if isinstance(val, str):
@@ -71,11 +71,14 @@ class DocWriter(FileWriter):
         Returns False if template is False.
         """
 
-        if not template:
-            return False
+        if not template: return False
+
         self.set_template_vars(doc)
+        tpl_vars = self.template.get_all_vars()
+        tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']
+
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
-        out.write(page.render(self.template.get_all_vars()).encode('utf-8'))
+        out.write(page.render(tpl_vars).encode('utf-8'))
         out.close()
 

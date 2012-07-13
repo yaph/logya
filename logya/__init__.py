@@ -63,6 +63,9 @@ class Logya(object):
         # feeds are only generated, if base_url is set in site section of config
         self.base_url = self.config.get('site', 'base_url')
 
+        if self.base_url is False:
+            raise Exception('base_url not set in site.cfg')
+
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -223,7 +226,9 @@ class Logya(object):
             docs = self.indexes[directory]
 
             # remove the file name part if it's index.html
-            self.template.add_var('url', url_path.replace(self.index_filename, ''))
+            url = url_path.replace(self.index_filename, '')
+            self.template.add_var('url', url)
+            self.template.add_var('canonical', self.base_url + url)
             self.template.add_var('index', docs)
             self.template.add_var('title', self.index_title(directory))
             self.template.add_var('directory', directory)

@@ -1,16 +1,16 @@
 {% if indexes %}
 <nav class="box">
 <ul id="nav">
-<li><a href="{{base_path}}/">Home</a></li>
-{% for i in indexes %}
-<li><a href="{{base_path}}/{{ i }}/">{{ i }}</a>
+<li><a href="{{base_url}}/">Home</a></li>
+{% for i in indexes %}{% if i != '__index__' %}
+<li><a href="{{base_url}}/{{ i }}/">{{ i }}</a>
     <ul class="subnav">
         {% for doc in indexes[i] %}
-            <li><a href="{{base_path}}{{ doc.url }}">{{ doc.title }}</a></li>
+            <li><a href="{{base_url}}{{ doc.url }}">{{ doc.title }}</a></li>
         {% endfor %}
     </ul>
 </li>
-{% endfor %}
+{% endif %}{% endfor %}
 </ul>
 </nav>
 {% endif %}

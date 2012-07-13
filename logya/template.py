@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import urllib
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
 
@@ -13,6 +14,8 @@ class Template():
         self.doc_vars = {}
         self.dir_templates = dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
+        # add urlencode filter to template
+        self.env.filters['urlencode'] = lambda x: urllib.quote_plus(x)
 
     def get_env(self):
         """Return template environment."""

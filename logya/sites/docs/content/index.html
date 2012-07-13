@@ -23,8 +23,10 @@ template: post.html
 <li>Automatic generation of document indexes in created directories</li>
 <li>Site configuration</li>
 <li>No server side scripting security issues</li>
-<li>RSS feed generation for directories</li>
+<li>RSS feed generation for all content directories and tag directories</li>
 <li>Execute code in bin dir during generation and serving</li>
+<li>Canonical URL as <code>canonical</code> variable available in all templates</li>
+<li>Url encoding in templates using the <code>urlencode</code> filter</li>
 </ul>
 
 <h2>Requirements</h2>
@@ -114,10 +116,8 @@ tags: [example tag 1, example tag 2, example tag 3]
 <h3>[site] section</h3>
 <p>All settings in this section will be available to all templates, so names for configuration variables mustn't be used as names in document headers.</dd>
 <dl>
-  <dt>base_path</dt>
-    <dd>Use this if your site is located within a sub directory.</dd>
-  <dt>base_url</dt>
-    <dd>If set RSS feeds will be generated for each sub directory content directory.</dd>
+  <dt><strong>base_url</strong></dt>
+    <dd><code>base_url</code> is the only required setting needed to create the canonical variable and to generate RSS feeds.</dd>
 </dl>
 
 <h3>[templates] section</h3>

@@ -9,7 +9,7 @@ Please see the [documentation](http://yaph.github.com/logya/) for more informati
     * sites     barebone example Web sites
 * tests
 
-# Known issues in 2.1dev
+# Known issues in 2.0dev
 * python run_tests raises "ImportError: cannot import name TestLogya" when both text_extensions and test_writer tests are imported
 
 # Roadmap
