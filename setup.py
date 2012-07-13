@@ -19,7 +19,7 @@ setup(
     name='logya',
     version=__version__,
     description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
-    long_description=open('README.markdown').read(),
+    long_description=open('README.rst').read(),
     url='http://yaph.github.com/logya/',
     author='Ramiro Gómez',
     author_email='web@ramiro.org',

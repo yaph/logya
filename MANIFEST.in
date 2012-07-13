@@ -1,7 +1,7 @@
 include INSTALL
 include LICENSE
 include CHANGES
-include README.markdown
+include README.rst
 
 exclude *.pyc MANIFEST.in
 include setup.py
