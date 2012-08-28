@@ -180,7 +180,7 @@ class Logya(object):
         return ' - '.join(s.split('/')).title()
 
 
-    def write_rss(self, directory, docs):
+    def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
 
         items = []
@@ -205,7 +205,7 @@ class Logya(object):
                 pubDate = d['created']))
 
         rss = PyRSS2Gen.RSS2(
-            title = self.index_title(directory),
+            title = feed_title,
             link = self.base_url + os.path.join('/', directory, 'rss.xml'),
             description = directory,
             lastBuildDate = datetime.datetime.now(),
@@ -240,7 +240,7 @@ class Logya(object):
 
             # write directory RSS file
             if self.base_url:
-                self.write_rss(directory, docs)
+                self.write_rss(self.index_title(directory), directory, docs)
 
 
     def write_indexes(self):
@@ -253,6 +253,10 @@ class Logya(object):
         if not template:
             return
 
+        feed_title = self.config.get('site', 'feed_title')
+        if not feed_title:
+            feed_title = 'RSS Feed'
+
         for directory in self.indexes.keys():
             self.write_index(FileWriter(), directory, template)
 
@@ -261,7 +265,7 @@ class Logya(object):
             docs = sorted(self.indexes['__index__'],
                           key=itemgetter('created'),
                           reverse=True)
-            self.write_rss('', docs)
+            self.write_rss(feed_title, '', docs)
 
 
     def get_execs(self, path):

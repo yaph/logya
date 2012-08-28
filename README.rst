@@ -28,14 +28,16 @@ Version 2.0
 * add env var in config to set the evironment, if env is set to `dev` additional values will be read fom site_dev.cfg and override existing ones
 * make a useful tags index pages
 * make tags dir configurable in site.cfg?
-* minify and merge JS files http://pypi.python.org/pypi/slimit/
+* minify and merge JS files
+    * http://pypi.python.org/pypi/slimit/
+    * http://developmentseed.org/blog/2011/09/09/jekyll-github-pages/#can_it_aggregate_css_and_javascript
 * Refactor template var setting and getting, fixes are ugly
 * Inform users during generate when doc URL is used more the once
 
 Version 2.1
 ~~~~~~~~~~~
 
-* Extensions API
+* Extensions API    http://eli.thegreenplace.net/2012/08/07/fundamental-concepts-of-plugin-infrastructures/
 * provide extension hooks in build_indexes and DocParser
 * options to enable and or disable extensions in site configuration
 * shared extensions .logya/ext
