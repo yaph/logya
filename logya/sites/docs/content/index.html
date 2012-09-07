@@ -35,6 +35,7 @@ template: post.html
 <li><a href="http://jinja.pocoo.org/docs">Jinja2</a></li>
 <li><a href="http://pyyaml.org/">PyYAML</a></li>
 <li><a href="http://www.dalkescientific.com/Python/PyRSS2Gen.html">PyRSS2Gen</a></li>
+<li><a href="http://packages.python.org/Markdown/">Markdown</a></li>
 </ul>
 
 <h2>Installation</h2>
@@ -84,7 +85,6 @@ template: post.html
 <h3>Document Header</h3>
 <p>The header is in <a href="http://yaml.org/">YAML</a> format. It starts and ends with 3 dashes. In the header you must specify <code>url</code> and <code>title</code> other attributes such as description, scripts and style sheets are optional. All attributes can be accessed in templates.</p>
 <p>Attribute values can range from simple strings to nested data structures that are automatically available in templates.</p>
-<h4>Created Data</h4>
 <p>The only exception with a pre-defined value format is the <code>created</code> attribute. If you set it, it must adhere to the format <code>YYYY-MM-DDTHH:MM:SS</code> without surrounding quotes as shown in the example. If you don't set the creation time in a document header, the file modification time will be used for sorting documents in indexes.</p>
 <pre>
 ---
