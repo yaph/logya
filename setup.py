@@ -33,7 +33,8 @@ setup(
     install_requires=(
         'Jinja2',
         'PyYAML',
-        'PyRSS2Gen'
+        'PyRSS2Gen',
+        'markdown'
     ),
     classifiers=[
         'Development Status :: 5 - Production/Stable',

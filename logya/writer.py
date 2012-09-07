@@ -5,7 +5,7 @@ import os
 class FileWriter(object):
     """Class for writing site files."""
 
-    allowed_exts = ['html', 'htm', 'xml', 'json', 'js', 'css', 'php']
+    allowed_exts = ['html', 'htm', 'xml', 'json', 'js', 'css', 'php', 'md', 'markdown']
 
     def get_canonical_filename(self, name):
         """Get file name from given path or file.

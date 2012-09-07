@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import yaml
+import markdown
 from datetime import datetime
 
 class DocParser():
@@ -19,6 +20,11 @@ class DocParser():
         pos2 = content.index('---', pos1 + 1)
         header = content[pos1:pos2].strip()
         body = content[pos2+3:].strip()
+
+        # parse body if not HTML
+        fext = os.path.splitext(filename)[1]
+        if '.md' == fext or '.markdown' == fext:
+            body = markdown.markdown(body)
 
         self.parsed = yaml.load(header)
         self.parsed['body'] = body
