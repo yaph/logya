@@ -14,7 +14,7 @@ Logya Source Directory Structure
     * sites     barebone example Web sites
 * tests
 
-Known issues in 2.0dev
+Known issues in 2.0
 ----------------------
 
 * python run_tests raises `ImportError: cannot import name TestLogya` when both text_extensions and test_writer tests are imported
@@ -22,10 +22,10 @@ Known issues in 2.0dev
 Roadmap
 -------
 
-Version 2.0
+Version 2.1
 ~~~~~~~~~~~
 
-* additional indexes as setting in site.cfg indexes=['language', 'tool'] parse them in docparser, names of indexes should not be used as directory names too
+* additional indexes as setting in site.cfg indexes=['language', 'tool'] parse them in docparser, names of indexes should not be used as directory names too ALTERNATIVE specify tags like tools/d3 which may work already
 * add env var in config to set the evironment, if env is set to `dev` additional values will be read fom site_dev.cfg and override existing ones
 * make a useful tags index pages
 * make tags dir configurable in site.cfg?
@@ -35,7 +35,7 @@ Version 2.0
 * Refactor template var setting and getting, fixes are ugly
 * Inform users during generate when doc URL is used more the once
 
-Version 2.1
+Version 2.2
 ~~~~~~~~~~~
 
 * Extensions API    http://eli.thegreenplace.net/2012/08/07/fundamental-concepts-of-plugin-infrastructures/
