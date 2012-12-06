@@ -1,6 +1,7 @@
 #!/bin/bash
 cd logya/sites/docs
 logya gen
+rm -rf /tmp/deploy/
 mv deploy /tmp/
 cd ../../../
 git checkout gh-pages
