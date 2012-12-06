@@ -25,6 +25,7 @@ Roadmap
 Version 2.0
 ~~~~~~~~~~~
 
+* additional indexes as setting in site.cfg indexes=['language', 'tool'] parse them in docparser, names of indexes should not be used as directory names too
 * add env var in config to set the evironment, if env is set to `dev` additional values will be read fom site_dev.cfg and override existing ones
 * make a useful tags index pages
 * make tags dir configurable in site.cfg?
