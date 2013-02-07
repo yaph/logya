@@ -21,7 +21,7 @@ class DocParser():
         header = content[pos1:pos2].strip()
         body = content[pos2+3:].strip()
 
-        # parse body if not HTML
+        # parse body if not HTML/XML
         fext = os.path.splitext(filename)[1]
         if '.md' == fext or '.markdown' == fext:
             body = markdown.markdown(body)
