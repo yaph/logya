@@ -6,6 +6,7 @@ from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 from __init__ import Logya
 from writer import FileWriter, DocWriter
+from urlparse import urlparse
 
 
 class Serve(Logya):
@@ -56,7 +57,8 @@ class Serve(Logya):
 
         # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
-        file_src = os.path.join(self.dir_static, path_rel)
+        # use only the path component and ignore possible query params issue #3
+        file_src = urlparse(os.path.join(self.dir_static, path_rel)).path
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             if self.update_file(file_src, file_dst):
