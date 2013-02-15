@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 import os
 from setuptools import setup, find_packages
-from logya import __version__
-
 
 def get_package_data():
     """Return a list of files in sites dir to include in package."""
@@ -17,7 +15,7 @@ def get_package_data():
 
 setup(
     name='logya',
-    version=__version__,
+    version='2.1',
     description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
     long_description=open('README.rst').read(),
     url='http://yaph.github.com/logya/',
