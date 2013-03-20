@@ -99,11 +99,11 @@ class Serve(Logya):
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""
 
-    def __init__(self, logya, address, port):
-        """Initialize HTTPServer listening on the specified address and port."""
+    def __init__(self, logya, host, port):
+        """Initialize HTTPServer listening on the specified host and port."""
 
         self.logya = logya
-        self.address = address
+        self.host = host
         self.port = port
 
         self.logya.init_env()
@@ -111,13 +111,13 @@ class Server(HTTPServer):
         log_file = os.path.join(self.logya.dir_current, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
 
-        HTTPServer.__init__(self, (address, port), HTTPRequestHandler)
+        HTTPServer.__init__(self, (host, port), HTTPRequestHandler)
 
     def serve(self):
         """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
-        print 'Serving on http://%s:%s/' % (self.address, self.port)
+        print 'Serving on http://%s:%s/' % (self.host, self.port)
         self.serve_forever()
 
 

@@ -24,7 +24,7 @@ def get_package_data():
 
 setup(
     name='logya',
-    version='2.1',
+    version='2.3',
     description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
     long_description=readme,
     url='http://yaph.github.com/logya/',

@@ -19,22 +19,18 @@
           <div id="logo"><a href="{{ base_url }}/" title="Logya a static Web site generator"><img src="{{ base_url }}/img/logya.png" alt="Logya Logo"></a></div>
           <div id="subtitle">Generate Static Web Sites</div>
       </header>
-  
+
       <div id="content" class="box">
           {% block content %}{% endblock %}
       </div>
-  
+
       <footer id="footer">
         <p>Logya documentation site created with <a href="https://github.com/yaph/logya">Logya</a>.</p>
-        <div><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></div>
-        <div><g:plusone annotation="inline"></g:plusone></div>
-        <div><fb:like send="true" width="450" show_faces="true"></fb:like></div>
+        <a class="FlattrButton" href="{{ canonical }}" title="{{ title }}" lang="en_GB">{{ description }}</a>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ canonical }}" data-counturl="{{ canonical }}" data-lang="en" data-count="vertical">Tweet</a>
       </footer>
     </div> <!-- /wrapper -->
-
     {% include 'scripts.html' %}
-
     {% include 'social.html' %}
-
   </body>
 </html>
