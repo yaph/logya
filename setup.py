@@ -3,6 +3,15 @@
 import os
 from setuptools import setup, find_packages
 
+with open('README.rst') as f:
+    readme = f.read()
+
+with open('LICENSE') as f:
+    license = f.read()
+
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 def get_package_data():
     """Return a list of files in sites dir to include in package."""
 
@@ -17,23 +26,18 @@ setup(
     name='logya',
     version='2.1',
     description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
-    long_description=open('README.rst').read(),
+    long_description=readme,
     url='http://yaph.github.com/logya/',
     author='Ramiro Gómez',
-    author_email='web@ramiro.org',
+    author_email='code@ramiro.org',
     maintainer='Ramiro Gómez',
-    maintainer_email='web@ramiro.org',
+    maintainer_email='code@ramiro.org',
     keywords=['Website Generator'],
-    license='MIT',
+    license=license,
     packages=find_packages(),
     package_data={'logya': get_package_data()},
+    install_requires = required,
     #test_suite='tests.all_tests',
-    install_requires=(
-        'Jinja2',
-        'PyYAML',
-        'PyRSS2Gen',
-        'markdown'
-    ),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
