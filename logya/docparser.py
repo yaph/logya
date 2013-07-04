@@ -4,6 +4,7 @@ import yaml
 import markdown
 from datetime import datetime
 
+
 class DocParser():
     """Class for parsing content documents."""
 
@@ -19,7 +20,7 @@ class DocParser():
         pos1 = content.index('---')
         pos2 = content.index('---', pos1 + 1)
         header = content[pos1:pos2].strip()
-        body = content[pos2+3:].strip()
+        body = content[pos2 + 3:].strip()
 
         # parse body if not HTML/XML
         fext = os.path.splitext(filename)[1]

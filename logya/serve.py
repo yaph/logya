@@ -88,7 +88,7 @@ class Serve(Logya):
             return "Refreshed doc at URL: %s" % path
         else:
             # try to refresh auto-generated index file
-            index_paths = self.indexes.keys()
+            index_paths = list(self.indexes.keys())
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
                 template = self.config.get('templates', 'index')
@@ -117,7 +117,7 @@ class Server(HTTPServer):
         """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
-        print 'Serving on http://%s:%s/' % (self.host, self.port)
+        print('Serving on http://%s:%s/' % (self.host, self.port))
         self.serve_forever()
 
 

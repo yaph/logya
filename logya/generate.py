@@ -34,7 +34,7 @@ class Generate(Logya):
         self.build_indexes()
 
         self.info("Write documents to deploy directory")
-        for doc in self.docs_parsed.itervalues():
+        for doc in list(self.docs_parsed.values()):
             self.writer.write(doc, self.get_doc_template(doc))
 
         self.info("Write indexes")

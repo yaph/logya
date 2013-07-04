@@ -5,7 +5,16 @@ import os
 class FileWriter(object):
     """Class for writing site files."""
 
-    allowed_exts = ['html', 'htm', 'xml', 'json', 'js', 'css', 'php', 'md', 'markdown']
+    allowed_exts = (
+        'html',
+        'htm',
+        'xml',
+        'json',
+        'js',
+        'css',
+        'php',
+        'md',
+        'markdown')
 
     def get_canonical_filename(self, name):
         """Get file name from given path or file.
@@ -19,14 +28,13 @@ class FileWriter(object):
         if not name.startswith('/'):
             name = '/%s' % name
 
-        # only allowed extension will be written to a file, otherwise a 
+        # only allowed extension will be written to a file, otherwise a
         # directory with the name is created and content written to index.html
         fext = os.path.splitext(name)[1]
         if not fext or fext.lstrip('.') not in self.allowed_exts:
             name = os.path.join(name, 'index.html')
 
         return name.lstrip('/')
-
 
     def getfile(self, dir_dst, path):
         """Determine file to create and return an open file handle for writing.
@@ -43,7 +51,6 @@ class FileWriter(object):
             os.makedirs(dir_target)
         return open(os.path.join(dir_dst, filename), 'w')
 
-
     def write(self, file, content):
         """Write content to file and close it."""
 
@@ -54,24 +61,21 @@ class FileWriter(object):
 class DocWriter(FileWriter):
     """Class for writing site documents."""
 
-
     def __init__(self, dir_dst, template):
         """Set required properties."""
 
         self.dir_dst = dir_dst
         self.template = template
 
-
     def set_template_vars(self, doc):
         """Set template variables."""
 
         # empty doc vars dictionary to not retain previous doc values
         self.template.empty_doc_vars()
-        for field, val in doc.items():
+        for field, val in list(doc.items()):
             if isinstance(val, str):
                 val = val.decode('utf-8')
             self.template.add_doc_var(field, val)
-
 
     def write(self, doc, template):
         """Render and write document to created file.
@@ -79,7 +83,8 @@ class DocWriter(FileWriter):
         Returns False if template is False.
         """
 
-        if not template: return False
+        if not template:
+            return False
 
         self.set_template_vars(doc)
         tpl_vars = self.template.get_all_vars()
@@ -89,4 +94,3 @@ class DocWriter(FileWriter):
         out = self.getfile(self.dir_dst, doc['url'])
         out.write(page.render(tpl_vars).encode('utf-8'))
         out.close()
-
