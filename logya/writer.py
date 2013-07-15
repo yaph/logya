@@ -84,6 +84,8 @@ class DocWriter(FileWriter):
         """
 
         if not template:
+            print(('Warning: doc %s has no template set and won\'t be created.'
+                % doc['url']))
             return False
 
         self.set_template_vars(doc)
