@@ -4,11 +4,11 @@ import re
 import datetime
 import PyRSS2Gen
 from operator import itemgetter
-from config import Config
-from docreader import DocReader
-from docparser import DocParser
-from template import Template
-from writer import FileWriter
+from logya.config import Config
+from logya.docreader import DocReader
+from logya.docparser import DocParser
+from logya.template import Template
+from logya.writer import FileWriter
 
 
 class Logya(object):
