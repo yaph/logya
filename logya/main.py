@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-from version import __version__
-from create import Create
-from generate import Generate
-from serve import Serve
-from test import Test
+from logya.version import __version__
+from logya.create import Create
+from logya.generate import Generate
+from logya.serve import Serve
+from logya.test import Test
 
 
 def create(args):

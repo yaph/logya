@@ -22,7 +22,7 @@ class ExtensionLoader():
         return self.extensions[name]
 
 
-class Extension:
+class Extension():
 
     __metaclass__ = ABCMeta
 

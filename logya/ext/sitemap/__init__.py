@@ -12,4 +12,4 @@ class Sitemap(Extension):
         return 'index'
 
     def process(self, index):
-        print index
+        print(index)

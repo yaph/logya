@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
-from __init__ import Logya
-from writer import DocWriter
+
+from logya import Logya
+from logya.writer import DocWriter
 
 
 class Generate(Logya):
@@ -39,4 +40,3 @@ class Generate(Logya):
 
         self.info("Write indexes")
         self.write_indexes()
-

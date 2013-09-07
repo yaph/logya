@@ -2,11 +2,12 @@
 import os
 import shutil
 import logging
-from SimpleHTTPServer import SimpleHTTPRequestHandler
-from BaseHTTPServer import HTTPServer
-from __init__ import Logya
-from writer import FileWriter, DocWriter
-from urlparse import urlparse
+
+from logya import Logya
+from logya.compat import urlparse
+from logya.compat import HTTPServer
+from logya.compat import SimpleHTTPRequestHandler
+from logya.writer import FileWriter, DocWriter
 
 
 class Serve(Logya):

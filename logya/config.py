@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import ConfigParser
+from logya.compat import configparser
 
 
 class Config:
@@ -8,7 +8,7 @@ class Config:
     def __init__(self, filename):
         """Create ConfigParser object read from the given file."""
 
-        self.config = ConfigParser.ConfigParser()
+        self.config = configparser.ConfigParser()
         self.config.readfp(open(filename))
 
     def get(self, section, var, required=False):

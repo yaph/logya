@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __init__ import Logya
+from logya import Logya
 
 
 class Test(Logya):
@@ -10,7 +10,7 @@ class Test(Logya):
         super(self.__class__, self).__init__()
         self.init_env()
 
-        from ext import ExtensionLoader
+        from logya.ext import ExtensionLoader
         el = ExtensionLoader()
-        print el.get_by_type('doc')
-        print el.get_by_type('index')
+        print(el.get_by_type('doc'))
+        print(el.get_by_type('index'))
