@@ -26,7 +26,7 @@ if (_ver[0] == 2):
 elif (_ver[0] == 3):
     import configparser
     from urllib.parse import quote_plus
-    from urlparse.parse import urlparse
+    from urllib.parse import urlparse
     from http.server import SimpleHTTPRequestHandler
     from http.server import HTTPServer
 

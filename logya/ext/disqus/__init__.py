@@ -13,4 +13,4 @@ class Disqus(Extension):
         return 'doc'
 
     def process(self, doc):
-        print self.get_directory()
+        print(self.get_directory())
