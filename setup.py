@@ -12,6 +12,7 @@ with open('LICENSE') as f:
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
+
 def get_package_data():
     """Return a list of files in sites dir to include in package."""
 
@@ -24,7 +25,7 @@ def get_package_data():
 
 setup(
     name='logya',
-    version='2.3',
+    version='3.0',
     description='Logya is a static Web site generator written in Python designed to be easy to use and flexible.',
     long_description=readme,
     url='http://yaph.github.com/logya/',
@@ -37,7 +38,6 @@ setup(
     packages=find_packages(),
     package_data={'logya': get_package_data()},
     install_requires = required,
-    #test_suite='tests.all_tests',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -48,7 +48,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Site Management'],
     entry_points={
         'console_scripts': [
-            'logya = logya.main:main'
+            'logya=logya.main:main'
         ]
     }
 )
