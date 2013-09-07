@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ext import Extension
+from logya.ext import Extension
 
 
 def main():

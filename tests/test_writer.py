@@ -23,5 +23,6 @@ class TestFileWriter(unittest.TestCase):
                      'expected':'recipes/veggy.html'}
                     ]
         for paths in testdata:
-            self.assertEqual(self.filewriter.get_canonical_filename(paths['input']),
-                             paths['expected'])
+            self.assertEqual(
+                self.filewriter.get_canonical_filename(paths['input']),
+                paths['expected'])

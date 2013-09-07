@@ -1,12 +1,11 @@
-from __init__ import TestLogya
+import unittest
+from logya import ext
 
-from logya.ext import ExtensionLoader
 
-
-class TestExtensions(TestLogya):
+class TestExtensions(unittest.TestCase):
 
     def setUp(self):
-        self.extension_loader = ExtensionLoader()
+        self.extension_loader = ext.ExtensionLoader()
 
     def test_extension_directories(self):
         extensions = {

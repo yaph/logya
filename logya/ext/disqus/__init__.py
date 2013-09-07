@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # see https://github.com/jarodl/disqus.py
-from ext import Extension
+from logya.ext import Extension
 
 
 def main():
