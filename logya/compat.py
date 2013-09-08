@@ -11,19 +11,9 @@ https://github.com/michaelhelmick/lassie/blob/master/lassie/compat.py
 
 import sys
 
-_ver = sys.version_info
+is3 = sys.version_info[0] == 3
 
-
-if (_ver[0] == 2):
-    import ConfigParser as configparser
-    from urllib import quote_plus
-    from urlparse import urlparse
-    from SimpleHTTPServer import SimpleHTTPRequestHandler
-    from BaseHTTPServer import HTTPServer
-
-    execfile = execfile
-
-elif (_ver[0] == 3):
+if is3:
     import configparser
     from urllib.parse import quote_plus
     from urllib.parse import urlparse
@@ -32,3 +22,17 @@ elif (_ver[0] == 3):
 
     def execfile(exe, args):
         exec(compile(open(exe).read(), exe, 'exec'), args)
+
+    file_open = open
+
+else:
+    import ConfigParser as configparser
+    from urllib import quote_plus
+    from urlparse import urlparse
+    from SimpleHTTPServer import SimpleHTTPRequestHandler
+    from BaseHTTPServer import HTTPServer
+
+    execfile = execfile
+
+    def file_open(name, mode, encoding='utf-8'):
+        return open(name, mode)

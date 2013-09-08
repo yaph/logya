@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+from logya.compat import file_open as open
+from logya.compat import is3
+
 
 class FileWriter(object):
     """Class for writing site files."""
@@ -73,9 +76,8 @@ class DocWriter(FileWriter):
         # empty doc vars dictionary to not retain previous doc values
         self.template.empty_doc_vars()
         for field, val in list(doc.items()):
-            if isinstance(val, str):
-                #val = val.decode('utf-8')
-                val = val
+            if isinstance(val, str) and not is3:
+                val = val.decode('utf-8')
             self.template.add_doc_var(field, val)
 
     def write(self, doc, template):
@@ -95,6 +97,8 @@ class DocWriter(FileWriter):
 
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
-        #out.write(page.render(tpl_vars).encode('utf-8'))
-        out.write(page.render(tpl_vars))
+        content = page.render(tpl_vars)
+        if not is3:
+            content = content.encode('utf-8')
+        out.write(content)
         out.close()

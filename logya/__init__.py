@@ -4,7 +4,9 @@ import re
 import datetime
 import PyRSS2Gen
 from operator import itemgetter
+
 from logya.compat import execfile
+from logya.compat import file_open as open
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.docparser import DocParser

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 from jinja2 import Environment, BaseLoader, TemplateNotFound
+
 from logya.compat import quote_plus
+from logya.compat import file_open as open
 
 
 class Template():
@@ -72,6 +74,5 @@ class TemplateLoader(BaseLoader):
             raise TemplateNotFound(template)
         mtime = os.path.getmtime(path)
         with open(path, 'r', encoding='utf-8') as f:
-            #source = f.read().decode('utf-8')
             source = f.read()
         return source, path, lambda: mtime == os.path.getmtime(path)

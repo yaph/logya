@@ -2,7 +2,9 @@
 import os
 import yaml
 import markdown
+
 from datetime import datetime
+from logya.compat import file_open as open
 
 
 class DocParser():
