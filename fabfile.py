@@ -17,6 +17,7 @@ def release():
 
 
 def git():
+    local('nosetests')
     local('git add . && git commit -a')
 
 
