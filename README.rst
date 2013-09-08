@@ -30,14 +30,6 @@ Quickstart
 Please see the `documentation`_ for more information on how to use logya for
 creating Web sites.
 
-Logya Source Directory Structure
---------------------------------
-
-* logya       all logya source files needed for running
-    * ext       extension modules
-    * sites     barebone example Web sites
-* tests
-
 Sites built with logya
 ----------------------
 
@@ -46,4 +38,4 @@ Sites built with logya
 * http://exploringdata.github.com/
 
 .. _`documentation`: http://yaph.github.com/logya/
-.. _`GitHub Issues`: https://github.com/yaph/logya/issues?state=open
+.. _`GitHub Issues`: https://github.com/yaph/logya/issues
