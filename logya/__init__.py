@@ -4,6 +4,7 @@ import re
 import datetime
 import PyRSS2Gen
 from operator import itemgetter
+from logya.compat import execfile
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.docparser import DocParser
@@ -100,7 +101,10 @@ class Logya(object):
         The last directory is omitted as it contains and index.html file
         containing the content of the appropriate document."""
 
-        return filter(None, url.strip('/').split('/'))[:-1]
+        dirs = [f for f in url.strip('/').split('/') if f]
+        if dirs:
+            dirs = dirs[:-1]
+        return dirs
 
     def update_index(self, doc, path):
         """Add a doc to given path index."""

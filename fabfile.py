@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from fabric.api import local
+from fabric.api import local, lcd
 
 
 def release():
@@ -14,4 +14,16 @@ def git():
 
 def reinstall():
     local('pip uninstall logya')
-    local('python setup.py logya')
+    local('python setup.py install')
+
+
+def test():
+    local('rm -rf t')
+    local('`which logya` create t')
+    with lcd('t'):
+        local('`which logya` gen')
+
+
+def rt():
+    reinstall()
+    test()

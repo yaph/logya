@@ -21,6 +21,7 @@ if (_ver[0] == 2):
     from SimpleHTTPServer import SimpleHTTPRequestHandler
     from BaseHTTPServer import HTTPServer
 
+    execfile = execfile
     str = unicode
 
 elif (_ver[0] == 3):
@@ -31,3 +32,6 @@ elif (_ver[0] == 3):
     from http.server import HTTPServer
 
     str = str
+
+    def execfile(exe, args):
+        exec(compile(open(exe).read(), exe, 'exec'), args)

@@ -26,7 +26,9 @@ def test(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Logya a static Web site generator.', version=__version__)
+        description='Logya a static Web site generator.')
+    parser.add_argument(
+        '--version', action='version', version=__version__)
     parser.add_argument(
         '--verbose', action="store_true", default=False, help='print messages')
 
@@ -55,7 +57,8 @@ def main():
 
     # process arguments
     args = parser.parse_args()
-    args.func(args)
+    if getattr(args, 'func', None):
+        args.func(args)
 
 if __name__ == "__main__":
     main()

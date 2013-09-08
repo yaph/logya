@@ -54,7 +54,7 @@ class FileWriter(object):
     def write(self, file, content):
         """Write content to file and close it."""
 
-        file.write(content)
+        file.write(str(content))
         file.close()
 
 

@@ -118,7 +118,7 @@ class Server(HTTPServer):
         """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
-        print('Serving on http://%s:%s/' % (self.host, self.port))
+        print(('Serving on http://%s:%s/' % (self.host, self.port)))
         self.serve_forever()
 
 
