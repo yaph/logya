@@ -2,6 +2,15 @@
 from fabric.api import local, lcd
 
 
+def build_docs():
+    local('python setup.py build_sphinx')
+
+
+def docs():
+    build_docs()
+    local('python setup.py upload_sphinx')
+
+
 def release():
     local('nosetests')
     local('python setup.py sdist upload')
