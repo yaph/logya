@@ -49,12 +49,12 @@ class FileWriter(object):
         dir_target = os.path.join(dir_dst, os.path.dirname(filename))
         if not os.path.exists(dir_target):
             os.makedirs(dir_target)
-        return open(os.path.join(dir_dst, filename), 'w')
+        return open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
 
     def write(self, file, content):
         """Write content to file and close it."""
 
-        file.write(content)
+        file.write(str(content))
         file.close()
 
 
@@ -74,7 +74,8 @@ class DocWriter(FileWriter):
         self.template.empty_doc_vars()
         for field, val in list(doc.items()):
             if isinstance(val, str):
-                val = val.decode('utf-8')
+                #val = val.decode('utf-8')
+                val = val
             self.template.add_doc_var(field, val)
 
     def write(self, doc, template):
@@ -94,5 +95,6 @@ class DocWriter(FileWriter):
 
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
-        out.write(page.render(tpl_vars).encode('utf-8'))
+        #out.write(page.render(tpl_vars).encode('utf-8'))
+        out.write(page.render(tpl_vars))
         out.close()

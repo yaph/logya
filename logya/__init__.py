@@ -204,7 +204,7 @@ class Logya(object):
             items=items)
 
         rss_file_name = os.path.join(self.dir_dst, directory, 'rss.xml')
-        rss_file = open(rss_file_name, 'w')
+        rss_file = open(rss_file_name, 'w', encoding='utf-8')
         rss.write_xml(rss_file)
         rss_file.close()
 
@@ -226,8 +226,7 @@ class Logya(object):
 
             page = self.template.get_env().get_template(template)
             filewriter.write(filewriter.getfile(self.dir_dst, directory),
-                             page.render(self.template.get_vars())
-                             .encode('utf-8'))
+                             page.render(self.template.get_vars()))
 
             # write directory RSS file
             if self.base_url:

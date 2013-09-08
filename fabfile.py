@@ -13,7 +13,7 @@ def git():
 
 
 def reinstall():
-    local('pip uninstall logya')
+    local('pip uninstall -y logya')
     local('python setup.py install')
 
 
