@@ -2,7 +2,7 @@
 import os
 from jinja2 import Environment, BaseLoader, TemplateNotFound
 
-from logya.compat import quote_plus
+from logya.compat import quote_plus, is3
 from logya.compat import file_open as open
 
 
@@ -75,4 +75,6 @@ class TemplateLoader(BaseLoader):
         mtime = os.path.getmtime(path)
         with open(path, 'r', encoding='utf-8') as f:
             source = f.read()
+            if not is3:
+                source = source.decode('utf-8')
         return source, path, lambda: mtime == os.path.getmtime(path)

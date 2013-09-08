@@ -57,7 +57,9 @@ class FileWriter(object):
     def write(self, file, content):
         """Write content to file and close it."""
 
-        file.write(str(content))
+        if not is3:
+            content = content.encode('utf-8')
+        file.write(content)
         file.close()
 
 
