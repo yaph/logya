@@ -109,10 +109,13 @@ class Logya(object):
 
         self.indexes[path] = self.indexes.get(path, []) + [doc]
 
-    def _update_indexes(self, doc):
+    def _update_indexes(self, doc, url=None):
         """Add a doc to indexes determined from given url."""
 
-        dirs = self.get_dirs_from_path(doc['url'])
+        if url is None:
+            url = doc['url']
+
+        dirs = self.get_dirs_from_path(url)
         last = 0
         for d in dirs:
             last += 1
@@ -177,38 +180,17 @@ class Logya(object):
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
 
-        items = []
-        for d in docs[0:self.feed_limit]:
-            # omit start page
-            if '/' == d['url']:
-                continue
+        url = self.base_url + os.path.join('/', directory, 'rss.xml')
+        self.template.add_var('url', url)
+        self.template.add_var('title', feed_title)
+        self.template.add_var('description', directory)
+        self.template.add_var('last_build', datetime.datetime.now())
+        self.template.add_var('items', docs[0:self.feed_limit])
 
-            url = self.base_url + d['url']
-            title = d['title']
-
-            description = title
-            # TODO make sure description is set in Parser class
-            if 'description' in d:
-                description = d['description']
-
-            items.append(PyRSS2Gen.RSSItem(
-                title=title,
-                link=url,
-                description=description,
-                guid=url,
-                pubDate=d['created']))
-
-        rss = PyRSS2Gen.RSS2(
-            title=feed_title,
-            link=self.base_url + os.path.join('/', directory, 'rss.xml'),
-            description=directory,
-            lastBuildDate=datetime.datetime.now(),
-            items=items)
-
-        rss_file_name = os.path.join(self.dir_dst, directory, 'rss.xml')
-        rss_file = open(rss_file_name, 'w', encoding='utf-8')
-        rss.write_xml(rss_file)
-        rss_file.close()
+        writer = FileWriter()
+        page = self.template.env.get_template('rss2.xml')
+        fh = writer.getfile(self.dir_dst, os.path.join(directory, 'rss.xml'))
+        writer.write(fh, page.render(self.template.get_vars()))
 
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
@@ -226,7 +208,7 @@ class Logya(object):
             self.template.add_var('title', self.index_title(directory))
             self.template.add_var('directory', directory)
 
-            page = self.template.get_env().get_template(template)
+            page = self.template.env.get_template(template)
             filewriter.write(filewriter.getfile(self.dir_dst, directory),
                              page.render(self.template.get_vars()))
 
