@@ -20,3 +20,4 @@ Features
 * Execute code in bin dir during generation and serving
 * Canonical URL as ``canonical`` variable available in all templates
 * Url encoding in templates using the ``urlencode`` filter
+* Disqus integration via templates and configuration

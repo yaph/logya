@@ -50,7 +50,7 @@ class Template():
         return self.vars
 
     def get_all_vars(self):
-        """Return alltemplate variables combines."""
+        """Return all template variables combined."""
 
         all_vars = self.vars.copy()
         all_vars.update(self.doc_vars)

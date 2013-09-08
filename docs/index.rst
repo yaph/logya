@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Logya documentation
-===================
+Logya Web Site Generator
+========================
 
 Logya is a command line tool to generate static Web sites, designed to
 be easy to use and flexible.
@@ -25,3 +25,4 @@ Contents:
    recipes
    development
    credits
+   changes
