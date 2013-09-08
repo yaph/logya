@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from logya import Logya
+from logya.core import Logya
 
 
 class Test(Logya):

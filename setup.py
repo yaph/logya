@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from setuptools import setup
+from logya import __version__
 
 with open('README.rst') as f:
     readme = f.read()
@@ -13,7 +14,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='logya',
-    version=3.0,
+    version=__version__,
     description='Logya: easy to use and flexible static Web site generator.',
     long_description=readme,
     url='http://yaph.github.com/logya/',

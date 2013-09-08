@@ -2,7 +2,7 @@
 import os
 import shutil
 
-from logya import Logya
+from logya.core import Logya
 from logya.writer import DocWriter
 
 

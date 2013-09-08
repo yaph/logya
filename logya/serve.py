@@ -3,7 +3,7 @@ import os
 import shutil
 import logging
 
-from logya import Logya
+from logya.core import Logya
 from logya.compat import urlparse
 from logya.compat import HTTPServer
 from logya.compat import SimpleHTTPRequestHandler

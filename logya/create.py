@@ -2,7 +2,7 @@
 import os
 import shutil
 from pkg_resources import resource_filename
-from logya import Logya
+from logya.core import Logya
 
 
 class Create(Logya):

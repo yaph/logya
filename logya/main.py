@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-from logya.version import __version__
+from logya import __version__
 from logya.create import Create
 from logya.generate import Generate
 from logya.serve import Serve
