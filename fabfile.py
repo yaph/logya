@@ -18,7 +18,6 @@ def release():
 
 def git():
     local('git add . && git commit -a')
-    local('git push')
 
 
 def reinstall():

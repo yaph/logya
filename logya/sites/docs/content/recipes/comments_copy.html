@@ -1,0 +1,17 @@
+---
+title: Conditional Comments in Documents
+url: /recipes/conditional-comments-in-documents/
+comments: 1
+---
+<p>Add a document header field <code>comments</code> and give it a value to enable comments for a document:</p>
+<pre>comments: 1</pre>
+<p>If you don't want comments on particular posts just omit the <code>comments</code> header field or don't give it a value:</p>
+<pre>comments:</pre>
+
+<p>In the document's template check for the value of the <code>comments</code> field and add the code for an external comment systems like Disqus or Facebook comments:</p>
+<pre>
+{% if comments %}
+    comments go here
+{% endif %}
+</pre>
+<p>The above code checks that the <code>comments</code> variable exists and has a value, so this will also show the comments section if you enter a value of 0 in the document header.</p>

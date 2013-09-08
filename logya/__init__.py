@@ -155,6 +155,10 @@ class Logya(object):
             if 'url' not in doc:
                 continue
             url = doc['url']
+            # warn user
+            if url in self.docs_parsed:
+                print(('The URL %s is already used and will be overwritten.'
+                    % url))
             self.docs_parsed[url] = doc
 
         for url, doc in list(self.docs_parsed.items()):
