@@ -91,11 +91,7 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Try to get template setting from doc otherwise from configuration."""
 
-        if 'template' in doc:
-            template = doc['template']
-        else:
-            template = self.config.get('templates', 'doc')
-        return template
+        return doc.get('template', self.config.get('templates', 'doc'))
 
     def get_dirs_from_path(self, url):
         """Returns a list of directories from given url.
@@ -113,22 +109,22 @@ class Logya(object):
 
         self.indexes[path] = self.indexes.get(path, []) + [doc]
 
-    def _update_indexes(self, doc, url):
+    def _update_indexes(self, doc):
         """Add a doc to indexes determined from given url."""
 
-        dirs = self.get_dirs_from_path(url)
+        dirs = self.get_dirs_from_path(doc['url'])
         last = 0
         for d in dirs:
             last += 1
             self.update_index(doc, '/'.join(dirs[:last]))
 
-    def update_indexes(self, doc, url):
+    def update_indexes(self, doc):
         """Add all indexes for doc determined from headers."""
 
         # don't index documents with noindex set
         if 'noindex' in doc and doc['noindex']:
             return
-        self._update_indexes(doc, doc['url'])
+        self._update_indexes(doc)
         # add to special __index__ for RSS generation
         self._update_indexes(doc, '__index__/index/')
         if 'tags' in doc:
@@ -161,8 +157,8 @@ class Logya(object):
                     % url))
             self.docs_parsed[url] = doc
 
-        for url, doc in list(self.docs_parsed.items()):
-            self.update_indexes(doc, url)
+        for doc in list(self.docs_parsed.values()):
+            self.update_indexes(doc)
 
         # sort indexes by descending docs creation dates
         for idx in self.indexes:
