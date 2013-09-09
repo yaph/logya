@@ -21,11 +21,12 @@ Quickstart
     logya create mysite
     cd mysite
 
-    # serve the site on http://localhost:8080
-    logya serve
-
     # add content and then generate the site in the deploy directory
     logya gen
+
+    # serve the site from deploy on http://localhost:8080
+    logya serve
+
 
 Please see the `documentation`_ for more information on how to use logya for
 creating Web sites.
@@ -37,5 +38,5 @@ Sites built with logya
 * http://ramiro.org/
 * http://exploringdata.github.com/
 
-.. _`documentation`: http://yaph.github.com/logya/
+.. _`documentation`: http://pythonhosted.org/logya
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues

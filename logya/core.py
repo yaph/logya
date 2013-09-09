@@ -140,7 +140,7 @@ class Logya(object):
             # must append path after tag string to create subdir
             self._update_indexes(doc, url + self.index_filename)
 
-    def build_indexes(self):
+    def build_indexes(self, mode=None):
         """Build indexes of documents for content directories to be created."""
 
         # a dictionary of indexes with parsed documents
@@ -152,8 +152,8 @@ class Logya(object):
             if 'url' not in doc:
                 continue
             url = doc['url']
-            # warn user
-            if url in self.docs_parsed:
+            # warn user about duplicate URLs when not in serve mode
+            if 'serve' != mode and url in self.docs_parsed:
                 print(('The URL %s is already used and will be overwritten.'
                     % url))
             self.docs_parsed[url] = doc
