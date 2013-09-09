@@ -13,18 +13,25 @@ from logya.writer import FileWriter, DocWriter
 class Serve(Logya):
     """Serve files from deploy directory."""
 
+    host = 'localhost'
+    port = 8080
+
     def __init__(self, **kwargs):
 
-        host = 'localhost'
         if 'host' in kwargs and kwargs['host']:
-            host = kwargs['host']
+            self.host = kwargs['host']
 
-        port = 8080
         if 'port' in kwargs and kwargs['port']:
-            port = kwargs['port']
+            self.port = kwargs['port']
 
-        super(self.__class__, self).__init__()
-        Server(self, host, port).serve()
+        super(Serve, self).__init__()
+        Server(self).serve()
+
+    def init_env(self):
+        super(Serve, self).init_env()
+        # override base_url from config in templates
+        base_url = 'http://%s:%d' % (self.host, self.port)
+        self.template.add_var('base_url', base_url)
 
     def update_file(self, src, dst):
         """Copy source file to destination file if source is newer.
@@ -100,25 +107,23 @@ class Serve(Logya):
 class Server(HTTPServer):
     """Logya HTTPServer based class to serve generated site."""
 
-    def __init__(self, logya, host, port):
+    def __init__(self, logya):
         """Initialize HTTPServer listening on the specified host and port."""
 
         self.logya = logya
-        self.host = host
-        self.port = port
-
         self.logya.init_env()
 
         log_file = os.path.join(self.logya.dir_current, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
 
-        HTTPServer.__init__(self, (host, port), HTTPRequestHandler)
+        HTTPServer.__init__(
+            self, (self.logya.host, self.logya.port), HTTPRequestHandler)
 
     def serve(self):
         """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
-        print(('Serving on http://%s:%s/' % (self.host, self.port)))
+        print(('Serving on http://%s:%s/' % (self.logya.host, self.logya.port)))
         self.serve_forever()
 
 
@@ -129,5 +134,5 @@ class HTTPRequestHandler(SimpleHTTPRequestHandler):
         """Return refreshed resource."""
 
         logging.info("Requested resource: %s" % self.path)
-        logging.info(self.server.logya.refresh_resource(self.path))
+        self.server.logya.refresh_resource(self.path)
         SimpleHTTPRequestHandler.do_GET(self)
