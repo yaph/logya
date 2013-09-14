@@ -20,6 +20,11 @@
   </head>
 
   <body>
+    {% block body_styles %}
+        {% for style in styles %}
+            <link href="{{ script }}{{ version }}" rel="stylesheet">
+        {% endfor %}
+    {% endblock %}
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -49,7 +54,14 @@
         <p>&copy; Project 2013</p>
       </footer>
     </div>
+    <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="{{ base_url }}/js/script.js{{ version }}"></script>
+
+    {% block body_scripts %}
+        {% for script in scripts %}
+            <script src="{{ script }}{{ version }}"></script>
+        {% endfor %}
+    {% endblock %}
   </body>
 </html>
