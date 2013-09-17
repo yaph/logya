@@ -17,3 +17,9 @@ cite {
 .small {
     font-size:.8em;
 }
+
+.navbar ul.share a {
+width:90%;
+margin:2% 5% 5%;
+font-size:1.1em;
+}

@@ -11,6 +11,7 @@
     <title>{{ title }}</title>
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ base_url }}/css/style.css{{ version }}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,7 +42,7 @@
             <li><a href="/about/">About</a></li>
             <li><a href="/contact/">Contact</a></li>
           </ul>
-          <button type="submit" class="btn btn-success navbar-btn pull-right">Share</button>
+          {% include 'sharemenu.html' %}
         </div>
       </div>
     </div>
