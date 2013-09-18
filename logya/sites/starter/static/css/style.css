@@ -1,10 +1,10 @@
 body {
-    position: relative;
-    padding-top: 50px;
+position: relative;
+padding-top: 50px;
 }
 
 cite {
-    font-style:italic;
+font-style:italic;
 }
 
 .voffset {margin:.5em 0;}
@@ -12,12 +12,15 @@ cite {
 .clearfix {clear:both;}
 
 .caret {
-    opacity:.8;
+opacity:.8;
 }
 .small {
-    font-size:.8em;
+font-size:.8em;
 }
 
+.navbar-collapse.collapse {
+padding-right:0;
+}
 .navbar ul.share a {
 width:90%;
 margin:2% 5% 5%;
