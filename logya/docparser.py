@@ -27,7 +27,7 @@ class DocParser():
         # parse body if not HTML/XML
         fext = os.path.splitext(filename)[1]
         if '.md' == fext or '.markdown' == fext:
-            body = markdown.markdown(body)
+            body = markdown.markdown(body.decode('utf-8'))
 
         self.parsed = yaml.load(header)
         self.parsed['body'] = body
