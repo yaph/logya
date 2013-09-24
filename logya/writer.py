@@ -3,21 +3,11 @@ import os
 
 from logya.compat import file_open as open
 from logya.compat import is3
+from logya.globals import allowed_exts
 
 
 class FileWriter(object):
     """Class for writing site files."""
-
-    allowed_exts = (
-        'html',
-        'htm',
-        'xml',
-        'json',
-        'js',
-        'css',
-        'php',
-        'md',
-        'markdown')
 
     def get_canonical_filename(self, name):
         """Get file name from given path or file.
@@ -34,7 +24,7 @@ class FileWriter(object):
         # only allowed extension will be written to a file, otherwise a
         # directory with the name is created and content written to index.html
         fext = os.path.splitext(name)[1]
-        if not fext or fext.lstrip('.') not in self.allowed_exts:
+        if not fext or fext.lstrip('.') not in allowed_exts:
             name = os.path.join(name, 'index.html')
 
         return name.lstrip('/')
