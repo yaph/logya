@@ -178,8 +178,7 @@ class Logya(object):
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
 
-        url = self.base_url + os.path.join('/', directory, 'rss.xml')
-        self.template.add_var('url', url)
+        self.template.add_var('url', self.base_url)
         self.template.add_var('title', feed_title)
         self.template.add_var('description', directory)
         self.template.add_var('last_build', datetime.datetime.now())
