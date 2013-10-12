@@ -36,7 +36,7 @@ Sites built with logya
 
 * http://geeksta.net/
 * http://ramiro.org/
-* http://exploringdata.github.com/
+* http://exploringdata.github.io/
 
 .. _`documentation`: http://pythonhosted.org/logya
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues
