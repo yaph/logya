@@ -17,7 +17,7 @@ class Template():
         self.dir_templates = dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
         # add urlencode filter to template
-        self.env.filters['urlencode'] = lambda x: quote_plus(x)
+        self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
 
     def get_env(self):
         """Return template environment."""
