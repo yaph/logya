@@ -14,9 +14,10 @@ class DocParser():
         """Parse document and return a dictionary of header fields and body."""
 
         stat = os.stat(filename)
-        f = open(filename, 'r', encoding='utf-8')
-        content = f.read()
-        f.close()
+        with open(filename, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+        if not content:
+            return
 
         # extract YAML header and body
         pos1 = content.index('---')

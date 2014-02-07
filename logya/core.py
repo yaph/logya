@@ -148,8 +148,8 @@ class Logya(object):
 
         docs = DocReader(self.dir_content, DocParser()).get_docs()
         for doc in docs:
-            # ignore documents that have no url
-            if 'url' not in doc:
+            # ignore empty documents and those without url
+            if doc is None or 'url' not in doc:
                 continue
             url = doc['url']
             # warn user about duplicate URLs when not in serve mode
