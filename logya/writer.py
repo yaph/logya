@@ -89,8 +89,10 @@ class DocWriter(FileWriter):
 
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
+
         content = page.render(tpl_vars)
         if not is3:
             content = content.encode('utf-8')
+
         out.write(content)
         out.close()
