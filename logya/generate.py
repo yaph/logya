@@ -34,6 +34,9 @@ class Generate(Logya):
         self.info("Build document indexes")
         self.build_indexes()
 
+        #template_env = self.template.get_env()
+        #template_env.globals['__docs__'] = self.docs_parsed
+
         self.info("Write documents to deploy directory")
         for doc in list(self.docs_parsed.values()):
             self.writer.write(doc, self.get_doc_template(doc))

@@ -9,12 +9,16 @@
 
     <title>{{ title }}</title>
 
-    <link rel="shortcut icon" href="{{ base_url }}/img/logya.png">
-    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{{ base_url }}/rss.xml">
+    {% if image %}
+      <meta property="og:image" content="{{ base_url }}{{ image }}">
+    {% endif %}
+
+    <link rel="shortcut icon" href="/img/logya.png">
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/rss.xml">
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ base_url }}/css/style.css{{ version }}">
+    <link rel="stylesheet" href="/css/style.css{{ version }}">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -59,7 +63,7 @@
     </div>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="{{ base_url }}/js/script.js{{ version }}"></script>
+    <script src="/js/script.js{{ version }}"></script>
 
     {% block body_scripts %}
         {% for script in scripts %}
