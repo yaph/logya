@@ -14,7 +14,6 @@ import sys
 is3 = sys.version_info[0] == 3
 
 if is3:
-    import configparser
     from urllib.parse import quote_plus
     from urllib.parse import urlparse
     from http.server import SimpleHTTPRequestHandler
@@ -26,7 +25,6 @@ if is3:
     file_open = open
 
 else:
-    import ConfigParser as configparser
     from urllib import quote_plus
     from urlparse import urlparse
     from SimpleHTTPServer import SimpleHTTPRequestHandler

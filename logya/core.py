@@ -42,7 +42,7 @@ class Logya(object):
         """
 
         self.dir_content = self.get_path('content', required=True)
-        self.config = Config(self.get_path('site.cfg', required=True))
+        self.config = Config(self.get_path('site.yaml', required=True))
 
         dir_templates = self.get_path('templates', required=True)
         self.template = Template(dir_templates)
@@ -62,7 +62,7 @@ class Logya(object):
         self.base_url = self.config.get('site', 'base_url')
 
         if self.base_url is False:
-            raise Exception('base_url not set in site.cfg')
+            raise Exception('base_url not set in site config.')
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -89,7 +89,10 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Try to get template setting from doc otherwise from configuration."""
 
-        return doc.get('template', self.config.get('templates', 'doc'))
+        template = self.config.get_item(
+            'templates', 'doc', 'content_type', 'template')
+
+        return doc.get('template', template)
 
     def get_dirs_from_path(self, url):
         """Returns a list of directories from given url.
@@ -221,7 +224,8 @@ class Logya(object):
         written.
         """
 
-        template = self.config.get('templates', 'index')
+        template = self.config.get_item(
+            'templates', 'index', 'content_type', 'template')
         if not template:
             return
 

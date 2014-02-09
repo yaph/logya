@@ -1,26 +1,23 @@
 # -*- coding: utf-8 -*-
-from logya.compat import configparser
+import yaml
 
 
 class Config:
     """Site configuration access."""
 
     def __init__(self, filename):
-        """Create ConfigParser object read from the given file."""
+        """Create config object read from the given file."""
 
-        self.config = configparser.ConfigParser()
-        self.config.readfp(open(filename))
+        with open(filename, 'r') as f:
+            self.config = yaml.load(f)
 
-    def get(self, section, var, required=False):
-        try:
-            val = self.config.get(section, var)
-        except Exception:
-            if required:
-                raise Exception
-            else:
-                return False
-        else:
-            return val
+    def get(self, section, key):
+        return self.config[section][key]
+
+    def get_item(self, section, search, search_key, value_key):
+        for i in self.config[section]:
+            if search == i[search_key]:
+                return i[value_key]
 
     def items(self, section):
-        return self.config.items(section)
+        return self.config[section]

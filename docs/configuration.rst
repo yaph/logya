@@ -3,10 +3,30 @@
 Configuration
 =============
 
-Below you find configuration sections and settings:
+Below you find an example configuration and information about the different
+sections and settings.
 
-[site] section
-~~~~~~~~~~~~~~
+Default configuration
+~~~~~~~~~~~~~~~~~~~~~
+
+::
+    site:
+      base_url: http://localhost:8080
+      disqus_shortname: null
+
+    indexes:
+    - path: tags
+      var: tags
+
+    templates:
+    - content_type: index
+      template: index.html
+    - content_type: doc
+      template: post.html
+
+
+site section
+~~~~~~~~~~~~
 
 All settings in this section will be available to all templates, so
 names for configuration variables mustn't be used as names in document
@@ -16,18 +36,13 @@ headers.
     ``base_url`` is the only required setting needed to create the
     canonical variable and to generate RSS feeds.
 
-[templates] section
-~~~~~~~~~~~~~~~~~~~
+indexes section
+~~~~~~~~~~~~~~~
 
-index
-    The template to use for generated index.html files. If not set,
-    indexes won't be created.
-doc
-    The template to use for generated content documents. If not set, the
-    document won't be created.
+This section allows to set additional indexes from document header variables.
+The default configuration sets an index for tags.
 
-[extensions] section
-~~~~~~~~~~~~~~~~~~~~
+templates section
+~~~~~~~~~~~~~~~~~
 
-Currently this section is not supported. I consider using it for turning
-extensions on and off.
+This section is for setting the default document and index templates.
