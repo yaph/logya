@@ -173,7 +173,8 @@ class Logya(object):
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
 
-        return ' | '.join(s.split('/')).replace('-', ' ').title()
+        return ' » '.join(
+            s.split('/')).replace('-', ' ').title().decode('utf-8')
 
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
