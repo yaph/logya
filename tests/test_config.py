@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
-import yaml
+from base import LogyaBaseTestCase
 
-config = {
-    'site': {
-        'base_url': 'http://localhost:8080',
-        'disqus_shortname': None,
-    },
-    'templates': [
-        {'content_type': 'index', 'template': 'index.html'},
-        {'content_type': 'doc', 'template': 'post.html'}
-    ],
-    'indexes': [
-        {'var': 'tags', 'path': 'tags'}
-    ]
-}
 
-with open('tests/site.yaml', 'w') as f:
-    yaml.dump(config, f, default_flow_style=False)
+class TestConfig(LogyaBaseTestCase):
 
-with open('tests/site.yaml', 'r') as f:
-    yaml_config = yaml.load(f)
+    def test_get(self):
+        self.assertEqual(
+            'http://localhost:8080', self.config.get('site', 'base_url'))
+        self.assertIsNone(self.config.get('site', 'disqus_shortname'))
 
-assert config == yaml_config
+    def test_get_item(self):
+        self.assertEqual('post.html', self.config.get_item(
+            'templates', 'doc', 'content_type', 'template'))
+        self.assertEqual('doc', self.config.get_item(
+            'templates', 'post.html', 'template', 'content_type'))
+
+    def test_items(self):
+        site = self.config.items('site')
+        self.assertEqual(2, len(site))
+        keys = [t[0] for t in site]
+        self.assertIn('base_url', keys)
+        self.assertIn('disqus_shortname', keys)
