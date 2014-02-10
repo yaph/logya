@@ -10,6 +10,7 @@ Default configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
 ::
+
     site:
       base_url: http://localhost:8080
       disqus_shortname: null

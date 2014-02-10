@@ -15,9 +15,7 @@ class TestConfig(LogyaBaseTestCase):
         self.assertEqual('doc', self.config.get_item(
             'templates', 'post.html', 'template', 'content_type'))
 
-    def test_items(self):
-        site = self.config.items('site')
-        self.assertEqual(2, len(site))
-        keys = [t[0] for t in site]
-        self.assertIn('base_url', keys)
-        self.assertIn('disqus_shortname', keys)
+    def test_get_section(self):
+        site = self.config.get_section('site')
+        self.assertIn('base_url', site)
+        self.assertIn('disqus_shortname', site)

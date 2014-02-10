@@ -50,7 +50,7 @@ class Logya(object):
         self.dir_bin = self.get_path('bin')
 
         # make all settings in site section available to templates
-        for key, val in self.config.items('site'):
+        for key, val in list(self.config.get_section('site').items()):
             self.template.add_var(key, val)
 
         # optional directory with static files like css, js and images
@@ -131,15 +131,20 @@ class Logya(object):
         self._update_indexes(doc)
         # add to special __index__ for RSS generation
         self._update_indexes(doc, '__index__/index/')
-        if 'tags' in doc:
-            self.update_tags(doc)
 
-    def update_tags(self, doc):
-        """Update index of tags."""
+        doc_indexes = self.config.get_section('indexes')
+        for idx in doc_indexes:
+            if idx['var'] in doc:
+                self.update_doc_index(doc, idx['var'], idx['path'])
 
-        for tag in doc['tags']:
-            url = '/tags/%s/' % re.sub(self.re_url_replace, '-', tag).lower()
-            doc['tag_links'] = doc.get('tag_links', []) + [(url, tag)]
+    def update_doc_index(self, doc, var, path):
+        """Update doc index."""
+
+        for val in doc[var]:
+            var_path = re.sub(self.re_url_replace, '-', val).lower()
+            url = '/%s/%s/' % (path, var_path)
+            links = path + '_links'
+            doc[links] = doc.get(links, []) + [(url, val)]
             # must append path after tag string to create subdir
             self._update_indexes(doc, url + self.index_filename)
 

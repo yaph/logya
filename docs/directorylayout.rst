@@ -18,10 +18,10 @@ templates - required
 
 The templates directory contains all of the site's Jinja2 templates.
 
-site.cfg - required
-~~~~~~~~~~~~~~~~~~~
+site.yaml - required
+~~~~~~~~~~~~~~~~~~~~
 
-This file contains the site configuration.
+This file contains the site configuration in YAML format.
 
 static - optional
 ~~~~~~~~~~~~~~~~~
