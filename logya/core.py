@@ -143,7 +143,7 @@ class Logya(object):
         for val in doc[var]:
             var_path = re.sub(self.re_url_replace, '-', val).lower()
             url = '/%s/%s/' % (path, var_path)
-            links = path + '_links'
+            links = var + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
             # must append path after tag string to create subdir
             self._update_indexes(doc, url + self.index_filename)

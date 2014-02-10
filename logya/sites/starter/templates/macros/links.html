@@ -1,0 +1,7 @@
+{% macro index(name) -%}
+{% if name %}
+    {% for url, anchor in name %}
+        <a href="{{url|e}}">{{anchor|e}}</a>{% if not loop.last %}, {% endif %}
+    {% endfor %}
+{% endif %}
+{%- endmacro %}

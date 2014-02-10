@@ -32,11 +32,13 @@ file modification time will be used for sorting documents in indexes.
     previewimage: /path/to/previewimage.png
     ---
 
-Tags
-^^^^
+Indexes
+^^^^^^^
 
-You can tag documents using the ``tags`` attribute, which is assigned a
-list of comma separated tags, for example:
+You can create an index from one or more header attributes by adding a setting
+for it in the site config and specifying a list of values in the doc header.
+For example add an attribute called ``tags`` and assign it a list of comma
+separated values:
 
 ::
 
@@ -52,11 +54,22 @@ automatically and mustn't be specified manually in the document header:
 
 ::
 
-    {% if tag_links %}
-      {% for url, anchor in tag_links %}
+    {% if tags_links %}
+      {% for url, anchor in tags_links %}
         <span class="tag"><a href="{{url|e}}">{{anchor|e}}</a></span>
       {% endfor %}
     {% endif %}
+
+Alternatively you can use the provided links macro as follows:
+
+::
+
+    {% import 'macros/links.html' as links %}
+    <p>Tags: {{ links.index(tags_links) }}</p>
+
+Since this template variable is generated from the corresponding attribute name,
+only use letters and underscores in it. Indexes can be created for header
+attributes that contain a list of string values.
 
 Document Body
 ~~~~~~~~~~~~~
