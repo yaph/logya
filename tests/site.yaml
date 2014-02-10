@@ -1,0 +1,11 @@
+indexes:
+- path: tags
+  var: tags
+site:
+  base_url: http://localhost:8080
+  disqus_shortname: null
+templates:
+- content_type: index
+  template: index.html
+- content_type: doc
+  template: post.html

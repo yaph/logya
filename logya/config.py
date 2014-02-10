@@ -12,7 +12,7 @@ class Config:
             self.config = yaml.load(f)
 
     def get(self, section, key):
-        return self.config[section][key]
+        return self.config[section].get(key, None)
 
     def get_item(self, section, search, search_key, value_key):
         for i in self.config[section]:
@@ -20,4 +20,4 @@ class Config:
                 return i[value_key]
 
     def items(self, section):
-        return self.config[section]
+        return list(self.config[section].items())
