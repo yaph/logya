@@ -208,6 +208,16 @@ class Logya(object):
 
             # remove the file name part if it's index.html
             url = url_path.replace(self.index_filename, '')
+
+            # Ugly fix for issue #32: delete description var. This is called
+            # for every index, instead of once for all, because write_index is
+            # called in serve mode. Also there may remain other vars causing
+            # future problems.
+            # Emptying the vars dict does not work either, because the indexes
+            # key is set in build_indexes and needed.
+            if 'description' in self.template.vars:
+                del self.template.vars['description']
+
             self.template.add_var('url', url)
             self.template.add_var('canonical', self.base_url + url)
             self.template.add_var('index', docs)
