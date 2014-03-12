@@ -15,7 +15,7 @@ from logya.writer import FileWriter
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
 
-    re_url_replace = re.compile(r'[\s_]+')
+    re_url_replace = re.compile(r'[\/\s_]+')
 
     def __init__(self, **kwargs):
         """Set required logya object properties."""
