@@ -4,7 +4,7 @@ import re
 import datetime
 from operator import itemgetter
 
-from logya.compat import execfile
+from logya.compat import execfile, is3
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.docparser import DocParser
@@ -181,8 +181,9 @@ class Logya(object):
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
 
-        return ' » '.join(
-            s.split('/')).replace('-', ' ').title().decode('utf-8')
+        if not is3:
+            s = s.encode('utf-8')
+        return ' » '.join(s.split('/')).replace('-', ' ').title()
 
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
@@ -204,10 +205,13 @@ class Logya(object):
         url_path = '/%s' % os.path.join(directory, self.index_filename)
         # make sure there exists no document at the index path
         if url_path not in self.docs_parsed:
-            docs = self.indexes[directory]
-
             # remove the file name part if it's index.html
             url = url_path.replace(self.index_filename, '')
+
+            if self.verbose:
+                print(url)
+
+            docs = self.indexes[directory]
 
             # Ugly fix for issue #32: delete description var. This is called
             # for every index, instead of once for all, because write_index is
@@ -218,10 +222,14 @@ class Logya(object):
             if 'description' in self.template.vars:
                 del self.template.vars['description']
 
+            title = self.index_title(directory)
+            if not is3:
+                title = title.decode('utf-8')
+
             self.template.add_var('url', url)
             self.template.add_var('canonical', self.base_url + url)
             self.template.add_var('index', docs)
-            self.template.add_var('title', self.index_title(directory))
+            self.template.add_var('title', title)
             self.template.add_var('directory', directory)
 
             page = self.template.env.get_template(template)
@@ -230,7 +238,7 @@ class Logya(object):
 
             # write directory RSS file
             if self.base_url:
-                self.write_rss(self.index_title(directory), directory, docs)
+                self.write_rss(title, directory, docs)
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
