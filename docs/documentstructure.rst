@@ -32,6 +32,16 @@ file modification time will be used for sorting documents in indexes.
     previewimage: /path/to/previewimage.png
     ---
 
+Reserved Variable Names
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Besides the mandatory content variables ``url`` and ``title`` and the ``base_url``
+configuration variable, you mustn't use ``canonical`` and ``json``, otherwise
+their values will be overwritten. ``canonical`` gets set to the canonical URL
+of the current page including the host, ``json`` contains all content header and
+exposed configuration values for use in JavaScript.
+
+
 Indexes
 ^^^^^^^
 

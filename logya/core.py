@@ -260,7 +260,7 @@ class Logya(object):
             self.write_index(FileWriter(), directory, template)
 
         # write root RSS file
-        if self.base_url:
+        if self.base_url and '__index__' in self.indexes:
             docs = sorted(self.indexes['__index__'],
                           key=itemgetter('created'),
                           reverse=True)

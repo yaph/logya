@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 
 from logya.compat import file_open as open
 from logya.compat import is3
+from logya.encoder import JSONEncoder
 from logya.globals import allowed_exts
 
 
@@ -61,6 +63,7 @@ class DocWriter(FileWriter):
 
         self.dir_dst = dir_dst
         self.template = template
+        self.encoder = JSONEncoder()
 
     def set_template_vars(self, doc):
         """Set template variables."""
@@ -85,7 +88,10 @@ class DocWriter(FileWriter):
 
         self.set_template_vars(doc)
         tpl_vars = self.template.get_all_vars()
+
+        # Set additional template variables.
         tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']
+        tpl_vars['json'] = json.dumps(self.encoder.encode(tpl_vars))
 
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
