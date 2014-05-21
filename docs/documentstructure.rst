@@ -36,10 +36,8 @@ Reserved Variable Names
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Besides the mandatory content variables ``url`` and ``title`` and the ``base_url``
-configuration variable, you mustn't use ``canonical`` and ``json``, otherwise
-their values will be overwritten. ``canonical`` gets set to the canonical URL
-of the current page including the host, ``json`` contains all content header and
-exposed configuration values for use in JavaScript.
+configuration variable, you mustn't use ``canonical``, otherwise its value will
+be overwritten with the canonical URL of the current page including the host.
 
 
 Indexes

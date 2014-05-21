@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
 import os
 
 from logya.compat import file_open as open
@@ -91,7 +90,6 @@ class DocWriter(FileWriter):
 
         # Set additional template variables.
         tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']
-        tpl_vars['json'] = json.dumps(self.encoder.encode(tpl_vars))
 
         page = self.template.get_env().get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
