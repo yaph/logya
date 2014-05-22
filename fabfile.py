@@ -11,26 +11,22 @@ def docs():
     local('python setup.py upload_sphinx')
 
 
-def release():
-    local('nosetests')
-    local('python setup.py sdist upload')
-
-
-def git():
-    local('nosetests')
-    local('git add . && git commit -a')
-
-
 def reinstall():
     local('pip uninstall -y logya')
     local('python setup.py install')
 
 
 def test():
+    local('nosetests tests')
     local('rm -rf t')
     local('`which logya` create t')
     with lcd('t'):
         local('`which logya` gen')
+
+
+def release():
+    test()
+    local('python setup.py sdist upload')
 
 
 def rt():
