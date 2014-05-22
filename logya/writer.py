@@ -3,7 +3,6 @@ import os
 
 from logya.compat import file_open as open
 from logya.compat import is3
-from logya.encoder import JSONEncoder
 from logya.globals import allowed_exts
 
 
@@ -62,7 +61,6 @@ class DocWriter(FileWriter):
 
         self.dir_dst = dir_dst
         self.template = template
-        self.encoder = JSONEncoder()
 
     def set_template_vars(self, doc):
         """Set template variables."""
