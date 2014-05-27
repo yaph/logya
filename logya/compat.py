@@ -30,6 +30,7 @@ else:
     from SimpleHTTPServer import SimpleHTTPRequestHandler
     from BaseHTTPServer import HTTPServer
 
+    # use the built-in function
     execfile = execfile
 
     def file_open(name, mode, encoding='utf-8'):
