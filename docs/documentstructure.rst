@@ -36,9 +36,22 @@ Reserved Variable Names
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Besides the mandatory content variables ``url`` and ``title`` and the ``base_url``
-configuration variable, you mustn't use ``canonical``, otherwise its value will
-be overwritten with the canonical URL of the current page including the host.
+configuration variable, you mustn't use ``canonical`` and ``debug`` otherwise
+their values will be overwritten. ``canonical`` with the canonical URL of the
+current page including the host and ``debug`` will be set to ``True`` in serve
+mode in other modes it is not set.
 
+An example where the ``debug`` variable is useful: you want to use uncompressed
+JavaScript files during development and use compressed ones on the live site.
+You can do so using the following check in your template:
+
+::
+
+    {% if debug %}
+        <script src="/js/script.js"></script>
+    {% else %}
+        <script src="/js/script.min.js"></script>
+    {% endif %}
 
 Indexes
 ^^^^^^^
