@@ -22,3 +22,4 @@ Features
 * Url encoding in templates using the ``urlencode`` filter
 * Disqus integration via templates and configuration
 * XML Sitemap and HTML Sitemap templates
+* Use Jinja2 template tags in content body

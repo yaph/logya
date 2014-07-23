@@ -85,11 +85,16 @@ class DocWriter(FileWriter):
 
         self.set_template_vars(doc)
         tpl_vars = self.template.get_all_vars()
+        tpl_env = self.template.get_env()
 
         # Set additional template variables.
         tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']
 
-        page = self.template.get_env().get_template(template)
+        # Pre-render doc body so Jinja2 template tags can be used in content.
+        tpl_vars['body'] = tpl_env.from_string(
+            tpl_vars['body']).render(tpl_vars)
+
+        page = tpl_env.get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
 
         content = page.render(tpl_vars)

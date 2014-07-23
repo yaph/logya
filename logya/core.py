@@ -44,8 +44,8 @@ class Logya(object):
         self.dir_content = self.get_path('content', required=True)
         self.config = Config(self.get_path('site.yaml', required=True))
 
-        dir_templates = self.get_path('templates', required=True)
-        self.template = Template(dir_templates)
+        self.dir_templates = self.get_path('templates', required=True)
+        self.template = Template(self)
 
         self.dir_bin = self.get_path('bin')
 

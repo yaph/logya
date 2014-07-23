@@ -1,23 +1,34 @@
 # -*- coding: utf-8 -*-
 import os
-from jinja2 import Environment, BaseLoader, TemplateNotFound
+from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 
 from logya.compat import quote_plus, is3
 from logya.compat import file_open as open
 
 
+def filesource(logya_inst, name):
+    fname = os.path.join(logya_inst.dir_current, name)
+    with open(fname, 'r') as f:
+        content = f.read()
+    return escape(content)
+
+
 class Template():
     """Class to handle templates."""
 
-    def __init__(self, dir_templates):
+    def __init__(self, logya_inst):
         """Initialize template environment."""
 
         self.vars = {}
         self.doc_vars = {}
-        self.dir_templates = dir_templates
+        self.dir_templates = logya_inst.dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
+
         # add urlencode filter to template
         self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
+
+        # add filesource global to allow for including the source of a file
+        self.env.globals['filesource'] = lambda x: filesource(logya_inst, x)
 
     def get_env(self):
         """Return template environment."""
