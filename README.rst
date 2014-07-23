@@ -34,9 +34,13 @@ creating Web sites.
 Sites built with logya
 ----------------------
 
-* http://geeksta.net/
 * http://ramiro.org/
+* http://maps.ramiro.org/
+* http://geeksta.net/
+* http://www.linux-netbook.com/
+* http://strahlungsarmehandys.com/
 * http://exploringdata.github.io/
+* http://wahlen.github.io/
 
 .. _`documentation`: http://pythonhosted.org/logya
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues
