@@ -6,10 +6,25 @@ from logya.compat import quote_plus, is3
 from logya.compat import file_open as open
 
 
-def filesource(logya_inst, name):
+def filesource(logya_inst, name, lines=None):
+    """Read and return source of text files.
+
+    A template function that reads the source of the given file and returns it.
+    The text is escaped so it can be rendered safely on a Web page.
+    The lines keyword argument is used to limit the number of lines returned.
+
+    A use case is for documentation projects to show the source code used
+    to render the current example.
+    """
+
     fname = os.path.join(logya_inst.dir_current, name)
     with open(fname, 'r') as f:
-        content = f.read()
+        if lines is None:
+            content = f.read()
+        else:
+            content = ''.join(f.readlines()[:lines])
+    if not is3:
+        content = content.decode('utf-8')
     return escape(content)
 
 
@@ -28,7 +43,8 @@ class Template():
         self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
 
         # add filesource global to allow for including the source of a file
-        self.env.globals['filesource'] = lambda x: filesource(logya_inst, x)
+        self.env.globals['filesource'] = lambda x, lines=None: filesource(
+            logya_inst, x, lines=lines)
 
     def get_env(self):
         """Return template environment."""
