@@ -136,6 +136,6 @@ class HTTPRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         """Return refreshed resource."""
 
-        logging.info("Requested resource: %s" % self.path)
+        logging.info('Requested resource: %s', self.path)
         self.server.logya.refresh_resource(self.path)
         SimpleHTTPRequestHandler.do_GET(self)
