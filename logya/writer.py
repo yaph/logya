@@ -44,13 +44,13 @@ class FileWriter(object):
             os.makedirs(dir_target)
         return open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
 
-    def write(self, file, content):
+    def write(self, fh, content):
         """Write content to file and close it."""
 
         if not is3:
             content = content.encode('utf-8')
-        file.write(content)
-        file.close()
+        fh.write(content)
+        fh.close()
 
 
 class DocWriter(FileWriter):
