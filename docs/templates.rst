@@ -19,7 +19,7 @@ Here ``urlencode`` is used to encode the values of the ``url`` and ``title`` par
 filesource
 ----------
 
-You can use the ``filesource`` function to include the text of an external file on a page. The optional ``limit`` parameter specifies how many lines to include, if not provided the whole file will be included. The file content is escaped, so that you can display HTML or other source code. The example below is taken from the `d3.geomap documentation <http://d3-geomap.github.io/>`_
+You can use the ``filesource`` function to include the text of an external file on a page. The optional ``limit`` parameter specifies how many lines to include, if not provided the whole file will be included. The file content is escaped, so that you can display HTML or other source code. The example below is taken from the `d3.geomap documentation <http://d3-geomap.github.io/>`_.
 
 ::
 
