@@ -21,6 +21,7 @@ Contents:
    gettingstarted
    directorylayout
    documentstructure
+   templates
    configuration
    recipes
    development
