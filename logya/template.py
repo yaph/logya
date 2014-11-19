@@ -28,6 +28,10 @@ def filesource(logya_inst, name, lines=None):
     return escape(content)
 
 
+def get_doc(logya_inst, url):
+    return logya_inst.docs_parsed.get(url)
+
+
 class Template():
     """Class to handle templates."""
 
@@ -45,6 +49,8 @@ class Template():
         # add filesource global to allow for including the source of a file
         self.env.globals['filesource'] = lambda x, lines=None: filesource(
             logya_inst, x, lines=lines)
+
+        self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
 
     def get_env(self):
         """Return template environment."""
