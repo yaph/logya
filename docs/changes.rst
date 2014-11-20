@@ -3,6 +3,12 @@
 Changes
 =======
 
+3.0 to 3.1.0
+------------
+
+* Added get_doc template function.
+
+
 2.3 to 3.0
 ----------
 
