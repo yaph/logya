@@ -5,6 +5,7 @@ Templates
 
 The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many features jinja2 provides you can use the following filters/functions.
 
+
 urlencode
 ---------
 
@@ -15,6 +16,7 @@ This filter can be used to encode variables so they are safe to use as URL param
     <a href="http://reddit.com/submit?url={{canonical|urlencode}}&title={{title|urlencode}}">Reddit</a><
 
 Here ``urlencode`` is used to encode the values of the ``url`` and ``title`` parameters in a link to submit the current page to Reddit.
+
 
 filesource
 ----------
@@ -30,4 +32,17 @@ This function is mainly intended for documentation purposes as it allows you to 
 
 ::
 
-     <pre>{{ filesource(data, lines=6) }}...</pre>
+    <pre>{{ filesource(data, lines=6) }}...</pre>
+
+include the text of an external file on a page. The optional ``limit`` parameter specifies how many lines to include, if not provided the whole file will be included. The file content is escaped, so that you can display HTML or other source code. The example below is taken from the `d3.geomap documentation <http://d3-geomap.github.io/>`_.
+
+
+get_doc
+-------
+
+You can use the ``get_doc`` function to get a document object via its URL, which allows you to create links between documents. Say document A has a ``link`` property set to the URL of document B. You can then get an object representing B and link to it from within A's template like so:
+
+::
+
+    {% set B = get_doc(link) %}
+    <a href="{{ B.url }}">{{ B.title }}</a>

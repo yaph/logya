@@ -12,8 +12,8 @@ class FileWriter(object):
     def get_canonical_filename(self, name):
         """Get file name from given path or file.
 
-        If name is not recognized as a file name a /index.html is added.
-        To be recognized as a file name it must end in one of self.allowed_exts.
+        If name is not recognized as a file name a /index.html is added. To be
+        recognized as a file name it must end in one of self.allowed_exts.
         Leading slashes are stripped off.
         """
 

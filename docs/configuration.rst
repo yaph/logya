@@ -6,6 +6,7 @@ Configuration
 Below you find an example configuration and information about the different
 sections and settings.
 
+
 Default configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -37,11 +38,13 @@ headers.
     ``base_url`` is the only required setting needed to create the
     canonical variable and to generate RSS feeds.
 
+
 indexes section
 ~~~~~~~~~~~~~~~
 
 This section allows to set additional indexes from document header variables.
 The default configuration sets an index for tags.
+
 
 templates section
 ~~~~~~~~~~~~~~~~~
