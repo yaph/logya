@@ -45,6 +45,17 @@ files in your projects source directory and reload them in the browser
 they will be updated, so this can be used for live editing your site and
 see changes immediately.
 
+Run a script in a Logya context:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+    logya run script.py
+
+    This command allows you to run a Python script in a Logya context, so you
+    can access Logya object properties and methods. For an example see the
+    script included in the scripts dir of the starter site.
+
 Get help on logya command:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 

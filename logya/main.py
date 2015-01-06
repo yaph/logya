@@ -5,6 +5,7 @@ from logya import __version__
 from logya.create import Create
 from logya.generate import Generate
 from logya.serve import Serve
+from logya.run import Run
 from logya.test import Test
 
 
@@ -18,6 +19,10 @@ def generate(args):
 
 def serve(args):
     Serve(host=args.host, port=args.port)
+
+
+def run(args):
+    Run(args.script)
 
 
 def test(args):
@@ -36,21 +41,26 @@ def main():
 
     # create a basic site with the given name
     p_create = subparsers.add_parser(
-        'create', help='create starter Web site in the specified directory')
+        'create', help='Create a starter Web site in the specified directory.')
     p_create.add_argument('name', help='name of the directory to create.')
     p_create.set_defaults(func=create)
 
     # generate a site for deployment, generate and gen sub commands do the same
-    msg = 'generate Web site to deploy from current directory'
+    msg = 'Generate Web site to deploy from current directory.'
     [subparsers.add_parser(
         c, help=msg).set_defaults(func=generate) for c in ['generate', 'gen']]
 
     # serve static pages
-    sp_serve = subparsers.add_parser(
-        'serve', help='serve static pages from deploy directory')
-    sp_serve.set_defaults(func=serve)
-    sp_serve.add_argument('--port', type=int, help='server port to listen')
-    sp_serve.add_argument('--host', help='server host name or IP')
+    p_serve = subparsers.add_parser(
+        'serve', help='Serve static pages from deploy directory.')
+    p_serve.set_defaults(func=serve)
+    p_serve.add_argument('--port', type=int, help='server port to listen')
+    p_serve.add_argument('--host', help='server host name or IP')
+
+    # run script in Logya context
+    p_run = subparsers.add_parser('run', help='Run script in Logya context.')
+    p_run.add_argument('script', help='Python script to execute.')
+    p_run.set_defaults(func=run)
 
     # test stuff
     subparsers.add_parser('test', help='test stuff').set_defaults(func=test)
