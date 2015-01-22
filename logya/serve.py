@@ -11,7 +11,7 @@ from logya.writer import FileWriter, DocWriter
 
 
 class Serve(Logya):
-    """Serve files from deploy directory."""
+    '''Serve files from deploy directory.'''
 
     host = 'localhost'
     port = 8080
@@ -36,10 +36,10 @@ class Serve(Logya):
         self.template.add_var('debug', True)
 
     def update_file(self, src, dst):
-        """Copy source file to destination file if source is newer.
+        '''Copy source file to destination file if source is newer.
 
         Creates destination directory and file if they don't exist.
-        """
+        '''
 
         # make sure destination directory exists
         dir_dst = os.path.dirname(dst)
@@ -57,10 +57,10 @@ class Serve(Logya):
         return False
 
     def refresh_resource(self, path):
-        """Refresh resource corresponding to given path.
+        '''Refresh resource corresponding to given path.
 
         Static files are updated if necessary, documents are read, parsed and
-        written to the corresponding destination in the deploy directory."""
+        written to the corresponding destination in the deploy directory.'''
 
         # has to be done here too to keep track of configuration changes
         self.init_env()
@@ -72,8 +72,10 @@ class Serve(Logya):
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             if self.update_file(file_src, file_dst):
-                return "Copied file %s to %s" % (file_src, file_dst)
-            return "src %s not newer than dest %s" % (file_src, file_dst)
+                logging.info('Copied file %s to %s' % (file_src, file_dst))
+                return
+            logging.info('src %s not newer than dest %s' % (file_src, file_dst))
+            return
 
         # newly build generated docs and indexes
         self.exec_bin()
@@ -95,7 +97,8 @@ class Serve(Logya):
             docwriter = DocWriter(self.dir_dst, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
-            return "Refreshed doc at URL: %s" % path
+            logging.info('Refreshed doc at URL: %s' % path)
+            return
         else:
             # try to refresh auto-generated index file
             index_paths = list(self.indexes.keys())
@@ -108,10 +111,10 @@ class Serve(Logya):
 
 
 class Server(HTTPServer):
-    """Logya HTTPServer based class to serve generated site."""
+    '''Logya HTTPServer based class to serve generated site.'''
 
     def __init__(self, logya):
-        """Initialize HTTPServer listening on the specified host and port."""
+        '''Initialize HTTPServer listening on the specified host and port.'''
 
         self.logya = logya
         self.logya.init_env()
@@ -123,7 +126,7 @@ class Server(HTTPServer):
             self, (self.logya.host, self.logya.port), HTTPRequestHandler)
 
     def serve(self):
-        """Serve static files from logya deploy directory."""
+        '''Serve static files from logya deploy directory.'''
 
         os.chdir(self.logya.dir_dst)
         print(('Serving on http://%s:%s/' % (self.logya.host, self.logya.port)))
@@ -131,10 +134,10 @@ class Server(HTTPServer):
 
 
 class HTTPRequestHandler(SimpleHTTPRequestHandler):
-    """Logya SimpleHTTPRequestHandler based class to return resources."""
+    '''Logya SimpleHTTPRequestHandler based class to return resources.'''
 
     def do_GET(self):
-        """Return refreshed resource."""
+        '''Return refreshed resource.'''
 
         logging.info('Requested resource: %s', self.path)
         self.server.logya.refresh_resource(self.path)

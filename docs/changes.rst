@@ -3,6 +3,12 @@
 Changes
 =======
 
+3.1.0 to 3.2.0
+--------------
+
+* Use yaml's CLoader if available. For complex data structures performance gains are huge.
+* Added run command.
+
 3.0 to 3.1.0
 ------------
 

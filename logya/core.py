@@ -58,7 +58,7 @@ class Logya(object):
 
         self.dir_dst = self.get_path('deploy')
 
-        # feeds are only generated, if base_url is set in site section of config
+        # feeds are only generated if base_url is set in site section of config
         self.base_url = self.config.get('site', 'base_url')
 
         if self.base_url is False:
@@ -87,7 +87,7 @@ class Logya(object):
         return path
 
     def get_doc_template(self, doc):
-        """Try to get template setting from doc otherwise from configuration."""
+        """Get template setting from doc otherwise from configuration."""
 
         template = self.config.get_item(
             'templates', 'doc', 'content_type', 'template')
@@ -149,7 +149,9 @@ class Logya(object):
             self._update_indexes(doc, url + self.index_filename)
 
     def build_indexes(self, mode=None):
-        """Build indexes of documents for content directories to be created."""
+        """Build indexes of documents for content directories to be created.
+
+        The mode argument hints the Logya command that was executed."""
 
         # a dictionary of indexes with parsed documents
         self.indexes = {}
@@ -266,6 +268,7 @@ class Logya(object):
                           reverse=True)
             self.write_rss(feed_title, '', docs)
 
+    # TODO remove in 4.0
     def get_execs(self, path):
         """Generator yielding paths to executable files in given directory."""
 
@@ -274,6 +277,7 @@ class Logya(object):
             if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
                 yield fpath
 
+    # TODO remove in 4.0
     def exec_bin(self):
         """Execute binary files in bin dir."""
 
