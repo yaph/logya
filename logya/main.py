@@ -70,5 +70,5 @@ def main():
     if getattr(args, 'func', None):
         args.func(args)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
