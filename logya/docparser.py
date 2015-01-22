@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
-import yaml
 import markdown
 
 from datetime import datetime
 from logya.compat import file_open as open
+
+from yaml import load
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 
 
 class DocParser():
@@ -30,7 +35,7 @@ class DocParser():
         if '.md' == fext or '.markdown' == fext:
             body = markdown.markdown(body.decode('utf-8'))
 
-        self.parsed = yaml.load(header)
+        self.parsed = load(header, Loader=Loader)
         self.parsed['body'] = body
 
         # use file modification time if created is not set
