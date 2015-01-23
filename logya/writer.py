@@ -92,7 +92,7 @@ class DocWriter(FileWriter):
 
         # Pre-render doc body so Jinja2 template tags can be used in content.
         tpl_vars['body'] = tpl_env.from_string(
-            tpl_vars['body']).render(tpl_vars)
+            tpl_vars.get('body', '')).render(tpl_vars)
 
         page = tpl_env.get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
