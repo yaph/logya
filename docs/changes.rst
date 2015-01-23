@@ -3,6 +3,11 @@
 Changes
 =======
 
+3.2.0 to 3.2.1
+--------------
+
+* Allow for non-existing body so a doc can only consist of header values.
+
 3.1.0 to 3.2.0
 --------------
 
@@ -13,7 +18,6 @@ Changes
 ------------
 
 * Added get_doc template function.
-
 
 2.3 to 3.0
 ----------
