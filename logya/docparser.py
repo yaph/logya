@@ -24,13 +24,13 @@ class DocParser():
         if not content:
             return
 
-        # extract YAML header and body
+        # Extract YAML header and body.
         pos1 = content.index('---')
         pos2 = content.index('---', pos1 + 1)
         header = content[pos1:pos2].strip()
         body = content[pos2 + 3:].strip()
 
-        # parse body if not HTML/XML
+        # Parse body if not HTML/XML.
         fext = os.path.splitext(filename)[1]
         if '.md' == fext or '.markdown' == fext:
             body = markdown.markdown(body.decode('utf-8'))
@@ -38,8 +38,12 @@ class DocParser():
         self.parsed = load(header, Loader=Loader)
         self.parsed['body'] = body
 
-        # use file modification time if created is not set
+        # Use file modification time for created and updated properties, if not
+        # set in document itself.
+        modified = datetime.fromtimestamp(stat.st_mtime)
         if 'created' not in self.parsed:
-            self.parsed['created'] = datetime.fromtimestamp(stat.st_mtime)
+            self.parsed['created'] = modified
+        if 'updated' not in self.parsed:
+            self.parsed['updated'] = modified
 
         return self.parsed

@@ -3,6 +3,12 @@
 Changes
 =======
 
+3.2.1 to 3.2.2
+--------------
+
+* Added updated property to document header, if not set by author.
+
+
 3.2.0 to 3.2.1
 --------------
 
