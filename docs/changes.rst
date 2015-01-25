@@ -6,6 +6,7 @@ Changes
 3.2.1 to 3.2.2
 --------------
 
+* Updated bootstrap, jquery and fontawesome.
 * Use updated property for lastmod in xml sitemap.
 * Added postinfo template and sample post that displays it.
 * Added author setting to site.yaml.
