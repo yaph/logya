@@ -6,6 +6,7 @@ Changes
 3.2.1 to 3.2.2
 --------------
 
+* Use updated property for lastmod in xml sitemap.
 * Added postinfo template and sample post that displays it.
 * Added author setting to site.yaml.
 * Added updated property to document header, if not set by author.
