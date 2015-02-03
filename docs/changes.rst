@@ -6,7 +6,7 @@ Changes
 3.2.2 to 3.2.3
 --------------
 
-* Added datePublished and dateUpdated schema markup to post and postinfo templates.
+* Added datePublished and dateModified schema markup to post and postinfo templates.
 
 3.2.1 to 3.2.2
 --------------
