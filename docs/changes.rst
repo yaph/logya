@@ -3,6 +3,11 @@
 Changes
 =======
 
+3.2.2 to 3.2.3
+--------------
+
+* Added datePublished and dateUpdated schema markup to postinfo.
+
 3.2.1 to 3.2.2
 --------------
 
