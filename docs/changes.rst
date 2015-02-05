@@ -6,6 +6,7 @@ Changes
 3.2.2 to 3.2.3
 --------------
 
+* Added default robots.txt to starter site.
 * Added datePublished and dateModified schema markup to post and postinfo templates.
 
 3.2.1 to 3.2.2
