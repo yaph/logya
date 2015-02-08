@@ -210,9 +210,6 @@ class Logya(object):
             # remove the file name part if it's index.html
             url = url_path.replace(self.index_filename, '')
 
-            if self.verbose:
-                print(url)
-
             docs = self.indexes[directory]
 
             # Ugly fix for issue #32: delete description var. This is called

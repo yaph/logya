@@ -6,6 +6,7 @@ Changes
 3.2.2 to 3.2.3
 --------------
 
+* Write count of generated documents and indexes in verbose mode of generate command, not individual index file names.
 * Added default robots.txt to starter site.
 * Added datePublished and dateModified schema markup to post and postinfo templates.
 
