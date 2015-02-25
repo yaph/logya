@@ -43,6 +43,8 @@ class Template():
         self.dir_templates = logya_inst.dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
 
+        #self.env.trim_blocks = True
+
         # add urlencode filter to template
         self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
 
