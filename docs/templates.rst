@@ -36,9 +36,6 @@ This function is mainly intended for documentation purposes as it allows you to 
 
     <pre>{{ filesource(data, lines=6) }}...</pre>
 
-include the text of an external file on a page. The optional ``limit`` parameter specifies how many lines to include, if not provided the whole file will be included. The file content is escaped, so that you can display HTML or other source code. The example below is taken from the `d3.geomap documentation <http://d3-geomap.github.io/>`_.
-
-
 get_doc
 -------
 
