@@ -2,6 +2,7 @@
 import os
 import re
 import datetime
+
 from operator import itemgetter
 
 from logya.compat import execfile, is3
@@ -97,7 +98,7 @@ class Logya(object):
     def get_dirs_from_path(self, url):
         """Returns a list of directories from given url.
 
-        The last directory is omitted as it contains and index.html file
+        The last directory is omitted as it contains an index.html file
         containing the content of the appropriate document."""
 
         dirs = [f for f in url.strip('/').split('/') if f]
