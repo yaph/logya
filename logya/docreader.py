@@ -31,7 +31,7 @@ class DocReader:
         ext = os.path.splitext(filename)[1]
         if ext in ['.html', '.htm']:
             markup = 'html'
-        elif exit in ['.md', '.markdown']:
+        elif ext in ['.md', '.markdown']:
             markup = 'markdown'
         return markup
 
