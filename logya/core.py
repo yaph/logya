@@ -8,7 +8,6 @@ from operator import itemgetter
 from logya.compat import execfile, is3
 from logya.config import Config
 from logya.docreader import DocReader
-from logya.docparser import DocParser
 from logya.template import Template
 from logya.writer import FileWriter
 
@@ -158,8 +157,7 @@ class Logya(object):
         self.indexes = {}
         msg_duplicate = 'The URL {} is already used and will be overwritten.'
 
-        docs = DocReader(self.dir_content, DocParser()).docs
-        for doc in docs:
+        for doc in DocReader(self.dir_content).parsed:
             # ignore empty documents and those without url
             if doc is None or 'url' not in doc:
                 continue
