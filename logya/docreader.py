@@ -18,7 +18,8 @@ class DocReader:
                 if os.path.splitext(f)[1].strip('.') in allowed_exts
             ])
 
-    def get_docs(self):
+    @property
+    def docs(self):
         '''Generator that reads all docs from base directory.'''
 
         for f in self.files:

@@ -139,7 +139,7 @@ class Logya(object):
                 self.update_doc_index(doc, idx['var'], idx['path'])
 
     def update_doc_index(self, doc, var, path):
-        """Update doc index."""
+        """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
             var_path = re.sub(self.re_url_replace, '-', val).lower()
@@ -156,8 +156,9 @@ class Logya(object):
 
         # a dictionary of indexes with parsed documents
         self.indexes = {}
+        msg_duplicate = 'The URL {} is already used and will be overwritten.'
 
-        docs = DocReader(self.dir_content, DocParser()).get_docs()
+        docs = DocReader(self.dir_content, DocParser()).docs
         for doc in docs:
             # ignore empty documents and those without url
             if doc is None or 'url' not in doc:
@@ -165,8 +166,7 @@ class Logya(object):
             url = doc['url']
             # warn user about duplicate URLs when not in serve mode
             if 'serve' != mode and url in self.docs_parsed:
-                print(('The URL %s is already used and will be overwritten.'
-                    % url))
+                print(msg_duplicate.format(url))
             self.docs_parsed[url] = doc
 
         for doc in list(self.docs_parsed.values()):
