@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from logya.core import Logya
+from logya.compat import execfile
 
 
 class Run(Logya):
