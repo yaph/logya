@@ -6,10 +6,12 @@ Changes
 3.2.2 to 3.3.0
 --------------
 
+* More pythonic and readable code.
+* Fixed #52: Removed ext and test.py and code that referenced them.
+* Fixed #48: Use .htaccess from HTML5 Boilerplate.
 * New style string formatting.
 * Added tests for docparser and docreader modules.
 * More appropriate function names.
-* More pythonic and readable code.
 * Use fontawesome icons for reddit and stumbleupon.
 * Fixed #39: added sample video macro.
 * Updated bootstrap.
