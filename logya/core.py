@@ -197,7 +197,7 @@ class Logya(object):
 
         writer = FileWriter()
         page = self.template.env.get_template('rss2.xml')
-        fh = writer.getfile(self.dir_dst, os.path.join(directory, 'rss.xml'))
+        fh = writer.file_handle(self.dir_dst, os.path.join(directory, 'rss.xml'))
         writer.write(fh, page.render(self.template.vars))
 
     def write_index(self, filewriter, directory, template):
@@ -231,7 +231,7 @@ class Logya(object):
             self.template.vars['directory'] = directory
 
             page = self.template.env.get_template(template)
-            filewriter.write(filewriter.getfile(self.dir_dst, directory),
+            filewriter.write(filewriter.file_handle(self.dir_dst, directory),
                              page.render(self.template.vars))
 
             # write directory RSS file

@@ -7,7 +7,7 @@ class TestFileWriter(unittest.TestCase):
     def setUp(self):
         self.filewriter = FileWriter()
 
-    def test_get_canonical_filename(self):
+    def test_canonical_filename(self):
         testdata = [{'input': 'recipes',
                      'expected': 'recipes/index.html'},
                     {'input': '/recipes/',
@@ -23,5 +23,5 @@ class TestFileWriter(unittest.TestCase):
 
         for paths in testdata:
             self.assertEqual(
-                self.filewriter.get_canonical_filename(paths['input']),
+                self.filewriter.canonical_filename(paths['input']),
                 paths['expected'])

@@ -9,7 +9,7 @@ from logya.globals import allowed_exts
 class FileWriter(object):
     """Class for writing site files."""
 
-    def get_canonical_filename(self, name):
+    def canonical_filename(self, name):
         """Get file name from given path or file.
 
         If name is not recognized as a file name a /index.html is added. To be
@@ -29,7 +29,7 @@ class FileWriter(object):
 
         return name.lstrip('/')
 
-    def getfile(self, dir_dst, path):
+    def file_handle(self, dir_dst, path):
         """Determine file to create and return an open file handle for writing.
 
         Paths pointing to a file name will be created as they are. When a path
@@ -37,7 +37,7 @@ class FileWriter(object):
         directory.
         """
 
-        filename = self.get_canonical_filename(path)
+        filename = self.canonical_filename(path)
         # create target directory if it doesn't exist
         dir_target = os.path.join(dir_dst, os.path.dirname(filename))
         if not os.path.exists(dir_target):
@@ -94,7 +94,7 @@ class DocWriter(FileWriter):
             tpl_vars.get('body', '')).render(tpl_vars)
 
         page = self.template.env.get_template(template)
-        out = self.getfile(self.dir_dst, doc['url'])
+        out = self.file_handle(self.dir_dst, doc['url'])
 
         content = page.render(tpl_vars)
         if not is3:
