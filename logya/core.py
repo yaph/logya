@@ -70,11 +70,6 @@ class Logya(object):
         if self.verbose:
             print(msg)
 
-    def set_dir_current(self, dir_current):
-        """Called from tests."""
-
-        self.dir_current = dir_current
-
     def get_path(self, name, required=False):
         """Get path relative to current working directory for given name.
 
