@@ -7,6 +7,7 @@ Changes
 --------------
 
 * More pythonic and readable code.
+* Made logya run Python3 compatible.
 * Fixed #52: Removed ext and test.py and code that referenced them.
 * Fixed #48: Use .htaccess from HTML5 Boilerplate.
 * New style string formatting.
