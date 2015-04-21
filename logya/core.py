@@ -5,6 +5,7 @@ import datetime
 
 from operator import itemgetter
 
+from logya import path
 from logya.compat import execfile, is3
 from logya.config import Config
 from logya.docreader import DocReader
@@ -41,23 +42,24 @@ class Logya(object):
         environment and sets object properties.
         """
 
-        self.dir_content = self.get_path('content', required=True)
-        self.config = Config(self.get_path('site.yaml', required=True))
+        cwd = self.dir_current
+        self.dir_content = path.join(cwd, 'content', required=True)
+        self.config = Config(path.join(cwd, 'site.yaml', required=True))
 
-        self.dir_templates = self.get_path('templates', required=True)
+        self.dir_templates = path.join(cwd, 'templates', required=True)
         self.template = Template(self)
 
-        self.dir_bin = self.get_path('bin')
+        self.dir_bin = path.join(cwd, 'bin')
 
         # make all settings in site section available to templates
         for key, val in list(self.config.section('site').items()):
             self.template.vars[key] = val
 
         # Optional directory with static files like css, js and images.
-        self.dir_static = self.get_path('static')
+        self.dir_static = path.join(cwd, 'static')
 
         # Directory is created by the generate command.
-        self.dir_dst = self.get_path('deploy')
+        self.dir_dst = path.join(cwd, 'deploy')
 
         self.base_url = self.config.get('site', 'base_url')
         # base_url must be defined in settings
@@ -69,17 +71,6 @@ class Logya(object):
 
         if self.verbose:
             print(msg)
-
-    def get_path(self, name, required=False):
-        """Get path relative to current working directory for given name.
-
-        Raises an exception if resource is required and doesn't exist.
-        """
-
-        path = os.path.join(self.dir_current, name)
-        if required and not os.path.exists(path):
-            raise Exception('Resource at path {} does not exist.'.format(path))
-        return path
 
     def get_doc_template(self, doc):
         """Get template setting from doc otherwise from configuration."""
@@ -100,11 +91,6 @@ class Logya(object):
             dirs = dirs[:-1]
         return dirs
 
-    def update_index(self, doc, path):
-        """Add a doc to given path index."""
-
-        self.indexes[path] = self.indexes.get(path, []) + [doc]
-
     def _update_indexes(self, doc, url=None):
         """Add a doc to indexes determined from given url."""
 
@@ -115,7 +101,8 @@ class Logya(object):
         last = 0
         for d in dirs:
             last += 1
-            self.update_index(doc, '/'.join(dirs[:last]))
+            fullpath = '/'.join(dirs[:last])
+            self.indexes[fullpath] = self.indexes.get(fullpath, []) + [doc]
 
     def update_indexes(self, doc):
         """Add all indexes for doc determined from headers."""
@@ -132,15 +119,18 @@ class Logya(object):
             if idx['var'] in doc:
                 self.update_doc_index(doc, idx['var'], idx['path'])
 
-    def update_doc_index(self, doc, var, path):
+    def update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
-            var_path = re.sub(self.re_url_replace, '-', val).lower()
-            url = '/{}/{}/'.format(path, var_path)
+            url = '/{}/{}/'.format(
+                basepath,
+                re.sub(self.re_url_replace, '-', val).lower())
+
             links = var + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
-            # must append path after tag string to create subdir
+
+            # Must append file name to url to create subdir.
             self._update_indexes(doc, url + self.index_filename)
 
     def build_indexes(self, mode=None):
@@ -192,17 +182,17 @@ class Logya(object):
 
         writer = FileWriter()
         page = self.template.env.get_template('rss2.xml')
-        fh = writer.file_handle(self.dir_dst, os.path.join(directory, 'rss.xml'))
+        fh = writer.file_handle(self.dir_dst, path.join(directory, 'rss.xml'))
         writer.write(fh, page.render(self.template.vars))
 
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
-        url_path = '/{}'.format(os.path.join(directory, self.index_filename))
+        urlpath = '/{}'.format(path.join(directory, self.index_filename))
         # make sure there exists no document at the index path
-        if url_path not in self.docs_parsed:
+        if urlpath not in self.docs_parsed:
             # remove the file name part if it's index.html
-            url = url_path.replace(self.index_filename, '')
+            url = urlpath.replace(self.index_filename, '')
 
             docs = self.indexes[directory]
 
@@ -259,11 +249,11 @@ class Logya(object):
             self.write_rss(feed_title, '', docs)
 
     # TODO remove in 4.0
-    def get_execs(self, path):
+    def get_execs(self, dirname):
         """Generator yielding paths to executable files in given directory."""
 
-        for p in os.listdir(path):
-            fpath = os.path.join(path, p)
+        for p in os.listdir(dirname):
+            fpath = path.join(dirname, p)
             if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
                 yield fpath
 
@@ -271,7 +261,7 @@ class Logya(object):
     def exec_bin(self):
         """Execute binary files in bin dir."""
 
-        dir_bin = self.get_path('bin')
+        dir_bin = path.join('bin')
         if os.path.exists(dir_bin):
             args = {'logya': self}
             for exe in self.get_execs(dir_bin):
