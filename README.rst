@@ -44,6 +44,7 @@ Sites built with logya
 * http://exploringdata.github.io/
 * http://wahlen.github.io/
 * http://d3-geomap.github.io/
+* http://guitarstreams.com/
 
 .. _`documentation`: http://pythonhosted.org/logya
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues
