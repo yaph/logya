@@ -31,9 +31,9 @@ class Serve(Logya):
         super(Serve, self).init_env()
         # override base_url from config in templates
         base_url = 'http://%s:%d' % (self.host, self.port)
-        self.template.add_var('base_url', base_url)
+        self.template.vars['base_url'] = base_url
         # set debug var to true in serve mode
-        self.template.add_var('debug', True)
+        self.template.vars['debug'] = True
 
     def update_file(self, src, dst):
         '''Copy source file to destination file if source is newer.

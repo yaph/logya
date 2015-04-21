@@ -54,37 +54,8 @@ class Template():
 
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
 
-    def get_env(self):
-        """Return template environment."""
-
-        return self.env
-
-    def add_var(self, name, value):
-        """Add to template variables."""
-
-        self.vars[name] = value
-
-    def add_doc_var(self, name, value):
-        """Add to template variables."""
-
-        self.doc_vars[name] = value
-
-    def empty_doc_vars(self):
-        """Empty doc_vars dictionary."""
-
-        self.doc_vars = {}
-
-    def get_var(self, name):
-        """Return value of template variables with given name."""
-
-        return self.vars[name]
-
-    def get_vars(self):
-        """Return non doc-specific template variables."""
-
-        return self.vars
-
-    def get_all_vars(self):
+    @property
+    def all_vars(self):
         """Return all template variables combined."""
 
         all_vars = self.vars.copy()

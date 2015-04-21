@@ -66,11 +66,11 @@ class DocWriter(FileWriter):
         """Set template variables."""
 
         # empty doc vars dictionary to not retain previous doc values
-        self.template.empty_doc_vars()
+        self.template.doc_vars = {}
         for field, val in list(doc.items()):
             if isinstance(val, str) and not is3:
                 val = val.decode('utf-8')
-            self.template.add_doc_var(field, val)
+            self.template.doc_vars[field] = val
 
     def write(self, doc, template):
         """Render and write document to created file.
@@ -79,22 +79,21 @@ class DocWriter(FileWriter):
         """
 
         if not template:
-            print(('Warning: doc %s has no template set and won\'t be created.'
-                % doc['url']))
+            print('Warning: doc {} has no template set and won\'t be created.'
+                  .format(doc['url']))
             return False
 
         self.set_template_vars(doc)
-        tpl_vars = self.template.get_all_vars()
-        tpl_env = self.template.get_env()
+        tpl_vars = self.template.all_vars
 
         # Set additional template variables.
         tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']
 
         # Pre-render doc body so Jinja2 template tags can be used in content.
-        tpl_vars['body'] = tpl_env.from_string(
+        tpl_vars['body'] = self.template.env.from_string(
             tpl_vars.get('body', '')).render(tpl_vars)
 
-        page = tpl_env.get_template(template)
+        page = self.template.env.get_template(template)
         out = self.getfile(self.dir_dst, doc['url'])
 
         content = page.render(tpl_vars)

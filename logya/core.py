@@ -51,7 +51,7 @@ class Logya(object):
 
         # make all settings in site section available to templates
         for key, val in list(self.config.get_section('site').items()):
-            self.template.add_var(key, val)
+            self.template.vars[key] = val
 
         # optional directory with static files like css, js and images
         self.dir_static = self.get_path('static')
@@ -177,7 +177,7 @@ class Logya(object):
                                        reverse=True)
 
         # make indexes available to templates
-        self.template.add_var('indexes', self.indexes)
+        self.template.vars['indexes'] = self.indexes
 
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
@@ -189,16 +189,16 @@ class Logya(object):
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
 
-        self.template.add_var('url', self.base_url)
-        self.template.add_var('title', feed_title)
-        self.template.add_var('description', directory)
-        self.template.add_var('last_build', datetime.datetime.now())
-        self.template.add_var('items', docs[0:self.feed_limit])
+        self.template.vars['url'] = self.base_url
+        self.template.vars['title'] = feed_title
+        self.template.vars['description'] = directory
+        self.template.vars['last_build'] = datetime.datetime.now()
+        self.template.vars['items'] = docs[0:self.feed_limit]
 
         writer = FileWriter()
         page = self.template.env.get_template('rss2.xml')
         fh = writer.getfile(self.dir_dst, os.path.join(directory, 'rss.xml'))
-        writer.write(fh, page.render(self.template.get_vars()))
+        writer.write(fh, page.render(self.template.vars))
 
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
@@ -224,15 +224,15 @@ class Logya(object):
             if not is3:
                 title = title.decode('utf-8')
 
-            self.template.add_var('url', url)
-            self.template.add_var('canonical', self.base_url + url)
-            self.template.add_var('index', docs)
-            self.template.add_var('title', title)
-            self.template.add_var('directory', directory)
+            self.template.vars['url'] = url
+            self.template.vars['canonical'] = self.base_url + url
+            self.template.vars['index'] = docs
+            self.template.vars['title'] = title
+            self.template.vars['directory'] = directory
 
             page = self.template.env.get_template(template)
             filewriter.write(filewriter.getfile(self.dir_dst, directory),
-                             page.render(self.template.get_vars()))
+                             page.render(self.template.vars))
 
             # write directory RSS file
             if self.base_url:
