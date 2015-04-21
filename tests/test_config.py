@@ -9,10 +9,10 @@ class TestConfig(LogyaBaseTestCase):
             'http://localhost:8080', self.config.get('site', 'base_url'))
         self.assertIsNone(self.config.get('site', 'disqus_shortname'))
 
-    def test_get_item(self):
-        self.assertEqual('post.html', self.config.get_item(
+    def test_search(self):
+        self.assertEqual('post.html', self.config.search(
             'templates', 'doc', 'content_type', 'template'))
-        self.assertEqual('doc', self.config.get_item(
+        self.assertEqual('doc', self.config.search(
             'templates', 'post.html', 'template', 'content_type'))
 
     def test_section(self):

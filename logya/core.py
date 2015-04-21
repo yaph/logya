@@ -89,7 +89,7 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Get template setting from doc otherwise from configuration."""
 
-        template = self.config.get_item(
+        template = self.config.search(
             'templates', 'doc', 'content_type', 'template')
 
         return doc.get('template', template)
@@ -245,7 +245,7 @@ class Logya(object):
         written.
         """
 
-        template = self.config.get_item(
+        template = self.config.search(
             'templates', 'index', 'content_type', 'template')
         if not template:
             return
