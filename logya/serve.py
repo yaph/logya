@@ -105,7 +105,7 @@ class Serve(Logya):
             index_paths = list(self.indexes.keys())
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
-                template = self.config.search(
+                template = self.config.search_dict_list(
                     'templates', 'index', 'content_type', 'template')
                 if template:
                     self.write_index(FileWriter(), path_normalized, template)

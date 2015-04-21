@@ -14,10 +14,10 @@ class Config:
     def get(self, section, key):
         return self.config[section].get(key, None)
 
-    def search(self, section, search, search_key, value_key):
-        for i in self.config[section]:
-            if search == i[search_key]:
-                return i[value_key]
+    def search_dict_list(self, section, search, search_key, value_key):
+        for item in self.config[section]:
+            if search == item[search_key]:
+                return item[value_key]
 
     def section(self, section):
         return self.config[section]

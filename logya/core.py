@@ -53,14 +53,14 @@ class Logya(object):
         for key, val in list(self.config.section('site').items()):
             self.template.vars[key] = val
 
-        # optional directory with static files like css, js and images
+        # Optional directory with static files like css, js and images.
         self.dir_static = self.get_path('static')
 
+        # Directory is created by the generate command.
         self.dir_dst = self.get_path('deploy')
 
-        # feeds are only generated if base_url is set in site section of config
         self.base_url = self.config.get('site', 'base_url')
-
+        # base_url must be defined in settings
         if self.base_url is False:
             raise Exception('base_url not set in site config.')
 
@@ -84,7 +84,7 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Get template setting from doc otherwise from configuration."""
 
-        template = self.config.search(
+        template = self.config.search_dict_list(
             'templates', 'doc', 'content_type', 'template')
 
         return doc.get('template', template)
@@ -240,7 +240,7 @@ class Logya(object):
         written.
         """
 
-        template = self.config.search(
+        template = self.config.search_dict_list(
             'templates', 'index', 'content_type', 'template')
         if not template:
             return
