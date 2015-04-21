@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import markdown
 
+from logya.compat import is3
+
 from yaml import load
 try:
     from yaml import CLoader as Loader
@@ -19,7 +21,9 @@ def parse(content, modified=None, markup=None):
 
     # Parse body if not HTML/XML.
     if markup == 'markdown':
-        body = markdown.markdown(body.decode('utf-8'))
+        if not is3:
+            body = body.decode('utf-8')
+        body = markdown.markdown(body)
 
     parsed = load(header, Loader=Loader)
     parsed['body'] = body
