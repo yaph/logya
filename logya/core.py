@@ -61,7 +61,7 @@ class Logya(object):
 
         self.base_url = self.config.get('site', 'base_url')
         # base_url must be defined in settings
-        if self.base_url is False:
+        if not self.base_url:
             raise Exception('base_url not set in site config.')
 
     def info(self, msg):
@@ -230,8 +230,7 @@ class Logya(object):
                              page.render(self.template.vars))
 
             # write directory RSS file
-            if self.base_url:
-                self.write_rss(title, directory, docs)
+            self.write_rss(title, directory, docs)
 
     def write_indexes(self):
         """Write index.html files to deploy directories where non exists.
@@ -253,7 +252,7 @@ class Logya(object):
             self.write_index(FileWriter(), directory, template)
 
         # write root RSS file
-        if self.base_url and '__index__' in self.indexes:
+        if '__index__' in self.indexes:
             docs = sorted(self.indexes['__index__'],
                           key=itemgetter('created'),
                           reverse=True)
