@@ -3,8 +3,8 @@ import os
 
 from datetime import datetime
 
+from logya import allowed_exts
 from logya.compat import file_open as open
-from logya.globals import allowed_exts
 from logya.docparser import parse
 
 

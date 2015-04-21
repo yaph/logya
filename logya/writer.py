@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+from logya import allowed_exts
 from logya.compat import file_open as open
 from logya.compat import is3
-from logya.globals import allowed_exts
 
 
 class FileWriter(object):
@@ -23,8 +23,8 @@ class FileWriter(object):
 
         # only allowed extension will be written to a file, otherwise a
         # directory with the name is created and content written to index.html
-        fext = os.path.splitext(name)[1]
-        if not fext or fext.lstrip('.') not in allowed_exts:
+        ext = os.path.splitext(name)[1]
+        if not ext or ext.lstrip('.') not in allowed_exts:
             name = os.path.join(name, 'index.html')
 
         return name.lstrip('/')

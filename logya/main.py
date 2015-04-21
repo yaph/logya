@@ -6,7 +6,6 @@ from logya.create import Create
 from logya.generate import Generate
 from logya.serve import Serve
 from logya.run import Run
-from logya.test import Test
 
 
 def create(args):
@@ -23,10 +22,6 @@ def serve(args):
 
 def run(args):
     Run(args.script)
-
-
-def test(args):
-    Test()
 
 
 def main():
@@ -61,9 +56,6 @@ def main():
     p_run = subparsers.add_parser('run', help='Run script in Logya context.')
     p_run.add_argument('script', help='Python script to execute.')
     p_run.set_defaults(func=run)
-
-    # test stuff
-    subparsers.add_parser('test', help='test stuff').set_defaults(func=test)
 
     # process arguments
     args = parser.parse_args()
