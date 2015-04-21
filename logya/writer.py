@@ -13,13 +13,13 @@ class FileWriter(object):
         """Get file name from given path or file.
 
         If name is not recognized as a file name a /index.html is added. To be
-        recognized as a file name it must end in one of self.allowed_exts.
+        recognized as a file name it must end with an allowed extension.
         Leading slashes are stripped off.
         """
 
         # TODO explain this
         if not name.startswith('/'):
-            name = '/%s' % name
+            name = '/{}'.format(name)
 
         # only allowed extension will be written to a file, otherwise a
         # directory with the name is created and content written to index.html

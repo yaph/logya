@@ -30,7 +30,7 @@ class Serve(Logya):
     def init_env(self):
         super(Serve, self).init_env()
         # override base_url from config in templates
-        base_url = 'http://%s:%d' % (self.host, self.port)
+        base_url = 'http://{}:{:d}'.format(self.host, self.port)
         self.template.vars['base_url'] = base_url
         # set debug var to true in serve mode
         self.template.vars['debug'] = True
@@ -72,9 +72,10 @@ class Serve(Logya):
         if os.path.isfile(file_src):
             file_dst = os.path.join(self.dir_dst, path_rel)
             if self.update_file(file_src, file_dst):
-                logging.info('Copied file %s to %s' % (file_src, file_dst))
+                logging.info('Copied file {} to {}'.format(file_src, file_dst))
                 return
-            logging.info('src %s not newer than dest %s' % (file_src, file_dst))
+            logging.info('src {} not newer than dest {}'
+                         .format(file_src, file_dst))
             return
 
         # newly build generated docs and indexes
@@ -89,7 +90,7 @@ class Serve(Logya):
             # if a path like /index.html is requested also try to find /
             alt_path = os.path.dirname(path)
             if not alt_path.endswith('/'):
-                alt_path = '%s/' % alt_path
+                alt_path = '{}/'.format(alt_path)
             if alt_path in self.docs_parsed:
                 doc = self.docs_parsed[alt_path]
 
@@ -97,7 +98,7 @@ class Serve(Logya):
             docwriter = DocWriter(self.dir_dst, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
-            logging.info('Refreshed doc at URL: %s' % path)
+            logging.info('Refreshed doc at URL: {}'.format(path))
             return
         else:
             # try to refresh auto-generated index file
@@ -129,7 +130,8 @@ class Server(HTTPServer):
         """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
-        print(('Serving on http://%s:%s/' % (self.logya.host, self.logya.port)))
+        print('Serving on http://{}:{}/'
+              .format(self.logya.host, self.logya.port))
         self.serve_forever()
 
 

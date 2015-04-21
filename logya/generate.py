@@ -20,7 +20,7 @@ class Generate(Logya):
         self.info('Remove existing deploy directory')
         shutil.rmtree(self.dir_dst, True)
 
-        self.info('Generating site in directory: %s' % self.dir_dst)
+        self.info('Generating site in directory: {}'.format(self.dir_dst))
 
         if os.path.exists(self.dir_static):
             self.info('Copy static files')
@@ -37,8 +37,10 @@ class Generate(Logya):
         for doc in list(self.docs_parsed.values()):
             self.writer.write(doc, self.get_doc_template(doc))
         self.info(
-            'Written %d documents to deploy directory' % len(self.docs_parsed))
+            'Written {:d} documents to deploy directory'
+            .format(len(self.docs_parsed)))
 
         self.write_indexes()
         self.info(
-            'Written %d indexes to deploy directory' % len(self.indexes))
+            'Written {:d} indexes to deploy directory'
+            .format(len(self.indexes)))

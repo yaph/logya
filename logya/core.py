@@ -83,7 +83,7 @@ class Logya(object):
 
         path = os.path.join(self.dir_current, name)
         if required and not os.path.exists(path):
-            raise Exception('Resource at path "%s" does not exist.' % path)
+            raise Exception('Resource at path {} does not exist.'.format(path))
         return path
 
     def get_doc_template(self, doc):
@@ -142,7 +142,7 @@ class Logya(object):
 
         for val in doc[var]:
             var_path = re.sub(self.re_url_replace, '-', val).lower()
-            url = '/%s/%s/' % (path, var_path)
+            url = '/{}/{}/'.format(path, var_path)
             links = var + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
             # must append path after tag string to create subdir
@@ -203,7 +203,7 @@ class Logya(object):
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
-        url_path = '/%s' % os.path.join(directory, self.index_filename)
+        url_path = '/{}'.format(os.path.join(directory, self.index_filename))
         # make sure there exists no document at the index path
         if url_path not in self.docs_parsed:
             # remove the file name part if it's index.html
