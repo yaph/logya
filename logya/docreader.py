@@ -9,10 +9,10 @@ from logya.docparser import parse
 
 
 class DocReader:
-    '''A class for reading content documents.'''
+    """A class for reading content documents."""
 
     def __init__(self, dir_base):
-        '''Recurse through content directory to add files to read and parse.'''
+        """Recurse through content directory to add files to read and parse."""
 
         self.dir_base = dir_base
         self.files = []
@@ -37,8 +37,8 @@ class DocReader:
 
     @property
     def parsed(self):
-        '''Generator that reads all docs from base directory and returns parsed
-        content.'''
+        """Generator that reads all docs from base directory and returns parsed
+        content."""
 
         for filename in self.files:
             stat = os.stat(filename)

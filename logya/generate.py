@@ -7,7 +7,7 @@ from logya.writer import DocWriter
 
 
 class Generate(Logya):
-    '''Generate a Web site to deploy from current directory as source.'''
+    """Generate a Web site to deploy from current directory as source."""
 
     def __init__(self, **kwargs):
 

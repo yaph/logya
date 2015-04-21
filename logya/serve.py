@@ -11,7 +11,7 @@ from logya.writer import FileWriter, DocWriter
 
 
 class Serve(Logya):
-    '''Serve files from deploy directory.'''
+    """Serve files from deploy directory."""
 
     host = 'localhost'
     port = 8080
@@ -36,10 +36,10 @@ class Serve(Logya):
         self.template.vars['debug'] = True
 
     def update_file(self, src, dst):
-        '''Copy source file to destination file if source is newer.
+        """Copy source file to destination file if source is newer.
 
         Creates destination directory and file if they don't exist.
-        '''
+        """
 
         # make sure destination directory exists
         dir_dst = os.path.dirname(dst)
@@ -57,10 +57,10 @@ class Serve(Logya):
         return False
 
     def refresh_resource(self, path):
-        '''Refresh resource corresponding to given path.
+        """Refresh resource corresponding to given path.
 
         Static files are updated if necessary, documents are read, parsed and
-        written to the corresponding destination in the deploy directory.'''
+        written to the corresponding destination in the deploy directory."""
 
         # has to be done here too to keep track of configuration changes
         self.init_env()
@@ -111,10 +111,10 @@ class Serve(Logya):
 
 
 class Server(HTTPServer):
-    '''Logya HTTPServer based class to serve generated site.'''
+    """Logya HTTPServer based class to serve generated site."""
 
     def __init__(self, logya):
-        '''Initialize HTTPServer listening on the specified host and port.'''
+        """Initialize HTTPServer listening on the specified host and port."""
 
         self.logya = logya
         self.logya.init_env()
@@ -126,7 +126,7 @@ class Server(HTTPServer):
             self, (self.logya.host, self.logya.port), HTTPRequestHandler)
 
     def serve(self):
-        '''Serve static files from logya deploy directory.'''
+        """Serve static files from logya deploy directory."""
 
         os.chdir(self.logya.dir_dst)
         print(('Serving on http://%s:%s/' % (self.logya.host, self.logya.port)))
@@ -134,10 +134,10 @@ class Server(HTTPServer):
 
 
 class HTTPRequestHandler(SimpleHTTPRequestHandler):
-    '''Logya SimpleHTTPRequestHandler based class to return resources.'''
+    """Logya SimpleHTTPRequestHandler based class to return resources."""
 
     def do_GET(self):
-        '''Return refreshed resource.'''
+        """Return refreshed resource."""
 
         logging.info('Requested resource: %s', self.path)
         self.server.logya.refresh_resource(self.path)
