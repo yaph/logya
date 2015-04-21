@@ -19,5 +19,5 @@ class Config:
             if search == i[search_key]:
                 return i[value_key]
 
-    def get_section(self, section):
+    def section(self, section):
         return self.config[section]

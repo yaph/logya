@@ -50,7 +50,7 @@ class Logya(object):
         self.dir_bin = self.get_path('bin')
 
         # make all settings in site section available to templates
-        for key, val in list(self.config.get_section('site').items()):
+        for key, val in list(self.config.section('site').items()):
             self.template.vars[key] = val
 
         # optional directory with static files like css, js and images
@@ -132,7 +132,7 @@ class Logya(object):
         # add to special __index__ for RSS generation
         self._update_indexes(doc, '__index__/index/')
 
-        doc_indexes = self.config.get_section('indexes')
+        doc_indexes = self.config.section('indexes')
         for idx in doc_indexes:
             if idx['var'] in doc:
                 self.update_doc_index(doc, idx['var'], idx['path'])
