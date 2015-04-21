@@ -6,6 +6,13 @@ Changes
 3.2.2 to 3.2.3
 --------------
 
+* New style string formatting.
+* Added tests for docparser and docreader modules.
+* More appropriate function names.
+* More pythonic and readable code.
+* Use fontawesome icons for reddit and stumbleupon.
+* Fixed #39: added sample video macro.
+* Updated bootstrap.
 * Better documentation of filesource template function.
 * Write count of generated documents and indexes in verbose mode of generate command, not individual index file names.
 * Added default robots.txt to starter site.
