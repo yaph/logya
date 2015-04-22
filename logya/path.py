@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # Wrappers for functions from os.path.
 import os
+import re
+
+re_url_replace = re.compile(r'[\/\s_]+')
 
 
 class PathResourceError(Exception):
@@ -27,3 +30,7 @@ def list_dirs_from_url(url):
     containing the content of the corresponding document."""
 
     return [d for d in url.strip('/').split('/') if d][:-1]
+
+
+def slugify(path):
+    return re.sub(re_url_replace, '-', path).lower()

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import re
 import datetime
 
 from operator import itemgetter
@@ -15,8 +14,6 @@ from logya.writer import FileWriter
 
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
-
-    re_url_replace = re.compile(r'[\/\s_]+')
 
     def __init__(self, **kwargs):
         """Set required logya object properties."""
@@ -115,9 +112,7 @@ class Logya(object):
         """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
-            url = '/{}/{}/'.format(
-                basepath,
-                re.sub(self.re_url_replace, '-', val).lower())
+            url = '/{}/{}/'.format(basepath, path.slugify(val))
 
             links = var + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
