@@ -68,14 +68,15 @@ class Serve(Logya):
         # if a file relative to static source is requested update it and return
         path_rel = path.lstrip('/')
         # use only the path component and ignore possible query params issue #3
-        file_src = urlparse(os.path.join(self.dir_static, path_rel)).path
-        if os.path.isfile(file_src):
-            file_dst = os.path.join(self.dir_dst, path_rel)
-            if self.update_file(file_src, file_dst):
-                logging.info('Copied file {} to {}'.format(file_src, file_dst))
+        src = urlparse(os.path.join(self.dir_static, path_rel)).path
+        if os.path.isfile(src):
+            dst = os.path.join(self.dir_dst, path_rel)
+
+            if self.update_file(src, dst):
+                logging.info('Copied file %s to %s', src, dst)
                 return
-            logging.info('src {} not newer than dest {}'
-                         .format(file_src, file_dst))
+
+            logging.info('%s not newer than %s', src, dst)
             return
 
         # newly build generated docs and indexes
@@ -98,7 +99,7 @@ class Serve(Logya):
             docwriter = DocWriter(self.dir_dst, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
-            logging.info('Refreshed doc at URL: {}'.format(path))
+            logging.info('Refreshed doc at URL: %s', path)
             return
         else:
             # try to refresh auto-generated index file
