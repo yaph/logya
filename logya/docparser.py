@@ -27,10 +27,4 @@ def parse(content, modified=None, content_type=None):
         body = markdown.markdown(body)
 
     parsed['body'] = body
-
-    # Use file modification time for created and updated properties, if not
-    # set in document itself.
-    parsed['created'] = parsed.get('created', modified)
-    parsed['updated'] = parsed.get('updated', modified)
-
     return parsed

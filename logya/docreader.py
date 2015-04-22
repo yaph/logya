@@ -3,7 +3,7 @@ import os
 
 from datetime import datetime
 
-from logya import allowed_exts
+from logya import allowed_exts, path
 from logya.compat import file_open as open
 from logya.docparser import parse
 
@@ -23,17 +23,22 @@ def read(filename):
         return f.read().strip()
 
 
+def list_docs(dir_base):
+    """Recurse through directory to add documents to process."""
+    docs = []
+    for root, dirs, files in os.walk(dir_base):
+        docs.extend([
+            os.path.join(root, f) for f in files
+            if os.path.splitext(f)[1].strip('.') in allowed_exts])
+    return docs
+
+
 class DocReader:
     """A class for reading content documents."""
 
-    def __init__(self, dir_base):
-        """Recurse through content directory to add files to read and parse."""
-
-        self.files = []
-        for root, dirs, files in os.walk(dir_base):
-            self.files.extend([
-                os.path.join(root, f) for f in files
-                if os.path.splitext(f)[1].strip('.') in allowed_exts])
+    def __init__(self, basedir):
+        self.basedir = basedir
+        self.files = list_docs(basedir)
 
     @property
     def parsed(self):
@@ -43,7 +48,20 @@ class DocReader:
         for filename in self.files:
             stat = os.stat(filename)
             content = read(filename)
-            if content:
-                yield parse(content,
-                            modified=datetime.fromtimestamp(stat.st_mtime),
-                            content_type=content_type(filename))
+            if not content:
+                continue
+
+            modified = datetime.fromtimestamp(stat.st_mtime)
+            parsed = parse(content, content_type=content_type(filename))
+
+            # Use file modification time for created and updated properties,
+            # if not set in document itself.
+            parsed['created'] = parsed.get('created', modified)
+            parsed['updated'] = parsed.get('updated', modified)
+
+            # Set url from filename if not in set in parsed document.
+            if 'url' not in parsed:
+                parsed['url'] = path.url_from_filename(
+                    filename, basedir=self.basedir)
+
+            yield parsed

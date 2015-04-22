@@ -34,3 +34,16 @@ def list_dirs_from_url(url):
 
 def slugify(path):
     return re.sub(re_url_replace, '-', path).lower()
+
+
+def url_from_filename(filename, basedir=None):
+    """Creates a URL to be used in docs from basedir and filename."""
+
+    ext = os.path.splitext(filename)[1]
+    if ext:
+        filename = filename.replace(ext, '/')
+
+    if basedir:
+        filename = filename.replace(basedir, '')
+
+    return filename
