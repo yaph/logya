@@ -8,6 +8,16 @@ from logya.compat import file_open as open
 from logya.docparser import parse
 
 
+def content_type(filename):
+    ctype = None
+    ext = os.path.splitext(filename)[1]
+    if ext in ['.html', '.htm']:
+        ctype = 'html'
+    elif ext in ['.md', '.markdown']:
+        ctype = 'markdown'
+    return ctype
+
+
 class DocReader:
     """A class for reading content documents."""
 
@@ -26,15 +36,6 @@ class DocReader:
         with open(filename, 'r', encoding='utf-8') as f:
             return f.read().strip()
 
-    def content_type(self, filename):
-        ctype = None
-        ext = os.path.splitext(filename)[1]
-        if ext in ['.html', '.htm']:
-            ctype = 'html'
-        elif ext in ['.md', '.markdown']:
-            ctype = 'markdown'
-        return ctype
-
     @property
     def parsed(self):
         """Generator that reads all docs from base directory and returns parsed
@@ -46,4 +47,4 @@ class DocReader:
             if content:
                 yield parse(content,
                             modified=datetime.fromtimestamp(stat.st_mtime),
-                            content_type=self.content_type(filename))
+                            content_type=content_type(filename))
