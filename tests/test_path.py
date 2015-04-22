@@ -30,3 +30,12 @@ class TestPath(unittest.TestCase):
 
         for test in tests:
             self.assertEqual(test[1], path.list_dirs_from_url(test[0]))
+
+    def test_slugify(self):
+        tests = [
+            ('FOSDEM', 'fosdem'),
+            ('Video Demonstration', 'video-demonstration'),
+            ('Chrome OS', 'chrome-os')]
+
+        for test in tests:
+            self.assertEqual(test[1], path.slugify(test[0]))
