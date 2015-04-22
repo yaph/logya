@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from base import LogyaBaseTestCase
+from . import LogyaBaseTestCase
 
 
 class TestConfig(LogyaBaseTestCase):

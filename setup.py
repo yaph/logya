@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 from logya import __version__
 
-with open('README.rst') as f:
-    readme = f.read()
 
-with open('LICENSE') as f:
-    license = f.read()
-
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
+readme = open('README.rst').read()
+license = open('LICENSE').read()
+requirements = open('requirements.txt').read().splitlines()
 
 setup(
     name='logya',
     version=__version__,
     description='Logya: easy to use and flexible static Web site generator.',
     long_description=readme,
-    url='http://yaph.github.com/logya/',
+    url='https://pythonhosted.org/logya/',
     author='Ramiro Gómez',
     author_email='code@ramiro.org',
     maintainer='Ramiro Gómez',
@@ -27,9 +27,9 @@ setup(
     packages=['logya'],
     include_package_data=True,
     exclude_package_data={'': ['*.pyc']},
-    install_requires=required,
+    install_requires=requirements,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -37,10 +37,13 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP :: Site Management'],
     entry_points={
         'console_scripts': [
             'logya = logya.main:main'
         ]
-    }
+    },
+    test_suite='tests',
+    tests_require=['tox', 'mock'],
 )

@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 import unittest
 
 from logya.docparser import parse
 
-import fixtures.docs as docs
+import tests.fixtures.docs as docs
 
 
 class TestDocParser(unittest.TestCase):
