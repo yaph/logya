@@ -80,28 +80,20 @@ class Logya(object):
 
         return doc.get('template', template)
 
-    def get_dirs_from_path(self, url):
-        """Returns a list of directories from given url.
-
-        The last directory is omitted as it contains an index.html file
-        containing the content of the appropriate document."""
-
-        dirs = [f for f in url.strip('/').split('/') if f]
-        if dirs:
-            dirs = dirs[:-1]
-        return dirs
-
     def _update_indexes(self, doc, url=None):
-        """Add a doc to indexes determined from given url."""
+        """Add a doc to indexes determined from given url.
+
+        For each directory in the URL except for the one containing the content
+        file itself an index is created, if it doesn't exist, and the document
+        is added to the list of docs in the index.
+        """
 
         if url is None:
             url = doc['url']
 
-        dirs = self.get_dirs_from_path(url)
-        last = 0
-        for d in dirs:
-            last += 1
-            fullpath = '/'.join(dirs[:last])
+        dirs = path.list_dirs_from_url(url)
+        for i, _ in enumerate(dirs):
+            fullpath = '/'.join(dirs[:i+1])
             self.indexes[fullpath] = self.indexes.get(fullpath, []) + [doc]
 
     def update_indexes(self, doc):

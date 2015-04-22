@@ -18,3 +18,12 @@ def join(basedir, *args, **kwargs):
         raise PathResourceError(
             'Resource at path {} does not exist.'.format(path))
     return path
+
+
+def list_dirs_from_url(url):
+    """Returns a list of directories from given url.
+
+    The last directory is omitted as it contains an index.html file
+    containing the content of the corresponding document."""
+
+    return [d for d in url.strip('/').split('/') if d][:-1]
