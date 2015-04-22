@@ -10,29 +10,27 @@ except ImportError:
     from yaml import Loader
 
 
-def parse(content, modified=None, markup=None):
+def parse(content, modified=None, content_type=None):
     """Parse document and return a dictionary of header fields and body."""
 
-    # Extract YAML header and body.
+    # Extract YAML header and body and load header into dict.
     pos1 = content.index('---')
     pos2 = content.index('---', pos1 + 1)
     header = content[pos1:pos2].strip()
     body = content[pos2 + 3:].strip()
+    parsed = load(header, Loader=Loader)
 
     # Parse body if not HTML/XML.
-    if markup == 'markdown':
+    if content_type == 'markdown':
         if not is3:
             body = body.decode('utf-8')
         body = markdown.markdown(body)
 
-    parsed = load(header, Loader=Loader)
     parsed['body'] = body
 
     # Use file modification time for created and updated properties, if not
     # set in document itself.
-    if 'created' not in parsed:
-        parsed['created'] = modified
-    if 'updated' not in parsed:
-        parsed['updated'] = modified
+    parsed['created'] = parsed.get('created', modified)
+    parsed['updated'] = parsed.get('updated', modified)
 
     return parsed

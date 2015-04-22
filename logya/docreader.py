@@ -26,14 +26,14 @@ class DocReader:
         with open(filename, 'r', encoding='utf-8') as f:
             return f.read().strip()
 
-    def markup_type(self, filename):
-        markup = None
+    def content_type(self, filename):
+        ctype = None
         ext = os.path.splitext(filename)[1]
         if ext in ['.html', '.htm']:
-            markup = 'html'
+            ctype = 'html'
         elif ext in ['.md', '.markdown']:
-            markup = 'markdown'
-        return markup
+            ctype = 'markdown'
+        return ctype
 
     @property
     def parsed(self):
@@ -46,4 +46,4 @@ class DocReader:
             if content:
                 yield parse(content,
                             modified=datetime.fromtimestamp(stat.st_mtime),
-                            markup=self.markup_type(filename))
+                            content_type=self.content_type(filename))
