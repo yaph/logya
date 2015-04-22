@@ -42,8 +42,8 @@ def main():
 
     # generate a site for deployment, generate and gen sub commands do the same
     msg = 'Generate Web site to deploy from current directory.'
-    [subparsers.add_parser(
-        c, help=msg).set_defaults(func=generate) for c in ['generate', 'gen']]
+    for command in ['generate', 'gen']:
+        subparsers.add_parser(command, help=msg).set_defaults(func=generate)
 
     # serve static pages
     p_serve = subparsers.add_parser(
