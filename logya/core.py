@@ -175,11 +175,11 @@ class Logya(object):
     def write_index(self, filewriter, directory, template):
         """Write an auto-generated index.html file."""
 
-        urlpath = '/{}'.format(path.join(directory, self.index_filename))
-        # make sure there exists no document at the index path
-        if urlpath not in self.docs_parsed:
-            # remove the file name part if it's index.html
-            url = urlpath.replace(self.index_filename, '')
+        url = '/{}'.format(path.join(directory, self.index_filename))
+        # make sure there exists no document at the index url
+        if url not in self.docs_parsed:
+            # Remove file name part if it's index.html, url ends with slash.
+            url = url.replace(self.index_filename, '')
 
             docs = self.indexes[directory]
 
