@@ -18,17 +18,10 @@ class Logya(object):
     def __init__(self, **kwargs):
         """Set required logya object properties."""
 
-        if 'verbose' in kwargs and kwargs['verbose']:
-            self.verbose = True
-        else:
-            self.verbose = False
-
+        self.verbose = kwargs.get('verbose', False)
         self.dir_current = os.getcwd()
-
         self.index_filename = 'index.html'
-
         self.feed_limit = 10
-
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
 
@@ -49,8 +42,7 @@ class Logya(object):
         self.dir_bin = path.join(cwd, 'bin')
 
         # make all settings in site section available to templates
-        for key, val in list(self.config.section('site').items()):
-            self.template.vars[key] = val
+        self.template.vars.update(self.config.section('site'))
 
         # Optional directory with static files like css, js and images.
         self.dir_static = path.join(cwd, 'static')

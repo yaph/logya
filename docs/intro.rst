@@ -7,8 +7,8 @@ You may ask why another static site generator, when there are so many
 others? Valid question, simple answer: all the others are doing it
 wrong. No, seriously, tools like
 `Jekyll <https://github.com/mojombo/jekyll>`_,
-`Hyde <http://ringce.com/hyde>`_ or
-`mynt <http://mynt.mirroredwhite.com/>`_ are very powerful and probably
+`Hyde <http://hyde.github.io/>`_ or
+`mynt <http://mynt.uhnomoli.com/>`_ are very powerful and probably
 provide more features out of the box than Logya ever will.
 
 Two key differences comparing Logya with the above tools are:
