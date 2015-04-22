@@ -32,14 +32,28 @@ clean-test:
 	rm -f .coverage
 	rm -fr htmlcov/
 
+install:
+	python setup.py install
+
+uninstall:
+	pip uninstall -y logya
+
+reinstall: uninstall
+	make install
+
 lint:
 	flake8 logya tests
 
 test:
 	python setup.py test
 
+
+L=$(shell which logya)
 test-all:
 	tox
+	rm -rf t
+	$L create t
+	cd t && $L gen
 
 coverage:
 	coverage run --source logya setup.py test
@@ -66,3 +80,7 @@ dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
+
+# Reinstall and test shortcut
+rt: reinstall
+	make test-all
