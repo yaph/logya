@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+import io
 import os
 
 from datetime import datetime
 
 from logya import allowed_exts, path
-from logya.compat import file_open as open
 from logya.docparser import parse
 
 
@@ -19,7 +19,7 @@ def content_type(filename):
 
 
 def read(filename):
-    with open(filename, 'r', encoding='utf-8') as f:
+    with io.open(filename, 'r', encoding='utf-8') as f:
         return f.read().strip()
 
 

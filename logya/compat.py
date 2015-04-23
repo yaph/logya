@@ -22,8 +22,6 @@ if is3:
     def execfile(exe, args):
         exec(compile(open(exe).read(), exe, 'exec'), args)
 
-    file_open = open
-
 else:
     from urllib import quote_plus
     from urlparse import urlparse
@@ -32,6 +30,3 @@ else:
 
     # use the built-in function
     execfile = execfile
-
-    def file_open(name, mode, encoding='utf-8'):
-        return open(name, mode)

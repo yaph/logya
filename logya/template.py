@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import io
 import os
-from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 
-from logya.compat import quote_plus, is3
-from logya.compat import file_open as open
+from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
+from logya.compat import quote_plus
 
 
 def filesource(logya_inst, name, lines=None):
@@ -18,13 +18,11 @@ def filesource(logya_inst, name, lines=None):
     """
 
     fname = os.path.join(logya_inst.dir_current, name)
-    with open(fname, 'r') as f:
+    with io.open(fname, 'r', encoding='utf-8') as f:
         if lines is None:
             content = f.read()
         else:
             content = ''.join(f.readlines()[:lines])
-    if not is3:
-        content = content.decode('utf-8')
     return escape(content)
 
 
@@ -46,6 +44,7 @@ class Template():
         # self.env.trim_blocks = True
 
         # add urlencode filter to template
+        # TODO remove
         self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
 
         # add filesource global to allow for including the source of a file
@@ -79,8 +78,6 @@ class TemplateLoader(BaseLoader):
         if not os.path.exists(path):
             raise TemplateNotFound(template)
         mtime = os.path.getmtime(path)
-        with open(path, 'r', encoding='utf-8') as f:
+        with io.open(path, 'r', encoding='utf-8') as f:
             source = f.read()
-            if not is3:
-                source = source.decode('utf-8')
         return source, path, lambda: mtime == os.path.getmtime(path)

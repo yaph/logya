@@ -5,7 +5,7 @@ import datetime
 from operator import itemgetter
 
 from logya import path
-from logya.compat import execfile, is3
+from logya.compat import execfile
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.template import Template
@@ -104,8 +104,6 @@ class Logya(object):
         """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
-            if not is3:
-                val = val.encode('utf-8')
             url = '/{}/{}/'.format(basepath, path.slugify(val))
 
             links = var + '_links'
@@ -148,9 +146,7 @@ class Logya(object):
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
 
-        if not is3:
-            s = s.encode('utf-8')
-        return ' » '.join(s.split('/')).replace('-', ' ').title()
+        return u' » '.join(s.split('/')).replace('-', ' ').title()
 
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
@@ -187,8 +183,6 @@ class Logya(object):
                 del self.template.vars['description']
 
             title = self.index_title(directory)
-            if not is3:
-                title = title.decode('utf-8')
 
             self.template.vars['url'] = url
             self.template.vars['canonical'] = self.base_url + url

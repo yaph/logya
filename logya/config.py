@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import io
 import yaml
 
 
@@ -8,7 +9,7 @@ class Config:
     def __init__(self, filename):
         """Create config object read from the given file."""
 
-        with open(filename, 'r') as f:
+        with io.open(filename, 'r', encoding='utf-8') as f:
             self.config = yaml.load(f)
 
     def get(self, section, key):

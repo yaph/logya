@@ -11,5 +11,5 @@ class JSONEncoder(json.JSONEncoder):
             return obj.isoformat()
         elif isinstance(obj, datetime.timedelta):
             return (datetime.datetime.min + obj).time().isoformat()
-        else:
-            return super(JSONEncoder, self).default(obj)
+
+        return json.JSONEncoder.default(self, obj)

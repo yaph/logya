@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+import io
 import os
 
 from logya import allowed_exts
-from logya.compat import file_open as open
-from logya.compat import is3
 
 
 class FileWriter(object):
@@ -42,13 +41,11 @@ class FileWriter(object):
         dir_target = os.path.join(dir_dst, os.path.dirname(filename))
         if not os.path.exists(dir_target):
             os.makedirs(dir_target)
-        return open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
+        return io.open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
 
     def write(self, fh, content):
         """Write content to file and close it."""
 
-        if not is3:
-            content = content.encode('utf-8')
         fh.write(content)
         fh.close()
 
@@ -68,8 +65,6 @@ class DocWriter(FileWriter):
         # empty doc vars dictionary to not retain previous doc values
         self.template.doc_vars = {}
         for field, val in list(doc.items()):
-            if isinstance(val, str) and not is3:
-                val = val.decode('utf-8')
             self.template.doc_vars[field] = val
 
     def write(self, doc, template):
@@ -97,8 +92,6 @@ class DocWriter(FileWriter):
         out = self.file_handle(self.dir_dst, doc['url'])
 
         content = page.render(tpl_vars)
-        if not is3:
-            content = content.encode('utf-8')
 
         out.write(content)
         out.close()

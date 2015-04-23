@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-import json
+import io
 import os
+import json
 
-from datetime import datetime
-
-
-def date_handler(obj):
-    return obj.isoformat() if isinstance(obj, datetime) else obj
+from logya.encoder import JSONEncoder
 
 
 logya = globals()['logya']
@@ -17,5 +14,6 @@ for url, doc in logya.docs_parsed.items():
     del doc['body']
     site_index[url] = doc
 
-with open(os.path.join(logya.dir_static, 'site_index.json'), 'w') as f:
-    json.dump(site_index, f, default=date_handler)
+index_file = os.path.join(logya.dir_static, 'site_index.json')
+with io.open(index_file, 'w', encoding='utf-8') as f:
+    json.dump(site_index, f, cls=JSONEncoder)
