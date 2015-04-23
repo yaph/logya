@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 import datetime
 
@@ -103,6 +105,8 @@ class Logya(object):
     def update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
 
+
+
         for val in doc[var]:
             url = '/{}/{}/'.format(basepath, path.slugify(val))
 
@@ -141,7 +145,7 @@ class Logya(object):
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
 
-        return u' » '.join(s.split('/')).replace('-', ' ').title()
+        return ' » '.join(s.split('/')).replace('-', ' ').title()
 
     def write_rss(self, feed_title, directory, docs):
         """Write RSS 2.0 XML file in target directory"""
