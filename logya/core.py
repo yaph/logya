@@ -105,8 +105,6 @@ class Logya(object):
     def update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
 
-
-
         for val in doc[var]:
             url = '/{}/{}/'.format(basepath, path.slugify(val))
 
