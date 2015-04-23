@@ -104,6 +104,8 @@ class Logya(object):
         """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
+            if not is3:
+                val = val.encode('utf-8')
             url = '/{}/{}/'.format(basepath, path.slugify(val))
 
             links = var + '_links'

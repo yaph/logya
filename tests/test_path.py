@@ -39,3 +39,14 @@ class TestPath(unittest.TestCase):
 
         for test in tests:
             self.assertEqual(test[1], path.slugify(test[0]))
+
+    def test_url_from_filename(self):
+        basedir = '/www/linux-netbook.com/content'
+        tests = [
+            ('/www/linux-netbook.com/content/compare/laptops.md',
+             '/compare/laptops/'),
+            ('/www/linux-netbook.com/content/review/hp-mini.html',
+             '/review/hp-mini/')]
+        for test in tests:
+            self.assertEqual(
+                test[1], path.url_from_filename(test[0], basedir=basedir))
