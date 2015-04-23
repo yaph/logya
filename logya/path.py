@@ -3,7 +3,7 @@
 import os
 import re
 
-re_url_replace = re.compile(r'[\W_]+')
+re_url_replace = re.compile(r'[\/\s_]+')
 
 
 class PathResourceError(Exception):
