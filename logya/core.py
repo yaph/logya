@@ -122,16 +122,11 @@ class Logya(object):
         msg_duplicate = 'The URL {} is already used and will be overwritten.'
 
         for doc in DocReader(self.dir_content).parsed:
-            # ignore empty documents and those without url
-            if doc is None or 'url' not in doc:
-                continue
             url = doc['url']
             # warn user about duplicate URLs when not in serve mode
             if 'serve' != mode and url in self.docs_parsed:
                 print(msg_duplicate.format(url))
             self.docs_parsed[url] = doc
-
-        for doc in list(self.docs_parsed.values()):
             self.update_indexes(doc)
 
         # sort indexes by descending docs creation dates
