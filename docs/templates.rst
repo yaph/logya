@@ -3,20 +3,7 @@
 Templates
 =========
 
-The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many features jinja2 provides you can use the following filters/functions.
-
-
-urlencode
----------
-
-This filter can be used to encode variables so they are safe to use as URL parameters, see an example as used in the default starter site.
-
-::
-
-    <a href="http://reddit.com/submit?url={{canonical|urlencode}}&title={{title|urlencode}}">Reddit</a><
-
-Here ``urlencode`` is used to encode the values of the ``url`` and ``title`` parameters in a link to submit the current page to Reddit.
-
+The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many functions and filters jinja2 provides you can use the following filters/functions.
 
 filesource
 ----------

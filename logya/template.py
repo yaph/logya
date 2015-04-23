@@ -43,10 +43,6 @@ class Template():
 
         # self.env.trim_blocks = True
 
-        # add urlencode filter to template
-        # TODO remove
-        self.env.filters['urlencode'] = lambda x: quote_plus(x.encode('utf-8'))
-
         # add filesource global to allow for including the source of a file
         self.env.globals['filesource'] = lambda x, lines=None: filesource(
             logya_inst, x, lines=lines)
