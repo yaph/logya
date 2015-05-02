@@ -1,0 +1,73 @@
+{% set version = '#v=1' %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    {% if author %}<meta name="author" content="{{ author }}">{% endif %}
+
+    <title>{% block title %}{{ title }}{% endblock%}</title>
+
+    {% if image %}
+      <meta property="og:image" content="{{ base_url }}{{ image }}">
+    {% endif %}
+
+    <link rel="shortcut icon" href="/img/logya.png">
+    <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/rss.xml">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css{{ version }}">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block styles %}
+        {% for style in styles %}
+            <link href="{{ style }}{{ version }}" rel="stylesheet">
+        {% endfor %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+          {% include 'sharemenu.html' %}
+        </div>
+      </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div class="container">
+      <hr>
+      <footer>
+        <p>&copy; Project 2015</p>
+      </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/js/script.js{{ version }}"></script>
+
+    {% block body_scripts %}
+        {% for script in scripts %}
+            <script src="{{ script }}{{ version }}"></script>
+        {% endfor %}
+    {% endblock %}
+  </body>
+</html>

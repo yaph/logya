@@ -1,0 +1,19 @@
+include AUTHORS.rst
+include CONTRIBUTING.rst
+include INSTALL
+include LICENSE
+include README.rst
+include requirements.txt
+include setup.py
+include distribute_setup.py
+
+recursive-include logya *.py
+recursive-include logya/sites *.*
+recursive-include tests *
+recursive-include docs *.rst conf.py Makefile make.bat
+
+
+exclude MANIFEST.in
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.pickle

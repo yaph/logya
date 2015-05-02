@@ -1,0 +1,14 @@
+site:
+  base_url: http://localhost:8080
+  disqus_shortname: null
+  author: Author
+
+indexes:
+- path: tags
+  var: tags
+
+templates:
+- content_type: index
+  template: index.html
+- content_type: doc
+  template: post.html

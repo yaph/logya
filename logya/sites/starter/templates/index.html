@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+        <h1 class="index_heading">{{ title }}</h1>
+        <ul class="list-unstyled index_docs">
+        {% for doc in index %}
+            <li>
+                <h2><a href="{{ base_url }}{{ doc.url }}">{{ doc.title }}</a></h2>
+                <p><i class="fa fa-calendar"></i> {{ doc.created.strftime('%B %d, %Y') }}</p>
+                <p>{{ doc.description }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

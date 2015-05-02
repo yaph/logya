@@ -1,0 +1,12 @@
+{% macro index(name) -%}
+{% if name %}
+    {% for url, anchor in name %}
+        <a href="{{url|e}}">{{anchor|e}}</a>{% if not loop.last %}, {% endif %}
+    {% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% macro doc_link(url) -%}
+{% set doc = get_doc(url) %}
+<a href="{{ doc.url }}">{{ doc.title }}</a>
+{%- endmacro %}

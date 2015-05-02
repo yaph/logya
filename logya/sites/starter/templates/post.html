@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div itemscope itemtype="http://schema.org/Article" class="col-md-12">
+        <h1 itemprop="name">{{ title }}</h1>
+        <div>{{ body }}</div>
+        <hr>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      {% include 'postinfo.html' %}
+      {% include 'disqus.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
