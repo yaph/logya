@@ -17,7 +17,7 @@ setup(
     version=__version__,
     description='Logya: easy to use and flexible static Web site generator.',
     long_description=readme,
-    url='https://pythonhosted.org/logya/',
+    url='http://ramiro.org/logya/',
     author='Ramiro Gómez',
     author_email='code@ramiro.org',
     maintainer='Ramiro Gómez',
