@@ -8,6 +8,7 @@ Changes
 
 * More pythonic and readable code.
 * Use tox for running tests against different python versions.
+* Issue #58: header attribute url is now optional and will be set from file name if not present.
 * Added path module and tests for it.
 * Made logya run Python3 compatible.
 * Fixed #52: Removed ext and test.py and code that referenced them.
