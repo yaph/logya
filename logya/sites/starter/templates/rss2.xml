@@ -8,10 +8,10 @@
     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     {% for item in items[:10] %}
     <item>
-        <title>{{ item.title }}</title>
-        <link>{{ base_url }}{{ item.url }}</link>
-        <description>{{ item.description }}</description>
-        <guid>{{ base_url }}{{ item.url }}</guid>
+        <title><![CDATA[{{ item.title }}]]></title>
+        <link><![CDATA[{{ base_url }}{{ item.url }}]]></link>
+        <description><![CDATA[{{ item.description }}]]></description>
+        <guid><![CDATA[{{ base_url }}{{ item.url }}]]></guid>
         <pubDate>{{ item.created.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
     </item>
     {% endfor %}

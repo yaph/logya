@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import io
 import os
 
-from logya import allowed_exts, path
+from logya import path
 
 
 class FileWriter(object):
