@@ -5,6 +5,25 @@ from logya import path
 
 class TestPath(unittest.TestCase):
 
+    def test_canonical_filename(self):
+        testdata = [{'input': 'recipes',
+                     'expected': 'recipes/index.html'},
+                    {'input': '/recipes/',
+                     'expected': 'recipes/index.html'},
+                    {'input': '/recipes',
+                     'expected': 'recipes/index.html'},
+                    {'input': '/recipes/veggy',
+                     'expected': 'recipes/veggy/index.html'},
+                    {'input': '/recipes/veggy/index.html',
+                     'expected': 'recipes/veggy/index.html'},
+                    {'input': '/recipes/veggy.html',
+                     'expected': 'recipes/veggy.html'}]
+
+        for paths in testdata:
+            self.assertEqual(
+                path.canonical_filename(paths['input']),
+                paths['expected'])
+
     def test_join(self):
         self.assertEqual(
             'dir/file.ext', path.join('dir', 'file.ext'))

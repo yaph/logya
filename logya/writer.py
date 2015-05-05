@@ -4,41 +4,21 @@ from __future__ import unicode_literals
 import io
 import os
 
-from logya import allowed_exts
+from logya import allowed_exts, path
 
 
 class FileWriter(object):
     """Class for writing site files."""
 
-    def canonical_filename(self, name):
-        """Get file name from given path or file.
-
-        If name is not recognized as a file name a /index.html is added. To be
-        recognized as a file name it must end with an allowed extension.
-        Leading slashes are stripped off.
-        """
-
-        # TODO explain this
-        if not name.startswith('/'):
-            name = '/{}'.format(name)
-
-        # only allowed extension will be written to a file, otherwise a
-        # directory with the name is created and content written to index.html
-        ext = os.path.splitext(name)[1]
-        if not ext or ext.lstrip('.') not in allowed_exts:
-            name = os.path.join(name, 'index.html')
-
-        return name.lstrip('/')
-
-    def file_handle(self, dir_dst, path):
+    def file_handle(self, dir_dst, url):
         """Determine file to create and return an open file handle for writing.
 
-        Paths pointing to a file name will be created as they are. When a path
+        URLs pointing to a file name will be created as they are. When a url
         points to a directory a file named index.html will be created in that
         directory.
         """
 
-        filename = self.canonical_filename(path)
+        filename = path.canonical_filename(url)
         # create target directory if it doesn't exist
         dir_target = os.path.join(dir_dst, os.path.dirname(filename))
         if not os.path.exists(dir_target):
