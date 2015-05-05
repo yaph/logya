@@ -11,7 +11,7 @@ from logya.compat import execfile
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.template import Template
-from logya.writer import FileWriter
+from logya.writer import target_file, write
 
 
 class Logya(object):
@@ -153,12 +153,13 @@ class Logya(object):
         self.template.vars['last_build'] = datetime.datetime.now()
         self.template.vars['items'] = docs
 
-        writer = FileWriter()
         page = self.template.env.get_template('rss2.xml')
-        fh = writer.file_handle(self.dir_dst, path.join(directory, 'rss.xml'))
-        writer.write(fh, page.render(self.template.vars))
+        content = page.render(self.template.vars)
 
-    def write_index(self, filewriter, directory, template):
+        filename = target_file(self.dir_dst, path.join(directory, 'rss.xml'))
+        write(filename, content)
+
+    def write_index(self, directory, template):
         """Write an auto-generated index.html file."""
 
         url = '/{}'.format(path.join(directory, self.index_filename))
@@ -187,8 +188,10 @@ class Logya(object):
             self.template.vars['directory'] = directory
 
             page = self.template.env.get_template(template)
-            filewriter.write(filewriter.file_handle(self.dir_dst, directory),
-                             page.render(self.template.vars))
+            content = page.render(self.template.vars)
+
+            filename = target_file(self.dir_dst, directory)
+            write(filename, content)
 
             # write directory RSS file
             self.write_rss(title, directory, docs)
@@ -210,7 +213,7 @@ class Logya(object):
             feed_title = 'RSS Feed'
 
         for directory in list(self.indexes.keys()):
-            self.write_index(FileWriter(), directory, template)
+            self.write_index(directory, template)
 
         # write root RSS file
         if '__index__' in self.indexes:

@@ -27,22 +27,14 @@ def target_file(basedir, url, create_dirs=True):
     return os.path.join(basedir, filename)
 
 
-class FileWriter(object):
-    """Class for writing site files."""
+def write(filename, content):
+    """Write content to file."""
 
-    def file_handle(self, basedir, url):
-        """Return an open file handle for writing."""
-
-        return io.open(target_file(basedir, url), 'w', encoding='utf-8')
-
-    def write(self, fh, content):
-        """Write content to file and close it."""
-
-        fh.write(content)
-        fh.close()
+    with io.open(filename, 'w', encoding='utf-8') as f:
+        f.write(content)
 
 
-class DocWriter(FileWriter):
+class DocWriter():
     """Class for writing site documents."""
 
     def __init__(self, dir_dst, template):
@@ -66,7 +58,7 @@ class DocWriter(FileWriter):
         """
 
         if not template:
-            print('Warning: doc {} has no template set and won\'t be created.'
+            print('Warning: {} has no template set and won\'t be created.'
                   .format(doc['url']))
             return False
 
@@ -81,9 +73,6 @@ class DocWriter(FileWriter):
             tpl_vars.get('body', '')).render(tpl_vars)
 
         page = self.template.env.get_template(template)
-        out = self.file_handle(self.dir_dst, doc['url'])
-
         content = page.render(tpl_vars)
 
-        out.write(content)
-        out.close()
+        write(target_file(self.dir_dst, doc['url']), content)

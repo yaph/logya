@@ -7,7 +7,7 @@ from logya.core import Logya
 from logya.compat import urlparse
 from logya.compat import HTTPServer
 from logya.compat import SimpleHTTPRequestHandler
-from logya.writer import FileWriter, DocWriter
+from logya.writer import DocWriter
 
 
 class Serve(Logya):
@@ -109,7 +109,7 @@ class Serve(Logya):
                 template = self.config.search_dict_list(
                     'templates', 'index', 'content_type', 'template')
                 if template:
-                    self.write_index(FileWriter(), path_normalized, template)
+                    self.write_index(path_normalized, template)
 
 
 class Server(HTTPServer):

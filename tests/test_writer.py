@@ -2,7 +2,7 @@ import unittest
 from logya import writer
 
 
-class TestFileWriter(unittest.TestCase):
+class TestWriter(unittest.TestCase):
 
     def test_target_file(self):
         testdata = ({
