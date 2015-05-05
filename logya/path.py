@@ -12,6 +12,27 @@ class PathResourceError(Exception):
     pass
 
 
+def canonical_filename(name):
+    """Get file name from given path or file.
+
+    If name is not recognized as a file name a /index.html is added. To be
+    recognized as a file name it must end with an allowed extension.
+    Leading slashes are stripped off.
+    """
+
+    # TODO explain this
+    if not name.startswith('/'):
+        name = '/{}'.format(name)
+
+    # Only allowed extension will be written to a file, otherwise a
+    # directory with the name is created and content written to index.html.
+    ext = os.path.splitext(name)[1]
+    if not ext or ext.lstrip('.') not in allowed_exts:
+        name = os.path.join(name, 'index.html')
+
+    return name.lstrip('/')
+
+
 def join(basedir, *args, **kwargs):
     """Get joined name relative to basedir for file or path name.
 
@@ -38,6 +59,16 @@ def slugify(path):
     return re.sub(re_url_replace, '-', path).lower()
 
 
+def target_file(basedir, url):
+    """Determine the absolute filename to create and return it.
+
+    If a URL points to a directory 'index.html' will be appended.
+    """
+
+    filename = canonical_filename(url)
+    return os.path.join(basedir, filename)
+
+
 def url_from_filename(filename, basedir=None):
     """Creates a URL to be used in docs from basedir and filename."""
 
@@ -49,24 +80,3 @@ def url_from_filename(filename, basedir=None):
         filename = filename.replace(basedir, '')
 
     return filename
-
-
-def canonical_filename(name):
-    """Get file name from given path or file.
-
-    If name is not recognized as a file name a /index.html is added. To be
-    recognized as a file name it must end with an allowed extension.
-    Leading slashes are stripped off.
-    """
-
-    # TODO explain this
-    if not name.startswith('/'):
-        name = '/{}'.format(name)
-
-    # Only allowed extension will be written to a file, otherwise a
-    # directory with the name is created and content written to index.html.
-    ext = os.path.splitext(name)[1]
-    if not ext or ext.lstrip('.') not in allowed_exts:
-        name = os.path.join(name, 'index.html')
-
-    return name.lstrip('/')

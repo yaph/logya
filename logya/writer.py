@@ -7,28 +7,18 @@ import os
 from logya import path
 
 
-def target_file(basedir, url, create_dirs=True):
-    """Determine the absolute filename to create and return it.
-
-    If a URL points to a directory 'index.html' will be appended.
+def write(filename, content, create_dirs=True):
+    """Write content to file.
 
     If create_dirs is true the parent directories of the file are created, if
     they do not exist yet.
     """
 
-    filename = path.canonical_filename(url)
-
     if create_dirs:
         # create target directory if it doesn't exist
-        target = os.path.join(basedir, os.path.dirname(filename))
+        target = os.path.dirname(filename)
         if not os.path.exists(target):
             os.makedirs(target)
-
-    return os.path.join(basedir, filename)
-
-
-def write(filename, content):
-    """Write content to file."""
 
     with io.open(filename, 'w', encoding='utf-8') as f:
         f.write(content)
@@ -75,4 +65,4 @@ class DocWriter():
         page = self.template.env.get_template(template)
         content = page.render(tpl_vars)
 
-        write(target_file(self.dir_dst, doc['url']), content)
+        write(path.target_file(self.dir_dst, doc['url']), content)

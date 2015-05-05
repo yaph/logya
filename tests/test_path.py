@@ -59,6 +59,30 @@ class TestPath(unittest.TestCase):
         for test in tests:
             self.assertEqual(test[1], path.slugify(test[0]))
 
+    def test_target_file(self):
+        testdata = ({
+            'basedir': '/mysite/deploy',
+            'url': '/contact/',
+            'expected': '/mysite/deploy/contact/index.html'
+        }, {
+            'basedir': '/mysite/deploy',
+            'url': '/artikel/linguistik/ikon_sprache.html',
+            'expected': '/mysite/deploy/artikel/linguistik/ikon_sprache.html'
+        }, {
+            'basedir': '/mysite/deploy',
+            'url': 'tags/code',
+            'expected': '/mysite/deploy/tags/code/index.html'
+        }, {
+            'basedir': '/mysite/deploy',
+            'url': 'tags/code/rss.xml',
+            'expected': '/mysite/deploy/tags/code/rss.xml'
+        })
+
+        for t in testdata:
+            self.assertEqual(
+                t['expected'],
+                path.target_file(t['basedir'], t['url']))
+
     def test_url_from_filename(self):
         basedir = '/www/linux-netbook.com/content'
         tests = [
