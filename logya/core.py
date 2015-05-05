@@ -23,7 +23,6 @@ class Logya(object):
         self.verbose = kwargs.get('verbose', False)
         self.dir_current = os.getcwd()
         self.index_filename = 'index.html'
-        self.feed_limit = 10
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
 
@@ -152,7 +151,7 @@ class Logya(object):
         self.template.vars['title'] = feed_title
         self.template.vars['description'] = directory
         self.template.vars['last_build'] = datetime.datetime.now()
-        self.template.vars['items'] = docs[0:self.feed_limit]
+        self.template.vars['items'] = docs
 
         writer = FileWriter()
         page = self.template.env.get_template('rss2.xml')

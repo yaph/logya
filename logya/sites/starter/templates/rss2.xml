@@ -6,7 +6,7 @@
     <lastBuildDate>{{ last_build.strftime("%a, %d %b %Y %H:%M:%S %z") }}</lastBuildDate>
     <generator>Logya</generator>
     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-    {% for item in items %}
+    {% for item in items[:10] %}
     <item>
         <title>{{ item.title }}</title>
         <link>{{ base_url }}{{ item.url }}</link>
