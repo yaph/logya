@@ -7,6 +7,18 @@ import os
 from logya import path
 
 
+def target_file(basedir, url, create_dirs=True):
+    filename = path.canonical_filename(url)
+
+    if create_dirs:
+        # create target directory if it doesn't exist
+        target = os.path.join(basedir, os.path.dirname(filename))
+        if not os.path.exists(target):
+            os.makedirs(target)
+
+    return os.path.join(basedir, filename)
+
+
 class FileWriter(object):
     """Class for writing site files."""
 
@@ -23,6 +35,11 @@ class FileWriter(object):
         dir_target = os.path.join(dir_dst, os.path.dirname(filename))
         if not os.path.exists(dir_target):
             os.makedirs(dir_target)
+
+        tpl = 'dir_dst: {}\nurl: {}\nfilename: {}\ntarget: {}\nfile: {}\n\n'
+        print(tpl.format(
+            dir_dst, url, filename, dir_target, os.path.join(dir_dst, filename)))
+
         return io.open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
 
     def write(self, fh, content):

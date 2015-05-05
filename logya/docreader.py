@@ -23,10 +23,10 @@ def read(filename):
         return f.read().strip()
 
 
-def list_docs(dir_base):
+def list_docs(basedir):
     """Recurse through directory to add documents to process."""
     docs = []
-    for root, dirs, files in os.walk(dir_base):
+    for root, dirs, files in os.walk(basedir):
         docs.extend([
             os.path.join(root, f) for f in files
             if os.path.splitext(f)[1].strip('.') in allowed_exts])
