@@ -4,9 +4,6 @@ from logya import writer
 
 class TestFileWriter(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
     def test_target_file(self):
         testdata = ({
             'basedir': '/mysite/deploy',

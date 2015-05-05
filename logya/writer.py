@@ -8,6 +8,14 @@ from logya import path
 
 
 def target_file(basedir, url, create_dirs=True):
+    """Determine the absolute filename to create and return it.
+
+    If a URL points to a directory 'index.html' will be appended.
+
+    If create_dirs is true the parent directories of the file are created, if
+    they do not exist yet.
+    """
+
     filename = path.canonical_filename(url)
 
     if create_dirs:
@@ -22,25 +30,10 @@ def target_file(basedir, url, create_dirs=True):
 class FileWriter(object):
     """Class for writing site files."""
 
-    def file_handle(self, dir_dst, url):
-        """Determine file to create and return an open file handle for writing.
+    def file_handle(self, basedir, url):
+        """Return an open file handle for writing."""
 
-        URLs pointing to a file name will be created as they are. When a url
-        points to a directory a file named index.html will be created in that
-        directory.
-        """
-
-        filename = path.canonical_filename(url)
-        # create target directory if it doesn't exist
-        dir_target = os.path.join(dir_dst, os.path.dirname(filename))
-        if not os.path.exists(dir_target):
-            os.makedirs(dir_target)
-
-        tpl = 'dir_dst: {}\nurl: {}\nfilename: {}\ntarget: {}\nfile: {}\n\n'
-        print(tpl.format(
-            dir_dst, url, filename, dir_target, os.path.join(dir_dst, filename)))
-
-        return io.open(os.path.join(dir_dst, filename), 'w', encoding='utf-8')
+        return io.open(target_file(basedir, url), 'w', encoding='utf-8')
 
     def write(self, fh, content):
         """Write content to file and close it."""
