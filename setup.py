@@ -11,7 +11,7 @@ from logya import __version__
 with open('README.rst') as f:
     readme = f.read()
 
-with open('LICENSE').read() as f:
+with open('LICENSE') as f:
     license = f.read()
 
 with open('requirements.txt') as f:
