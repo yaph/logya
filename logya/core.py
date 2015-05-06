@@ -11,7 +11,7 @@ from logya.compat import execfile
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.template import Template
-from logya.writer import target_file, write
+from logya.writer import write
 
 
 class Logya(object):
@@ -156,7 +156,9 @@ class Logya(object):
         page = self.template.env.get_template('rss2.xml')
         content = page.render(self.template.vars)
 
-        filename = target_file(self.dir_dst, path.join(directory, 'rss.xml'))
+        filename = path.target_file(
+            self.dir_dst,
+            path.join(directory, 'rss.xml'))
         write(filename, content)
 
     def write_index(self, directory, template):
@@ -190,7 +192,7 @@ class Logya(object):
             page = self.template.env.get_template(template)
             content = page.render(self.template.vars)
 
-            filename = target_file(self.dir_dst, directory)
+            filename = path.target_file(self.dir_dst, directory)
             write(filename, content)
 
             # write directory RSS file
