@@ -13,4 +13,5 @@ allowed_exts = (
     'css',
     'php',
     'md',
-    'markdown')
+    'markdown',
+    'txt')

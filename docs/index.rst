@@ -16,7 +16,6 @@ Contents:
    :maxdepth: 2
 
    intro
-   features
    installation
    gettingstarted
    directorylayout

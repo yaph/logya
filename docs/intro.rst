@@ -3,9 +3,27 @@
 Introduction
 ============
 
-You may ask why another static site generator, when there are so many others? Valid question, simple answer: all the others are doing it wrong. No, seriously, tools like `Jekyll <https://github.com/mojombo/jekyll>`_, `Hyde <http://hyde.github.io/>`_ or `mynt <http://mynt.uhnomoli.com/>`_ are very powerful and probably provide more features out of the box than Logya ever will.
+I started working on Logya in need of a tool for creating Web sites with consistent user interfaces, that are edited in a familiar and convenient manner and easy to maintain.
 
-Two key differences comparing Logya with the above tools are:
+Moreover, I wanted to migrate existing CMS backed sites to static Web sites, while retaining the main "dynamic" features and the URL structure.
 
-* Content can be written in markdown **and** HTML.
-* More flexible site URL structure: By default URLs will be determined from the documents location within the content directory, but they can also be set manually to arbitrary values, which is useful when migrating WordPress or Drupal sites for example.
+There were other site generators, most prominently `Jekyll <https://github.com/mojombo/jekyll>`_, available in 2011, but at that time none seemed to support the flexibility I wanted regarding URLs so Logya was born.
+
+I also wanted to work with a familiar and powerful tech stack, i. e. Python and jinja2 for me. For a quick glance at what can be done with Logya, see the features below.
+
+Features
+--------
+
+* Write content in markdown **or** HTML in your favorite editor.
+* Define content attributes that can be referred to in templates.
+* Create content specific templates using the powerful features of jinja2.
+* Migrate WordPress or Drupal sites to fast static sites keeping the URLs.
+* Automatic generation of document indexes in created directories.
+* RSS feed generation for all content and tag directories.
+* Built-in Web server with info level logging and immediate editing
+  feedback in the browser.
+* Manage, deploy and backup the site with the tools you know, e.g. fabric, tar,
+  rsync, git, mercurial, subversion.
+* Canonical URL as ``canonical`` variable available in all templates.
+* Use Jinja2 template tags in content body.
+* Disqus integration via templates and configuration.
