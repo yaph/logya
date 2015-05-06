@@ -1,2 +1,5 @@
-Please use
-sudo pip install logya
+Logya requires Python, to install it execute:
+
+    sudo pip install logya
+
+Also see https://pythonhosted.org/logya/installation.html

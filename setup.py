@@ -8,9 +8,14 @@ except ImportError:
 from logya import __version__
 
 
-readme = open('README.rst').read()
-license = open('LICENSE').read()
-requirements = open('requirements.txt').read().splitlines()
+with open('README.rst') as f:
+    readme = f.read()
+
+with open('LICENSE').read() as f:
+    license = f.read()
+
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='logya',
