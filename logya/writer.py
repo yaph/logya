@@ -27,10 +27,10 @@ def write(filename, content, create_dirs=True):
 class DocWriter():
     """Class for writing site documents."""
 
-    def __init__(self, dir_dst, template):
+    def __init__(self, dir_deploy, template):
         """Set required properties."""
 
-        self.dir_dst = dir_dst
+        self.dir_deploy = dir_deploy
         self.template = template
 
     def set_template_vars(self, doc):
@@ -65,4 +65,4 @@ class DocWriter():
         page = self.template.env.get_template(template)
         content = page.render(tpl_vars)
 
-        write(path.target_file(self.dir_dst, doc['url']), content)
+        write(path.target_file(self.dir_deploy, doc['url']), content)

@@ -21,7 +21,7 @@ class Logya(object):
         """Set required logya object properties."""
 
         self.verbose = kwargs.get('verbose', False)
-        self.dir_current = os.getcwd()
+        self.dir_site = os.getcwd()
         self.index_filename = 'index.html'
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
@@ -33,7 +33,7 @@ class Logya(object):
         environment and sets object properties.
         """
 
-        cwd = self.dir_current
+        cwd = self.dir_site
         self.dir_content = path.join(cwd, 'content', required=True)
         self.config = Config(path.join(cwd, 'site.yaml', required=True))
 
@@ -49,7 +49,7 @@ class Logya(object):
         self.dir_static = path.join(cwd, 'static')
 
         # Directory is created by the generate command.
-        self.dir_dst = path.join(cwd, 'deploy')
+        self.dir_deploy = path.join(cwd, 'deploy')
 
         self.base_url = self.config.get('site', 'base_url')
         # base_url must be defined in settings
@@ -157,7 +157,7 @@ class Logya(object):
         content = page.render(self.template.vars)
 
         filename = path.target_file(
-            self.dir_dst,
+            self.dir_deploy,
             path.join(directory, 'rss.xml'))
         write(filename, content)
 
@@ -192,7 +192,7 @@ class Logya(object):
             page = self.template.env.get_template(template)
             content = page.render(self.template.vars)
 
-            filename = path.target_file(self.dir_dst, directory)
+            filename = path.target_file(self.dir_deploy, directory)
             write(filename, content)
 
             # write directory RSS file

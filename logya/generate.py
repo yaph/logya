@@ -15,16 +15,16 @@ class Generate(Logya):
         self.init_env()
 
         # Init writer before executing scripts, so they can use it.
-        self.writer = DocWriter(self.dir_dst, self.template)
+        self.writer = DocWriter(self.dir_deploy, self.template)
 
         self.info('Remove existing deploy directory')
-        shutil.rmtree(self.dir_dst, True)
+        shutil.rmtree(self.dir_deploy, True)
 
-        self.info('Generating site in directory: {}'.format(self.dir_dst))
+        self.info('Generating site in directory: {}'.format(self.dir_deploy))
 
         if os.path.exists(self.dir_static):
             self.info('Copy static files')
-            shutil.copytree(self.dir_static, self.dir_dst)
+            shutil.copytree(self.dir_static, self.dir_deploy)
 
         # Execute scripts in before building indexes, so that generated content
         # can be indexed too.

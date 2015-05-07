@@ -17,7 +17,7 @@ def filesource(logya_inst, name, lines=None):
     to render the current example.
     """
 
-    fname = os.path.join(logya_inst.dir_current, name)
+    fname = os.path.join(logya_inst.dir_site, name)
     with io.open(fname, 'r', encoding='utf-8') as f:
         if lines is None:
             content = f.read()

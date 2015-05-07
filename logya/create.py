@@ -12,5 +12,5 @@ class Create(Logya):
 
         super(self.__class__, self).__init__()
         src = resource_filename(__name__, 'sites/starter')
-        dst = os.path.join(self.dir_current, name)
+        dst = os.path.join(self.dir_site, name)
         shutil.copytree(src, dst)

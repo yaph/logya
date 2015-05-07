@@ -42,12 +42,12 @@ class Serve(Logya):
         """
 
         # make sure destination directory exists
-        dir_dst = os.path.dirname(dst)
-        if not os.path.exists(dir_dst):
-            os.makedirs(dir_dst)
+        dir_deploy = os.path.dirname(dst)
+        if not os.path.exists(dir_deploy):
+            os.makedirs(dir_deploy)
 
         if not os.path.isfile(dst):
-            shutil.copy(src, dir_dst)
+            shutil.copy(src, dir_deploy)
             return True
 
         if os.path.getmtime(src) > os.path.getmtime(dst):
@@ -70,7 +70,7 @@ class Serve(Logya):
         # use only the path component and ignore possible query params issue #3
         src = urlparse(os.path.join(self.dir_static, path_rel)).path
         if os.path.isfile(src):
-            dst = os.path.join(self.dir_dst, path_rel)
+            dst = os.path.join(self.dir_deploy, path_rel)
 
             if self.update_file(src, dst):
                 logging.info('Copied file %s to %s', src, dst)
@@ -96,7 +96,7 @@ class Serve(Logya):
                 doc = self.docs_parsed[alt_path]
 
         if doc:
-            docwriter = DocWriter(self.dir_dst, self.template)
+            docwriter = DocWriter(self.dir_deploy, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
             logging.info('Refreshed doc at URL: %s', path)
@@ -121,7 +121,7 @@ class Server(HTTPServer):
         self.logya = logya
         self.logya.init_env()
 
-        log_file = os.path.join(self.logya.dir_current, 'server.log')
+        log_file = os.path.join(self.logya.dir_site, 'server.log')
         logging.basicConfig(filename=log_file, level=logging.INFO)
 
         HTTPServer.__init__(
@@ -130,7 +130,7 @@ class Server(HTTPServer):
     def serve(self):
         """Serve static files from logya deploy directory."""
 
-        os.chdir(self.logya.dir_dst)
+        os.chdir(self.logya.dir_deploy)
         print('Serving on http://{}:{}/'
               .format(self.logya.host, self.logya.port))
         self.serve_forever()
