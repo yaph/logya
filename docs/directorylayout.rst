@@ -28,13 +28,3 @@ static - optional
 
 This static directory contains all static resources like JavaScript,
 CSS, image, and server configuration files.
-
-bin - optional
-~~~~~~~~~~~~~~
-
-This directory contains scripts that are called during generation and
-serving. Scripts can for example generate pages from content that is
-fetched from a database or from the web.
-
-Python scripts can access the logya object via the logya global
-variable.
