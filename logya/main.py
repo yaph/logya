@@ -13,7 +13,7 @@ def create(args):
 
 
 def generate(args):
-    Generate(verbose=args.verbose)
+    Generate(verbose=args.verbose, dir_site=args.dir_site)
 
 
 def serve(args):
@@ -42,8 +42,12 @@ def main():
 
     # generate a site for deployment, generate and gen sub commands do the same
     msg = 'Generate Web site to deploy from current directory.'
+    hlp = ('Path to Web site directory, absolute or relative to current '
+           'working directory.')
     for command in ['generate', 'gen']:
-        subparsers.add_parser(command, help=msg).set_defaults(func=generate)
+        p_gen = subparsers.add_parser(command, help=msg)
+        p_gen.set_defaults(func=generate)
+        p_gen.add_argument('--dir_site', help=hlp)
 
     # serve static pages
     p_serve = subparsers.add_parser(

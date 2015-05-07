@@ -21,7 +21,12 @@ class Logya(object):
         """Set required logya object properties."""
 
         self.verbose = kwargs.get('verbose', False)
-        self.dir_site = os.getcwd()
+
+        # dir_site is an optional argument of the generate command, which may
+        # instantiate the class with a value of None for dir_site.
+        dir_site = kwargs.get('dir_site')
+        self.dir_site = dir_site if dir_site else os.getcwd()
+
         self.index_filename = 'index.html'
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
