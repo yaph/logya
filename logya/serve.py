@@ -13,16 +13,9 @@ from logya.writer import DocWriter
 class Serve(Logya):
     """Serve files from deploy directory."""
 
-    host = 'localhost'
-    port = 8080
-
     def __init__(self, **kwargs):
-
-        if 'host' in kwargs and kwargs['host']:
-            self.host = kwargs['host']
-
-        if 'port' in kwargs and kwargs['port']:
-            self.port = kwargs['port']
+        self.host = kwargs.get('host', 'localhost')
+        self.port = kwargs.get('port', 8080)
 
         super(Serve, self).__init__()
         Server(self).serve()
