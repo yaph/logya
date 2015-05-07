@@ -62,8 +62,6 @@ test-all:
 coverage:
 	coverage run --source logya setup.py test
 	coverage report -m
-	coverage html
-	firefox htmlcov/index.html
 
 docs:
 	rm -f docs/logya.rst
