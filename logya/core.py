@@ -7,7 +7,6 @@ import datetime
 from operator import itemgetter
 
 from logya import path
-from logya.compat import execfile
 from logya.config import Config
 from logya.docreader import DocReader
 from logya.template import Template
@@ -228,22 +227,3 @@ class Logya(object):
                           key=itemgetter('created'),
                           reverse=True)
             self.write_rss(feed_title, '', docs)
-
-    # TODO remove in 4.0
-    def get_execs(self, dirname):
-        """Generator yielding paths to executable files in given directory."""
-
-        for p in os.listdir(dirname):
-            fpath = path.join(dirname, p)
-            if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
-                yield fpath
-
-    # TODO remove in 4.0
-    def exec_bin(self):
-        """Execute binary files in bin dir."""
-
-        dir_bin = path.join('bin')
-        if os.path.exists(dir_bin):
-            args = {'logya': self}
-            for exe in self.get_execs(dir_bin):
-                execfile(exe, args)

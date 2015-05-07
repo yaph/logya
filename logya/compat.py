@@ -19,14 +19,8 @@ if is3:
     from http.server import SimpleHTTPRequestHandler
     from http.server import HTTPServer
 
-    def execfile(exe, args):
-        exec(compile(open(exe).read(), exe, 'exec'), args)
-
 else:
     from urllib import quote_plus
     from urlparse import urlparse
     from SimpleHTTPServer import SimpleHTTPRequestHandler
     from BaseHTTPServer import HTTPServer
-
-    # use the built-in function
-    execfile = execfile

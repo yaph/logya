@@ -78,7 +78,6 @@ class Serve(Logya):
             return
 
         # Newly build generated docs and indexes.
-        self.exec_bin()
         self.build_indexes(mode='serve')
 
         # Try to get doc at path, regenerate it and return.

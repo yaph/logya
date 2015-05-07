@@ -5,7 +5,6 @@ from logya import __version__
 from logya.create import Create
 from logya.generate import Generate
 from logya.serve import Serve
-from logya.run import Run
 
 
 def create(args):
@@ -18,10 +17,6 @@ def generate(args):
 
 def serve(args):
     Serve(host=args.host, port=args.port)
-
-
-def run(args):
-    Run(args.script)
 
 
 def main():
@@ -55,11 +50,6 @@ def main():
     p_serve.set_defaults(func=serve)
     p_serve.add_argument('--port', type=int, help='server port to listen')
     p_serve.add_argument('--host', help='server host name or IP')
-
-    # run script in Logya context
-    p_run = subparsers.add_parser('run', help='Run script in Logya context.')
-    p_run.add_argument('script', help='Python script to execute.')
-    p_run.set_defaults(func=run)
 
     # process arguments
     args = parser.parse_args()

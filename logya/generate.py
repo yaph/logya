@@ -26,11 +26,6 @@ class Generate(Logya):
             self.info('Copy static files')
             shutil.copytree(self.dir_static, self.dir_deploy)
 
-        # Execute scripts in before building indexes, so that generated content
-        # can be indexed too.
-        self.info('Execute scripts in bin dir')
-        self.exec_bin()
-
         self.info('Build document indexes')
         self.build_indexes()
 

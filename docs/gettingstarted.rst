@@ -45,25 +45,6 @@ files in your projects source directory and reload them in the browser
 they will be updated, so this can be used for live editing your site and
 see changes immediately.
 
-Run a script in a Logya context:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-    logya run script.py
-
-This command allows you to run a Python script in a Logya context, so you
-can access Logya object properties and methods.
-
-The example ``site_index.py`` script in the ``scripts`` directory of the starter
-site creates an index of all URLs mapped to document objects without the body
-and saves it in JSON format to ``static/site_index.json``. To create this index,
-run:
-
-::
-
-    logya run scripts/site_index.py
-
 Get help on logya command:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
