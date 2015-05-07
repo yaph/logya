@@ -23,14 +23,12 @@ def read(filename):
         return f.read().strip()
 
 
-def list_docs(basedir):
+def iter_docs(basedir):
     """Recurse through directory to add documents to process."""
-    docs = []
-    for root, dirs, files in os.walk(basedir):
-        docs.extend([
-            os.path.join(root, f) for f in files
-            if os.path.splitext(f)[1].strip('.') in allowed_exts])
-    return docs
+
+    return (
+        os.path.join(root, f) for root, dirs, files in os.walk(basedir)
+        for f in files if os.path.splitext(f)[1].strip('.') in allowed_exts)
 
 
 class DocReader:
@@ -38,14 +36,13 @@ class DocReader:
 
     def __init__(self, basedir):
         self.basedir = basedir
-        self.files = list_docs(basedir)
 
     @property
     def parsed(self):
         """Generator that reads all docs from base directory and returns parsed
         content."""
 
-        for filename in self.files:
+        for filename in iter_docs(self.basedir):
             stat = os.stat(filename)
             content = read(filename)
             if not content:

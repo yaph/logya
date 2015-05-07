@@ -14,18 +14,22 @@ class Serve(Logya):
     """Serve files from deploy directory."""
 
     def __init__(self, **kwargs):
-        self.host = kwargs.get('host', 'localhost')
-        self.port = kwargs.get('port', 8080)
-
         super(Serve, self).__init__()
+
+        # If not passed as command arguments host and port are set to None.
+        self.host = kwargs.get('host') or 'localhost'
+        self.port = kwargs.get('port') or 8080
+
         Server(self).serve()
 
     def init_env(self):
         super(Serve, self).init_env()
-        # override base_url from config in templates
+
+        # Override base_url from config in templates.
         base_url = 'http://{}:{:d}'.format(self.host, self.port)
         self.template.vars['base_url'] = base_url
-        # set debug var to true in serve mode
+
+        # Set debug var to true in serve mode.
         self.template.vars['debug'] = True
 
     def update_file(self, src, dst):
@@ -34,7 +38,7 @@ class Serve(Logya):
         Creates destination directory and file if they don't exist.
         """
 
-        # make sure destination directory exists
+        # Make sure destination directory exists.
         dir_deploy = os.path.dirname(dst)
         if not os.path.exists(dir_deploy):
             os.makedirs(dir_deploy)
@@ -55,12 +59,12 @@ class Serve(Logya):
         Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
-        # has to be done here too to keep track of configuration changes
+        # Keep track of configuration changes.
         self.init_env()
 
-        # if a file relative to static source is requested update it and return
+        # If a static file is requested update it and return.
         path_rel = path.lstrip('/')
-        # use only the path component and ignore possible query params issue #3
+        # Use only the URL path and ignore possible query params issue #3.
         src = urlparse(os.path.join(self.dir_static, path_rel)).path
         if os.path.isfile(src):
             dst = os.path.join(self.dir_deploy, path_rel)
@@ -72,16 +76,16 @@ class Serve(Logya):
             logging.info('%s not newer than %s', src, dst)
             return
 
-        # newly build generated docs and indexes
+        # Newly build generated docs and indexes.
         self.exec_bin()
         self.build_indexes(mode='serve')
 
-        # try to get doc at path, regenerate it and return
+        # Try to get doc at path, regenerate it and return.
         doc = None
         if path in self.docs_parsed:
             doc = self.docs_parsed[path]
         else:
-            # if a path like /index.html is requested also try to find /
+            # If a path like /index.html is requested also try to find /.
             alt_path = os.path.dirname(path)
             if not alt_path.endswith('/'):
                 alt_path = '{}/'.format(alt_path)
@@ -95,7 +99,7 @@ class Serve(Logya):
             logging.info('Refreshed doc at URL: %s', path)
             return
         else:
-            # try to refresh auto-generated index file
+            # Try to refresh auto-generated index file.
             index_paths = list(self.indexes.keys())
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
