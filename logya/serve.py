@@ -25,7 +25,8 @@ class Serve(Logya):
     def init_env(self):
         super(Serve, self).init_env()
 
-        # Override base_url from config in templates.
+        # Override base_url so resources linked with absolute internal URLs
+        # in templates are served locally.
         base_url = 'http://{}:{:d}'.format(self.host, self.port)
         self.template.vars['base_url'] = base_url
 
