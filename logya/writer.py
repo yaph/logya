@@ -6,6 +6,12 @@ import os
 
 from logya import path
 
+from yaml import dump
+try:
+    from yaml import CDumper as Dumper
+except ImportError:
+    from yaml import Dumper
+
 
 def write(filename, content, create_dirs=True):
     """Write content to file.
@@ -22,6 +28,18 @@ def write(filename, content, create_dirs=True):
 
     with io.open(filename, 'w', encoding='utf-8') as f:
         f.write(content)
+
+
+def write_content(dir_target, headers, body):
+    """Write a file that can be parsed as content.
+
+    This is can be used in scripts that extend Logya, but is not used in core
+    at the moment.
+    """
+
+    content = '---\n{}\n---\n{}'.format(
+        dump(headers, Dumper=Dumper).strip(), body)
+    write(path.target_file(dir_target, headers['url']), content)
 
 
 class DocWriter():
