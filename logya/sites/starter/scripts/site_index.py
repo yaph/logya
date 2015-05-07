@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+# Run this script from your Logya site directory, e. g.:
+# python scripts/site_index.py
 import io
 import os
 import json
 
+from logya.core import Logya
 from logya.encoder import JSONEncoder
 
 
-logya = globals()['logya']
+logya = Logya()
+logya.init_env()
 logya.build_indexes()
 
 site_index = {}
