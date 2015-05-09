@@ -3,8 +3,7 @@
 Installation
 ============
 
-Logya is an open source Python application, check out the source code `on Github <https://github.com/yaph/logya>`_. To install Logya with pip
-run:
+Logya is an open source Python application, check out the source code `on Github<https://github.com/yaph/logya>`_. To install Logya with pip from PyPI run:
 
 ::
 
@@ -16,13 +15,21 @@ If you cloned the repository, you can install Logya from the project's root dire
 
     sudo python setup.py install
 
+I recommend to install Logya in a virtual environment, so you can have different sites that use different Logya versions.
+
 Recommended Packages
 --------------------
 
-The Logya site configuration and content headers are in yaml format. Logya tries to use PyYAML's CDumper and CLoader if they are available, so you can speed up document parsing by installing libyaml-dev. On Debian based Linux systems type:
+The Logya site configuration and content headers are in YAML format. Since you are free to define arbitrary attributes and values in both cases, the resulting data structures can become quite complex and time-consuming to parse.
+
+Logya tries to use PyYAML's CLoader and CDumper if they are available, so you can speed up document parsing by installing ``libyaml-dev`` before you install Logya or more precisely PyYAML.
+
+On Debian based Linux systems like Ubuntu type:
 
 ::
 
     sudo apt-get install libyaml-dev
+
+You may also need to install ``python-dev`` or if you are using Python 3 ``python3-dev``.
 
 If you have Logya sites with hundreds of content files, that use many header attributes and nested data structures as values, generating the sites will be noticeably faster.
