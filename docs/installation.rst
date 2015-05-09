@@ -30,6 +30,6 @@ On Debian based Linux systems like Ubuntu type:
 
     sudo apt-get install libyaml-dev
 
-You also need to install ``python-dev`` or if you are using Python 3 ``python3-dev``, if they are not installed.
+You also need to install ``python-dev`` or ``python3-dev``, if they are not installed.
 
 If you have Logya sites with hundreds of content files, that use many header attributes and nested data structures as values, generating the sites will be noticeably faster.
