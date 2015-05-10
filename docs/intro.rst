@@ -24,6 +24,7 @@ Features
   feedback in the browser.
 * Manage, deploy and backup the site with the tools you know, e.g. fabric, tar,
   rsync, git, mercurial, subversion.
+* Structured data markup in starter site.
 * Canonical URL as ``canonical`` variable available in all templates.
 * Use Jinja2 template tags in content body.
 * Disqus integration via templates and configuration.
