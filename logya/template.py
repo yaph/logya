@@ -3,7 +3,6 @@ import io
 import os
 
 from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
-from logya.compat import quote_plus
 
 
 def filesource(logya_inst, name, lines=None):
