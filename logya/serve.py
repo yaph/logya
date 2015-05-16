@@ -98,16 +98,13 @@ class Serve(Logya):
             docwriter.write(doc, self.get_doc_template(doc))
             self.write_indexes()
             logging.info('Refreshed doc at URL: %s', path)
-            return
         else:
+            # WTF does this code below do?
             # Try to refresh auto-generated index file.
             index_paths = list(self.indexes.keys())
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
-                template = config.search_dict_list(
-                    self.config, 'templates', 'index', 'content_type', 'template')
-                if template:
-                    self.write_index(path_normalized, template)
+                self.write_index(path_normalized, self.templates['index'])
 
 
 class Server(HTTPServer):

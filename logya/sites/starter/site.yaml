@@ -12,3 +12,5 @@ templates:
   template: index.html
 - content_type: doc
   template: post.html
+- content_type: rss
+  template: rss2.xml

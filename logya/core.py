@@ -61,6 +61,16 @@ class Logya(object):
         if not self.base_url:
             raise Exception('base_url not set in site config.')
 
+        # Set default templates once for a Logya instance.
+        self.templates = {
+            'doc': config.search_dict_list(
+                self.config, 'templates', 'doc', 'content_type', 'template'),
+            'index': config.search_dict_list(
+                self.config, 'templates', 'index', 'content_type', 'template'),
+            'rss': config.search_dict_list(
+                self.config, 'templates', 'rss', 'content_type', 'template')
+        }
+
     def info(self, msg):
         """Print message if in verbose mode."""
 
@@ -70,10 +80,7 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Get template setting from doc otherwise from configuration."""
 
-        template = config.search_dict_list(
-            self.config, 'templates', 'doc', 'content_type', 'template')
-
-        return doc.get('template', template)
+        return doc.get('template', self.templates['doc'])
 
     def _update_index(self, doc, url=None):
         """Add a doc to indexes determined from given url.
@@ -157,12 +164,11 @@ class Logya(object):
         self.template.vars['last_build'] = datetime.datetime.now()
         self.template.vars['items'] = docs
 
-        page = self.template.env.get_template('rss2.xml')
+        page = self.template.env.get_template(self.templates['rss'])
         content = page.render(self.template.vars)
 
         filename = path.target_file(
-            self.dir_deploy,
-            path.join(directory, 'rss.xml'))
+            self.dir_deploy, path.join(directory, 'rss.xml'))
         write(filename, content)
 
     def write_index(self, directory, template):
@@ -209,15 +215,10 @@ class Logya(object):
         written.
         """
 
-        template = config.search_dict_list(
-            self.config, 'templates', 'index', 'content_type', 'template')
-        if not template:
-            return
-
         feed_title = self.config['site'].get('feed_title', 'RSS Feed')
 
         for directory in list(self.indexes.keys()):
-            self.write_index(directory, template)
+            self.write_index(directory, self.templates['index'])
 
         # write root RSS file
         if '__index__' in self.indexes:

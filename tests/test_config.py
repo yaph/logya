@@ -7,11 +7,15 @@ from logya import config
 class TestConfig(LogyaBaseTestCase):
 
 
-    def test_keys(self):
+    def test_site(self):
         site = self.config['site']
         self.assertIn('base_url', site)
-        self.assertIn('disqus_shortname', site)
 
+    def test_indexes(self):
+        self.assertIn('indexes', self.config)
+
+    def test_templates(self):
+        self.assertIn('templates', self.config)
 
     def test_search_dict_list(self):
         self.assertEqual('post.html', config.search_dict_list(
