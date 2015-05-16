@@ -3,6 +3,7 @@ import os
 import shutil
 import logging
 
+from logya import config
 from logya.core import Logya
 from logya.compat import urlparse
 from logya.compat import HTTPServer
@@ -103,8 +104,8 @@ class Serve(Logya):
             index_paths = list(self.indexes.keys())
             path_normalized = path.strip('/')
             if path_normalized in index_paths:
-                template = self.config.search_dict_list(
-                    'templates', 'index', 'content_type', 'template')
+                template = config.search_dict_list(
+                    self.config, 'templates', 'index', 'content_type', 'template')
                 if template:
                     self.write_index(path_normalized, template)
 

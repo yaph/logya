@@ -7,7 +7,7 @@ import datetime
 from operator import itemgetter
 
 from logya import path
-from logya.config import Config
+from logya import config
 from logya.docreader import DocReader
 from logya.template import Template
 from logya.writer import write
@@ -39,7 +39,7 @@ class Logya(object):
 
         cwd = self.dir_site
         self.dir_content = path.join(cwd, 'content', required=True)
-        self.config = Config(path.join(cwd, 'site.yaml', required=True))
+        self.config = config.load(path.join(cwd, 'site.yaml', required=True))
 
         self.dir_templates = path.join(cwd, 'templates', required=True)
         self.template = Template(self)
@@ -47,7 +47,7 @@ class Logya(object):
         self.dir_bin = path.join(cwd, 'bin')
 
         # make all settings in site section available to templates
-        self.template.vars.update(self.config.section('site'))
+        self.template.vars.update(self.config['site'])
 
         # Optional directory with static files like css, js and images.
         self.dir_static = path.join(cwd, 'static')
@@ -55,7 +55,7 @@ class Logya(object):
         # Directory is created by the generate command.
         self.dir_deploy = path.join(cwd, 'deploy')
 
-        self.base_url = self.config.get('site', 'base_url')
+        self.base_url = self.config['site'].get('base_url')
         # base_url must be defined in settings
         if not self.base_url:
             raise Exception('base_url not set in site config.')
@@ -69,8 +69,8 @@ class Logya(object):
     def get_doc_template(self, doc):
         """Get template setting from doc otherwise from configuration."""
 
-        template = self.config.search_dict_list(
-            'templates', 'doc', 'content_type', 'template')
+        template = config.search_dict_list(
+            self.config, 'templates', 'doc', 'content_type', 'template')
 
         return doc.get('template', template)
 
@@ -100,8 +100,7 @@ class Logya(object):
         # add to special __index__ for RSS generation
         self._update_indexes(doc, '__index__/index/')
 
-        doc_indexes = self.config.section('indexes')
-        for idx in doc_indexes:
+        for idx in self.config['indexes']:
             if idx['var'] in doc:
                 self.update_doc_index(doc, idx['var'], idx['path'])
 
@@ -207,14 +206,12 @@ class Logya(object):
         written.
         """
 
-        template = self.config.search_dict_list(
-            'templates', 'index', 'content_type', 'template')
+        template = config.search_dict_list(
+            self.config, 'templates', 'index', 'content_type', 'template')
         if not template:
             return
 
-        feed_title = self.config.get('site', 'feed_title')
-        if not feed_title:
-            feed_title = 'RSS Feed'
+        feed_title = self.config['site'].get('feed_title', 'RSS Feed')
 
         for directory in list(self.indexes.keys()):
             self.write_index(directory, template)

@@ -55,5 +55,5 @@ setup(
         ]
     },
     test_suite='tests',
-    tests_require=['tox', 'mock'],
+    tests_require=['tox'],
 )
