@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import io
+
 try:
     from setuptools import setup
 except ImportError:
@@ -7,14 +9,14 @@ except ImportError:
 
 from logya import __version__
 
-
-with open('README.rst') as f:
+# Use io.open to be able to set encoding to utf-8.
+with io.open('README.rst', encoding='utf-8') as f:
     readme = f.read()
 
-with open('LICENSE') as f:
+with io.open('LICENSE', encoding='utf-8') as f:
     license = f.read()
 
-with open('requirements.txt') as f:
+with io.open('requirements.txt', encoding='utf-8') as f:
     requirements = f.read().splitlines()
 
 setup(
