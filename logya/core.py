@@ -136,9 +136,7 @@ class Logya(object):
 
         # sort indexes by descending docs creation dates
         for idx in self.indexes:
-            self.indexes[idx] = sorted(self.indexes[idx],
-                                       key=itemgetter('created'),
-                                       reverse=True)
+            self.indexes[idx].sort(key=itemgetter('created'), reverse=True)
 
         # make indexes available to templates
         self.template.vars['indexes'] = self.indexes
@@ -223,7 +221,4 @@ class Logya(object):
 
         # write root RSS file
         if '__index__' in self.indexes:
-            docs = sorted(self.indexes['__index__'],
-                          key=itemgetter('created'),
-                          reverse=True)
-            self.write_rss(feed_title, '', docs)
+            self.write_rss(feed_title, '', self.indexes['__index__'])
