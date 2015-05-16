@@ -16,6 +16,8 @@ from logya.writer import write
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
 
+    index_filename = 'index.html'
+
     def __init__(self, **kwargs):
         """Set required logya object properties."""
 
@@ -26,7 +28,6 @@ class Logya(object):
         dir_site = kwargs.get('dir_site')
         self.dir_site = dir_site if dir_site else os.getcwd()
 
-        self.index_filename = 'index.html'
         # a dictionary of parsed documents indexed by resource paths
         self.docs_parsed = {}
 
@@ -74,7 +75,7 @@ class Logya(object):
 
         return doc.get('template', template)
 
-    def _update_indexes(self, doc, url=None):
+    def _update_index(self, doc, url=None):
         """Add a doc to indexes determined from given url.
 
         For each directory in the URL except for the one containing the content
@@ -90,21 +91,7 @@ class Logya(object):
             fullpath = '/'.join(dirs[:i+1])
             self.indexes[fullpath] = self.indexes.get(fullpath, []) + [doc]
 
-    def update_indexes(self, doc):
-        """Add all indexes for doc determined from headers."""
-
-        # don't index documents with noindex set
-        if 'noindex' in doc and doc['noindex']:
-            return
-        self._update_indexes(doc)
-        # add to special __index__ for RSS generation
-        self._update_indexes(doc, '__index__/index/')
-
-        for idx in self.config['indexes']:
-            if idx['var'] in doc:
-                self.update_doc_index(doc, idx['var'], idx['path'])
-
-    def update_doc_index(self, doc, var, basepath):
+    def _update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
 
         for val in doc[var]:
@@ -114,7 +101,23 @@ class Logya(object):
             doc[links] = doc.get(links, []) + [(url, val)]
 
             # Must append file name to url to create subdir.
-            self._update_indexes(doc, url + self.index_filename)
+            self._update_index(doc, url + self.index_filename)
+
+    def update_index(self, doc):
+        """Add all indexes for doc determined from headers."""
+
+        # Don't index documents with noindex set to a true value.
+        if doc.get('noindex'):
+            return
+
+        self._update_index(doc)
+
+        # add to special __index__ for RSS generation
+        self._update_index(doc, '__index__/index/')
+
+        for idx in self.config['indexes']:
+            if idx['var'] in doc:
+                self._update_doc_index(doc, idx['var'], idx['path'])
 
     def build_indexes(self, mode=None):
         """Build indexes of documents for content directories to be created.
@@ -131,7 +134,7 @@ class Logya(object):
             if 'serve' != mode and url in self.docs_parsed:
                 print(msg_duplicate.format(url))
             self.docs_parsed[url] = doc
-            self.update_indexes(doc)
+            self.update_index(doc)
 
         # sort indexes by descending docs creation dates
         for idx in self.indexes:

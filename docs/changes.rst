@@ -9,8 +9,6 @@ Changes
 The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
 
 * Removed Config class, the config module now consits of load and search_dict_list functions.
-* Added optional default argument to Config.get.
-* Updated dependecies.
 * More structured data markup in starter site.
 * More comprehensive and updated documentation.
 * Removed run command, import Logya in custom scripts instead.
@@ -20,6 +18,7 @@ The 4.0.0 release includes several backwards incompatible changes, that affect e
 * Removed FileWriter class entirely.
 * Moved canonical_filename to path module.
 * Set feed limit in rss template so user can set this to a preferred value.
+* Updated dependecies.
 
 3.2.2 to 3.3.0
 --------------
