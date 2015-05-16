@@ -3,7 +3,6 @@ import os
 import shutil
 import logging
 
-from logya import config
 from logya.core import Logya
 from logya.compat import urlparse
 from logya.compat import HTTPServer
@@ -99,12 +98,10 @@ class Serve(Logya):
             self.write_indexes()
             logging.info('Refreshed doc at URL: %s', path)
         else:
-            # WTF does this code below do?
             # Try to refresh auto-generated index file.
-            index_paths = list(self.indexes.keys())
-            path_normalized = path.strip('/')
-            if path_normalized in index_paths:
-                self.write_index(path_normalized, self.templates['index'])
+            path_index = path.strip('/')
+            if path_index in list(self.indexes.keys()):
+                self.write_index(path_index, self.templates['index'])
 
 
 class Server(HTTPServer):
