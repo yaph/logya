@@ -31,7 +31,9 @@ All attributes can be accessed in templates.
 Reserved Variable Names
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-``canonical`` and ``debug`` are reserved variable names, that will be set during site generation. If they are used in document headers, their values will be overwritten.
+``body``, ``canonical`` and ``debug`` are reserved variable names, that will be set during site generation. If they are used in document headers, their values will be overwritten.
+
+``body`` is set to the :ref:`ref-body`.
 
 ``canonical`` is set to the canonical URL of the current page including the host part and ``debug`` will be set to ``True`` in serve mode in other modes it is not set.
 
@@ -87,6 +89,8 @@ Alternatively you can use the provided links macro as follows:
 Since this template variable is generated from the corresponding attribute name,
 only use letters and underscores in it. Indexes can be created for header
 attributes that contain a list of string values.
+
+.. _ref-body:
 
 Document Body
 ~~~~~~~~~~~~~

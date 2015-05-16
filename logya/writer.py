@@ -51,27 +51,13 @@ class DocWriter():
         self.dir_target = dir_target
         self.template = template
 
-    def set_template_vars(self, doc):
-        """Set template variables."""
-
-        # empty doc vars dictionary to not retain previous doc values
-        self.template.doc_vars = {}
-        for field, val in list(doc.items()):
-            self.template.doc_vars[field] = val
-
     def write(self, doc, template):
-        """Render and write document to created file.
+        """Render and write document to created file."""
 
-        Returns False if template is False.
-        """
-
-        if not template:
-            print('Warning: {} has no template set and won\'t be created.'
-                  .format(doc['url']))
-            return False
-
-        self.set_template_vars(doc)
-        tpl_vars = self.template.all_vars
+        # Make a copy so no previous doc attributes are retained, that don't
+        # exist in current doc.
+        tpl_vars = self.template.vars.copy()
+        tpl_vars.update(doc)
 
         # Set additional template variables.
         tpl_vars['canonical'] = tpl_vars['base_url'] + tpl_vars['url']

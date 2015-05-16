@@ -84,14 +84,6 @@ logya.path module
     :undoc-members:
     :show-inheritance:
 
-logya.run module
-----------------
-
-.. automodule:: logya.run
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 logya.serve module
 ------------------
 

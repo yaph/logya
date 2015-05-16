@@ -36,7 +36,6 @@ class Template():
         """Initialize template environment."""
 
         self.vars = {}
-        self.doc_vars = {}
         self.dir_templates = logya_inst.dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
 
@@ -47,14 +46,6 @@ class Template():
             logya_inst, x, lines=lines)
 
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
-
-    @property
-    def all_vars(self):
-        """Return all template variables combined."""
-
-        all_vars = self.vars.copy()
-        all_vars.update(self.doc_vars)
-        return all_vars
 
 
 class TemplateLoader(BaseLoader):
