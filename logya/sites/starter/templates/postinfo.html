@@ -1,3 +1,5 @@
+{% import 'macros/links.html' as links %}
+
 {% if author %}
     <p>Written by {{ author }}.</p>
 {% endif %}
@@ -7,3 +9,6 @@
         (updated: <time itemprop="dateModified" datetime="{{ updated.strftime('%Y-%m-%dT%H:%M') }}">{{ updated.strftime('%B %d, %Y') }}</time>)
     {% endif %}
 </p>
+{% if tags %}
+    <p><i class="fa fa-tag"></i> Tags: {{ links.collection(tags_links) }}</p>
+{% endif %}

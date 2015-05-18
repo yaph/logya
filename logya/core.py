@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import os
 import datetime
 
+from collections import namedtuple
 from operator import itemgetter
 
 from logya import path
@@ -11,6 +12,9 @@ from logya import config
 from logya.docreader import DocReader
 from logya.template import Template
 from logya.writer import write
+
+
+Collection = namedtuple('Collection', ['docs', 'template'])
 
 
 class Logya(object):
@@ -27,9 +31,6 @@ class Logya(object):
         # instantiate the class with a value of None for dir_site.
         dir_site = kwargs.get('dir_site')
         self.dir_site = dir_site if dir_site else os.getcwd()
-
-        # a dictionary of parsed documents indexed by resource paths
-        self.docs_parsed = {}
 
     def init_env(self):
         """Initialize the environment for generating the Web site to deploy.
@@ -61,12 +62,20 @@ class Logya(object):
         if not self.base_url:
             raise Exception('base_url not set in site config.')
 
+        # A dictionary of parsed documents indexed by resource paths.
+        self.docs_parsed = {}
+
+        # A dictionary of document collections.
+        self.index = {}
+
         # Set default templates once for a Logya instance.
         self.templates = {
             'doc': self.config['content']['doc']['template'],
             'index': self.config['content']['index']['template'],
             'rss': self.config['content']['rss']['template']
         }
+
+        self.collection_urls = self.config['collections'].keys()
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -83,8 +92,8 @@ class Logya(object):
         """Add a doc to index determined from given url.
 
         For each directory in the URL except for the one containing the content
-        file itself an index is created, if it doesn't exist, and the document
-        is added to the list of docs in the index.
+        file itself a collection is created, if it doesn't exist, and the
+        document is added to it.
         """
 
         if url is None:
@@ -93,7 +102,18 @@ class Logya(object):
         dirs = path.list_dirs_from_url(url)
         for i, _ in enumerate(dirs):
             fullpath = '/'.join(dirs[:i+1])
-            self.index[fullpath] = self.index.get(fullpath, []) + [doc]
+            if fullpath not in self.index:
+                # If a collection is set in site.yaml for this URL, use the
+                # corresponding template if set.
+                template = self.templates['index']
+                # FIXME 'tags/tag1' is not in collection_urls whereas 'tags' is
+                if fullpath in self.collection_urls:
+                    template = self.config['collections'][fullpath].get(
+                        'template', template)
+
+                self.index[fullpath] = Collection(docs=[], template=template)
+
+            self.index[fullpath].docs.append(doc)
 
     def _update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
@@ -119,16 +139,15 @@ class Logya(object):
         # Add to special __index__ for RSS generation.
         self._update_index(doc, '__index__/index/')
 
-        for idx in self.config['collections']:
-            if idx['var'] in doc:
-                self._update_doc_index(doc, idx['var'], idx['path'])
+        for url, col in self.config['collections'].items():
+            if url in doc:
+                self._update_doc_index(doc, url, col['path'])
 
     def build_index(self, mode=None):
         """Build index of documents for content directories to be created.
 
         The mode argument hints the Logya command that was executed."""
 
-        self.index = {}
         msg_duplicate = 'The URL {} is already used and will be overwritten.'
 
         for doc in DocReader(self.dir_content).parsed:
@@ -140,8 +159,8 @@ class Logya(object):
             self.update_index(doc)
 
         # Sort document collections by descending docs creation dates.
-        for idx in self.index:
-            self.index[idx].sort(key=itemgetter('created'), reverse=True)
+        for url, collection in self.index.items():
+            collection.docs.sort(key=itemgetter('created'), reverse=True)
 
         # Make index available to templates.
         self.template.vars['index'] = self.index
@@ -151,12 +170,12 @@ class Logya(object):
 
         return ' » '.join(s.split('/')).replace('-', ' ').title()
 
-    def write_rss(self, feed_title, directory, docs):
+    def write_rss(self, feed_title, url, docs):
         """Write RSS 2.0 XML file in target directory"""
 
         self.template.vars['url'] = self.base_url
         self.template.vars['title'] = feed_title
-        self.template.vars['description'] = directory
+        self.template.vars['description'] = feed_title
         self.template.vars['last_build'] = datetime.datetime.now()
         self.template.vars['docs'] = docs
 
@@ -164,20 +183,15 @@ class Logya(object):
         content = page.render(self.template.vars)
 
         filename = path.target_file(
-            self.dir_deploy, path.join(directory, 'rss.xml'))
+            self.dir_deploy, path.join(url, 'rss.xml'))
         write(filename, content)
 
-    def write_index(self, directory, template):
+    def write_index(self, url, collection):
         """Write an auto-generated index.html file."""
 
-        url = '/{}'.format(path.join(directory, self.index_filename))
+        check_doc_url = '/{}'.format(path.join(url, self.index_filename))
         # make sure there exists no document at the index url
-        if url not in self.docs_parsed:
-            # Remove file name part if it's index.html, url ends with slash.
-            url = url.replace(self.index_filename, '')
-
-            docs = self.index[directory]
-
+        if check_doc_url not in self.docs_parsed:
             # Ugly fix for issue #32: delete description var. This is called
             # for every index, instead of once for all, because write_index is
             # called in serve mode. Also there may remain other vars causing
@@ -187,22 +201,19 @@ class Logya(object):
             if 'description' in self.template.vars:
                 del self.template.vars['description']
 
-            title = self.index_title(directory)
+            title = self.index_title(url)
 
-            self.template.vars['url'] = url
-            self.template.vars['canonical'] = self.base_url + url
-            self.template.vars['docs'] = docs
+            self.template.vars['docs'] = collection.docs
             self.template.vars['title'] = title
-            self.template.vars['directory'] = directory
 
-            page = self.template.env.get_template(template)
+            page = self.template.env.get_template(collection.template)
             content = page.render(self.template.vars)
 
-            filename = path.target_file(self.dir_deploy, directory)
+            filename = path.target_file(self.dir_deploy, url)
             write(filename, content)
 
             # write directory RSS file
-            self.write_rss(title, directory, docs)
+            self.write_rss(title, url, collection.docs)
 
     def write_index_files(self):
         """Write index.html files to deploy directories where non exists.
@@ -212,9 +223,9 @@ class Logya(object):
 
         feed_title = self.config['site'].get('feed_title', 'RSS Feed')
 
-        for directory in list(self.index.keys()):
-            self.write_index(directory, self.templates['index'])
+        for url, collection in self.index.items():
+            self.write_index(url, collection)
 
         # write root RSS file
         if '__index__' in self.index:
-            self.write_rss(feed_title, '', self.index['__index__'])
+            self.write_rss(feed_title, '', self.index['__index__'].docs)

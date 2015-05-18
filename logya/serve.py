@@ -101,7 +101,7 @@ class Serve(Logya):
             # Try to refresh auto-generated index file.
             path_index = path.strip('/')
             if path_index in list(self.index.keys()):
-                self.write_index(path_index, self.templates['index'])
+                self.write_index(path_index, self.index[path_index])
 
 
 class Server(HTTPServer):

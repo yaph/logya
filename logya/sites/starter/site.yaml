@@ -7,9 +7,9 @@ site:
 
 # Settings that affect collections in the document index.
 collections:
-  - path: tags
-    var: tags
-    template: index.html
+    tags:
+        path: tags
+        template: tag.html
 
 
 # Content specific settings, at the moment only templates are specified.

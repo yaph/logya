@@ -74,12 +74,12 @@ To create a list of links to these index pages from a post you can access the ``
       {% endfor %}
     {% endif %}
 
-Alternatively you can use the provided links macro as follows:
+Alternatively you can use the provided ``collection`` macro as follows:
 
 ::
 
     {% import 'macros/links.html' as links %}
-    <p>Tags: {{ links.index(tags_links) }}</p>
+    <p>Tags: {{ links.collection(tags_links) }}</p>
 
 Since this template variable is generated from the corresponding attribute name, only use letters and underscores in it. An index collection can be created for header attributes that contain a list of string values.
 
