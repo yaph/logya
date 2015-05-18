@@ -26,7 +26,7 @@ def filesource(logya_inst, name, lines=None):
 
 
 def get_doc(logya_inst, url):
-    return logya_inst.docs_parsed.get(url)
+    return logya_inst.docs.get(url)
 
 
 class Template():

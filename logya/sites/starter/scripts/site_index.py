@@ -14,7 +14,7 @@ logya.init_env()
 logya.build_index()
 
 site_index = {}
-for url, doc in logya.docs_parsed.items():
+for url, doc in logya.docs.items():
     del doc['body']
     site_index[url] = doc
 

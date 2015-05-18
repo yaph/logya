@@ -82,15 +82,15 @@ class Serve(Logya):
 
         # Try to get doc at path, regenerate it and return.
         doc = None
-        if path in self.docs_parsed:
-            doc = self.docs_parsed[path]
+        if path in self.docs:
+            doc = self.docs[path]
         else:
             # If a path like /index.html is requested also try to find /.
             alt_path = os.path.dirname(path)
             if not alt_path.endswith('/'):
                 alt_path = '{}/'.format(alt_path)
-            if alt_path in self.docs_parsed:
-                doc = self.docs_parsed[alt_path]
+            if alt_path in self.docs:
+                doc = self.docs[alt_path]
 
         if doc:
             docwriter = DocWriter(self.dir_deploy, self.template)

@@ -72,7 +72,7 @@ class Logya(object):
             raise Exception('base_url not set in site config.')
 
         # A dictionary of parsed documents indexed by resource paths.
-        self.docs_parsed = {}
+        self.docs = {}
 
         # A dictionary of document collections.
         self.index = {}
@@ -165,9 +165,9 @@ class Logya(object):
         for doc in DocReader(self.dir_content).parsed:
             url = doc['url']
             # Warn user about duplicate URLs when not in serve mode.
-            if 'serve' != mode and url in self.docs_parsed:
+            if 'serve' != mode and url in self.docs:
                 print(msg_duplicate.format(url))
-            self.docs_parsed[url] = doc
+            self.docs[url] = doc
             self.update_index(doc)
 
         # Sort document collections by descending docs creation dates.
@@ -203,7 +203,7 @@ class Logya(object):
 
         check_doc_url = '/{}'.format(path.join(url, self.index_filename))
         # make sure there exists no document at the index url
-        if check_doc_url not in self.docs_parsed:
+        if check_doc_url not in self.docs:
             # Ugly fix for issue #32: delete description var. This is called
             # for every index, instead of once for all, because write_index is
             # called in serve mode. Also there may remain other vars causing
