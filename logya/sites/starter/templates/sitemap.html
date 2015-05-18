@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <ul class="col-2">
                 {% for doc in index.__index__.docs %}
-                    <li><a href="{{doc.url}}" title="{{doc.description}}">{{doc.title}}</a></li>
+                    <li><a href="{{ doc.url }}" title="{{ doc.description }}">{{ doc.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>
