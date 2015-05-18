@@ -17,6 +17,15 @@ from logya.writer import write
 Collection = namedtuple('Collection', ['docs', 'template'])
 
 
+def get_collection_var(url, collection_map):
+    """Get collections var from site.yaml if url is in a subdirectory of the
+    paths defined in collections."""
+
+    parent_url = '/'.join(url.split('/')[:-1])
+    if parent_url in collection_map:
+        return collection_map[parent_url]
+
+
 class Logya(object):
     """Main logic for creating, building and serving a static site."""
 
@@ -75,7 +84,10 @@ class Logya(object):
             'rss': self.config['content']['rss']['template']
         }
 
-        self.collection_urls = self.config['collections'].keys()
+        # Map collection paths to vars to make collecion settings accessible
+        # via index URLs.
+        self.collection_paths = {
+            v['path']: k for k, v in self.config['collections'].items()}
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -106,9 +118,9 @@ class Logya(object):
                 # If a collection is set in site.yaml for this URL, use the
                 # corresponding template if set.
                 template = self.templates['index']
-                # FIXME 'tags/tag1' is not in collection_urls whereas 'tags' is
-                if fullpath in self.collection_urls:
-                    template = self.config['collections'][fullpath].get(
+                var = get_collection_var(fullpath, self.collection_paths)
+                if var:
+                    template = self.config['collections'][var].get(
                         'template', template)
 
                 self.index[fullpath] = Collection(docs=[], template=template)
