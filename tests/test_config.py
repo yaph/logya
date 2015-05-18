@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import LogyaBaseTestCase
 
-from logya import config
-
 
 class TestConfig(LogyaBaseTestCase):
 
@@ -14,12 +12,5 @@ class TestConfig(LogyaBaseTestCase):
     def test_collections(self):
         self.assertIn('collections', self.config)
 
-    def test_templates(self):
-        self.assertIn('templates', self.config)
-
-    def test_search_dict_list(self):
-        self.assertEqual('post.html', config.search_dict_list(
-            self.config, 'templates', 'doc', 'content_type', 'template'))
-        self.assertEqual('doc', config.search_dict_list(
-            self.config, 'templates', 'post.html', 'template', 'content_type'))
-
+    def test_content(self):
+        self.assertIn('content', self.config)

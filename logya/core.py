@@ -63,12 +63,9 @@ class Logya(object):
 
         # Set default templates once for a Logya instance.
         self.templates = {
-            'doc': config.search_dict_list(
-                self.config, 'templates', 'doc', 'content_type', 'template'),
-            'index': config.search_dict_list(
-                self.config, 'templates', 'index', 'content_type', 'template'),
-            'rss': config.search_dict_list(
-                self.config, 'templates', 'rss', 'content_type', 'template')
+            'doc': self.config['content']['doc']['template'],
+            'index': self.config['content']['index']['template'],
+            'rss': self.config['content']['rss']['template']
         }
 
     def info(self, msg):

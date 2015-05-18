@@ -1,16 +1,22 @@
+# General settings that will be available in templates.
 site:
-  base_url: http://localhost:8080
-  disqus_shortname: null
-  author: Author
+    base_url: http://localhost:8080
+    disqus_shortname: null
+    author: Author
 
+
+# Settings that affect collections in the document index.
 collections:
-- path: tags
-  var: tags
+  - path: tags
+    var: tags
+    template: index.html
 
-templates:
-- content_type: index
-  template: index.html
-- content_type: doc
-  template: post.html
-- content_type: rss
-  template: rss2.xml
+
+# Content specific settings, at the moment only templates are specified.
+content:
+    index:
+        template: index.html
+    doc:
+        template: page.html
+    rss:
+        template: rss2.xml

@@ -9,10 +9,10 @@ class LogyaBaseTestCase(unittest.TestCase):
             'site': {
                 'base_url': 'http://localhost:8080'
             },
-            'templates': [
-                {'content_type': 'index', 'template': 'index.html'},
-                {'content_type': 'doc', 'template': 'post.html'},
-                {'content_type': 'rss', 'template': 'rss2.xml'}
+            'content': [
+                {'index': {'template': 'index.html'}},
+                {'doc': {'template': 'page.html'}},
+                {'rss': {'template': 'rss2.xml'}}
             ],
             'collections': [
                 {'var': 'tags', 'path': 'tags'}
