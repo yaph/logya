@@ -14,7 +14,7 @@ class LogyaBaseTestCase(unittest.TestCase):
                 {'content_type': 'doc', 'template': 'post.html'},
                 {'content_type': 'rss', 'template': 'rss2.xml'}
             ],
-            'indexes': [
+            'collections': [
                 {'var': 'tags', 'path': 'tags'}
             ]
         }

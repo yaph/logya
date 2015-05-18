@@ -11,7 +11,7 @@ from logya.encoder import JSONEncoder
 
 logya = Logya()
 logya.init_env()
-logya.build_indexes()
+logya.build_index()
 
 site_index = {}
 for url, doc in logya.docs_parsed.items():

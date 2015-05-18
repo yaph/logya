@@ -6,13 +6,13 @@
     <lastBuildDate>{{ last_build.strftime("%a, %d %b %Y %H:%M:%S %z") }}</lastBuildDate>
     <generator>Logya</generator>
     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-    {% for item in items[:10] %}
+    {% for doc in docs[:10] %}
     <item>
-        <title><![CDATA[{{ item.title }}]]></title>
-        <link><![CDATA[{{ base_url }}{{ item.url }}]]></link>
-        <description><![CDATA[{{ item.description }}]]></description>
-        <guid><![CDATA[{{ base_url }}{{ item.url }}]]></guid>
-        <pubDate>{{ item.created.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
+        <title><![CDATA[{{ doc.title }}]]></title>
+        <link><![CDATA[{{ base_url }}{{ doc.url }}]]></link>
+        <description><![CDATA[{{ doc.description }}]]></description>
+        <guid><![CDATA[{{ base_url }}{{ doc.url }}]]></guid>
+        <pubDate>{{ doc.created.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
     </item>
     {% endfor %}
 </channel></rss>

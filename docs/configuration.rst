@@ -3,8 +3,7 @@
 Configuration
 =============
 
-Below you find an example configuration and information about the different
-sections and settings.
+Below you find an example configuration and information about the different sections and settings.
 
 
 Default configuration
@@ -16,7 +15,7 @@ Default configuration
       base_url: http://localhost:8080
       disqus_shortname: null
 
-    indexes:
+    collections:
     - path: tags
       var: tags
 
@@ -30,20 +29,16 @@ Default configuration
 site section
 ~~~~~~~~~~~~
 
-All settings in this section will be available to all templates, so
-names for configuration variables mustn't be used as names in document
-headers.
+All settings in this section will be available to all templates, so names for configuration variables mustn't be used as names in document headers.
 
 **base\_url**
-    ``base_url`` is the only required setting needed to create the
-    canonical variable and to generate RSS feeds.
+    ``base_url`` is the only required setting needed to create the canonical variable and to generate RSS feeds.
 
 
-indexes section
-~~~~~~~~~~~~~~~
+collections section
+~~~~~~~~~~~~~~~~~~~
 
-This section allows to set additional indexes from document header variables.
-The default configuration sets an index for tags.
+This section allows to set document collections from header variables. The default configuration sets a collection for tags.
 
 
 templates section

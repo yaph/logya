@@ -77,8 +77,8 @@ class Serve(Logya):
             logging.info('%s not newer than %s', src, dst)
             return
 
-        # Newly build generated docs and indexes.
-        self.build_indexes(mode='serve')
+        # Newly build generated docs and index.
+        self.build_index(mode='serve')
 
         # Try to get doc at path, regenerate it and return.
         doc = None
@@ -95,12 +95,12 @@ class Serve(Logya):
         if doc:
             docwriter = DocWriter(self.dir_deploy, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
-            self.write_indexes()
+            self.write_index_files()
             logging.info('Refreshed doc at URL: %s', path)
         else:
             # Try to refresh auto-generated index file.
             path_index = path.strip('/')
-            if path_index in list(self.indexes.keys()):
+            if path_index in list(self.index.keys()):
                 self.write_index(path_index, self.templates['index'])
 
 

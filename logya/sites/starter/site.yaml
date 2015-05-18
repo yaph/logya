@@ -3,7 +3,7 @@ site:
   disqus_shortname: null
   author: Author
 
-indexes:
+collections:
 - path: tags
   var: tags
 

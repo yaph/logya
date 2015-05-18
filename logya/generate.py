@@ -26,8 +26,8 @@ class Generate(Logya):
             self.info('Copy static files')
             shutil.copytree(self.dir_static, self.dir_deploy)
 
-        self.info('Build document indexes')
-        self.build_indexes()
+        self.info('Build document index')
+        self.build_index()
 
         self.info('Write documents')
         for doc in list(self.docs_parsed.values()):
@@ -36,8 +36,8 @@ class Generate(Logya):
             'Written {:d} documents to deploy directory'
             .format(len(self.docs_parsed)))
 
-        self.info('Write indexes')
-        self.write_indexes()
+        self.info('Write index files')
+        self.write_index_files()
         self.info(
-            'Written {:d} indexes to deploy directory'
-            .format(len(self.indexes)))
+            'Written {:d} index files to deploy directory'
+            .format(len(self.index)))

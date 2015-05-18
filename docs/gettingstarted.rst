@@ -29,7 +29,7 @@ Generate files to deploy:
     logya generate
 
 This command generates HTML files from the documents found in the
-content directory, indexes for Web site directories, and copies static
+content directory, collections for Web site directories, and copies static
 resources to the newly created deploy directory.
 
 Serve site from deploy directory:

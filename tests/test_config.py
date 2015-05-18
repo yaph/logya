@@ -11,8 +11,8 @@ class TestConfig(LogyaBaseTestCase):
         site = self.config['site']
         self.assertIn('base_url', site)
 
-    def test_indexes(self):
-        self.assertIn('indexes', self.config)
+    def test_collections(self):
+        self.assertIn('collections', self.config)
 
     def test_templates(self):
         self.assertIn('templates', self.config)

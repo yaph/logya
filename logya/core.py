@@ -83,7 +83,7 @@ class Logya(object):
         return doc.get('template', self.templates['doc'])
 
     def _update_index(self, doc, url=None):
-        """Add a doc to indexes determined from given url.
+        """Add a doc to index determined from given url.
 
         For each directory in the URL except for the one containing the content
         file itself an index is created, if it doesn't exist, and the document
@@ -96,7 +96,7 @@ class Logya(object):
         dirs = path.list_dirs_from_url(url)
         for i, _ in enumerate(dirs):
             fullpath = '/'.join(dirs[:i+1])
-            self.indexes[fullpath] = self.indexes.get(fullpath, []) + [doc]
+            self.index[fullpath] = self.index.get(fullpath, []) + [doc]
 
     def _update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
@@ -111,7 +111,7 @@ class Logya(object):
             self._update_index(doc, url + self.index_filename)
 
     def update_index(self, doc):
-        """Add all indexes for doc determined from headers."""
+        """Add document to index based on index headers."""
 
         # Don't index documents with noindex set to a true value.
         if doc.get('noindex'):
@@ -119,36 +119,35 @@ class Logya(object):
 
         self._update_index(doc)
 
-        # add to special __index__ for RSS generation
+        # Add to special __index__ for RSS generation.
         self._update_index(doc, '__index__/index/')
 
-        for idx in self.config['indexes']:
+        for idx in self.config['collections']:
             if idx['var'] in doc:
                 self._update_doc_index(doc, idx['var'], idx['path'])
 
-    def build_indexes(self, mode=None):
-        """Build indexes of documents for content directories to be created.
+    def build_index(self, mode=None):
+        """Build index of documents for content directories to be created.
 
         The mode argument hints the Logya command that was executed."""
 
-        # a dictionary of indexes with parsed documents
-        self.indexes = {}
+        self.index = {}
         msg_duplicate = 'The URL {} is already used and will be overwritten.'
 
         for doc in DocReader(self.dir_content).parsed:
             url = doc['url']
-            # warn user about duplicate URLs when not in serve mode
+            # Warn user about duplicate URLs when not in serve mode.
             if 'serve' != mode and url in self.docs_parsed:
                 print(msg_duplicate.format(url))
             self.docs_parsed[url] = doc
             self.update_index(doc)
 
-        # sort indexes by descending docs creation dates
-        for idx in self.indexes:
-            self.indexes[idx].sort(key=itemgetter('created'), reverse=True)
+        # Sort document collections by descending docs creation dates.
+        for idx in self.index:
+            self.index[idx].sort(key=itemgetter('created'), reverse=True)
 
-        # make indexes available to templates
-        self.template.vars['indexes'] = self.indexes
+        # Make index available to templates.
+        self.template.vars['index'] = self.index
 
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""
@@ -162,7 +161,7 @@ class Logya(object):
         self.template.vars['title'] = feed_title
         self.template.vars['description'] = directory
         self.template.vars['last_build'] = datetime.datetime.now()
-        self.template.vars['items'] = docs
+        self.template.vars['docs'] = docs
 
         page = self.template.env.get_template(self.templates['rss'])
         content = page.render(self.template.vars)
@@ -180,14 +179,14 @@ class Logya(object):
             # Remove file name part if it's index.html, url ends with slash.
             url = url.replace(self.index_filename, '')
 
-            docs = self.indexes[directory]
+            docs = self.index[directory]
 
             # Ugly fix for issue #32: delete description var. This is called
             # for every index, instead of once for all, because write_index is
             # called in serve mode. Also there may remain other vars causing
             # future problems.
-            # Emptying the vars dict does not work either, because the indexes
-            # key is set in build_indexes and needed.
+            # Emptying the vars dict does not work either, because the index
+            # key is set in build_index and needed.
             if 'description' in self.template.vars:
                 del self.template.vars['description']
 
@@ -195,7 +194,7 @@ class Logya(object):
 
             self.template.vars['url'] = url
             self.template.vars['canonical'] = self.base_url + url
-            self.template.vars['index'] = docs
+            self.template.vars['docs'] = docs
             self.template.vars['title'] = title
             self.template.vars['directory'] = directory
 
@@ -208,18 +207,17 @@ class Logya(object):
             # write directory RSS file
             self.write_rss(title, directory, docs)
 
-    def write_indexes(self):
+    def write_index_files(self):
         """Write index.html files to deploy directories where non exists.
 
-        If no template file is specified in configuration indexes won't be
-        written.
+        If no template is specified in configuration index won't be written.
         """
 
         feed_title = self.config['site'].get('feed_title', 'RSS Feed')
 
-        for directory in list(self.indexes.keys()):
+        for directory in list(self.index.keys()):
             self.write_index(directory, self.templates['index'])
 
         # write root RSS file
-        if '__index__' in self.indexes:
-            self.write_rss(feed_title, '', self.indexes['__index__'])
+        if '__index__' in self.index:
+            self.write_rss(feed_title, '', self.index['__index__'])
