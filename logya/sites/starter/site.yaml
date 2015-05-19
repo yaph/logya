@@ -11,7 +11,7 @@ site:
 collections:
     tags:
         path: tags
-        template: tag.html
+        template: index.html
 
 
 # Content specific settings, at the moment only templates are specified.

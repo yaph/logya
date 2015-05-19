@@ -15,7 +15,7 @@ class LogyaBaseTestCase(unittest.TestCase):
                 'rss': {'template': 'rss2.xml'}
             },
             'collections': {
-                'tags': {'path': 'tags', 'template': 'tag.html'},
+                'tags': {'path': 'tags', 'template': 'index.html'},
                 'shoptags': {'path': 'shop/tags'}
             }
         }
