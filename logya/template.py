@@ -26,6 +26,8 @@ def filesource(logya_inst, name, lines=None):
 
 
 def get_doc(logya_inst, url):
+    """Get document located at given URL."""
+
     return logya_inst.docs.get(url)
 
 

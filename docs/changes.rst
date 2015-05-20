@@ -8,6 +8,10 @@ Changes
 
 The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
 
+* Renamed docs_parsed to docs.
+* Enable configuration of index templates.
+* Restructured site configuration.
+* Renamed indexes to index/docs/collections.
 * Removed all_vars and doc_vars from Template.
 * Removed Config class, the config module now consits of load and search_dict_list functions.
 * More structured data markup in starter site.

@@ -11,19 +11,30 @@ Default configuration
 
 ::
 
+    # General settings that will be available in templates.
     site:
-      base_url: http://localhost:8080
-      disqus_shortname: null
+        base_url: http://localhost:8080
+        disqus_shortname: null
+        author: Author
 
+
+    # Settings that affect collections in the document index. Top-level keys of
+    # collections can be used as document attributes for grouping it in the
+    # corresponding collecion.
     collections:
-    - path: tags
-      var: tags
+        tags:
+            path: tags
+            template: index.html
 
-    templates:
-    - content_type: index
-      template: index.html
-    - content_type: doc
-      template: post.html
+
+    # Content specific settings, at the moment only templates are specified.
+    content:
+        index:
+            template: index.html # default template used for collections
+        doc:
+            template: page.html
+        rss:
+            template: rss2.xml
 
 
 site section
@@ -41,7 +52,7 @@ collections section
 This section allows to set document collections from header variables. The default configuration sets a collection for tags.
 
 
-templates section
-~~~~~~~~~~~~~~~~~
+content section
+~~~~~~~~~~~~~~~
 
-This section is for setting the default document and index templates.
+This section is for setting the document, index and rss templates to use when generating the site.
