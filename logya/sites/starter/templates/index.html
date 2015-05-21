@@ -8,7 +8,7 @@
         <ul class="list-unstyled index_docs">
         {% for doc in docs %}
             <li>
-                <h2><a href="{{ base_url }}{{ doc.url }}">{{ doc.title }}</a></h2>
+                <h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2>
                 <p><i class="fa fa-calendar"></i> {{ doc.created.strftime('%B %d, %Y') }}</p>
                 <p>{{ doc.description }}</p>
             </li>
