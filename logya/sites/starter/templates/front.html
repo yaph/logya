@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import 'macros/links.html' as links %}
 
 {% block content %}
 <div class="jumbotron">
@@ -16,7 +17,7 @@
             <ul>
                 {% for doc in index['__index__'].docs[:3] %}
                 <li>
-                    <a href="{{ doc.url }}">{{ doc.title }}</a>
+                    {{ links.doc_link(doc) }}
                 </li>
                 {% endfor %}
             </ul>
@@ -26,7 +27,7 @@
             <ul>
                 {% for doc in index['tags/all'].docs[:3] %}
                 <li>
-                    <a href="{{ doc.url }}">{{ doc.title }}</a>
+                    {{ links.doc_link(doc) }}
                 </li>
                 {% endfor %}
             </ul>

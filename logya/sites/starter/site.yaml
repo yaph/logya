@@ -2,7 +2,8 @@
 site:
     base_url: http://localhost:8080
     disqus_shortname: null
-    author: Author
+    author: Author Name
+    brand: Brand Name
 
 
 # Settings that affect collections in the document index. Top-level keys of

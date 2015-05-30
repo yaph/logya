@@ -6,7 +6,6 @@
 {% endif %}
 {%- endmacro %}
 
-{% macro doc_link(url) -%}
-{% set doc = get_doc(url) %}
+{% macro doc_link(doc) -%}
 <a href="{{ doc.url }}">{{ doc.title }}</a>
 {%- endmacro %}
