@@ -13,6 +13,12 @@ except ImportError:
     from yaml import Dumper
 
 
+def encode_content(headers, body):
+    """Encode headers and body in content format."""
+
+    return '---\n{}\n---\n{}'.format(dump(headers, Dumper=Dumper).strip(), body)
+
+
 def write(filename, content, create_dirs=True):
     """Write content to file.
 
@@ -37,9 +43,9 @@ def write_content(dir_target, headers, body):
     at the moment.
     """
 
-    content = '---\n{}\n---\n{}'.format(
-        dump(headers, Dumper=Dumper).strip(), body)
-    write(path.target_file(dir_target, headers['url']), content)
+    write(
+        path.target_file(dir_target, headers['url']),
+        encode_content(headers, body))
 
 
 class DocWriter():
