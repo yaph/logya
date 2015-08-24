@@ -8,6 +8,7 @@ Changes
 
 The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
 
+* Added encode_content function in writer module.
 * Renamed docs_parsed to docs.
 * Enable configuration of index templates.
 * Restructured site configuration.
