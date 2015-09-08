@@ -44,7 +44,10 @@ class DocReader:
 
         for filename in iter_docs(self.basedir):
             stat = os.stat(filename)
-            content = read(filename)
+            try:
+                content = read(filename)
+            except Exception as err:
+                print('Error reading file {}\n{}'.format(filename, err))
             if not content:
                 continue
 
