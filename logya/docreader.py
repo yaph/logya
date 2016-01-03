@@ -48,11 +48,15 @@ class DocReader:
                 content = read(filename)
             except Exception as err:
                 print('Error reading file {}\n{}'.format(filename, err))
-            if not content:
                 continue
 
             modified = datetime.fromtimestamp(stat.st_mtime)
-            parsed = parse(content, content_type=content_type(filename))
+
+            try:
+                parsed = parse(content, content_type=content_type(filename))
+            except Exception as err:
+                print('Error parsing file {}\n{}'.format(filename, err))
+                continue
 
             # Use file modification time for created and updated properties,
             # if not set in document itself.
