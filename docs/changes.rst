@@ -20,7 +20,7 @@ The 4.0.0 release includes several backwards incompatible changes, that affect e
 * Removed run command, import Logya in custom scripts instead.
 * Removed automatic execution of scripts in bin directory.
 * Renamed logya.dir_current to logya.dir_site.
-* Renamed dir_dst and dir_current.
+* Renamed logya.dir_dst to logya.dir_deploy.
 * Removed FileWriter class entirely.
 * Moved canonical_filename to path module.
 * Set feed limit in rss template so user can set this to a preferred value.
