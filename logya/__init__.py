@@ -4,7 +4,7 @@ __email__ = 'code@ramiro.org'
 __version__ = '4.0.0dev'
 
 # Extensions of content files that will be processed by Logya.
-allowed_exts = (
+allowed_exts = {
     'html',
     'htm',
     'xml',
@@ -14,4 +14,4 @@ allowed_exts = (
     'php',
     'md',
     'markdown',
-    'txt')
+    'txt'}

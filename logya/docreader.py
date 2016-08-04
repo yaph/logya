@@ -63,7 +63,7 @@ class DocReader:
             parsed['created'] = parsed.get('created', modified)
             parsed['updated'] = parsed.get('updated', modified)
 
-            # Set url from filename if not in set in parsed document.
+            # Set url from filename if not set in parsed document.
             if 'url' not in parsed:
                 parsed['url'] = path.url_from_filename(
                     filename, basedir=self.basedir)
