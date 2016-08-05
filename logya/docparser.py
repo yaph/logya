@@ -8,7 +8,7 @@ except ImportError:
     from yaml import Loader
 
 
-def parse(content, modified=None, content_type=None):
+def parse(content, content_type=None):
     """Parse document and return a dictionary of header fields and body."""
 
     # Extract YAML header and body and load header into dict.
