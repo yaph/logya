@@ -8,6 +8,13 @@ Changes
 
 The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
 
+* Removed server.log file, log to default stream instead.
+* Added option to trim whitespace in templates.
+* Set canonical meta tag for index pages.
+* Converted allowed_exts from tuple to set.
+* Enable attr_list, def_list and fenced_code markdown extensions.
+* Enable break and continue in templates.
+* Better error message when reading files fails
 * Added encode_content function in writer module.
 * Renamed docs_parsed to docs.
 * Enable configuration of index templates.
