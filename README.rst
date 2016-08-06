@@ -37,12 +37,10 @@ Sites built with logya
 ----------------------
 
 * http://ramiro.org/
-* http://maps.ramiro.org/
 * http://geeksta.net/
 * http://www.linux-netbook.com/
 * http://strahlungsarmehandys.com/
 * http://exploringdata.github.io/
-* http://wahlen.github.io/
 * http://d3-geomap.github.io/
 * http://guitarstreams.com/
 

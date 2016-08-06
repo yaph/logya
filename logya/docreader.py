@@ -18,11 +18,6 @@ def content_type(filename):
     return ctype
 
 
-def read(filename):
-    with io.open(filename, 'r', encoding='utf-8') as f:
-        return f.read().strip()
-
-
 def iter_docs(basedir):
     """Recurse through directory to add documents to process."""
 
@@ -43,14 +38,12 @@ class DocReader:
         content."""
 
         for filename in iter_docs(self.basedir):
-            stat = os.stat(filename)
             try:
-                content = read(filename)
+                with io.open(filename, 'r', encoding='utf-8') as f:
+                    content = f.read().strip()
             except Exception as err:
                 print('Error reading file {}\n{}'.format(filename, err))
                 continue
-
-            modified = datetime.fromtimestamp(stat.st_mtime)
 
             try:
                 parsed = parse(content, content_type=content_type(filename))
@@ -60,6 +53,7 @@ class DocReader:
 
             # Use file modification time for created and updated properties,
             # if not set in document itself.
+            modified = datetime.fromtimestamp(os.stat(filename).st_mtime)
             parsed['created'] = parsed.get('created', modified)
             parsed['updated'] = parsed.get('updated', modified)
 
