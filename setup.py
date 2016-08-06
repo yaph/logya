@@ -13,9 +13,6 @@ from logya import __version__
 with io.open('README.rst', encoding='utf-8') as f:
     readme = f.read()
 
-with io.open('LICENSE', encoding='utf-8') as f:
-    license = f.read()
-
 with io.open('requirements.txt', encoding='utf-8') as f:
     requirements = f.read().splitlines()
 
@@ -30,8 +27,9 @@ setup(
     maintainer='Ramiro Gómez',
     maintainer_email='code@ramiro.org',
     keywords=['Website Generator'],
-    license=license,
+    license='MIT',
     packages=['logya'],
+    package_data={'': ['LICENSE']},
     include_package_data=True,
     exclude_package_data={'': ['*.pyc']},
     install_requires=requirements,
