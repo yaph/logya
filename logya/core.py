@@ -113,7 +113,7 @@ class Logya(object):
 
         dirs = path.list_dirs_from_url(url)
         for i, _ in enumerate(dirs):
-            fullpath = '/'.join(dirs[:i+1])
+            fullpath = '/'.join(dirs[:i + 1])
             if fullpath not in self.index:
                 # If a collection is set in site.yaml for this URL, use the
                 # corresponding template if set.
@@ -217,6 +217,7 @@ class Logya(object):
 
             self.template.vars['docs'] = collection.docs
             self.template.vars['title'] = title
+            self.template.vars['canonical'] = '{:s}/{:s}/'.format(self.base_url, url)
 
             page = self.template.env.get_template(collection.template)
             content = page.render(self.template.vars)
