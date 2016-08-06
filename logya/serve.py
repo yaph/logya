@@ -113,8 +113,7 @@ class Server(HTTPServer):
         self.logya = logya
         self.logya.init_env()
 
-        log_file = os.path.join(self.logya.dir_site, 'server.log')
-        logging.basicConfig(filename=log_file, level=logging.INFO)
+        logging.basicConfig(level=logging.INFO)
 
         HTTPServer.__init__(
             self, (self.logya.host, self.logya.port), HTTPRequestHandler)
