@@ -32,6 +32,7 @@ clean-starter-site:
 	rm -fr logya/sites/starter/deploy/
 
 clean-test:
+	rm -fr t/
 	rm -fr .tox/
 	rm -f .coverage
 	rm -fr htmlcov/
