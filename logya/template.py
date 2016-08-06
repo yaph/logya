@@ -41,12 +41,16 @@ class Template():
         self.dir_templates = logya_inst.dir_templates
         self.env = Environment(loader=TemplateLoader(self.dir_templates))
 
-        # Enable break and continue in templates
+        # Enable break and continue in templates.
         self.env.add_extension('jinja2.ext.loopcontrols')
 
-        # self.env.trim_blocks = True
+        # Trim whitespace around template tags if configured.
+        tpl_settings = logya_inst.config.get('template')
+        if tpl_settings and tpl_settings.get('trim_whitespace'):
+            self.env.lstrip_blocks = True
+            self.env.trim_blocks = True
 
-        # add filesource global to allow for including the source of a file
+        # Add filesource global to allow for including the source of a file.
         self.env.globals['filesource'] = lambda x, lines=None: filesource(
             logya_inst, x, lines=lines)
 

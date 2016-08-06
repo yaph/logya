@@ -23,3 +23,8 @@ content:
         template: page.html
     rss:
         template: rss2.xml
+
+
+# Template specific settings.
+template:
+    trim_whitespace: true

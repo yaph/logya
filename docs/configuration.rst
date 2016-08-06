@@ -37,6 +37,10 @@ Default configuration
             template: rss2.xml
 
 
+    # Template specific settings.
+    template:
+        trim_whitespace: true
+
 site section
 ~~~~~~~~~~~~
 
@@ -56,3 +60,9 @@ content section
 ~~~~~~~~~~~~~~~
 
 This section is for setting the document, index and rss templates to use when generating the site.
+
+
+template section
+~~~~~~~~~~~~~~~~
+
+This optional section is for template related settings. At the moment you can set whether to `trim whitespace <http://jinja.pocoo.org/docs/dev/templates/#whitespace-control>`_ around template tags.
