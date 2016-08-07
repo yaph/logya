@@ -3,7 +3,7 @@
 Installation
 ============
 
-Logya is an open source Python application, check out the source code `on Github<https://github.com/yaph/logya>`_. To install Logya with pip from PyPI run:
+Logya is an open source Python application, check out the source code `on Github <https://github.com/yaph/logya>`_. To install Logya with pip from PyPI run:
 
 ::
 
