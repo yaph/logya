@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'logya'
+project = u'Logya'
 copyright = u'2016, Ramiro Gómez'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -186,7 +186,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'logya.tex', u'logya Documentation',
+  ('index', 'logya.tex', u'Logya Documentation',
    u'Ramiro Gómez', 'manual'),
 ]
 
@@ -230,7 +230,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'logya', u'logya Documentation',
+  ('index', 'logya', u'Logya Documentation',
    u'Ramiro Gómez', 'logya', 'One line description of project.',
    'Miscellaneous'),
 ]

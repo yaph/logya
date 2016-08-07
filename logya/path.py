@@ -20,7 +20,7 @@ def canonical_filename(name):
     Leading slashes are stripped off.
     """
 
-    # TODO explain this
+    # Paths for generated indexes do not start with a slash.
     if not name.startswith('/'):
         name = '/{}'.format(name)
 
