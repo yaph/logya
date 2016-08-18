@@ -21,9 +21,8 @@ def get_collection_var(url, collection_map):
     """Get collections var from site.yaml if url is in a subdirectory of the
     paths defined in collections."""
 
-    parent_url = '/'.join(url.split('/')[:-1])
-    if parent_url in collection_map:
-        return collection_map[parent_url]
+    parent_path = '/'.join(path.parent_dirs(url))
+    return collection_map.get(parent_path)
 
 
 class Logya(object):
@@ -84,8 +83,8 @@ class Logya(object):
             'rss': self.config['content']['rss']['template']
         }
 
-        # Map collection paths to vars to make collecion settings accessible
-        # via index URLs.
+        # Map collection paths to config variables (vars) to make collecion
+        # settings accessible via index URLs.
         self.collection_paths = {
             v['path']: k for k, v in self.config['collections'].items()}
 
@@ -111,7 +110,7 @@ class Logya(object):
         if url is None:
             url = doc['url']
 
-        dirs = path.list_dirs_from_url(url)
+        dirs = path.parent_dirs(url)
         for i, _ in enumerate(dirs):
             fullpath = '/'.join(dirs[:i + 1])
             if fullpath not in self.index:

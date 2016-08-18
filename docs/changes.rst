@@ -3,6 +3,12 @@
 Changes
 =======
 
+4.0.0 to 4.1.0
+--------------
+
+* Renamed path.list_dirs_from_url to path.parent_dirs.
+* Removed useless list calls.
+
 3.3.0 to 4.0.0
 --------------
 

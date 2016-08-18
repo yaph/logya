@@ -46,13 +46,10 @@ def join(basedir, *args, **kwargs):
     return path
 
 
-def list_dirs_from_url(url):
-    """Returns a list of directories from given url.
+def parent_dirs(url):
+    """Returns a list of parent directories for url without the root /."""
 
-    The last directory is omitted as it contains an index.html file
-    containing the content of the corresponding document."""
-
-    return [d for d in url.strip('/').split('/') if d][:-1]
+    return url.strip('/').split('/')[:-1]
 
 
 def slugify(path):

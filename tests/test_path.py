@@ -39,7 +39,7 @@ class TestPath(unittest.TestCase):
                           *('dir', 'file.ext'),
                           required=True)
 
-    def test_list_dirs_from_url(self):
+    def test_parent_dirs(self):
         tests = [
             ('/index.html', []),
             ('/video/crouton-explained-hp-chromebook-11/', ['video']),
@@ -48,7 +48,7 @@ class TestPath(unittest.TestCase):
             ('/qotd/2015/03/22/', ['qotd', '2015', '03'])]
 
         for test in tests:
-            self.assertEqual(test[1], path.list_dirs_from_url(test[0]))
+            self.assertEqual(test[1], path.parent_dirs(test[0]))
 
     def test_slugify(self):
         tests = [
