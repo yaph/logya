@@ -30,7 +30,7 @@ class Generate(Logya):
         self.build_index()
 
         self.info('Write documents')
-        for doc in list(self.docs.values()):
+        for doc in self.docs.values():
             self.writer.write(doc, self.get_doc_template(doc))
         self.info(
             'Written {:d} documents to deploy directory'

@@ -100,7 +100,7 @@ class Serve(Logya):
         else:
             # Try to refresh auto-generated index file.
             path_index = path.strip('/')
-            if path_index in list(self.index.keys()):
+            if path_index in self.index:
                 self.write_index(path_index, self.index[path_index])
 
 

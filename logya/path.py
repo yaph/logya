@@ -22,7 +22,7 @@ def canonical_filename(name):
 
     # Paths for generated indexes do not start with a slash.
     if not name.startswith('/'):
-        name = '/{}'.format(name)
+        name = '/' + name
 
     # Only allowed extension will be written to a file, otherwise a
     # directory with the name is created and content written to index.html.
