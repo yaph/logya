@@ -17,12 +17,12 @@ from logya.writer import write
 Collection = namedtuple('Collection', ['docs', 'template'])
 
 
-def get_collection_var(url, collection_map):
+def get_collection_var(url, collection_index):
     """Get collections var from site.yaml if url is in a subdirectory of the
     paths defined in collections."""
 
     parent_path = '/'.join(path.parent_dirs(url))
-    return collection_map.get(parent_path)
+    return collection_index.get(parent_path)
 
 
 class Logya(object):
@@ -85,7 +85,7 @@ class Logya(object):
 
         # Map collection paths to config variables (vars) to make collecion
         # settings accessible via index URLs.
-        self.collection_paths = {
+        self.collection_index = {
             v['path']: k for k, v in self.config['collections'].items()}
 
     def info(self, msg):
@@ -117,7 +117,7 @@ class Logya(object):
                 # If a collection is set in site.yaml for this URL, use the
                 # corresponding template if set.
                 template = self.templates['index']
-                var = get_collection_var(fullpath, self.collection_paths)
+                var = get_collection_var(fullpath, self.collection_index)
                 if var:
                     template = self.config['collections'][var].get(
                         'template', template)

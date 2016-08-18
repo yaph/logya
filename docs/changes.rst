@@ -6,6 +6,7 @@ Changes
 4.0.0 to 4.1.0
 --------------
 
+* Renamed collection_paths to collection_index.
 * Renamed path.list_dirs_from_url to path.parent_dirs.
 * Removed useless list calls.
 * Bugfix: don't use str.format to avoid UnicodeEncodeException in Python 2.7.

@@ -6,7 +6,7 @@ from logya.core import get_collection_var
 class TestIndex(LogyaBaseTestCase):
 
     def test_get_collection_var(self):
-        collection_paths = {
+        collection_index = {
             v['path']: k for k, v in self.config['collections'].items()}
 
         testdata = [
@@ -23,4 +23,4 @@ class TestIndex(LogyaBaseTestCase):
         for data in testdata:
             self.assertEquals(
                 data['expected'],
-                get_collection_var(data['input'], collection_paths))
+                get_collection_var(data['input'], collection_index))
