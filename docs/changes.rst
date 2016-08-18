@@ -8,6 +8,7 @@ Changes
 
 * Renamed path.list_dirs_from_url to path.parent_dirs.
 * Removed useless list calls.
+* Bugfix: don't use str.format to avoid UnicodeEncodeException in Python 2.7.
 
 3.3.0 to 4.0.0
 --------------
