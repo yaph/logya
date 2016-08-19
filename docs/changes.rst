@@ -6,6 +6,9 @@ Changes
 4.0.0 to 4.1.0
 --------------
 
+* Added get_index_template method to core.
+* Don't allow for duplicate docs in collections.
+* Added parent_paths to path module.
 * Renamed collection_paths to collection_index.
 * Renamed path.list_dirs_from_url to path.parent_dirs.
 * Removed useless list calls.
