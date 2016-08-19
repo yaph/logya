@@ -52,6 +52,12 @@ def parent_dirs(url):
     return url.strip('/').split('/')[:-1]
 
 
+def parent_paths(dirs):
+    """Returns a list of absolute parent directory paths for given dirs."""
+
+    return ('/'.join(dirs[:i + 1]) for i, _ in enumerate(dirs))
+
+
 def slugify(path):
     return re.sub(re_url_replace, '-', path).lower()
 

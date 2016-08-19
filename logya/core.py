@@ -14,7 +14,7 @@ from logya.template import Template
 from logya.writer import write
 
 
-Collection = namedtuple('Collection', ['docs', 'template'])
+Collection = namedtuple('Collection', ['docs', 'template', 'urls'])
 
 
 def get_collection_var(url, collection_index):
@@ -99,6 +99,19 @@ class Logya(object):
 
         return doc.get('template', self.templates['doc'])
 
+    def get_index_template(self, fullpath):
+        """Get template file name for given fullpath.
+
+        If a collection is set in site.yaml for fullpath, use the corresponding
+        template if set. Otherwise return the default index template.
+        """
+
+        template = self.templates['index']
+        var = get_collection_var(fullpath, self.collection_index)
+        if var:
+            template = self.config['collections'][var].get('template', template)
+        return template
+
     def _update_index(self, doc, url=None):
         """Add a doc to index determined from given url.
 
@@ -111,20 +124,16 @@ class Logya(object):
             url = doc['url']
 
         dirs = path.parent_dirs(url)
-        for i, _ in enumerate(dirs):
-            fullpath = '/'.join(dirs[:i + 1])
+        for fullpath in path.parent_paths(dirs):
             if fullpath not in self.index:
-                # If a collection is set in site.yaml for this URL, use the
-                # corresponding template if set.
-                template = self.templates['index']
-                var = get_collection_var(fullpath, self.collection_index)
-                if var:
-                    template = self.config['collections'][var].get(
-                        'template', template)
+                template = self.get_index_template(fullpath)
+                self.index[fullpath] = Collection(docs=[], template=template, urls=set())
 
-                self.index[fullpath] = Collection(docs=[], template=template)
-
-            self.index[fullpath].docs.append(doc)
+            # Don't add documents more than once to a collection. Important to
+            # check and add doc['url'], because url can be an index url like tags.
+            if doc['url'] not in self.index[fullpath].urls:
+                self.index[fullpath].urls.add(doc['url'])
+                self.index[fullpath].docs.append(doc)
 
     def _update_doc_index(self, doc, var, basepath):
         """Add the doc to the index defined for the header variable (var)."""
@@ -150,9 +159,9 @@ class Logya(object):
         # Add to special __index__ for RSS generation.
         self._update_index(doc, '__index__/index/')
 
-        for url, col in self.config['collections'].items():
+        for url, collection in self.config['collections'].items():
             if url in doc:
-                self._update_doc_index(doc, url, col['path'])
+                self._update_doc_index(doc, url, collection['path'])
 
     def build_index(self, mode=None):
         """Build index of documents for content directories to be created.
@@ -169,7 +178,7 @@ class Logya(object):
             self.docs[url] = doc
             self.update_index(doc)
 
-        # Sort document collections by descending docs creation dates.
+        # For each collection sort docs by creation dates in descending order.
         for url, collection in self.index.items():
             collection.docs.sort(key=itemgetter('created'), reverse=True)
 

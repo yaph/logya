@@ -47,8 +47,17 @@ class TestPath(unittest.TestCase):
             ('/tags/video-tutorial/index.html', ['tags', 'video-tutorial']),
             ('/qotd/2015/03/22/', ['qotd', '2015', '03'])]
 
-        for test in tests:
-            self.assertEqual(test[1], path.parent_dirs(test[0]))
+        for test_input, expected in tests:
+            self.assertEqual(expected, path.parent_dirs(test_input))
+
+    def test_parent_paths(self):
+        tests = [
+            (['map'], ['map']),
+            (['map', 'spain', 'choropleth'], ['map', 'map/spain', 'map/spain/choropleth'])
+        ]
+
+        for test_input, expected in tests:
+            self.assertEqual(expected, list(path.parent_paths(test_input)))
 
     def test_slugify(self):
         tests = [
@@ -56,8 +65,8 @@ class TestPath(unittest.TestCase):
             ('Video Demonstration', 'video-demonstration'),
             ('Chrome OS', 'chrome-os')]
 
-        for test in tests:
-            self.assertEqual(test[1], path.slugify(test[0]))
+        for test_input, expected in tests:
+            self.assertEqual(expected, path.slugify(test_input))
 
     def test_target_file(self):
         testdata = ({
@@ -90,6 +99,7 @@ class TestPath(unittest.TestCase):
              '/compare/laptops/'),
             ('/www/linux-netbook.com/content/review/hp-mini.html',
              '/review/hp-mini/')]
-        for test in tests:
+
+        for test_input, expected in tests:
             self.assertEqual(
-                test[1], path.url_from_filename(test[0], basedir=basedir))
+                expected, path.url_from_filename(test_input, basedir=basedir))
