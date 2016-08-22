@@ -6,6 +6,7 @@ Changes
 4.0.0 to 4.1.0
 --------------
 
+* Enable with statement for nested variable scopes in templates.
 * Added get_index_template method to core.
 * Don't allow for duplicate docs in collections.
 * Added parent_paths to path module.

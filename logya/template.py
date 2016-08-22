@@ -44,6 +44,9 @@ class Template():
         # Enable break and continue in templates.
         self.env.add_extension('jinja2.ext.loopcontrols')
 
+        # Enable with statement for nested variable scopes.
+        self.env.add_extension('jinja2.ext.with_')
+
         # Trim whitespace around template tags if configured.
         tpl_settings = logya_inst.config.get('template')
         if tpl_settings and tpl_settings.get('trim_whitespace'):
