@@ -245,7 +245,8 @@ class Logya(object):
         feed_title = self.config['site'].get('feed_title', 'RSS Feed')
 
         for url, collection in self.index.items():
-            self.write_index(url, collection)
+            if '__index__' != url:
+                self.write_index(url, collection)
 
         # write root RSS file
         if '__index__' in self.index:
