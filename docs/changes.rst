@@ -6,6 +6,8 @@ Changes
 4.0.0 to 4.1.0
 --------------
 
+* Load newer versions of bootstrap, fontawesome and jquery via CDN.
+* Set meta noindex,follow for index pages in starter site.
 * Don't write __index__ dir and docs to deploy directory.
 * Enable with statement for nested variable scopes in templates.
 * Added get_index_template method to core.
