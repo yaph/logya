@@ -12,7 +12,7 @@ def create(args):
 
 
 def generate(args):
-    Generate(verbose=args.verbose, dir_site=args.dir_site)
+    Generate(verbose=args.verbose, dir_site=args.dir_site, keep=args.keep)
 
 
 def serve(args):
@@ -25,7 +25,7 @@ def main():
     parser.add_argument(
         '--version', action='version', version=__version__)
     parser.add_argument(
-        '--verbose', action="store_true", default=False, help='print messages')
+        '--verbose', action='store_true', default=False, help='print messages')
 
     subparsers = parser.add_subparsers()
 
@@ -36,13 +36,15 @@ def main():
     p_create.set_defaults(func=create)
 
     # generate a site for deployment, generate and gen sub commands do the same
-    msg = 'Generate Web site to deploy from current directory.'
-    hlp = ('Path to Web site directory, absolute or relative to current '
-           'working directory.')
+    hlp = 'Generate Web site to deploy from current directory.'
+    hlp_dir_site = ('Path to Web site directory, absolute or relative to '
+                    'current working directory.')
+    hlp_keep = ('Keep existing deply directory, by default it is removed.')
     for command in ['generate', 'gen']:
-        p_gen = subparsers.add_parser(command, help=msg)
+        p_gen = subparsers.add_parser(command, help=hlp)
         p_gen.set_defaults(func=generate)
-        p_gen.add_argument('--dir_site', help=hlp)
+        p_gen.add_argument('--dir_site', help=hlp_dir_site)
+        p_gen.add_argument('--keep', action='store_true', default=False, help=hlp_keep)
 
     # serve static pages
     p_serve = subparsers.add_parser(

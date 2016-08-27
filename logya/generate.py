@@ -17,8 +17,10 @@ class Generate(Logya):
         # Init writer before executing scripts, so they can use it.
         self.writer = DocWriter(self.dir_deploy, self.template)
 
-        self.info('Remove existing deploy directory')
-        shutil.rmtree(self.dir_deploy, True)
+        if not kwargs['keep']:
+            print('remove site')
+            self.info('Remove existing deploy directory')
+            shutil.rmtree(self.dir_deploy, True)
 
         self.info('Generating site in directory: {}'.format(self.dir_deploy))
 
