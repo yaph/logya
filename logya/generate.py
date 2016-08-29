@@ -3,6 +3,7 @@ import os
 import shutil
 
 from logya.core import Logya
+from logya.fs import copytree
 from logya.writer import DocWriter
 
 
@@ -18,7 +19,6 @@ class Generate(Logya):
         self.writer = DocWriter(self.dir_deploy, self.template)
 
         if not kwargs['keep']:
-            print('remove site')
             self.info('Remove existing deploy directory')
             shutil.rmtree(self.dir_deploy, True)
 
@@ -26,7 +26,7 @@ class Generate(Logya):
 
         if os.path.exists(self.dir_static):
             self.info('Copy static files')
-            shutil.copytree(self.dir_static, self.dir_deploy)
+            copytree(self.dir_static, self.dir_deploy)
 
         self.info('Build document index')
         self.build_index()
