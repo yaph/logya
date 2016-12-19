@@ -199,7 +199,7 @@ class Logya(object):
         self.template.vars['last_build'] = datetime.datetime.now()
         self.template.vars['docs'] = docs
 
-        page = self.template.env.get_template(self.templates['rss'])
+        page = self.template.get_page(self.template.vars, self.templates['rss'])
         content = page.render(self.template.vars)
 
         filename = path.target_file(
@@ -227,7 +227,7 @@ class Logya(object):
             self.template.vars['title'] = title
             self.template.vars['canonical'] = '{:s}/{:s}/'.format(self.base_url, url)
 
-            page = self.template.env.get_template(collection.template)
+            page = self.template.get_page(self.template.vars, collection.template)
             content = page.render(self.template.vars)
 
             filename = path.target_file(self.dir_deploy, url)

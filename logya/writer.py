@@ -72,7 +72,7 @@ class DocWriter():
         tpl_vars['body'] = self.template.env.from_string(
             tpl_vars.get('body', '')).render(tpl_vars)
 
-        page = self.template.env.get_template(template)
+        page = self.template.get_page(doc, template)
         content = page.render(tpl_vars)
 
         write(path.target_file(self.dir_target, doc['url']), content)

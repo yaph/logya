@@ -59,6 +59,13 @@ class Template():
 
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
 
+    def get_page(self, doc, template):
+        try:
+            page = self.env.get_template(template)
+        except TemplateNotFound as err:
+            raise TemplateNotFound('Doc: {}\n{}'.format(doc, err))
+        return page
+
 
 class TemplateLoader(BaseLoader):
 
