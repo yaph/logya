@@ -1,26 +1,27 @@
-{% set version = '#v=1' %}
 <!DOCTYPE html>
 <html lang="en">
     <head itemscope itemtype="http://schema.org/WebSite">
         <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <title itemprop="name">{% block title %}{{ title }}{% endblock%}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% if description %}<meta name="description" content="{{ description }}">{% endif %}
         {% if author %}<meta name="author" content="{{ author }}">{% endif %}
         {% if image %}<meta property="og:image" content="{{ base_url }}{{ image }}">{% endif %}
         {% block meta %}{% endblock %}
 
-        <link rel="canonical" href="{{ canonical }}" itemprop="url">
-        <link rel="shortcut icon" href="/img/logya.png">
-        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="/rss.xml">
+        <link href="{{ canonical }}" rel="canonical" itemprop="url">
+        <link href="/img/logya-16.png" rel="icon">
+        <link href="/rss.xml" rel="alternate" type="application/rss+xml" title="RSS feed">
 
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/css/style.css{{ version }}">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
 
         {% block styles %}
             {% for style in styles %}
-                <link href="{{ style }}{{ version }}" rel="stylesheet">
+                <link href="{{ style }}" rel="stylesheet">
             {% endfor %}
         {% endblock %}
 
@@ -54,16 +55,14 @@
 
         <div class="container">
             <hr>
-            <footer><p>© 2016 {{ brand }}</p></footer>
+            <footer><p>© <script>document.write(new Date().getFullYear())</script> {{ brand }}</p></footer>
         </div>
 
-        <script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="/js/script.js{{ version }}"></script>
-
         {% block body_scripts %}
             {% for script in scripts %}
-                <script src="{{ script }}{{ version }}"></script>
+                <script src="{{ script }}"></script>
             {% endfor %}
         {% endblock %}
     </body>
