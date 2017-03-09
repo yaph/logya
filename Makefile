@@ -43,9 +43,6 @@ install: clean
 uninstall:
 	pip uninstall -y logya
 
-reinstall: uninstall
-	make install
-
 lint:
 	flake8 logya tests
 
@@ -83,7 +80,3 @@ dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
-
-# Reinstall and test shortcut
-rt: reinstall
-	make test-all

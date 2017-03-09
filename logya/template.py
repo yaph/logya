@@ -5,12 +5,15 @@ import os
 from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 
 
-def filesource(logya_inst, name, lines=None):
+def filesource(logya_inst, name, lines=None, raw=False):
     """Read and return source of text files.
 
     A template function that reads the source of the given file and returns it.
-    The text is escaped so it can be rendered safely on a Web page.
+    The content is escaped by default so it can be rendered safely on a Web page.
+
     The lines keyword argument is used to limit the number of lines returned.
+
+    To not escape the content you can set the raw keyword argument to False.
 
     A use case is for documentation projects to show the source code used
     to render the current example.
@@ -22,6 +25,9 @@ def filesource(logya_inst, name, lines=None):
             content = f.read()
         else:
             content = ''.join(f.readlines()[:lines])
+    if raw:
+        return content
+
     return escape(content)
 
 
@@ -54,8 +60,8 @@ class Template():
             self.env.trim_blocks = True
 
         # Add filesource global to allow for including the source of a file.
-        self.env.globals['filesource'] = lambda x, lines=None: filesource(
-            logya_inst, x, lines=lines)
+        self.env.globals['filesource'] = lambda x, lines=None, raw=False: filesource(
+            logya_inst, x, lines=lines, raw=raw)
 
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
 
