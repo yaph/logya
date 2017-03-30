@@ -53,6 +53,9 @@ class Template():
         # Enable with statement for nested variable scopes.
         self.env.add_extension('jinja2.ext.with_')
 
+        # Enable expression-statement extension that adds the do tag.
+        self.env.add_extension('jinja2.ext.do')
+
         # Trim whitespace around template tags if configured.
         tpl_settings = logya_inst.config.get('template')
         if tpl_settings and tpl_settings.get('trim_whitespace'):

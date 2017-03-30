@@ -6,6 +6,7 @@ Changes
 4.0.0 to 4.1.0
 --------------
 
+* Enable expression-statement extension that adds the do tag.
 * Added raw keyword argument to filesource function, which defaults to False.
 * Added keep option for `generate` command, which does not remove an existing deploy directory.
 * Load newer versions of bootstrap, fontawesome and jquery via CDN.
