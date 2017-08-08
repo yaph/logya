@@ -64,7 +64,10 @@ docs:
 docs-release: docs
 	python setup.py upload_docs
 
+# Call example: make release version=4.1.0
 release: clean
+	git tag -a $(version) -m 'Create version $(version)'
+	git push --tags
 	python setup.py sdist upload
 	python setup.py bdist_wheel upload
 
