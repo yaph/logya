@@ -49,14 +49,6 @@ lint:
 test:
 	python setup.py test
 
-
-L=$(shell which logya)
-test-all:
-	tox
-	rm -rf t
-	$L create t
-	cd t && $L gen
-
 coverage:
 	coverage run --source logya setup.py test
 	coverage report -m
