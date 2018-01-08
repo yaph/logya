@@ -4,7 +4,7 @@ import shutil
 import logging
 
 from logya.core import Logya
-from logya.compat import urlparse
+from logya.compat import unquote, urlparse
 from logya.compat import HTTPServer
 from logya.compat import SimpleHTTPRequestHandler
 from logya.writer import DocWriter
@@ -66,7 +66,8 @@ class Serve(Logya):
         # If a static file is requested update it and return.
         path_rel = path.lstrip('/')
         # Use only the URL path and ignore possible query params issue #3.
-        src = urlparse(os.path.join(self.dir_static, path_rel)).path
+        src = unquote(urlparse(os.path.join(self.dir_static, path_rel)).path)
+
         if os.path.isfile(src):
             dst = os.path.join(self.dir_deploy, path_rel)
 

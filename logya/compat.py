@@ -14,10 +14,8 @@ import sys
 is3 = sys.version_info[0] == 3
 
 if is3:
-    from urllib.parse import quote_plus
-    from urllib.parse import urlparse
-    from http.server import SimpleHTTPRequestHandler
-    from http.server import HTTPServer
+    from urllib.parse import quote_plus, unquote, urlparse
+    from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 else:
     from urllib import quote_plus
