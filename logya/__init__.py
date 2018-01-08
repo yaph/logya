@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Ramiro Gómez'
 __email__ = 'code@ramiro.org'
-__version__ = '4.1.0'
+__version__ = '4.2.0'
 
 # Extensions of content files that will be processed by Logya.
 allowed_exts = {
