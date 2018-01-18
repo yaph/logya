@@ -6,6 +6,7 @@ Changes
 4.1.0 to 4.2.0
 --------------
 
+* Add attr_contains template filter to enable filtering docs with an attribute containing a given value.
 * URL unquote file names so special characters can be used in URLs.
 
 4.0.0 to 4.1.0

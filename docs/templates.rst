@@ -3,7 +3,19 @@
 Templates
 =========
 
-The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many functions and filters jinja2 provides you can use the following filters/functions.
+The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many functions and filters jinja2 provides you can use the following filters and global functions.
+
+attr_contains
+-------------
+
+The ``attr_contains`` filter returns a generator of documents that have the given attribute and its value contains the given test value. Consider the following `real world usage example <http://guitarstreams.com/chord/guitar/C/>`_:
+
+::
+
+    {% set lessons = index['lesson/guitar'].docs|attr_contains('chords', 'C') %}
+
+This template snippet selects the documents in the ``lesson/guitar`` index that have an attribute called ``chords`` containing the value ``C``. In this case the document attribute value is a list, but you can also check whether the value is ``in`` other Python sequence types, such as strings.
+
 
 filesource
 ----------

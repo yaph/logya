@@ -9,7 +9,7 @@ def filesource(logya_inst, name, lines=None, raw=False):
     """Read and return source of text files.
 
     A template function that reads the source of the given file and returns it.
-    The content is escaped by default so it can be rendered safely on a Web page.
+    Content is escaped by default so it can be rendered safely on a Web page.
 
     The lines keyword argument is used to limit the number of lines returned.
 
@@ -62,11 +62,16 @@ class Template():
             self.env.lstrip_blocks = True
             self.env.trim_blocks = True
 
-        # Add filesource global to allow for including the source of a file.
+        # Include the source of a file.
         self.env.globals['filesource'] = lambda x, lines=None, raw=False: filesource(
             logya_inst, x, lines=lines, raw=raw)
 
+        # Get a document from its URL.
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
+
+        # Filter docs list where the given attribute contains the given value.
+        self.env.filters['attr_contains'] = lambda docs, attr, val: (
+            doc for doc in docs if attr in doc and val in doc[attr])
 
     def get_page(self, doc, template):
         try:
