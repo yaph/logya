@@ -8,7 +8,7 @@ The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_
 attr_contains
 -------------
 
-The ``attr_contains`` filter returns a generator of documents that have the given attribute and its value contains the given test value. Consider the following `real world usage example <http://guitarstreams.com/chord/guitar/C/>`_:
+The ``attr_contains`` filter returns a list of documents that have the given attribute and its value contains the given test value. Consider the following `real world usage example <http://guitarstreams.com/chord/guitar/C/>`_:
 
 ::
 

@@ -70,8 +70,8 @@ class Template():
         self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
 
         # Filter docs list where the given attribute contains the given value.
-        self.env.filters['attr_contains'] = lambda docs, attr, val: (
-            doc for doc in docs if attr in doc and val in doc[attr])
+        self.env.filters['attr_contains'] = lambda docs, attr, val: [
+            doc for doc in docs if attr in doc and val in doc[attr]]
 
     def get_page(self, doc, template):
         try:
