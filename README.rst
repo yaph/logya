@@ -40,7 +40,7 @@ Sites built with logya
 * http://geeksta.net/
 * http://www.linux-netbook.com/
 * http://strahlungsarmehandys.com/
-* http://exploringdata.github.io/
+* http://exploring-data.com/
 * http://d3-geomap.github.io/
 * http://guitarstreams.com/
 
