@@ -21,6 +21,6 @@ class TestIndex(LogyaBaseTestCase):
         ]
 
         for data in testdata:
-            self.assertEquals(
+            self.assertEqual(
                 data['expected'],
                 get_collection_var(data['input'], collection_index))
