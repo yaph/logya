@@ -44,5 +44,5 @@ Sites built with logya
 * https://d3-geomap.github.io/
 * https://guitarstreams.com/
 
-.. _`documentation`: https://pythonhosted.org/logya/
+.. _`documentation`: http://ramiro.org/logya/docs/
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues

@@ -1,6 +1,5 @@
 coverage
 flake8
 Sphinx
-Sphinx-PyPI-upload
 sphinx-rtd-theme
 tox
