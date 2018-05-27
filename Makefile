@@ -61,9 +61,6 @@ docs:
 	$(MAKE) -C docs html
 	firefox docs/_build/html/index.html
 
-docs-release: docs
-	python setup.py upload_docs
-
 # Call example: make release version=4.1.0
 release: clean
 	git tag -a $(version) -m 'Create version $(version)'
