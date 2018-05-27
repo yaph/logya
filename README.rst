@@ -2,7 +2,7 @@ Logya README
 ============
 
 .. image:: https://badge.fury.io/py/logya.png
-        :target: http://badge.fury.io/py/logya
+        :target: https://pypi.org/project/logya/
 .. image:: https://travis-ci.org/yaph/logya.png?branch=master
         :target: https://travis-ci.org/yaph/logya
 .. image:: https://landscape.io/github/yaph/logya/master/landscape.png
@@ -37,12 +37,12 @@ Sites built with logya
 ----------------------
 
 * http://ramiro.org/
-* http://geeksta.net/
-* http://www.linux-netbook.com/
-* http://strahlungsarmehandys.com/
-* http://exploring-data.com/
-* http://d3-geomap.github.io/
-* http://guitarstreams.com/
+* https://geeksta.net/
+* https://www.linux-netbook.com/
+* https://strahlungsarmehandys.com/
+* https://exploring-data.com/
+* https://d3-geomap.github.io/
+* https://guitarstreams.com/
 
-.. _`documentation`: http://pythonhosted.org/logya
+.. _`documentation`: https://pythonhosted.org/logya/
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues
