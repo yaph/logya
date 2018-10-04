@@ -33,3 +33,13 @@ comments:
 The above code checks that the ``comments`` variable exists and has a
 value, so this will also show the comments section if you enter a value
 of 0 in the document header.
+
+Setting all content files in directory to noindex
+-------------------------------------------------
+
+To set all files in a given directory recursively so that they still have a page
+generated but don't appear in any index, you can use this command in Bash:
+
+::
+
+    find content/files-to-change/ -type f -exec perl -i -pe "s/\-\-\-\n/---\nnoindex: 1\n/s" {} \;
