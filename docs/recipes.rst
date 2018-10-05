@@ -42,4 +42,4 @@ generated but don't appear in any index, you can use this command in Bash:
 
 ::
 
-    find content/files-to-change/ -type f -exec perl -i -pe "s/\-\-\-\n/---\nnoindex: 1\n/s" {} \;
+    find content/lesson/ -type f -exec perl -i -pe "BEGIN{undef $/;} s/\-\-\-\n/---\nnoindex: 1\n/s" {} \;
