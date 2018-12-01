@@ -3,3 +3,4 @@ flake8
 Sphinx
 sphinx-rtd-theme
 tox
+wheel
