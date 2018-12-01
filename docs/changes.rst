@@ -3,6 +3,12 @@
 Changes
 =======
 
+4.2.0 to 4.3.0
+--------------
+
+* Add ``--site`` option to choose the base site to use when creating a new one.
+* Add ``bare`` base site with minimal markup and files.
+
 4.1.0 to 4.2.0
 --------------
 

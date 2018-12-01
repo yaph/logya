@@ -4,7 +4,7 @@ help:
 	@echo "clean - remove all build, test, coverage and Python artifacts"
 	@echo "clean-build - remove build artifacts"
 	@echo "clean-pyc - remove Python file artifacts"
-	@echo "clean-starter-site - remove deploy directory from starter site"
+	@echo "clean-sites - remove deploy directory from starter site"
 	@echo "clean-test - remove test and coverage artifacts"
 	@echo "lint - check style with flake8"
 	@echo "test - run tests quickly with the default Python"
@@ -15,11 +15,12 @@ help:
 	@echo "release - package and upload a release"
 	@echo "dist - package"
 
-clean: clean-build clean-pyc clean-starter-site clean-test
+clean: clean-build clean-pyc clean-sites clean-test
 
 clean-build:
 	rm -fr build/
 	rm -fr dist/
+	rm -fr .eggs/
 	rm -fr *.egg-info
 
 clean-pyc:
@@ -28,8 +29,8 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
-clean-starter-site:
-	rm -fr logya/sites/starter/deploy/
+clean-sites:
+	find logya/sites/ -type d -name deploy -exec rm -rf {} +
 
 clean-test:
 	rm -fr t/
@@ -61,7 +62,7 @@ docs:
 	$(MAKE) -C docs html
 	firefox docs/_build/html/index.html
 
-# Call example: make release version=4.1.0
+# Call example: make release version=4.3.0
 release: clean
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags

@@ -8,7 +8,7 @@ from logya.serve import Serve
 
 
 def create(args):
-    Create(args.name)
+    Create(args.name, site=args.site)
 
 
 def generate(args):
@@ -34,6 +34,7 @@ def main():
         'create', help='Create a starter Web site in the specified directory.')
     p_create.add_argument('name', help='name of the directory to create.')
     p_create.set_defaults(func=create)
+    p_create.add_argument('--site', default='starter', help='Name one of the available sites.')
 
     # generate a site for deployment, generate and gen sub commands do the same
     hlp = 'Generate Web site to deploy from current directory.'
@@ -57,6 +58,7 @@ def main():
     args = parser.parse_args()
     if getattr(args, 'func', None):
         args.func(args)
+
 
 if __name__ == '__main__':
     main()

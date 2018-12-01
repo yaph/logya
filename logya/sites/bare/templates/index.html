@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<meta name="robots" content="noindex,follow">
+{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<ul>
+{% for doc in docs %}
+    <li>
+        <h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2>
+        <p>{{ doc.created.strftime('%B %d, %Y') }}</p>
+        <p>{{ doc.description }}</p>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

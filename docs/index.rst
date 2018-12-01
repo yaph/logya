@@ -18,7 +18,7 @@ Contents:
    intro
    installation
    gettingstarted
-   directorylayout
+   create
    documentstructure
    templates
    configuration
