@@ -33,15 +33,24 @@ This function is mainly intended for documentation purposes as it allows you to 
 
 ::
 
-    <pre>{{ filesource(data, lines=6) }}...</pre>
+    <pre>{{ filesource(data, lines=6) }}</pre>
 
 To not escape the content, you can set raw to True.
 
 ::
 
-    <pre>{{ filesource(data, raw=True) }}...</pre>
+    <pre>{{ filesource(data, raw=True) }}</pre>
 
 This can be used for example to inline SVG code when using SVG sprites.
+
+slugiy
+------
+
+Use this filter to change a string so it can be used as part of a URL.
+
+::
+
+    <pre>{{ string|slug }}</pre>
 
 get_doc
 -------
