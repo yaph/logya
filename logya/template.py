@@ -22,11 +22,15 @@ def filesource(logya_inst, name, lines=None, raw=False):
     """
 
     fname = os.path.join(logya_inst.dir_site, name)
+    content = ''
     with io.open(fname, 'r', encoding='utf-8') as f:
-        if lines is None:
-            content = f.read()
-        else:
-            content = ''.join(f.readlines()[:lines])
+        try:
+            if lines is None:
+                content = f.read()
+            else:
+                content = ''.join(f.readlines()[:lines])
+        except UnicodeDecodeError:
+            print('File {} could not be decoded.'.format(fname))
     if raw:
         return content
 
