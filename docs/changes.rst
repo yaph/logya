@@ -6,6 +6,7 @@ Changes
 4.3.0 to 4.4.0
 --------------
 
+* Add ``build`` and ``write`` methods to Generate class, so subclasses can easily overwrite the build and write steps.
 * Make ``slugify`` function from path module available in templates.
 
 4.2.0 to 4.3.0
