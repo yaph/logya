@@ -15,7 +15,7 @@ class Generate(Logya):
         self.init_env()
         self.writer = DocWriter(self.dir_deploy, self.template)
 
-        if not kwargs['keep']:
+        if not kwargs.get('keep'):
             self.info('Remove existing deploy directory')
             shutil.rmtree(self.dir_deploy, True)
 
