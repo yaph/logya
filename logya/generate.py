@@ -11,7 +11,7 @@ class Generate(Logya):
     """Generate a Web site to deploy from current directory as source."""
 
     def __init__(self, **kwargs):
-        super(self.__class__, self).__init__(**kwargs)
+        super(Generate, self).__init__(**kwargs)
         self.init_env()
         self.writer = DocWriter(self.dir_deploy, self.template)
 
