@@ -7,6 +7,7 @@ Changes
 --------------
 
 * Add ``build`` and ``write`` methods to Generate class, so subclasses can easily overwrite the build and write steps.
+* Handle UnicodeDecodeError in filesource when reading binary files.
 * Make ``slugify`` function from path module available in templates.
 
 4.2.0 to 4.3.0
