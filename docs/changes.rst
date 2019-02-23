@@ -3,6 +3,11 @@
 Changes
 =======
 
+4.4.0 to 4.5.0
+--------------
+
+* Add support for multi-lingual indexes and add sample i18n site.
+
 4.3.0 to 4.4.0
 --------------
 
