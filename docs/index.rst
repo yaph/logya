@@ -22,6 +22,7 @@ Contents:
    documentstructure
    templates
    configuration
+   i18n
    recipes
    development
    credits

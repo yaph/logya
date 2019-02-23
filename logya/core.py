@@ -83,6 +83,10 @@ class Logya(object):
             'rss': self.config['content']['rss']['template']
         }
 
+        # Set languages if specified.
+        if 'languages' in self.config:
+            self.languages = self.config['languages']
+
         # Map collection paths to config variables (vars) to make collecion
         # settings accessible via index URLs.
         self.collection_index = {
@@ -135,13 +139,13 @@ class Logya(object):
                 self.index[fullpath].urls.add(doc['url'])
                 self.index[fullpath].docs.append(doc)
 
-    def _update_doc_index(self, doc, var, basepath):
-        """Add the doc to the index defined for the header variable (var)."""
+    def _update_doc_index(self, doc, attr, basepath):
+        """Add the doc to the index defined for the attribute."""
 
-        for val in doc[var]:
+        for val in doc[attr]:
             url = '/{}/{}/'.format(basepath, path.slugify(val))
 
-            links = var + '_links'
+            links = attr + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
 
             # Must append file name to url to create subdir.
@@ -159,9 +163,21 @@ class Logya(object):
         # Add to special __index__ for RSS generation.
         self._update_index(doc, '__index__/index/')
 
-        for url, collection in self.config['collections'].items():
-            if url in doc:
-                self._update_doc_index(doc, url, collection['path'])
+        for attr, collection in self.config['collections'].items():
+            if attr not in doc:
+                continue
+            self._update_doc_index(doc, attr, collection['path'])
+
+            # Optionally create language specific indexes.
+            if not self.languages:
+                continue
+            for lang in self.languages:
+                if lang['code'] == doc['url'].split('/')[1]:
+                    # Make document language available to templates if not already specified.
+                    if 'language' not in doc:
+                        doc['language'] = lang['code']
+                    self._update_doc_index(doc, attr, '{}/{}'.format(lang['code'], collection['path']))
+
 
     def build_index(self, mode=None):
         """Build index of documents for content directories to be created.

@@ -1,0 +1,7 @@
+# Logya
+deploy/
+static/compiled/
+
+# nodejs
+node_modules/
+.sass-cache

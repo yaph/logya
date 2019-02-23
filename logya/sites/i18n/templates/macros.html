@@ -1,0 +1,6 @@
+{% macro tags_links(tags, language=None) %}
+{% for url, anchor in tags %}
+{% if language and not url.split('/')[1] == language %}{% continue %}{% endif %}
+<a href="{{ url }}">{{ anchor }}</a>{% if not loop.last %} • {% endif %}
+{% endfor %}
+{% endmacro %}
