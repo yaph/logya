@@ -111,9 +111,17 @@ class Logya(object):
         """
 
         template = self.templates['index']
-        var = get_collection_var(fullpath, self.collection_index)
-        if var:
-            template = self.config['collections'][var].get('template', template)
+        attr = get_collection_var(fullpath, self.collection_index)
+
+        # Remove top-level language directory from fullpath if inside that language, so the definitions in site.yaml can be matched.
+        if not attr and self.languages:
+            for lang in self.languages:
+                prefix = lang['code'] + '/'
+                if fullpath.startswith(prefix):
+                    attr = get_collection_var(fullpath[len(prefix):], self.collection_index)
+                    break
+        if attr:
+            template = self.config['collections'][attr].get('template', template)
         return template
 
     def _update_index(self, doc, url=None):
