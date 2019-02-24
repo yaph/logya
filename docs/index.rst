@@ -27,3 +27,4 @@ Contents:
    development
    credits
    changes
+   modules

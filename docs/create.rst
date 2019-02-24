@@ -9,11 +9,12 @@ The following command creates the directory ``mysite`` and copies the ``starter`
 
     logya create mysite
 
-Currently there is one alternative, the ``bare`` site with minimal markup and files. You can use it via the ``--site`` option.
+Currently there are two alternatives: the ``bare`` site with minimal markup and files and the ``i18n`` that serves as a starting point for multilingual sites. You can set it using the ``--site`` option.
 
 ::
 
     logya create --site bare mysite
+    logya create --site i18n mysite
 
 Directory Structure
 -------------------

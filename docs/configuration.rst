@@ -1,4 +1,4 @@
-.. configuration:
+.. _configuration:
 
 Configuration
 =============
@@ -30,3 +30,9 @@ template section
 ~~~~~~~~~~~~~~~~
 
 This optional section is for template related settings. At the moment you can set whether to `trim whitespace <http://jinja.pocoo.org/docs/dev/templates/#whitespace-control>`_ around template tags.
+
+
+languages section
+~~~~~~~~~~~~~~~~~
+
+The languages section is optional and exists to enable additional features for multilingual sites. Please see :ref:`I18N <i18n>` for more information.

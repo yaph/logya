@@ -19,7 +19,7 @@ Features
 * Create content specific templates using the powerful features of jinja2.
 * Migrate WordPress or Drupal sites to fast static sites keeping the URLs.
 * Automatic generation of a document index with created directories.
-* RSS feed generation for all content and tag directories.
+* RSS feed generation for all content and index directories.
 * Built-in Web server with info level logging and immediate editing
   feedback in the browser.
 * Manage, deploy and backup the site with the tools you know, e.g. fabric, tar,

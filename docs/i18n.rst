@@ -1,0 +1,18 @@
+.. _i18n:
+
+I18N
+====
+
+For multilingual sites you can add a ``languages`` section in the ``site.yaml``. The example section below defines two languages.
+
+::
+
+    languages:
+      - name: Deutsch
+        code: de
+      - name: English
+        code: en
+
+The values of the ``code`` attributes correspond to top-level directories within the ``content`` directory. All documents inside these directories will be treated as language specific documents. If these documents use index attributes such as ``tags`` language specific index pages will be created, i.e. ``/de/tags/`` and ``/en/tags/``. The ``/tags/`` index is also created and contains documents in all languages.
+
+Documents inside language directories will also have a ``language`` attribute set to the value of the corresponding language code, unless that attribute already exists. You can refer to it in templates for language specific markup. You can use the minimalistic ``i18n`` site as a starting for creating a multilingual site: ``logya create --site i18n mysite``.
