@@ -44,6 +44,8 @@ install: clean
 uninstall:
 	pip uninstall -y logya
 
+reinstall: uninstall install
+
 lint:
 	flake8 logya tests
 

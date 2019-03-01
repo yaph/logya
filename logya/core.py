@@ -114,7 +114,7 @@ class Logya(object):
         attr = get_collection_var(fullpath, self.collection_index)
 
         # Remove top-level language directory from fullpath if inside that language, so the definitions in site.yaml can be matched.
-        if not attr and self.languages:
+        if not attr and getattr(self, 'languages', None):
             for lang in self.languages:
                 prefix = lang['code'] + '/'
                 if fullpath.startswith(prefix):
@@ -177,7 +177,7 @@ class Logya(object):
             self._update_doc_index(doc, attr, collection['path'])
 
             # Optionally create language specific indexes.
-            if not self.languages:
+            if not getattr(self, 'languages', None):
                 continue
             for lang in self.languages:
                 if lang['code'] == doc['url'].split('/')[1]:
