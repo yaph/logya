@@ -9,4 +9,4 @@ def load(filename):
     """Create config object read from the given file."""
 
     with io.open(filename, 'r', encoding='utf-8') as f:
-        return yaml.load(f)
+        return yaml.load(f, Loader=yaml.FullLoader)
