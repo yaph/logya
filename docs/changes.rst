@@ -7,6 +7,7 @@ Changes
 --------------
 
 * Add support for multilingual indexes and add sample ``i18n`` site.
+* Remove support for Python 3.4 as latest Markdown requires at least Python 3.5.
 
 4.3.0 to 4.4.0
 --------------
