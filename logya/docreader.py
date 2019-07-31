@@ -26,6 +26,12 @@ def iter_docs(basedir):
         for f in files if os.path.splitext(f)[1].strip('.') in allowed_exts)
 
 
+def set_date(doc, attribute, default):
+    doc[attribute] = doc.get(attribute, default)
+    if isinstance(doc[attribute], str):
+        doc[attribute] = datetime.fromisoformat(doc[attribute])
+
+
 class DocReader:
     """A class for reading content documents."""
 
@@ -54,12 +60,11 @@ class DocReader:
             # Use file modification time for created and updated properties,
             # if not set in document itself.
             modified = datetime.fromtimestamp(os.stat(filename).st_mtime)
-            parsed['created'] = parsed.get('created', modified)
-            parsed['updated'] = parsed.get('updated', modified)
+            set_date(parsed, 'created', modified)
+            set_date(parsed, 'updated', modified)
 
             # Set url from filename if not set in parsed document.
             if 'url' not in parsed:
-                parsed['url'] = path.url_from_filename(
-                    filename, basedir=self.basedir)
+                parsed['url'] = path.url_from_filename(filename, basedir=self.basedir)
 
             yield parsed

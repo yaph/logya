@@ -3,6 +3,11 @@
 Changes
 =======
 
+4.5.0 to 4.6.0
+--------------
+
+* Convert ``created`` and ``updated`` document attributes to datetime objects if they are strings.
+
 4.4.0 to 4.5.0
 --------------
 
