@@ -29,7 +29,10 @@ def iter_docs(basedir):
 def set_date(doc, attribute, default):
     doc[attribute] = doc.get(attribute, default)
     if isinstance(doc[attribute], str):
-        doc[attribute] = datetime.fromisoformat(doc[attribute])
+        try:
+            doc[attribute] = datetime.fromisoformat(doc[attribute])
+        except ValueError:
+            print('Attribute "{}" could not be converted to datetime. URL: {}'.format(attribute, doc))
 
 
 class DocReader:
