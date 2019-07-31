@@ -87,7 +87,7 @@ class Logya(object):
         if 'languages' in self.config:
             self.languages = self.config['languages']
 
-        # Map collection paths to config variables (vars) to make collecion
+        # Map collection paths to config variables (vars) to make collection
         # settings accessible via index URLs.
         self.collection_index = {
             v['path']: k for k, v in self.config['collections'].items()}

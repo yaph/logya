@@ -8,7 +8,7 @@ site:
 
 # Settings that affect collections in the document index. Top-level keys of
 # collections can be used as document attributes for grouping it in the
-# corresponding collecion.
+# corresponding collection.
 collections:
     tags:
         path: tags
