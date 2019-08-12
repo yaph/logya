@@ -178,7 +178,7 @@ class Logya(object):
             if attr not in doc:
                 continue
             self._update_doc_index(doc, attr, collection['path'])
-            self.collections[collection['path']] = self.collections.get(collection['path'], []) + doc[attr]
+            self.collections[attr] = self.collections.get(attr, []) + list(filter(None, doc[attr]))
 
             # Optionally create language specific indexes.
             if not getattr(self, 'languages', None):
@@ -214,8 +214,13 @@ class Logya(object):
         self.template.vars['index'] = self.index
 
         # Make collections values unique and turn list of attribute values into path, value tuples.
-        for name, values in self.collections.items():
-            self.collections[name] = [('/{}/{}/'.format(name, path.slugify(v)), v) for v in sorted(set(values)) if v]
+        for coll_path, name in self.collection_index.items():
+            values = []
+            for val in sorted(set(self.collections.get(name, []))):
+                url = '/{}/{}/'.format(coll_path, path.slugify(val))
+                values.append((url, val))
+            if values:
+                self.collections[name] = values
 
         # Make collections available to templates.
         self.template.vars['collections'] = self.collections
