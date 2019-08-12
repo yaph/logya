@@ -76,6 +76,9 @@ class Logya(object):
         # A dictionary of document collections.
         self.index = {}
 
+        # A dictionary of collection names and distinct values.
+        self.collections = {}
+
         # Set default templates once for a Logya instance.
         self.templates = {
             'doc': self.config['content']['doc']['template'],
@@ -175,6 +178,7 @@ class Logya(object):
             if attr not in doc:
                 continue
             self._update_doc_index(doc, attr, collection['path'])
+            self.collections[collection['path']] = self.collections.get(collection['path'], []) + doc[attr]
 
             # Optionally create language specific indexes.
             if not getattr(self, 'languages', None):
@@ -208,6 +212,13 @@ class Logya(object):
 
         # Make index available to templates.
         self.template.vars['index'] = self.index
+
+        # Make collections values unique and turn list of attribute values into path, value tuples.
+        for name, values in self.collections.items():
+            self.collections[name] = [('/{}/{}/'.format(name, path.slugify(v)), v) for v in sorted(set(values)) if v]
+
+        # Make collections available to templates.
+        self.template.vars['collections'] = self.collections
 
     def index_title(self, s):
         """Title for index pages, usually created from directory paths."""

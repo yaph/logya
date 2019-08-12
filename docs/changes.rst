@@ -6,6 +6,7 @@ Changes
 4.5.0 to 4.6.0
 --------------
 
+* Make collections available to templates as lists of path, value tuples.
 * Convert ``created`` and ``updated`` document attributes to datetime objects if they are strings.
 
 4.4.0 to 4.5.0
