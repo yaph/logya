@@ -8,8 +8,7 @@ Logya README
 .. image:: https://landscape.io/github/yaph/logya/master/landscape.svg?style=flat
         :target: https://landscape.io/github/yaph/logya
 
-Logya is a static Web site generator written in Python designed to be easy
-to use and flexible.
+Logya is a static site generator written in Python designed to be easy to use and flexible.
 
 Quickstart
 ----------
@@ -30,10 +29,10 @@ Quickstart
     logya serve
 
 
-Please see the `documentation`_ for more information on how to use logya for
+Please see the `documentation`_ for more information on how to use Logya for
 creating Web sites.
 
-Sites built with logya
+Sites built with Logya
 ----------------------
 
 * https://ramiro.org/

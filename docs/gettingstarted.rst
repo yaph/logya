@@ -39,19 +39,19 @@ Serve site from deploy directory:
 
     logya serve
 
-Run this command in the root directory of your mysite project and it
+Run this command in the root directory of your ``mysite`` project and it
 will serve the static files from the deploy directory. When you edit
 files in your projects source directory and reload them in the browser
 they will be updated, so this can be used for live editing your site and
 see changes immediately.
 
-Get help on logya command:
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Show help
+~~~~~~~~~
 
 ::
 
     logya -h
 
-Show the help output of the logya command with information on sub
+Show the help output of the ``logya`` command with information on sub
 commands and options, for help on a sub command call it with the -h
 option, e.g. ``logya create -h``.
