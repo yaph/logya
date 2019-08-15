@@ -15,7 +15,7 @@
   <div role="contentinfo">
     <p>
     {%- if show_copyright %}
-      {% set copyright=copyright|e|replace('Ramiro Gómez', '<a href="http://ramiro.org/">Ramiro Gómez</a>') %}
+      {% set copyright=copyright|e|replace('Ramiro Gómez', '<a href="https://ramiro.org/">Ramiro Gómez</a>') %}
       {%- if hasdoc('copyright') %}
         {% trans path=pathto('copyright'), copyright=copyright|e %}&copy; <a href="{{ path }}">Copyright</a> {{ copyright }}.{% endtrans %}
       {%- else %}

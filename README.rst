@@ -36,7 +36,7 @@ creating Web sites.
 Sites built with logya
 ----------------------
 
-* http://ramiro.org/
+* https://ramiro.org/
 * https://geeksta.net/
 * https://www.linux-netbook.com/
 * https://strahlungsarmehandys.com/
@@ -44,5 +44,5 @@ Sites built with logya
 * https://d3-geomap.github.io/
 * https://guitarstreams.com/
 
-.. _`documentation`: http://ramiro.org/logya/docs/
+.. _`documentation`: https://ramiro.org/logya/docs/
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues

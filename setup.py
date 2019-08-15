@@ -21,7 +21,7 @@ setup(
     version=__version__,
     description='Logya: easy to use and flexible static Web site generator.',
     long_description=readme,
-    url='http://ramiro.org/logya/',
+    url='https://ramiro.org/logya/',
     author='Ramiro Gómez',
     author_email='code@ramiro.org',
     maintainer='Ramiro Gómez',
