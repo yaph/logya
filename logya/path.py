@@ -59,7 +59,7 @@ def parent_paths(dirs):
 
 
 def slugify(path):
-    return re.sub(re_url_replace, '-', path).lower()
+    return re.sub(re_url_replace, '-', path.strip()).lower()
 
 
 def target_file(basedir, url):
