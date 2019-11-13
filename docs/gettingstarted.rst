@@ -55,8 +55,3 @@ Show help
 Show the help output of the ``logya`` command with information on sub
 commands and options, for help on a sub command call it with the -h
 option, e.g. ``logya create -h``.
-
-Command Completion
-~~~~~~~~~~~~~~~~~~
-
-If you use Bash you can see the available ``logya`` sub commands and command line options by using the ``Tab`` key on your keyboard.

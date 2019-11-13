@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# PYTHON_ARGCOMPLETE_OK
 import argparse
-import argcomplete
 
 from logya import __version__
 from logya.create import Create
@@ -57,8 +55,6 @@ def main():
     p_serve.add_argument('--port', type=int, help='server port to listen')
     p_serve.add_argument('--host', help='server host name or IP')
 
-    # activate command completion and process arguments
-    argcomplete.autocomplete(parser)
     args = parser.parse_args()
     if getattr(args, 'func', None):
         args.func(args)
