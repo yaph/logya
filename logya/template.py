@@ -2,9 +2,27 @@
 import io
 import os
 
+from string import ascii_lowercase
+
 from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 
 from logya.path import slugify
+
+
+def alpha_index(docs, attr, non_ascii_key):
+    """Return an alphabetical index for a list of document objects based on attribute.
+
+    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
+    """
+
+    index = {}
+    for doc in docs:
+        key = doc[attr].lower()[0]
+        if key not in ascii_lowercase:
+            key = non_ascii_key
+        index[key] = index.get(key, []) + [doc]
+
+    return {key: sorted(index[key], key=lambda x: x[attr]) for key in sorted(index.keys())}
 
 
 def filesource(logya_inst, name, lines=None, raw=False):
@@ -67,6 +85,10 @@ class Template():
         if tpl_settings and tpl_settings.get('trim_whitespace'):
             self.env.lstrip_blocks = True
             self.env.trim_blocks = True
+
+        # Return an alphabetical index for a list of doc objects.
+        self.env.globals['alpha_index'] = lambda docs, attr='title': alpha_index(
+            docs, attr='title', non_ascii_key='_')
 
         # Include the source of a file.
         self.env.globals['filesource'] = lambda x, lines=None, raw=False: filesource(
