@@ -27,19 +27,21 @@ Quickstart
     logya serve
 
 
-Please see the `documentation`_ for more information on how to use Logya for
-creating Web sites.
+Please see the `documentation`_ for more information on how to use Logya for creating Web sites.
 
 Sites built with Logya
 ----------------------
 
-* https://ramiro.org/
-* https://geeksta.net/
-* https://www.linux-netbook.com/
-* https://strahlungsarmehandys.com/
-* https://exploring-data.com/
 * https://d3-geomap.github.io/
+* https://exploring-data.com/
+* https://geeksta.net/
 * https://guitarstreams.com/
+* https://ramiro.org/
+* https://programminglanguages.info/
+* https://punknroll.net/
+* https://strahlungsarmehandys.com/
+* https://www.linux-netbook.com/
+* https://www.spaghetti-western.de/
 
 .. _`documentation`: https://ramiro.org/logya/docs/
 .. _`GitHub Issues`: https://github.com/yaph/logya/issues
