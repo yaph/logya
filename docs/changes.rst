@@ -6,7 +6,8 @@ Changes
 4.6.0 to 4.7.0
 --------------
 
-* Call strip on given path first in slugify.
+* Call strip on given path first in ``slugify``.
+* Add ``alpha_index`` function in ``template.py``.
 
 4.5.0 to 4.6.0
 --------------

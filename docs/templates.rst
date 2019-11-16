@@ -5,6 +5,12 @@ Templates
 
 The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many functions and filters jinja2 provides you can use the following filters and global functions.
 
+alpha_index
+-----------
+
+The ``alpha_index`` function returns a dictionary of document objects keyed by ASCII letters and sorted by an optionally specified attribute, which is set to ``title`` by default. An example of this function in use can be seen on `guitarstreams.com/musicians/ <https://guitarstreams.com/musicians/>`_.
+
+
 attr_contains
 -------------
 
