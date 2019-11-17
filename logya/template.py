@@ -87,8 +87,8 @@ class Template():
             self.env.trim_blocks = True
 
         # Return an alphabetical index for a list of doc objects.
-        self.env.globals['alpha_index'] = lambda docs, attr='title': alpha_index(
-            docs, attr='title', non_ascii_key='_')
+        self.env.globals['alpha_index'] = lambda docs, attr='title', non_ascii_key='_': alpha_index(
+            docs, attr, non_ascii_key)
 
         # Include the source of a file.
         self.env.globals['filesource'] = lambda x, lines=None, raw=False: filesource(
