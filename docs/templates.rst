@@ -5,12 +5,6 @@ Templates
 
 The template engine that comes with Logya is `jinja2 <http://jinja.pocoo.org/>`_. In addition to the many functions and filters jinja2 provides you can use the following filters and global functions.
 
-doc_index
----------
-
-The ``doc_index`` function returns a dictionary of document objects keyed by ASCII letters and sorted by an optionally specified attribute, which is set to ``title`` by default. An example of this function in use can be seen on `guitarstreams.com/musicians/ <https://guitarstreams.com/musicians/>`_.
-
-
 attr_contains
 -------------
 
@@ -22,6 +16,15 @@ The ``attr_contains`` filter returns a list of documents that have the given att
 
 This template snippet selects the documents in the ``lesson/guitar`` index that have an attribute called ``chords`` containing the value ``C``. In this case the document attribute value is a list, but you can also check whether the value is ``in`` other Python sequence types, such as strings.
 
+collection_index
+----------------
+
+The ``collection_index`` function returns a dictionary of collection tuple lists keyed by ASCII letters.
+
+doc_index
+---------
+
+The ``doc_index`` function returns a dictionary of document object lists keyed by ASCII letters and sorted by an optionally specified attribute, which is set to ``title`` by default. An example of this function in use can be seen on `guitarstreams.com/musicians/ <https://guitarstreams.com/musicians/>`_.
 
 filesource
 ----------

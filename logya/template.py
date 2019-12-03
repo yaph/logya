@@ -9,6 +9,22 @@ from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 from logya.path import slugify
 
 
+def collection_index(collection, non_ascii_key):
+    """Return an alphabetical index for a collection, i. e. a list of (URL, name) tuples.
+
+    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
+    """
+
+    index = {}
+    for t in collection:
+        key = t[1].lower()[0]
+        if key not in ascii_lowercase:
+            key = non_ascii_key
+        index[key] = index.get(key, []) + [t]
+
+    return {key: sorted(index[key]) for key in sorted(index.keys())}
+
+
 def doc_index(docs, attr, non_ascii_key):
     """Return an alphabetical index for a list of document objects based on attribute.
 
@@ -85,6 +101,10 @@ class Template():
         if tpl_settings and tpl_settings.get('trim_whitespace'):
             self.env.lstrip_blocks = True
             self.env.trim_blocks = True
+
+        # Return an alphabetical index for a list of collection tuples.
+        self.env.globals['collection_index'] = lambda collection, non_ascii_key='_': collection_index(
+            collection, non_ascii_key)
 
         # Return an alphabetical index for a list of doc objects.
         self.env.globals['doc_index'] = lambda docs, attr='title', non_ascii_key='_': doc_index(
