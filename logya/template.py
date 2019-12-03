@@ -9,7 +9,7 @@ from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
 from logya.path import slugify
 
 
-def alpha_index(docs, attr, non_ascii_key):
+def doc_index(docs, attr, non_ascii_key):
     """Return an alphabetical index for a list of document objects based on attribute.
 
     All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
@@ -87,7 +87,7 @@ class Template():
             self.env.trim_blocks = True
 
         # Return an alphabetical index for a list of doc objects.
-        self.env.globals['alpha_index'] = lambda docs, attr='title', non_ascii_key='_': alpha_index(
+        self.env.globals['doc_index'] = lambda docs, attr='title', non_ascii_key='_': doc_index(
             docs, attr, non_ascii_key)
 
         # Include the source of a file.
