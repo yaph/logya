@@ -56,7 +56,7 @@ class Logya(object):
 
         self.dir_bin = path.join(cwd, 'bin')
 
-        # make all settings in site section available to templates
+        # Make all settings in site section available to templates.
         self.template.vars.update(self.config['site'])
 
         # Optional directory with static files like css, js and images.
