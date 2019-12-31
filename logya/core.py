@@ -86,6 +86,11 @@ class Logya(object):
             'rss': self.config['content']['rss']['template']
         }
 
+        self.pages = {}
+        # Set default pages for templates.
+        for ctype, template in self.templates.items():
+            self.pages[ctype] = self.template.env.get_template(template)
+
         # Set languages if specified.
         if 'languages' in self.config:
             self.languages = self.config['languages']
@@ -239,8 +244,7 @@ class Logya(object):
         self.template.vars['last_build'] = datetime.datetime.now()
         self.template.vars['docs'] = docs
 
-        page = self.template.get_page(self.template.vars, self.templates['rss'])
-        content = page.render(self.template.vars)
+        content = self.pages['rss'].render(self.template.vars)
 
         filename = path.target_file(
             self.dir_deploy, path.join(url, 'rss.xml'))
@@ -267,7 +271,7 @@ class Logya(object):
             self.template.vars['title'] = title
             self.template.vars['canonical'] = '{:s}/{:s}/'.format(self.base_url, url)
 
-            page = self.template.get_page(self.template.vars, collection.template)
+            page = self.template.env.get_template(collection.template)
             content = page.render(self.template.vars)
 
             filename = path.target_file(self.dir_deploy, url)

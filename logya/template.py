@@ -124,13 +124,6 @@ class Template():
         # Create slugs for use in URLs
         self.env.filters['slugify'] = slugify
 
-    def get_page(self, doc, template):
-        try:
-            page = self.env.get_template(template)
-        except TemplateNotFound as err:
-            raise TemplateNotFound('Doc: {}\n{}'.format(doc, err))
-        return page
-
 
 class TemplateLoader(BaseLoader):
 
