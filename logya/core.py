@@ -195,7 +195,6 @@ class Logya(object):
                         doc['language'] = lang['code']
                     self._update_doc_index(doc, attr, '{}/{}'.format(lang['code'], collection['path']))
 
-
     def build_index(self, mode=None):
         """Build index of documents for content directories to be created.
 
