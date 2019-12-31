@@ -19,7 +19,7 @@ def parse(content, content_type=None):
     parsed = load(header, Loader=Loader)
 
     # Parse body if not HTML/XML.
-    if content_type == 'markdown':
+    if body and content_type == 'markdown':
         body = markdown.markdown(
             body,
             extensions=[
