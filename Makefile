@@ -64,7 +64,7 @@ docs:
 	$(MAKE) -C docs html
 	firefox docs/_build/html/index.html
 
-# Call example: make release version=4.6.0
+# Call example: make release version=4.7.0
 release: clean
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags
