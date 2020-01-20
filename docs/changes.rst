@@ -3,6 +3,13 @@
 Changes
 =======
 
+5.0.0
+-----
+
+This release includes several backwards incompatible changes, most notably it drops Python 2 support.
+
+* Add ``--build-all`` (alias: ``-a``) flag in ``serve`` mode. The new default is to not create all pages, whenever a page is loaded in the browser, but only the page that was requested. Adding this flag will enable the previous behavior of creating all pages, which can slow down serving significantly.
+
 4.7.0
 -----
 
@@ -64,7 +71,7 @@ The last release in the 4.x series that adds new features.
 4.0.0
 -----
 
-The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
+The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attributes, as well as RSS and index templates.
 
 * Removed server.log file, log to default stream instead.
 * Added option to trim whitespace in templates.

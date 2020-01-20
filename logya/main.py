@@ -17,7 +17,7 @@ def generate(args):
 
 
 def serve(args):
-    Serve(host=args.host, port=args.port, build_index=args.build_index)
+    Serve(host=args.host, port=args.port, build_all=args.build_all)
 
 
 def main():
@@ -54,8 +54,7 @@ def main():
     p_serve.set_defaults(func=serve)
     p_serve.add_argument('--port', type=int, help='server port to listen')
     p_serve.add_argument('--host', help='server host name or IP')
-    p_serve.add_argument('--build-index', '-i',
-        type=bool, default=True, help='Build all index pages on every page request.')
+    p_serve.add_argument('--build-all', '-a', action='store_true', help='Build all pages on every page request.')
 
     args = parser.parse_args()
     if getattr(args, 'func', None):

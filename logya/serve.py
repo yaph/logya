@@ -19,6 +19,7 @@ class Serve(Logya):
         # If not passed as command arguments host and port are set to None.
         self.host = kwargs.get('host') or 'localhost'
         self.port = kwargs.get('port') or 8080
+        self.build_all = kwargs.get('build_all')
 
         Server(self).serve()
 
@@ -78,8 +79,9 @@ class Serve(Logya):
             logging.info('%s not newer than %s', src, dst)
             return
 
-        # Newly build generated docs and index.
-        self.build_index(mode='serve')
+        if self.build_all:
+            # Build generated docs and index.
+            self.build_index(mode='serve')
 
         # Try to get doc at path, regenerate it and return.
         doc = None
