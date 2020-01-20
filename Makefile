@@ -64,13 +64,14 @@ docs:
 	$(MAKE) -C docs html
 	firefox docs/_build/html/index.html
 
-# Call example: make release version=4.7.0
-release: clean
-	git tag -a $(version) -m 'Create version $(version)'
-	git push --tags
-	twine upload dist/*
-
 dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
+
+# Call example: make release version=4.7.0
+release: dist
+	git tag -a $(version) -m 'Create version $(version)'
+	git push --tags
+	twine upload dist/*
+
