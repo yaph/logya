@@ -3,10 +3,10 @@ import os
 import shutil
 import logging
 
+from urllib.parse import unquote, urlparse
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+
 from logya.core import Logya
-from logya.compat import unquote, urlparse
-from logya.compat import HTTPServer
-from logya.compat import SimpleHTTPRequestHandler
 from logya.writer import DocWriter
 
 
