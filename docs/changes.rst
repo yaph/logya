@@ -3,46 +3,48 @@
 Changes
 =======
 
-4.6.0 to 4.7.0
---------------
+4.7.0
+-----
+
+The last release in the 4.x series that adds new features.
 
 * Call strip on given path first in ``slugify``.
 * Add ``doc_index`` function in ``template.py``.
 * Add ``collection_index`` function in ``template.py``.
 
-4.5.0 to 4.6.0
---------------
+4.6.0
+-----
 
 * Make collections available to templates as lists of path, value tuples.
 * Convert ``created`` and ``updated`` document attributes to datetime objects if they are strings.
 
-4.4.0 to 4.5.0
---------------
+4.5.0
+-----
 
 * Add support for multilingual indexes and add sample ``i18n`` site.
 * Remove support for Python 3.4 as latest Markdown requires at least Python 3.5.
 
-4.3.0 to 4.4.0
---------------
+4.4.0
+-----
 
 * Add ``build`` and ``write`` methods to Generate class, so subclasses can easily overwrite the build and write steps.
 * Handle UnicodeDecodeError in filesource when reading binary files.
 * Make ``slugify`` function from path module available in templates.
 
-4.2.0 to 4.3.0
---------------
+4.3.0
+-----
 
 * Add ``--site`` option to choose the base site to use when creating a new one.
 * Add ``bare`` base site with minimal markup and files.
 
-4.1.0 to 4.2.0
---------------
+4.2.0
+-----
 
 * Add attr_contains template filter to enable filtering docs with an attribute containing a given value.
 * URL unquote file names so special characters can be used in URLs.
 
-4.0.0 to 4.1.0
---------------
+4.1.0
+-----
 
 * Enable expression-statement extension that adds the do tag.
 * Added raw keyword argument to filesource function, which defaults to False.
@@ -59,8 +61,8 @@ Changes
 * Removed useless list calls.
 * Bugfix: don't use str.format to avoid UnicodeEncodeException in Python 2.7.
 
-3.3.0 to 4.0.0
---------------
+4.0.0
+-----
 
 The 4.0.0 release includes several backwards incompatible changes, that affect external scripts that access Logya attibutes, as well as RSS and index templates.
 
@@ -87,10 +89,10 @@ The 4.0.0 release includes several backwards incompatible changes, that affect e
 * Removed FileWriter class entirely.
 * Moved canonical_filename to path module.
 * Set feed limit in rss template so user can set this to a preferred value.
-* Updated dependecies.
+* Updated dependencies.
 
-3.2.2 to 3.3.0
---------------
+3.3.0
+-----
 
 * More pythonic and readable code.
 * Use tox for running tests against different python versions.
@@ -110,8 +112,8 @@ The 4.0.0 release includes several backwards incompatible changes, that affect e
 * Added default robots.txt to starter site.
 * Added datePublished and dateModified schema markup to post and postinfo templates.
 
-3.2.1 to 3.2.2
---------------
+3.2.2
+-----
 
 * Updated bootstrap, jquery and fontawesome.
 * Use updated property for lastmod in xml sitemap.
@@ -119,24 +121,24 @@ The 4.0.0 release includes several backwards incompatible changes, that affect e
 * Added author setting to site.yaml.
 * Added updated property to document header, if not set by author.
 
-3.2.0 to 3.2.1
---------------
+3.2.1
+-----
 
 * Allow for non-existing body so a doc can only consist of header values.
 
-3.1.0 to 3.2.0
---------------
+3.2.0
+-----
 
 * Use yaml's CLoader if available. For complex data structures performance gains are huge.
 * Added run command.
 
-3.0 to 3.1.0
-------------
+3.1.0
+-----
 
 * Added get_doc template function.
 
-2.3 to 3.0
-----------
+3.0
+---
 
 Logya version 3.0 is not backwards compatible due to changed configuration.
 
