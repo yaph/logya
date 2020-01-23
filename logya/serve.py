@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
 import shutil
 import logging
 
-from urllib.parse import unquote, urlparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from os import chdir
+from pathlib import Path
+from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
 from logya.writer import DocWriter
@@ -15,94 +16,58 @@ class Serve(Logya):
 
     def __init__(self, **kwargs):
         super(Serve, self).__init__()
-
         # If not passed as command arguments host and port are set to None.
         self.host = kwargs.get('host') or 'localhost'
         self.port = kwargs.get('port') or 8080
-        self.build_all = kwargs.get('build_all')
-
         Server(self).serve()
 
     def init_env(self):
         super(Serve, self).init_env()
-
-        # Override base_url so resources linked with absolute internal URLs
-        # in templates are served locally.
-        base_url = 'http://{}:{:d}'.format(self.host, self.port)
-        self.template.vars['base_url'] = base_url
-
+        # Override base_url so links work locally.
+        self.template.vars['base_url'] = f'http://{self.host}:{self.port}'
         # Set debug var to true in serve mode.
         self.template.vars['debug'] = True
 
-    def update_file(self, src, dst):
-        """Copy source file to destination file if source is newer.
-
-        Creates destination directory and file if they don't exist.
-        """
-
-        # Make sure destination directory exists.
-        dir_deploy = os.path.dirname(dst)
-        if not os.path.exists(dir_deploy):
-            os.makedirs(dir_deploy)
-
-        if not os.path.isfile(dst):
-            shutil.copy(src, dir_deploy)
+    def update_static(self, src):
+        src_static = Path(self.dir_static, src)
+        if src_static.is_file():
+            dst_static = Path(self.dir_deploy, src)
+            dst_static.parent.mkdir(exist_ok=True)
+            if src_static.stat().st_mtime > dst_static.stat().st_mtime:
+                shutil.copyfile(src_static, dst_static)
             return True
 
-        if os.path.getmtime(src) > os.path.getmtime(dst):
-            shutil.copyfile(src, dst)
-            return True
-
-        return False
-
-    def refresh_resource(self, path):
+    def refresh_resource(self, url_path):
         """Refresh resource corresponding to given path.
 
         Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
-        # Keep track of configuration changes.
-        self.init_env()
+        # FIXME Keep track of configuration changes.
+
+        # Use only the actual path and ignore possible query params issue #3.
+        src_url = unquote(urlparse(url_path).path)
 
         # If a static file is requested update it and return.
-        path_rel = path.lstrip('/')
-        # Use only the URL path and ignore possible query params issue #3.
-        src = unquote(urlparse(os.path.join(self.dir_static, path_rel)).path)
-
-        if os.path.isfile(src):
-            dst = os.path.join(self.dir_deploy, path_rel)
-
-            if self.update_file(src, dst):
-                logging.info('Copied file %s to %s', src, dst)
-                return
-
-            logging.info('%s not newer than %s', src, dst)
+        if self.update_static(src_url.lstrip('/')):
             return
 
-        if self.build_all:
-            # Build generated docs and index.
-            self.build_index(mode='serve')
-
-        # Try to get doc at path, regenerate it and return.
+        # Try to get doc for requested URL.
         doc = None
-        if path in self.docs:
-            doc = self.docs[path]
-        else:
-            # If a path like /index.html is requested also try to find /.
-            alt_path = os.path.dirname(path)
-            if not alt_path.endswith('/'):
-                alt_path = '{}/'.format(alt_path)
-            if alt_path in self.docs:
-                doc = self.docs[alt_path]
+        if src_url in self.docs:
+            doc = self.docs[src_url]
+        elif not src_url.endswith('/'):
+            parent = Path(src_url).parent.as_posix() + '/'
+            if parent in self.docs:
+                doc = self.docs[parent]
 
         if doc:
             docwriter = DocWriter(self.dir_deploy, self.template)
             docwriter.write(doc, self.get_doc_template(doc))
-            self.write_index_files()
-            logging.info('Refreshed doc at URL: %s', path)
+            logging.info('Refreshed doc at URL: %s', src_url)
         else:
             # Try to refresh auto-generated index file.
-            path_index = path.strip('/')
+            path_index = src_url.strip('/')
             if path_index in self.index:
                 self.write_index(path_index, self.index[path_index])
 
@@ -115,6 +80,7 @@ class Server(HTTPServer):
 
         self.logya = logya
         self.logya.init_env()
+        self.logya.build_index(mode='serve')
 
         logging.basicConfig(level=logging.INFO)
 
@@ -124,7 +90,7 @@ class Server(HTTPServer):
     def serve(self):
         """Serve static files from logya deploy directory."""
 
-        os.chdir(self.logya.dir_deploy)
+        chdir(self.logya.dir_deploy)
         print('Serving on http://{}:{}/'
               .format(self.logya.host, self.logya.port))
         self.serve_forever()
