@@ -50,7 +50,7 @@ lint:
 	flake8 logya tests
 
 test:
-	python setup.py test
+	python -m pytest tests/
 
 coverage:
 	coverage run --source logya setup.py test

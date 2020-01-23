@@ -2,12 +2,12 @@ markdown_link = """
 ---
 url: /test/url/
 ---
-[Sample Link](/sample/link/)
+[Link](/url/)
 """
 
-markdown_attr_list = """
+markdown_attrs = """
 ---
 url: /test/url/
 ---
-[Sample Link](/sample/link/){: class="foo bar" title="Some title!" }
+[Link with attributes](/url/){: class="foo bar" title="Some title!" }
 """
