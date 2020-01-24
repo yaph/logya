@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from os import walk
 from pathlib import Path
 
-from logya.docparser import parse
+from logya import allowed_exts
+from logya.util import slugify
+
+from yaml import load
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
 
 
 def content_type(path):
@@ -11,15 +20,80 @@ def content_type(path):
         return 'markdown'
 
 
-def read(filename):
-    path = Path(filename)
+def create_url(path):
+    # path/to/name.md -> /path/to/name/
+    # path/to/index.md -> /path/to/
+    if 'index' == path.stem:
+        path = Path(path.parent)
+    else:
+        path = Path(path.parent, path.stem)
+
+    return f'/{"/".join(slugify(p.lower()) for p in path.parts)}/'
+
+
+def parse(content, content_type=None):
+    """Parse document and return a dictionary of header fields and body."""
+
+    # Extract YAML header and body and load header into dict.
+    pos1 = content.index('---')
+    pos2 = content.index('---', pos1 + 1)
+    header = content[pos1:pos2].strip()
+    body = content[pos2 + 3:].strip()
+    parsed = load(header, Loader=Loader)
+    parsed['body'] = body
+    return parsed
+
+
+def read(path):
     content = path.read_text().strip()
     try:
-        return parse(content, content_type=content_type(path))
+        doc = parse(content, content_type=content_type(path))
     except Exception as err:
-        print(f'Error parsing: {filename}\n{err}')
-    # TODO add url, created and updated attrs if not set
+        print(f'Error parsing: {path}\n{err}')
+        return
+
+    # Use file modification time for created and updated attributes if not set in document.
+    modified = datetime.fromtimestamp(path.stat().st_mtime)
+    for attr in ['created', 'updated']:
+        if attr not in doc:
+            doc[attr] = modified
+
+    return doc
+
+
+def read_all(dir_content):
+    # Index mapping URLs to content objects
+    index = {}
+
+    for root, _, files in walk(dir_content):
+        for f in files:
+            path = Path(root, f)
+            if path.suffix.lstrip('.') not in allowed_exts:
+                continue
+
+            doc = read(path)
+            if not doc:
+                continue
+
+            # URLs set in the document are prioritized and left unchanged.
+            doc['url'] = doc.get('url', create_url(path.relative_to(dir_content)))
+
+            index[doc['url']] = {
+                'doc': doc,
+                'path': path
+            }
+
+    return index
 
 
 def write(filename, doc):
+    # Parse body if not HTML/XML.
+    # if body and content_type == 'markdown':
+    #     body = markdown.markdown(
+    #         body,
+    #         extensions=[
+    #             'markdown.extensions.attr_list',
+    #             'markdown.extensions.def_list',
+    #             'markdown.extensions.fenced_code'
+    #         ])
     pass

@@ -8,6 +8,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
+from logya.content import read, read_all
 from logya.writer import DocWriter
 
 
@@ -27,6 +28,10 @@ class Serve(Logya):
         self.template.vars['base_url'] = f'http://{self.host}:{self.port}'
         # Set debug var to true in serve mode.
         self.template.vars['debug'] = True
+
+    def build_index(self, mode='serve'):
+        super(Serve, self).build_index(mode='serve')  # FIXME only do what is necessary
+        self.content_index = read_all(self.dir_content)
 
     def update_static(self, src):
         src_static = Path(self.dir_static, src)
@@ -52,24 +57,27 @@ class Serve(Logya):
         if self.update_static(src_url.lstrip('/')):
             return
 
+        # FIXME Try to refresh auto-generated index file.
+        path_index = src_url.strip('/')
+        if path_index in self.index:
+            self.write_index(path_index, self.index[path_index])
+
         # Try to get doc for requested URL.
         doc = None
-        if src_url in self.docs:
-            doc = self.docs[src_url]
-        elif not src_url.endswith('/'):
-            parent = Path(src_url).parent.as_posix() + '/'
-            if parent in self.docs:
-                doc = self.docs[parent]
+        if not src_url.endswith('/'):
+            src_url = Path(src_url).parent.as_posix() + '/'
 
-        if doc:
-            docwriter = DocWriter(self.dir_deploy, self.template)
-            docwriter.write(doc, self.get_doc_template(doc))
-            logging.info('Refreshed doc at URL: %s', src_url)
-        else:
-            # Try to refresh auto-generated index file.
-            path_index = src_url.strip('/')
-            if path_index in self.index:
-                self.write_index(path_index, self.index[path_index])
+        # Read all content again if URL is unknown since new content may have been created.
+        if src_url not in self.content_index:
+            self.content_index = read_all(self.dir_content)
+        if src_url not in self.content_index:
+            return
+
+        doc = read(self.content_index[src_url]['path'])
+        doc['url'] = doc.get('url', src_url)
+
+        DocWriter(self.dir_deploy, self.template).write(doc, self.get_doc_template(doc))
+        logging.info('Refreshed doc at URL: %s', src_url)
 
 
 class Server(HTTPServer):
@@ -80,7 +88,7 @@ class Server(HTTPServer):
 
         self.logya = logya
         self.logya.init_env()
-        self.logya.build_index(mode='serve')
+        self.logya.build_index()
 
         logging.basicConfig(level=logging.INFO)
 
