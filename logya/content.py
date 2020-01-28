@@ -13,6 +13,27 @@ except ImportError:
     from yaml import Loader
 
 
+def add_collections(content_index, collections):
+    collection_names = set(collections.keys())
+    collection_index = {}
+
+    for doc_url, content in content_index.items():
+        doc = content['doc']
+        for attr in set(doc.keys()) & collection_names:
+            values = doc[attr]
+            for val in values:
+                index_url = f'/{attr}/{slugify(val.lower())}/'
+                if index_url in content_index:
+                    print(f'Index at {index_url} will not be created, because a content document exists.')
+                    continue
+                if index_url in collection_index:
+                    collection_index[index_url]['docs'].append(doc)
+                else:
+                    collection_index[index_url] = {'docs': [doc]}
+
+    content_index.update(collection_index)
+
+
 def content_type(path):
     if path.suffix in ['.html', '.htm']:
         return 'html'

@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import read, read_all
+from logya.content import add_collections, read, read_all
 from logya.writer import DocWriter
 
 
@@ -32,6 +32,7 @@ class Serve(Logya):
     def build_index(self, mode='serve'):
         super(Serve, self).build_index(mode='serve')  # FIXME only do what is necessary
         self.content_index = read_all(self.dir_content)
+        add_collections(self.content_index, self.config['collections'])
 
     def update_static(self, src):
         src_static = Path(self.dir_static, src)
