@@ -13,25 +13,35 @@ except ImportError:
     from yaml import Loader
 
 
-def add_collections(content_index, collections):
+def add_collections(site_index, settings):
+    if 'collections' not in settings:
+        return
+
+    collections = settings['collections']
     collection_names = set(collections.keys())
     collection_index = {}
 
-    for doc_url, content in content_index.items():
+    for doc_url, content in site_index.items():
         doc = content['doc']
         for attr in set(doc.keys()) & collection_names:
             values = doc[attr]
-            for val in values:
-                index_url = f'/{attr}/{slugify(val.lower())}/'
-                if index_url in content_index:
+            for value in values:
+                index_url = f'/{attr}/{slugify(value.lower())}/'
+                if index_url in site_index:
                     print(f'Index at {index_url} will not be created, because a content document exists.')
                     continue
                 if index_url in collection_index:
                     collection_index[index_url]['docs'].append(doc)
                 else:
-                    collection_index[index_url] = {'docs': [doc]}
+                    collection_index[index_url] = {
+                        'docs': [doc],
+                        'title': value,
+                        'path': collections[attr]['path'],
+                        'template': collections[attr].get('template', settings['content']['index']['template']),
+                        'url': index_url
+                    }
 
-    content_index.update(collection_index)
+    site_index.update(collection_index)
 
 
 def content_type(path):
@@ -118,3 +128,15 @@ def write(filename, doc):
     #             'markdown.extensions.fenced_code'
     #         ])
     pass
+
+
+def write_collection(path, content, template, settings):
+    """Write an auto-generated index.html file."""
+
+    template.vars['docs'] = content['docs']
+    template.vars['title'] = content['title']
+    template.vars['canonical'] = '{:s}/{:s}/'.format(settings['site']['base_url'], content['url'])
+
+    page = template.env.get_template(content['template'])
+    path.parent.mkdir(exist_ok=True)
+    path.write_text(page.render(template.vars))

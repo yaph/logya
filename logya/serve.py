@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import add_collections, read, read_all
+from logya.content import add_collections, read, read_all, write_collection
 from logya.writer import DocWriter
 
 
@@ -31,15 +31,15 @@ class Serve(Logya):
 
     def build_index(self, mode='serve'):
         super(Serve, self).build_index(mode='serve')  # FIXME only do what is necessary
-        self.content_index = read_all(self.dir_content)
-        add_collections(self.content_index, self.config['collections'])
+        self.site_index = read_all(self.dir_content)
+        add_collections(self.site_index, self.config)
 
     def update_static(self, src):
         src_static = Path(self.dir_static, src)
         if src_static.is_file():
             dst_static = Path(self.dir_deploy, src)
             dst_static.parent.mkdir(exist_ok=True)
-            if src_static.stat().st_mtime > dst_static.stat().st_mtime:
+            if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
                 shutil.copyfile(src_static, dst_static)
             return True
 
@@ -58,27 +58,28 @@ class Serve(Logya):
         if self.update_static(src_url.lstrip('/')):
             return
 
-        # FIXME Try to refresh auto-generated index file.
-        path_index = src_url.strip('/')
-        if path_index in self.index:
-            self.write_index(path_index, self.index[path_index])
-
         # Try to get doc for requested URL.
         doc = None
-        if not src_url.endswith('/'):
-            src_url = Path(src_url).parent.as_posix() + '/'
-
-        # Read all content again if URL is unknown since new content may have been created.
-        if src_url not in self.content_index:
-            self.content_index = read_all(self.dir_content)
-        if src_url not in self.content_index:
+        # FIXME Rebuild index if URL is unknown since new content may have been created.
+        # if src_url not in self.site_index:
+        #     self.build_index(mode='serve')
+        if src_url not in self.site_index:
+            logging.warning(f'No content or collection at: {src_url}')
             return
 
-        doc = read(self.content_index[src_url]['path'])
-        doc['url'] = doc.get('url', src_url)
-
-        DocWriter(self.dir_deploy, self.template).write(doc, self.get_doc_template(doc))
-        logging.info('Refreshed doc at URL: %s', src_url)
+        content = self.site_index[src_url]
+        # Update content document
+        if 'doc' in content:
+            doc = read(content['path'])
+            doc['url'] = doc.get('url', src_url)
+            DocWriter(self.dir_deploy, self.template).write(doc, self.get_doc_template(doc))
+            logging.info('Refreshed doc at URL: %s', src_url)
+            return
+        # Update collection page
+        if 'docs' in content:
+            path = Path(self.dir_deploy, src_url.lstrip('/'), 'index.html')
+            write_collection(path, content, self.template, self.config)
+            logging.info('Refreshed collection at URL: %s', src_url)
 
 
 class Server(HTTPServer):
@@ -111,6 +112,5 @@ class HTTPRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         """Return refreshed resource."""
 
-        logging.info('Requested resource: %s', self.path)
         self.server.logya.refresh_resource(self.path)
         SimpleHTTPRequestHandler.do_GET(self)
