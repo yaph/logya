@@ -26,7 +26,7 @@ def add_collections(site_index, settings):
         for attr in set(doc.keys()) & collection_names:
             values = doc[attr]
             for value in values:
-                index_url = f'/{attr}/{slugify(value.lower())}/'
+                index_url = f'/{collections[attr]["path"]}/{slugify(value.lower())}/'
                 if index_url in site_index:
                     print(f'Index at {index_url} will not be created, because a content document exists.')
                     continue
@@ -135,7 +135,7 @@ def write_collection(path, content, template, settings):
 
     template.vars['docs'] = content['docs']
     template.vars['title'] = content['title']
-    template.vars['canonical'] = '{:s}/{:s}/'.format(settings['site']['base_url'], content['url'])
+    template.vars['canonical'] = settings['site']['base_url'] + content['url']
 
     page = template.env.get_template(content['template'])
     path.parent.mkdir(exist_ok=True)
