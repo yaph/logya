@@ -18,26 +18,27 @@ def add_collections(site_index, settings):
         return
 
     collections = settings['collections']
-    collection_names = set(collections.keys())
     collection_index = {}
 
     for doc_url, content in site_index.items():
         doc = content['doc']
-        for attr in set(doc.keys()) & collection_names:
+        for attr in set(doc.keys()) & set(collections.keys()):
             values = doc[attr]
+            collection = collections[attr]
             for value in values:
-                index_url = f'/{collections[attr]["path"]}/{slugify(value.lower())}/'
+                index_url = f'/{collection["path"]}/{slugify(value.lower())}/'
                 if index_url in site_index:
                     print(f'Index at {index_url} will not be created, because a content document exists.')
                     continue
+
                 if index_url in collection_index:
                     collection_index[index_url]['docs'].append(doc)
                 else:
                     collection_index[index_url] = {
                         'docs': [doc],
                         'title': value,
-                        'path': collections[attr]['path'],
-                        'template': collections[attr].get('template', settings['content']['index']['template']),
+                        'path': collection['path'],  # FIXME avoid setting path, it is confusing because not a Path
+                        'template': collection.get('template', settings['content']['index']['template']),
                         'url': index_url
                     }
 
@@ -75,7 +76,7 @@ def parse(content, content_type=None):
     return parsed
 
 
-def read(path):
+def read(path, paths, settings):
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
@@ -83,36 +84,42 @@ def read(path):
         print(f'Error parsing: {path}\n{err}')
         return
 
+    # URLs set in the document are prioritized and left unchanged.
+    doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
+
     # Use file modification time for created and updated attributes if not set in document.
     modified = datetime.fromtimestamp(path.stat().st_mtime)
     for attr in ['created', 'updated']:
         if attr not in doc:
             doc[attr] = modified
 
+    if 'collections' not in settings:
+        return doc
+
+    # Add collections links
+    for attr, coll in settings['collections'].items():
+        if attr not in doc:
+            continue
+        links = attr + '_links'
+        for value in doc[attr]:
+            index_url = f'/{coll["path"]}/{slugify(value.lower())}/'
+            doc[links] = doc.get(links, []) + [(index_url, value)]
+
     return doc
 
 
-def read_all(dir_content):
+def read_all(paths, settings):
     # Index mapping URLs to content objects
     index = {}
 
-    for root, _, files in walk(dir_content):
+    for root, _, files in walk(paths.content):
         for f in files:
             path = Path(root, f)
             if path.suffix.lstrip('.') not in allowed_exts:
                 continue
-
-            doc = read(path)
-            if not doc:
-                continue
-
-            # URLs set in the document are prioritized and left unchanged.
-            doc['url'] = doc.get('url', create_url(path.relative_to(dir_content)))
-
-            index[doc['url']] = {
-                'doc': doc,
-                'path': path
-            }
+            doc = read(path, paths.content, settings)
+            if doc:
+                index[doc['url']] = {'doc': doc, 'path': path}
 
     return index
 

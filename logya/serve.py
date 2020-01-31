@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlparse
 from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection
 from logya.writer import DocWriter
+from logya.util import paths, config
 
 
 class Serve(Logya):
@@ -31,8 +32,8 @@ class Serve(Logya):
 
     def build_index(self, mode='serve'):
         super(Serve, self).build_index(mode='serve')  # FIXME only do what is necessary
-        self.site_index = read_all(self.dir_content)
-        add_collections(self.site_index, self.config)
+        self.site_index = read_all(paths, config)
+        add_collections(self.site_index)
 
     def update_static(self, src):
         src_static = Path(self.dir_static, src)
@@ -49,7 +50,7 @@ class Serve(Logya):
         Static files are updated if necessary, documents are read, parsed and
         written to the corresponding destination in the deploy directory."""
 
-        # FIXME Keep track of configuration changes.
+        # FIXME Keep track of configuration changes first
 
         # Use only the actual path and ignore possible query params issue #3.
         src_url = unquote(urlparse(url_path).path)
@@ -70,15 +71,14 @@ class Serve(Logya):
         content = self.site_index[src_url]
         # Update content document
         if 'doc' in content:
-            doc = read(content['path'])
-            doc['url'] = doc.get('url', src_url)
+            doc = read(content['path'], paths)
             DocWriter(self.dir_deploy, self.template).write(doc, self.get_doc_template(doc))
             logging.info('Refreshed doc at URL: %s', src_url)
             return
         # Update collection page
         if 'docs' in content:
-            path = Path(self.dir_deploy, src_url.lstrip('/'), 'index.html')
-            write_collection(path, content, self.template, self.config)
+            path = Path(paths.public, src_url.lstrip('/'), 'index.html')
+            write_collection(path, content, self.template)
             logging.info('Refreshed collection at URL: %s', src_url)
 
 
