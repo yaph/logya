@@ -1,5 +1,5 @@
 # Logya
-deploy/
+public/
 *.log
 
 # nodejs

@@ -33,7 +33,7 @@ class Serve(Logya):
     def build_index(self, mode='serve'):
         super(Serve, self).build_index(mode='serve')  # FIXME only do what is necessary
         self.site_index = read_all(paths, config)
-        add_collections(self.site_index)
+        add_collections(self.site_index, config)
 
     def update_static(self, src):
         src_static = Path(self.dir_static, src)
@@ -71,14 +71,14 @@ class Serve(Logya):
         content = self.site_index[src_url]
         # Update content document
         if 'doc' in content:
-            doc = read(content['path'], paths)
+            doc = read(content['path'], paths, config)
             DocWriter(self.dir_deploy, self.template).write(doc, self.get_doc_template(doc))
             logging.info('Refreshed doc at URL: %s', src_url)
             return
         # Update collection page
         if 'docs' in content:
             path = Path(paths.public, src_url.lstrip('/'), 'index.html')
-            write_collection(path, content, self.template)
+            write_collection(path, content, self.template, config)
             logging.info('Refreshed collection at URL: %s', src_url)
 
 

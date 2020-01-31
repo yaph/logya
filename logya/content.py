@@ -117,7 +117,7 @@ def read_all(paths, settings):
             path = Path(root, f)
             if path.suffix.lstrip('.') not in allowed_exts:
                 continue
-            doc = read(path, paths.content, settings)
+            doc = read(path, paths, settings)
             if doc:
                 index[doc['url']] = {'doc': doc, 'path': path}
 

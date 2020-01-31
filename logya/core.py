@@ -63,7 +63,7 @@ class Logya(object):
         self.dir_static = path.join(cwd, 'static')
 
         # Directory is created by the generate command.
-        self.dir_deploy = path.join(cwd, 'deploy')
+        self.dir_deploy = path.join(cwd, 'public')  # FIXME document breaking change
 
         self.base_url = self.config['site'].get('base_url')
         # base_url must be defined in settings

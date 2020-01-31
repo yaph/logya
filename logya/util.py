@@ -19,7 +19,7 @@ paths = Paths(
 )
 
 # Load site config
-config = yaml.loads(Path(paths.root, 'site.yaml').read_text(), Loader=yaml.FullLoader)
+config = yaml.load(Path(paths.root, 'site.yaml').read_text(), Loader=yaml.FullLoader)
 
 # Characters not to used in URLs
 re_forbidden = re.compile(r'[^\.\w]+')
