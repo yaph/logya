@@ -8,8 +8,6 @@ Changes
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
-* Add ``--build-all`` (alias: ``-a``) flag in ``serve`` mode. The new default is to not create all pages, whenever a page is loaded in the browser, but only the page that was requested. Adding this flag will enable the previous behavior of creating all pages, which can slow down serving significantly.
-
 4.7.0
 -----
 
