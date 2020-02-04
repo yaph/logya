@@ -37,6 +37,11 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def update_resource(url):
+    """Update resource corresponding to given url.
+
+    Static files are updated if necessary, documents are read, parsed and
+    written to the appropriate destination file."""
+
     # Use only the actual path and ignore possible query params issue #3.
     src_url = unquote(urlparse(url).path)
     src_name = src_url.lstrip('/')
