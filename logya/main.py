@@ -7,6 +7,8 @@ from logya.create import Create
 from logya.generate import Generate
 from logya.serve import Serve
 
+from logya.watch import serve as _serve
+
 
 def create(args):
     Create(args.name, site=args.site)
@@ -17,7 +19,8 @@ def generate(args):
 
 
 def serve(args):
-    Serve(host=args.host, port=args.port, build_all=args.build_all)
+    # Serve(host=args.host, port=args.port, build_all=args.build_all)
+    _serve()
 
 
 def main():
