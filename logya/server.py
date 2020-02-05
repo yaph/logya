@@ -89,8 +89,45 @@ def update_resource(url):
         print(f'Refreshed collection: {url}')
 
 
+import os
+from watchgod import watch
+
+
 def serve(args):
     L.template.vars['base_url'] = f'http://{args.host}:{args.port}'
-    with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
-        print(f'Serving on {L.template.vars["base_url"]}')
-        httpd.serve_forever()
+    for i in range(2):
+        pid = os.fork()
+        print(pid)
+        if pid == 0:
+            for changes in watch(paths.content):
+                print(changes)
+        else:
+            with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
+                print(f'Serving on {L.template.vars["base_url"]}')
+                httpd.serve_forever()
+
+
+
+# from multiprocessing import Process
+
+
+# def watch_content(args):
+#     for changes in watch(paths.content):
+#         print(changes)
+
+
+# def serve_public(args):
+#     with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
+#         print(f'Serving on {L.template.vars["base_url"]}')
+#         httpd.serve_forever()
+
+
+# def serve(args):
+#     processes = []
+#     for func in (watch_content, serve_public):
+#         p = Process(target=func, args=(args, ))
+#         p.start()
+#         processes.append(p)
+
+#     for p in processes:
+#         p.join()
