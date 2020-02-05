@@ -75,7 +75,6 @@ def update_resource(url):
                 if 'docs' not in i_content:
                     continue
                 for idx, i_doc in enumerate(i_content['docs']):
-                    print('############', url, i_doc['url'])
                     if url == i_doc['url']:
                         site_index[i_url]['docs'][idx] = doc
 
