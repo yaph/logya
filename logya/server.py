@@ -39,8 +39,8 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 def update_resource(url):
     """Update resource corresponding to given url.
 
-    Static files are updated if necessary, documents are read, parsed and
-    written to the appropriate destination file."""
+    Resources that exist in the `static` directory are updated if they are newer than the destination file.
+    For other HTML resources the whole `site_index` is updated and the destination is newly written."""
 
     # Use only the actual path and ignore possible query params issue #3.
     src_url = unquote(urlparse(url).path)
@@ -56,27 +56,37 @@ def update_resource(url):
             copyfile(src_static, dst_static)
         return True
 
-    # Rebuild index for unknown HTML file requests.
-    if src_url not in site_index and url.endswith(('/', '.html', '.htm')):
+    # Rebuild index for HTML file requests.
+    if url.endswith(('/', '.html', '.htm')):
         site_index.update(read_all(paths, config))
-        add_collections(site_index, config)
     if src_url not in site_index:
         print(f'No content or collection at: {src_url}')
         return
 
     content = site_index[src_url]
+    path_dst = Path(paths.public, src_name, 'index.html')
     # Update content document
     if 'doc' in content:
         doc = read(content['path'], paths, config)
-        #content['doc'].update(doc)
+
+        # Update collections document occurs in, if doc was changed.
+        if content['path'].stat().st_mtime > path_dst.stat().st_mtime:
+            for i_url, i_content in site_index.items():
+                if 'docs' not in i_content:
+                    continue
+                for idx, i_doc in enumerate(i_content['docs']):
+                    print('############', url, i_doc['url'])
+                    if url == i_doc['url']:
+                        site_index[i_url]['docs'][idx] = doc
+
+        # Always write doc because of possible template changes.
         DocWriter(paths.public, L.template).write(doc, L.get_doc_template(doc))
         print(f'Refreshed doc at URL: {url}')
         return
+
     # Update collection page
     if 'docs' in content:
-        # FIXME does not show changes made to docs in collection
-        path = Path(paths.public, src_name, 'index.html')
-        write_collection(path, content, L.template, config)
+        write_collection(path_dst, content, L.template, config)
         print(f'Refreshed collection: {url}')
 
 
