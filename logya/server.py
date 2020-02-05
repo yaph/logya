@@ -70,6 +70,7 @@ def update_resource(url):
         doc = read(content['path'], paths, config)
 
         # Update collections document occurs in, if doc was changed.
+        # FIXME instead of iterating site_index iterate doc collections
         if content['path'].stat().st_mtime > path_dst.stat().st_mtime:
             for i_url, i_content in site_index.items():
                 if 'docs' not in i_content:
