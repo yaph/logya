@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
-# TODOs
-# Watch for changes in `static` and `content` dirs.
-# New and changed `static` files are copied to `public`.
-# New files in `content` that have an allowed extension and not set to `noindex` result in a full rebuild of the index.
-# In `do_GET` update `content` and generated `index` pages on every request.
 import http.server
 import socketserver
 
-from multiprocessing import Process
 from pathlib import Path
 from shutil import copyfile
 from urllib.parse import unquote, urlparse
-
-from watchgod import watch
 
 from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection
@@ -93,34 +85,8 @@ def update_resource(url):
         print(f'Refreshed collection: {url}')
 
 
-def watch_content():
-    for changes in watch(paths.content):
-        change, abs_path = list(changes)[0]
-        if 'added' == change.name:
-            print('Added: ' + abs_path)
-        elif 'deleted' == change.name:
-            print('Deleted: ' + abs_path)
-
-
-def watch_static():
-    for changes in watch(paths.content):
-        change, abs_path = list(changes)[0]
-        if 'added' == change.name:
-            print('Added: ' + abs_path)
-        elif 'modified' == change.name:
-            print('Modified: ' + abs_path)
-        elif 'deleted' == change.name:
-            print('Deleted: ' + abs_path)
-
-
-def serve_public(args):
+def serve(args):
     L.template.vars['base_url'] = f'http://{args.host}:{args.port}'
     with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
         print(f'Serving on {L.template.vars["base_url"]}')
         httpd.serve_forever()
-
-
-def serve(args):
-    Process(target=serve_public, args=(args,)).start()
-    Process(target=watch_content).start()
-    Process(target=watch_static).start()
