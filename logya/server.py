@@ -9,10 +9,10 @@ from urllib.parse import unquote, urlparse
 from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection
 from logya.writer import DocWriter
-from logya.util import paths, config, slugify
+from logya.util import paths, config
+
 
 site_index = read_all(paths, config)
-add_collections(site_index, config)
 L = Logya()
 L.init_env()
 L.build_index()
@@ -60,31 +60,12 @@ def update_resource(url):
 
     content = site_index[src_url]
     path_dst = Path(paths.public, src_name, 'index.html')
+
     # Update content document
     if 'doc' in content:
         doc = read(content['path'], paths, config)
-
-        # Update doc in collections if doc was changed before writing it to public.
-        # FIXME move to function update_collection
-        if content['path'].stat().st_mtime > path_dst.stat().st_mtime:
-            for attr, collection in config['collections'].items():
-                if attr not in doc:
-                    continue
-                for value in doc[attr]:
-                    collection_url = f'/{collection["path"]}/{slugify(value.lower())}/'
-                    if collection_url not in site_index:
-                        site_index[collection_url] = {
-                            'docs': [doc],
-                            'title': value,
-                            'path': collection['path'],  # FIXME avoid setting path, it is confusing because not a Path
-                            'template': collection['template'],
-                            'url': collection_url
-                        }
-                        continue
-                    for idx, collection_doc in enumerate(site_index[collection_url]['docs']):
-                        if doc['url'] == collection_doc['url']:
-                            site_index[collection_url]['docs'][idx].update(doc)
-
+        if 'collections' in config:
+            add_collections(doc, site_index, config['collections'])
         # Always write doc because of possible template changes.
         DocWriter(paths.public, L.template).write(doc, L.get_doc_template(doc))
         print(f'Refreshed doc at URL: {url}')

@@ -13,36 +13,36 @@ except ImportError:
     from yaml import Loader
 
 
-def add_collections(site_index, settings):
-    if 'collections' not in settings:
-        return
+def add_collections(doc, site_index, collections):
+    for attr, values in doc.copy().items():
+        if attr not in collections:
+            continue
+        root = collections[attr]['path']
+        for value in values:
+            collection_url = f'/{root}/{slugify(value.lower())}/'
+            # Add attribute for creating collection links in templates.
+            links = attr + '_links'
+            doc[links] = doc.get(links, []) + [(collection_url, value)]
 
-    collections = settings['collections']
-    collection_index = {}
-
-    for doc_url, content in site_index.items():
-        doc = content['doc']
-        for attr in set(doc.keys()) & set(collections.keys()):
-            values = doc[attr]
-            collection = collections[attr]
-            for value in values:
-                index_url = f'/{collection["path"]}/{slugify(value.lower())}/'
-                if index_url in site_index:
-                    print(f'Index at {index_url} will not be created, because a content document exists.')
+            content = site_index.get(collection_url)
+            if content:
+                if 'doc' in content:
+                    print(f'Index at {collection_url} will not be created, because a content document exists.')
                     continue
-
-                if index_url in collection_index:
-                    collection_index[index_url]['docs'].append(doc)
+                # If doc is already in collection update it.
+                for idx, collection_doc in enumerate(content['docs']):
+                    if doc['url'] == collection_doc['url']:
+                        site_index[collection_url]['docs'][idx].update(doc)
                 else:
-                    collection_index[index_url] = {
-                        'docs': [doc],
-                        'title': value,
-                        'path': collection['path'],  # FIXME avoid setting path, it is confusing because not a Path
-                        'template': collection.get('template', settings['content']['index']['template']),
-                        'url': index_url
-                    }
-
-    site_index.update(collection_index)
+                    content['docs'].append(doc)
+            else:
+                site_index[collection_url] = {
+                    'docs': [doc],
+                    'title': value,
+                    'path': root,  # FIXME avoid setting path, it is confusing because not a pathlib Path
+                    'template': collections[attr]['template'],
+                    'url': collection_url
+                }
 
 
 def content_type(path):
@@ -84,7 +84,8 @@ def read(path, paths, settings):
         print(f'Error parsing: {path}\n{err}')
         return
 
-    # FIXME ensure title and template is set
+    # Ensure doc has a title.
+    doc['title'] = doc.get('title', path.stem)
 
     # URLs set in the document are prioritized and left unchanged.
     doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
@@ -95,24 +96,13 @@ def read(path, paths, settings):
         if attr not in doc:
             doc[attr] = modified
 
-    if 'collections' not in settings:
-        return doc
-
-    # Add collections links
-    for attr, coll in settings['collections'].items():
-        if attr not in doc:
-            continue
-        links = attr + '_links'
-        for value in doc[attr]:
-            index_url = f'/{coll["path"]}/{slugify(value.lower())}/'
-            doc[links] = doc.get(links, []) + [(index_url, value)]
-
     return doc
 
 
 def read_all(paths, settings):
     # Index mapping URLs to content objects
     index = {}
+    collections = settings.get('collections')
 
     for root, _, files in walk(paths.content):
         for f in files:
@@ -121,6 +111,8 @@ def read_all(paths, settings):
                 continue
             doc = read(path, paths, settings)
             if doc:
+                if collections:
+                    add_collections(doc, index, collections)
                 index[doc['url']] = {'doc': doc, 'path': path}
 
     return index
