@@ -9,8 +9,7 @@ from urllib.parse import unquote, urlparse
 from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection
 from logya.writer import DocWriter
-from logya.util import paths, config
-
+from logya.util import paths, config, slugify
 
 site_index = read_all(paths, config)
 add_collections(site_index, config)
@@ -53,6 +52,7 @@ def update_resource(url):
 
     # Rebuild index for HTML file requests.
     if url.endswith(('/', '.html', '.htm')):
+        print(f'Rebuild index for request URL: {url}')
         site_index.update(read_all(paths, config))
     if src_url not in site_index:
         print(f'No content or collection at: {src_url}')
@@ -64,15 +64,26 @@ def update_resource(url):
     if 'doc' in content:
         doc = read(content['path'], paths, config)
 
-        # Update collections document occurs in, if doc was changed.
-        # FIXME instead of iterating site_index iterate doc collections
+        # Update doc in collections if doc was changed before writing it to public.
+        # FIXME move to function update_collection
         if content['path'].stat().st_mtime > path_dst.stat().st_mtime:
-            for i_url, i_content in site_index.items():
-                if 'docs' not in i_content:
+            for attr, collection in config['collections'].items():
+                if attr not in doc:
                     continue
-                for idx, i_doc in enumerate(i_content['docs']):
-                    if url == i_doc['url']:
-                        site_index[i_url]['docs'][idx] = doc
+                for value in doc[attr]:
+                    collection_url = f'/{collection["path"]}/{slugify(value.lower())}/'
+                    if collection_url not in site_index:
+                        site_index[collection_url] = {
+                            'docs': [doc],
+                            'title': value,
+                            'path': collection['path'],  # FIXME avoid setting path, it is confusing because not a Path
+                            'template': collection['template'],
+                            'url': collection_url
+                        }
+                        continue
+                    for idx, collection_doc in enumerate(site_index[collection_url]['docs']):
+                        if doc['url'] == collection_doc['url']:
+                            site_index[collection_url]['docs'][idx].update(doc)
 
         # Always write doc because of possible template changes.
         DocWriter(paths.public, L.template).write(doc, L.get_doc_template(doc))
