@@ -84,6 +84,8 @@ def read(path, paths, settings):
         print(f'Error parsing: {path}\n{err}')
         return
 
+    # FIXME ensure title and template is set
+
     # URLs set in the document are prioritized and left unchanged.
     doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
 
