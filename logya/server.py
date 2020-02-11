@@ -7,12 +7,13 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import add_collections, read, read_all, write_collection
-from logya.writer import DocWriter
-from logya.util import paths, config
+from logya.content import add_collections, read, read_all, write_collection, write_page
+from logya.util import load_settings
 
 
-site_index = read_all(paths, config)
+settings = load_settings()
+site_index = read_all(settings)
+
 L = Logya()
 L.init_env()
 L.build_index()
@@ -23,7 +24,7 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     """SimpleHTTPRequestHandler based class to return resources."""
 
     def __init__(self, *args):
-        super(HTTPRequestHandler, self).__init__(*args, directory=paths.public.as_posix())
+        super(HTTPRequestHandler, self).__init__(*args, directory=settings['paths']['public'].as_posix())
 
     def do_GET(self):
         update_resource(self.path)
@@ -41,9 +42,9 @@ def update_resource(url):
     src_name = src_url.lstrip('/')
 
     # If a static file is requested update it and return.
-    src_static = Path(paths.static, src_name)
+    src_static = Path(settings['paths']['static'], src_name)
     if src_static.is_file():
-        dst_static = Path(paths.public, src_name)
+        dst_static = Path(settings['paths']['public'], src_name)
         dst_static.parent.mkdir(exist_ok=True)
         if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
             print(f'Update static resource: {dst_static}')
@@ -53,27 +54,27 @@ def update_resource(url):
     # Rebuild index for HTML file requests.
     if url.endswith(('/', '.html', '.htm')):
         print(f'Rebuild index for request URL: {url}')
-        site_index.update(read_all(paths, config))
+        site_index.update(read_all(settings))
     if src_url not in site_index:
         print(f'No content or collection at: {src_url}')
         return
 
     content = site_index[src_url]
-    path_dst = Path(paths.public, src_name, 'index.html')
+    path_dst = Path(settings['paths']['public'], src_name, 'index.html')
 
     # Update content document
     if 'doc' in content:
-        doc = read(content['path'], paths, config)
-        if 'collections' in config:
-            add_collections(doc, site_index, config['collections'])
+        content['doc'] = read(content['path'], settings)
+        if 'collections' in settings:
+            add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
-        DocWriter(paths.public, L.template).write(doc, L.get_doc_template(doc))
+        write_page(content, L.template, settings)
         print(f'Refreshed doc at URL: {url}')
         return
 
     # Update collection page
     if 'docs' in content:
-        write_collection(path_dst, content, L.template, config)
+        write_collection(path_dst, content, L.template, settings)
         print(f'Refreshed collection: {url}')
 
 

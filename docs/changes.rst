@@ -8,6 +8,9 @@ Changes
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
+* FIXME document breaking change from dir_*
+* FIXME reserved attributes: body, url, title
+
 4.7.0
 -----
 

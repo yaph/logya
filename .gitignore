@@ -1,4 +1,3 @@
-t/
 MANIFEST
 
 # Byte-compiled / optimized / DLL files
@@ -45,7 +44,7 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
-*,cover
+.pytest_cache/
 
 # Translations
 *.mo

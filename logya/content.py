@@ -3,6 +3,8 @@ from datetime import datetime
 from os import walk
 from pathlib import Path
 
+from markdown import markdown
+
 from logya import allowed_exts
 from logya.util import slugify
 
@@ -76,7 +78,7 @@ def parse(content, content_type=None):
     return parsed
 
 
-def read(path, paths, settings):
+def read(path, settings):
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
@@ -88,7 +90,7 @@ def read(path, paths, settings):
     doc['title'] = doc.get('title', path.stem)
 
     # URLs set in the document are prioritized and left unchanged.
-    doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
+    doc['url'] = doc.get('url', create_url(path.relative_to(settings['paths']['content'])))
 
     # Use file modification time for created and updated attributes if not set in document.
     modified = datetime.fromtimestamp(path.stat().st_mtime)
@@ -99,17 +101,17 @@ def read(path, paths, settings):
     return doc
 
 
-def read_all(paths, settings):
+def read_all(settings):
     # Index mapping URLs to content objects
     index = {}
     collections = settings.get('collections')
 
-    for root, _, files in walk(paths.content):
+    for root, _, files in walk(settings['paths']['content']):
         for f in files:
             path = Path(root, f)
             if path.suffix.lstrip('.') not in allowed_exts:
                 continue
-            doc = read(path, paths, settings)
+            doc = read(path, settings)
             if doc:
                 if collections:
                     add_collections(doc, index, collections)
@@ -118,17 +120,35 @@ def read_all(paths, settings):
     return index
 
 
-def write(filename, doc):
-    # Parse body if not HTML/XML.
-    # if body and content_type == 'markdown':
-    #     body = markdown.markdown(
-    #         body,
-    #         extensions=[
-    #             'markdown.extensions.attr_list',
-    #             'markdown.extensions.def_list',
-    #             'markdown.extensions.fenced_code'
-    #         ])
-    pass
+def write_page(content, template, settings):
+    page = ''
+
+    # Make all settings in site section available to templates.
+    template_vars = settings['site']
+
+    # Make doc attributes available to templates.
+    template_vars.update(content['doc'])
+
+    # Set additional template variables.
+    template_vars['canonical'] = settings['site']['base_url'] + template_vars['url']
+
+    body = template_vars.get('body')
+    if body:
+        if content_type(content['path']) == 'markdown':
+            template_vars['body'] = markdown(body, extensions=[
+                'markdown.extensions.attr_list',
+                'markdown.extensions.def_list',
+                'markdown.extensions.fenced_code'])
+
+        # Pre-render doc body so Jinja2 template tags can be used in content body.
+        template_vars['body'] = template.env.from_string(body).render(template_vars)
+
+    if 'template' in template_vars:
+        page = template.env.get_template(template_vars['template']).render(template_vars)
+    elif body:
+        page = body
+
+    Path(settings['paths']['public'], template_vars['url'], 'index.html').write_text(page)
 
 
 def write_collection(path, content, template, settings):
