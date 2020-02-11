@@ -3,8 +3,6 @@ Logya README
 
 .. image:: https://badge.fury.io/py/logya.png
         :target: https://pypi.org/project/logya/
-.. image:: https://travis-ci.org/yaph/logya.png?branch=master
-        :target: https://travis-ci.org/yaph/logya
 
 Logya is a static site generator written in Python designed to be easy to use and flexible.
 
