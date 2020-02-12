@@ -10,6 +10,9 @@ from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection, write_page
 from logya.util import load_settings
 
+# Deprecated imports
+from logya.writer import DocWriter
+
 
 settings = load_settings()
 site_index = read_all(settings)
@@ -68,7 +71,8 @@ def update_resource(url):
         if 'collections' in settings:
             add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
-        write_page(content, L.template, settings)
+        DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
+        # write_page(content, L.template, settings)
         print(f'Refreshed doc at URL: {url}')
         return
 
