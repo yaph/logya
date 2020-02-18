@@ -3,6 +3,11 @@
 Changes
 =======
 
+4.7.1
+-----
+
+* Only build index for directory and HTML page requests on serve mode.
+
 4.7.0
 -----
 
