@@ -74,4 +74,3 @@ release: dist
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags
 	twine upload dist/*
-
