@@ -78,8 +78,9 @@ class Serve(Logya):
             logging.info('%s not newer than %s', src, dst)
             return
 
-        # Newly build generated docs and index.
-        self.build_index(mode='serve')
+        # Newly build generated docs and index for HTML page requests.
+        if path.endswith(('/', '.html', '.htm')):
+            self.build_index(mode='serve')
 
         # Try to get doc at path, regenerate it and return.
         doc = None
