@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from logya.content import read, write
+from logya.content import read
 
 
 def test_read_markdown():
