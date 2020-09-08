@@ -3,7 +3,6 @@
 Changes
 =======
 
-<<<<<<< HEAD
 5.0.0
 -----
 
@@ -11,12 +10,11 @@ This release includes several backwards incompatible changes, most notably it dr
 
 * FIXME document breaking change from dir_*
 * FIXME reserved attributes: body, url, title
-=======
+
 4.7.1
 -----
 
 * Only build index for directory and HTML page requests on serve mode.
->>>>>>> master
 
 4.7.0
 -----
