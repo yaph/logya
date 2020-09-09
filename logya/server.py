@@ -7,7 +7,7 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import add_collections, read, read_all, write_collection, write_page
+from logya.content import add_collections, read, read_all, write_collection
 from logya.util import load_settings
 
 # Deprecated imports
