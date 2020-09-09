@@ -41,8 +41,7 @@ class Serve(Logya):
 
         # Make sure destination directory exists.
         dir_deploy = os.path.dirname(dst)
-        if not os.path.exists(dir_deploy):
-            os.makedirs(dir_deploy)
+        os.makedirs(dir_deploy, exist_ok=True)
 
         if not os.path.isfile(dst):
             shutil.copy(src, dir_deploy)

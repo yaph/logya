@@ -27,10 +27,8 @@ def write(filename, content, create_dirs=True):
     """
 
     if create_dirs:
-        # create target directory if it doesn't exist
         target = os.path.dirname(filename)
-        if not os.path.exists(target):
-            os.makedirs(target)
+        os.makedirs(target, exist_ok=True)
 
     with io.open(filename, 'w', encoding='utf-8') as f:
         f.write(content)
@@ -43,9 +41,7 @@ def write_content(dir_target, headers, body):
     at the moment.
     """
 
-    write(
-        path.target_file(dir_target, headers['url']),
-        encode_content(headers, body))
+    write(path.target_file(dir_target, headers['url']), encode_content(headers, body))
 
 
 class DocWriter():

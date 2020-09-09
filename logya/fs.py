@@ -16,8 +16,7 @@ def copytree(src, dst):
 
         for d in dirs:
             dir_dst = os.path.join(dst, relative_root, d)
-            if not os.path.exists(dir_dst):
-                os.makedirs(dir_dst)
+            os.makedirs(dir_dst, exist_ok=True)
 
         for f in files:
             file_src = os.path.join(root, f)
