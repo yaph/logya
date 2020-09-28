@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 # Characters not to be used in URLs
+# FIXME this is too strict, research characters not allowed in URLs
 re_forbidden = re.compile(r'[^\.\w]+')
 
 
