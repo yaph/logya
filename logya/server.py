@@ -55,13 +55,10 @@ def update_resource(url):
             copyfile(src_static, dst_static)
         return True
 
-    # Rebuild index for HTML file requests.
-    if src_url.endswith(('/', '.html', '.htm')):
+    # Rebuild index for HTML file requests which are not in index.
+    if src_url.endswith(('/', '.html', '.htm')) and src_url not in site_index:
         print(f'Rebuild index for request URL: {src_url}')
-        #site_index.update(read_all(settings))
-    if src_url not in site_index:
-        print(f'No content or collection at: {src_url}')
-        return
+        site_index.update(read_all(settings))
 
     content = site_index[src_url]
     path_dst = Path(settings['paths']['public'], src_name, 'index.html')

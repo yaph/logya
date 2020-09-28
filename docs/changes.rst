@@ -8,7 +8,10 @@ Changes
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
+* Don't lower case URL parts created from file locations, so URLs are case sensitive.
 * Rename the `deploy` directory to `public` and the attribute `dir_deploy` to `dir_public`.
+* Avoid "OSError: [Errno 98] Address already in use" by allowing address reuse.
+* Only rebuilt the index in serve mode when a requested URL is not in the index.
 * FIXME document breaking change from dir_*
 * FIXME reserved attributes: body, url, title
 
