@@ -8,6 +8,7 @@ Changes
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
+* Rename the `deploy` directory to `public` and the attribute `dir_deploy` to `dir_public`.
 * FIXME document breaking change from dir_*
 * FIXME reserved attributes: body, url, title
 

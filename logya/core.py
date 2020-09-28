@@ -41,7 +41,7 @@ class Logya(object):
         self.dir_site = dir_site if dir_site else os.getcwd()
 
     def init_env(self):
-        """Initialize the environment for generating the Web site to deploy.
+        """Initialize the environment for generating the Web site to public.
 
         This function reads the Web site configuration, sets up the template
         environment and sets object properties.
@@ -63,7 +63,7 @@ class Logya(object):
         self.dir_static = path.join(cwd, 'static')
 
         # Directory is created by the generate command.
-        self.dir_deploy = path.join(cwd, 'public')  # FIXME document breaking change
+        self.dir_public = path.join(cwd, 'public')
 
         self.base_url = self.config['site'].get('base_url')
         # base_url must be defined in settings
@@ -246,7 +246,7 @@ class Logya(object):
         content = self.pages['rss'].render(self.template.vars)
 
         filename = path.target_file(
-            self.dir_deploy, path.join(url, 'rss.xml'))
+            self.dir_public, path.join(url, 'rss.xml'))
         write(filename, content)
 
     def write_index(self, url, collection):
@@ -273,14 +273,14 @@ class Logya(object):
             page = self.template.env.get_template(collection.template)
             content = page.render(self.template.vars)
 
-            filename = path.target_file(self.dir_deploy, url)
+            filename = path.target_file(self.dir_public, url)
             write(filename, content)
 
             # write directory RSS file
             self.write_rss(title, url, collection.docs)
 
     def write_index_files(self):
-        """Write index.html files to deploy directories where non exists.
+        """Write index.html files in directories where non exists.
 
         If no template is specified in configuration index won't be written.
         """

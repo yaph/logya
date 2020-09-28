@@ -18,10 +18,10 @@ Quickstart
     logya create mysite
     cd mysite
 
-    # add content and then generate the site in the deploy directory
+    # add content and then generate the site in the public directory
     logya gen
 
-    # serve the site from deploy on http://localhost:8080
+    # serve the site from public directory on http://localhost:8080
     logya serve
 
 

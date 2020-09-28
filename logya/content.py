@@ -62,7 +62,7 @@ def create_url(path):
     else:
         path = Path(path.parent, path.stem)
 
-    return f'/{"/".join(slugify(p.lower()) for p in path.parts)}/'
+    return f'/{"/".join(slugify(p) for p in path.parts)}/'
 
 
 def parse(content, content_type=None):

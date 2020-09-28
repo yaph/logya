@@ -21,7 +21,7 @@ Change to the starter site directory:
 
     cd mysite
 
-Generate files to deploy:
+Generate files to public:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -30,9 +30,9 @@ Generate files to deploy:
 
 This command generates HTML files from the documents found in the
 content directory, collections for Web site directories, and copies static
-resources to the newly created deploy directory.
+resources to the newly created ``public`` directory.
 
-Serve site from deploy directory:
+Serve site from public directory:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -40,7 +40,7 @@ Serve site from deploy directory:
     logya serve
 
 Run this command in the root directory of your ``mysite`` project and it
-will serve the static files from the deploy directory. When you edit
+will serve the static files from the directory ``public``. When you edit
 files in your projects source directory and reload them in the browser
 they will be updated, so this can be used for live editing your site and
 see changes immediately.

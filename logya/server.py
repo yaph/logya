@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import http.server
+import socket
 import socketserver
 
 from pathlib import Path
@@ -40,7 +41,7 @@ def update_resource(url):
     Resources that exist in the `static` directory are updated if they are newer than the destination file.
     For other HTML resources the whole `site_index` is updated and the destination is newly written."""
 
-    # Use only the actual path and ignore possible query params issue #3.
+    # Use only the actual path and ignore possible query params (see issue #3).
     src_url = unquote(urlparse(url).path)
     src_name = src_url.lstrip('/')
 
@@ -55,9 +56,9 @@ def update_resource(url):
         return True
 
     # Rebuild index for HTML file requests.
-    if url.endswith(('/', '.html', '.htm')):
-        print(f'Rebuild index for request URL: {url}')
-        site_index.update(read_all(settings))
+    if src_url.endswith(('/', '.html', '.htm')):
+        print(f'Rebuild index for request URL: {src_url}')
+        #site_index.update(read_all(settings))
     if src_url not in site_index:
         print(f'No content or collection at: {src_url}')
         return
@@ -72,7 +73,6 @@ def update_resource(url):
             add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
         DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
-        # write_page(content, L.template, settings)
         print(f'Refreshed doc at URL: {url}')
         return
 
@@ -85,5 +85,7 @@ def update_resource(url):
 def serve(args):
     L.template.vars['base_url'] = f'http://{args.host}:{args.port}'
     with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
+        # Avoid "OSError: [Errno 98] Address already in use"
+        httpd.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print(f'Serving on {L.template.vars["base_url"]}')
         httpd.serve_forever()

@@ -29,8 +29,8 @@ def main():
     p_create.set_defaults(func=create)
     p_create.add_argument('--site', default='starter', help='Name one of the available sites.')
 
-    # generate a site for deployment, generate and gen sub commands do the same
-    hlp = 'Generate Web site to deploy from current directory.'
+    # generate a site in public directory, generate and gen sub commands do the same
+    hlp = 'Generate Web site to public from current directory.'
     hlp_dir_site = ('Path to Web site directory, absolute or relative to current working directory.')
     hlp_keep = ('Keep existing `public` directory, by default it is removed.')
     for command in ['generate', 'gen']:
@@ -40,7 +40,7 @@ def main():
         p_gen.add_argument('--keep', action='store_true', default=False, help=hlp_keep)
 
     # serve static pages
-    p_serve = subparsers.add_parser('serve', help='Serve static pages from deploy directory.')
+    p_serve = subparsers.add_parser('serve', help='Serve static pages from public directory.')
     p_serve.set_defaults(func=serve)
     p_serve.add_argument('--host', default='localhost', help='server host name or IP')
     p_serve.add_argument('--port', default=8080, type=int, help='server port to listen')

@@ -70,21 +70,21 @@ class TestPath(unittest.TestCase):
 
     def test_target_file(self):
         testdata = ({
-            'basedir': '/mysite/deploy',
+            'basedir': '/mysite/public',
             'url': '/contact/',
-            'expected': '/mysite/deploy/contact/index.html'
+            'expected': '/mysite/public/contact/index.html'
         }, {
-            'basedir': '/mysite/deploy',
+            'basedir': '/mysite/public',
             'url': '/artikel/linguistik/ikon_sprache.html',
-            'expected': '/mysite/deploy/artikel/linguistik/ikon_sprache.html'
+            'expected': '/mysite/public/artikel/linguistik/ikon_sprache.html'
         }, {
-            'basedir': '/mysite/deploy',
+            'basedir': '/mysite/public',
             'url': 'tags/code',
-            'expected': '/mysite/deploy/tags/code/index.html'
+            'expected': '/mysite/public/tags/code/index.html'
         }, {
-            'basedir': '/mysite/deploy',
+            'basedir': '/mysite/public',
             'url': 'tags/code/rss.xml',
-            'expected': '/mysite/deploy/tags/code/rss.xml'
+            'expected': '/mysite/public/tags/code/rss.xml'
         })
 
         for t in testdata:
