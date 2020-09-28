@@ -70,13 +70,13 @@ def update_resource(url):
             add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
         DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
-        print(f'Refreshed doc at URL: {url}')
+        print(f'Refreshed doc at URL: {src_url}')
         return
 
     # Update collection page
     if 'docs' in content:
         write_collection(path_dst, content, L.template, settings)
-        print(f'Refreshed collection: {url}')
+        print(f'Refreshed collection: {src_url}')
 
 
 def serve(args):
