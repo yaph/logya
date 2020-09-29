@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import http.server
-import socket
 import socketserver
 
 from pathlib import Path
