@@ -81,8 +81,8 @@ def update_resource(url):
 
 def serve(args):
     L.template.vars['base_url'] = f'http://{args.host}:{args.port}'
+    # Avoid "OSError: [Errno 98] Address already in use"
+    socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer((args.host, args.port), HTTPRequestHandler) as httpd:
-        # Avoid "OSError: [Errno 98] Address already in use"
-        httpd.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print(f'Serving on {L.template.vars["base_url"]}')
         httpd.serve_forever()
