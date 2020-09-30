@@ -21,7 +21,7 @@ def add_collections(doc, site_index, collections):
             continue
         root = collections[attr]['path']
         for value in values:
-            collection_url = f'/{root}/{slugify(value.lower())}/'
+            collection_url = f'/{root}/{slugify(value).lower()}/'
             # Add attribute for creating collection links in templates.
             links = attr + '_links'
             doc[links] = doc.get(links, []) + [(collection_url, value)]

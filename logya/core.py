@@ -11,6 +11,7 @@ from logya import path
 from logya import config
 from logya.docreader import DocReader
 from logya.template import Template
+from logya.util import slugify
 from logya.writer import write
 
 
@@ -159,7 +160,7 @@ class Logya(object):
         """Add the doc to the index defined for the attribute."""
 
         for val in doc[attr]:
-            url = '/{}/{}/'.format(basepath, path.slugify(val))
+            url = '/{}/{}/'.format(basepath, slugify(val).lower())
 
             links = attr + '_links'
             doc[links] = doc.get(links, []) + [(url, val)]
@@ -221,7 +222,7 @@ class Logya(object):
         for coll_path, name in self.collection_index.items():
             values = []
             for val in sorted(set(self.collections.get(name, []))):
-                url = '/{}/{}/'.format(coll_path, path.slugify(val))
+                url = '/{}/{}/'.format(coll_path, slugify(val).lower())
                 values.append((url, val))
             if values:
                 self.collections[name] = values
