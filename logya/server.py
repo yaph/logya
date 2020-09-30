@@ -52,12 +52,16 @@ def update_resource(path):
         if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
             print(f'Update static resource: {dst_static}')
             copyfile(src_static, dst_static)
-        return True
+        return
 
     # Rebuild index for HTML file requests which are not in index.
     if path.endswith(('/', '.html', '.htm')) and path not in site_index:
         print(f'Rebuild index for request URL: {path}')
         site_index.update(read_all(settings))
+
+    # Requested path does not exist.
+    if path not in site_index:
+        return
 
     content = site_index[path]
     path_dst = Path(settings['paths']['public'], path_rel, 'index.html')
@@ -70,7 +74,6 @@ def update_resource(path):
         # Always write doc because of possible template changes.
         DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
         print(f'Refreshed doc at URL: {path}')
-        return
 
     # Update collection page
     if 'docs' in content:
