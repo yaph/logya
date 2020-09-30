@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# FIXME make this module obsolete
 # Wrappers for functions from os.path.
 import os
 import re
