@@ -7,7 +7,7 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import add_collections, read, read_all, write_collection
+from logya.content import add_collections, read, read_all, write_collection, write_page
 from logya.util import load_settings
 
 # Deprecated imports
@@ -66,16 +66,16 @@ def update_resource(path):
     content = site_index[path]
     path_dst = Path(settings['paths']['public'], path_rel, 'index.html')
 
-    # Update content document
+    # Update content document.
     if 'doc' in content:
         content['doc'] = read(content['path'], settings)
         if 'collections' in settings:
             add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
-        DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
+        write_page(path_dst, content, L.template, settings)
         print(f'Refreshed doc at URL: {path}')
 
-    # Update collection page
+    # Update collection page.
     if 'docs' in content:
         write_collection(path_dst, content, L.template, settings)
         print(f'Refreshed collection: {path}')

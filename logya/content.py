@@ -15,6 +15,12 @@ except ImportError:
     from yaml import Loader
 
 
+markdown_extensions = [
+    'markdown.extensions.attr_list',
+    'markdown.extensions.def_list',
+    'markdown.extensions.fenced_code']
+
+
 def add_collections(doc, site_index, collections):
     for attr, values in doc.copy().items():
         if attr not in collections:
@@ -120,7 +126,7 @@ def read_all(settings):
     return index
 
 
-def write_page(content, template, settings):
+def write_page(path, content, template, settings):
     page = ''
 
     # Make all settings in site section available to templates.
@@ -131,26 +137,21 @@ def write_page(content, template, settings):
 
     # Set additional template variables.
     template_vars['canonical'] = settings['site']['base_url'] + template_vars['url']
-    template_vars['collections'] = []
-    template_vars['index'] = {}
+    # template_vars['collections'] = []
+    # template_vars['index'] = {}
 
     body = template_vars.get('body')
     if body:
         if content_type(content['path']) == 'markdown':
-            template_vars['body'] = markdown(body, extensions=[
-                'markdown.extensions.attr_list',
-                'markdown.extensions.def_list',
-                'markdown.extensions.fenced_code'])
-
+            body = markdown(body, extensions=markdown_extensions)
         # Pre-render doc body so Jinja2 template tags can be used in content body.
         template_vars['body'] = template.env.from_string(body).render(template_vars)
 
     if 'template' in template_vars:
         page = template.env.get_template(template_vars['template']).render(template_vars)
     elif body:
-        page = body
-
-    Path(settings['paths']['public'], template_vars['url'], 'index.html').write_text(page)
+        page = template_vars['body']
+    path.write_text(page)
 
 
 def write_collection(path, content, template, settings):
