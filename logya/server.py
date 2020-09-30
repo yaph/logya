@@ -34,20 +34,20 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super(HTTPRequestHandler, self).do_GET()
 
 
-def update_resource(url):
+def update_resource(path):
     """Update resource corresponding to given url.
 
     Resources that exist in the `static` directory are updated if they are newer than the destination file.
     For other HTML resources the whole `site_index` is updated and the destination is newly written."""
 
     # Use only the actual path and ignore possible query params (see issue #3).
-    src_url = unquote(urlparse(url).path)
-    src_name = src_url.lstrip('/')
+    path = unquote(urlparse(path).path)
+    path_rel = path.lstrip('/')
 
     # If a static file is requested update it and return.
-    src_static = Path(settings['paths']['static'], src_name)
+    src_static = Path(settings['paths']['static'], path_rel)
     if src_static.is_file():
-        dst_static = Path(settings['paths']['public'], src_name)
+        dst_static = Path(settings['paths']['public'], path_rel)
         dst_static.parent.mkdir(exist_ok=True)
         if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
             print(f'Update static resource: {dst_static}')
@@ -55,12 +55,12 @@ def update_resource(url):
         return True
 
     # Rebuild index for HTML file requests which are not in index.
-    if src_url.endswith(('/', '.html', '.htm')) and src_url not in site_index:
-        print(f'Rebuild index for request URL: {src_url}')
+    if path.endswith(('/', '.html', '.htm')) and path not in site_index:
+        print(f'Rebuild index for request URL: {path}')
         site_index.update(read_all(settings))
 
-    content = site_index[src_url]
-    path_dst = Path(settings['paths']['public'], src_name, 'index.html')
+    content = site_index[path]
+    path_dst = Path(settings['paths']['public'], path_rel, 'index.html')
 
     # Update content document
     if 'doc' in content:
@@ -69,13 +69,13 @@ def update_resource(url):
             add_collections(content['doc'], site_index, settings['collections'])
         # Always write doc because of possible template changes.
         DocWriter(settings['paths']['public'], L.template).write(content['doc'], L.get_doc_template(content['doc']))
-        print(f'Refreshed doc at URL: {src_url}')
+        print(f'Refreshed doc at URL: {path}')
         return
 
     # Update collection page
     if 'docs' in content:
         write_collection(path_dst, content, L.template, settings)
-        print(f'Refreshed collection: {src_url}')
+        print(f'Refreshed collection: {path}')
 
 
 def serve(args):
