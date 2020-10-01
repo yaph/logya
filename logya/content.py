@@ -137,8 +137,6 @@ def write_page(path, content, template, settings):
 
     # Set additional template variables.
     template_vars['canonical'] = settings['site']['base_url'] + template_vars['url']
-    # template_vars['collections'] = []
-    # template_vars['index'] = {}
 
     body = template_vars.get('body')
     if body:
