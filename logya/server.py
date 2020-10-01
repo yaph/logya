@@ -10,9 +10,6 @@ from logya.core import Logya
 from logya.content import add_collections, read, read_all, write_collection, write_page
 from logya.util import load_settings
 
-# Deprecated imports
-from logya.writer import DocWriter
-
 
 settings = load_settings()
 site_index = read_all(settings)
@@ -82,6 +79,7 @@ def update_resource(path):
 
 
 def serve(args):
+    # FIXME L.template.vars not used in write_page
     L.template.vars['base_url'] = f'http://{args.host}:{args.port}'
     # Avoid "OSError: [Errno 98] Address already in use"
     socketserver.TCPServer.allow_reuse_address = True
