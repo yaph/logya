@@ -6,6 +6,7 @@ from pathlib import Path
 from markdown import markdown
 
 from logya import allowed_exts
+from logya.template import env, render
 from logya.util import slugify
 
 from yaml import load
@@ -126,39 +127,32 @@ def read_all(settings):
     return index
 
 
-def write_page(path, content, template, settings):
-    page = ''
-
+def write_page(path, content, settings):
     # Make all settings in site section available to templates.
-    template_vars = settings['site']
+    attrs = settings['site']
 
     # Make doc attributes available to templates.
-    template_vars.update(content['doc'])
+    attrs.update(content['doc'])
 
     # Set additional template variables.
-    template_vars['canonical'] = settings['site']['base_url'] + template_vars['url']
+    attrs['canonical'] = settings['site']['base_url'] + attrs['url']
 
-    body = template_vars.get('body')
-    if body:
-        if content_type(content['path']) == 'markdown':
-            body = markdown(body, extensions=markdown_extensions)
-        # Pre-render doc body so Jinja2 template tags can be used in content body.
-        template_vars['body'] = template.env.from_string(body).render(template_vars)
+    if 'body' in attrs and content_type(content['path']) == 'markdown':
+        attrs['body'] = markdown(attrs['body'], extensions=markdown_extensions)
 
-    if 'template' in template_vars:
-        page = template.env.get_template(template_vars['template']).render(template_vars)
-    elif body:
-        page = template_vars['body']
-    path.write_text(page)
+    if 'template' in attrs:
+        path.write_text(render(attrs['template'], attrs, pre_render='body'))
+    else:
+        path.write_text(attrs.get('body', ''))
 
 
-def write_collection(path, content, template, settings):
+def write_collection(path, content, settings):
     """Write an auto-generated index.html file."""
 
-    template.vars['docs'] = content['docs']
-    template.vars['title'] = content['title']
-    template.vars['canonical'] = settings['site']['base_url'] + content['url']
+    attrs = settings['site']
+    attrs['docs'] = content['docs']
+    attrs['title'] = content['title']
+    attrs['canonical'] = settings['site']['base_url'] + content['url']
 
-    page = template.env.get_template(content['template'])
     path.parent.mkdir(exist_ok=True)
-    path.write_text(page.render(template.vars))
+    path.write_text(render(content['template'], attrs))
