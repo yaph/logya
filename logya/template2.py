@@ -31,13 +31,3 @@ def render(tpl, variables, pre_render=None):
     if pre_render and pre_render in variables:
         variables[pre_render] = env.from_string(variables[pre_render]).render(variables)
     return env.get_template(tpl).render(variables)
-
-
-
-
-
-
-
-
-
-
