@@ -6,6 +6,11 @@ Changes
 5.0.0
 -----
 
+TODO
+====
+
+* Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
+
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
 * Don't lower case URL parts created from file locations, so URLs are case sensitive.
