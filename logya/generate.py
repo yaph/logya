@@ -5,33 +5,28 @@ from pathlib import Path
 from shutil import copytree
 
 from logya.core import Logya
-from logya.content import read_all, write_collection, write_page
-from logya.util import load_settings
+from logya.content import write_collection, write_page
 
 
-def generate(args):
-    L = Logya()
-    L.init_env()
-    settings = load_settings()
-    path_public = settings['paths']['public']
-    path_static = settings['paths']['static']
+def generate(options):
+    L = Logya(options)
+    #L.build_index()
 
-    if not args.keep:
+    if not options.keep:
         print('Remove existing public directory.')
-        shutil.rmtree(path_public, ignore_errors=True)
+        shutil.rmtree(L.paths.public, ignore_errors=True)
 
-    print(f'Generate site in directory: {path_public.as_posix()}')
-    if path_static.exists():
+    print(f'Generate site in directory: {L.paths.public.as_posix()}')
+    if L.paths.static.exists():
         print('Copy static files.')
-        copytree(path_static, path_public, dirs_exist_ok=True)  # dirs_exist_ok requires Python 3.8
+        copytree(L.paths.static, L.paths.public, dirs_exist_ok=True)  # dirs_exist_ok requires Python 3.8
 
-    site_index = read_all(settings)
     print('Write documents.')
-    for url, content in site_index.items():
-        path_dst = Path(path_public, url.lstrip('/'), 'index.html')
+    for url, content in L.index.items():
+        L.paths.dst = Path(L.paths.public, url.lstrip('/'), 'index.html')
         if 'doc' in content:
-            print(f'Write document page to: {path_dst}')
-            write_page(path_dst, content, L.template, settings)
+            print(f'Write document page to: {L.paths.dst}')
+            write_page(L.paths.dst, content, L.settings)
         elif 'docs' in content:
-            print(f'Write collection page to: {path_dst}')
-            write_collection(path_dst, content, L.template, settings)
+            print(f'Write collection page to: {L.paths.dst}')
+            write_collection(L.paths.dst, content, L.settings)
