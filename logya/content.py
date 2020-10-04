@@ -7,13 +7,7 @@ from markdown import markdown
 
 from logya import allowed_exts
 from logya.template2 import render
-from logya.util import slugify
-
-from yaml import load
-try:
-    from yaml import CLoader as Loader
-except ImportError:
-    from yaml import Loader
+from logya.util import load_yaml, slugify
 
 
 markdown_extensions = [
@@ -80,7 +74,7 @@ def parse(content, content_type=None):
     pos2 = content.index('---', pos1 + 1)
     header = content[pos1:pos2].strip()
     body = content[pos2 + 3:].strip()
-    parsed = load(header, Loader=Loader)
+    parsed = load_yaml(header)
     parsed['body'] = body
     return parsed
 
@@ -128,6 +122,8 @@ def read_all(settings):
 
 
 def write_page(path, content, settings):
+    path.parent.mkdir(exist_ok=True)
+
     # Make all settings in site section available to templates.
     attrs = settings['site']
 
@@ -149,10 +145,11 @@ def write_page(path, content, settings):
 def write_collection(path, content, settings):
     """Write an auto-generated index.html file."""
 
+    path.parent.mkdir(exist_ok=True)
+
     attrs = settings['site']
     attrs['docs'] = content['docs']
     attrs['title'] = content['title']
     attrs['canonical'] = settings['site']['base_url'] + content['url']
 
-    path.parent.mkdir(exist_ok=True)
     path.write_text(render(content['template'], attrs))
