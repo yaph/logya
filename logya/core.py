@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-import os
 import datetime
 
 from collections import namedtuple
 from operator import itemgetter
 
 from logya import path
-from logya import config
 from logya.docreader import DocReader
 from logya.template import Template
-from logya.util import slugify
+from logya.util import load_yaml, paths, slugify
 from logya.writer import write
 
 
@@ -26,20 +22,19 @@ def get_collection_var(url, collection_index):
     return collection_index.get(parent_path)
 
 
-class Logya(object):
-    """Main logic for creating, building and serving a static site."""
+class Logya():
+    """Object to store data such as site index and settings."""
 
-    index_filename = 'index.html'
-
-    def __init__(self, **kwargs):
+    def __init__(self, options):
         """Set required logya object properties."""
 
-        self.verbose = kwargs.get('verbose', False)
+        self.verbose = getattr(options, 'verbose', False)
 
-        # dir_site is an optional argument of the generate command, which may
-        # instantiate the class with a value of None for dir_site.
-        dir_site = kwargs.get('dir_site')
-        self.dir_site = dir_site if dir_site else os.getcwd()
+        # dir_site is an optional argument of the generate command to set a custom root directory.
+        self.paths = paths(dir_site=getattr(options, 'dir_site', None))
+        self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
+
+        self.index = {}
 
     def init_env(self):
         """Initialize the environment for generating the Web site to public.
@@ -48,58 +43,12 @@ class Logya(object):
         environment and sets object properties.
         """
 
-        cwd = self.dir_site
-        self.dir_content = path.join(cwd, 'content', required=True)
-        self.config = config.load(path.join(cwd, 'site.yaml', required=True))
-
-        self.dir_templates = path.join(cwd, 'templates', required=True)
-        self.template = Template(self)
-
-        self.dir_bin = path.join(cwd, 'bin')
-
-        # Make all settings in site section available to templates.
-        self.template.vars.update(self.config['site'])
-
-        # Optional directory with static files like css, js and images.
-        self.dir_static = path.join(cwd, 'static')
-
-        # Directory is created by the generate command.
-        self.dir_public = path.join(cwd, 'public')
-
-        self.base_url = self.config['site'].get('base_url')
-        # base_url must be defined in settings
-        if not self.base_url:
-            raise Exception('base_url not set in site config.')
-
-        # A dictionary of parsed documents indexed by resource paths.
-        self.docs = {}
-
-        # A dictionary of document collections.
+        # An index mapping URLs to documents and document collections.
         self.index = {}
 
-        # A dictionary of collection names and distinct values.
-        self.collections = {}
-
-        # Set default templates once for a Logya instance.
-        self.templates = {
-            'doc': self.config['content']['doc']['template'],
-            'index': self.config['content']['index']['template'],
-            'rss': self.config['content']['rss']['template']
-        }
-
-        self.pages = {}
-        # Set default pages for templates.
-        for ctype, template in self.templates.items():
-            self.pages[ctype] = self.template.env.get_template(template)
-
         # Set languages if specified.
-        if 'languages' in self.config:
-            self.languages = self.config['languages']
-
-        # Map collection paths to config variables (vars) to make collection
-        # settings accessible via index URLs.
-        self.collection_index = {
-            v['path']: k for k, v in self.config['collections'].items()}
+        if 'languages' in self.settings:
+            self.languages = self.settings['languages']
 
     def info(self, msg):
         """Print message if in verbose mode."""
@@ -130,7 +79,7 @@ class Logya(object):
                     attr = get_collection_var(fullpath[len(prefix):], self.collection_index)
                     break
         if attr:
-            template = self.config['collections'][attr].get('template', template)
+            template = self.settings['collections'][attr].get('template', template)
         return template
 
     def _update_index(self, doc, url=None):
@@ -180,7 +129,7 @@ class Logya(object):
         # Add to special __index__ for RSS generation.
         self._update_index(doc, '__index__/index/')
 
-        for attr, collection in self.config['collections'].items():
+        for attr, collection in self.settings['collections'].items():
             if attr not in doc:
                 continue
             self._update_doc_index(doc, attr, collection['path'])
@@ -286,7 +235,7 @@ class Logya(object):
         If no template is specified in configuration index won't be written.
         """
 
-        feed_title = self.config['site'].get('feed_title', 'RSS Feed')
+        feed_title = self.settings['site'].get('feed_title', 'RSS Feed')
 
         for url, collection in self.index.items():
             if '__index__' != url:
