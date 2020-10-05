@@ -11,6 +11,7 @@ TODO
 
 * Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
 * sitemap.xml directory is generated in public instead of file.
+* Implement noindex attribute for docs.
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
