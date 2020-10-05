@@ -2,7 +2,6 @@
 import http.server
 import socketserver
 
-from pathlib import Path
 from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
@@ -34,9 +33,9 @@ def update_resource(path, L):
     path_rel = path.lstrip('/')
 
     # If a static file is requested update it and return.
-    src_static = Path(L.paths.static, path_rel)
+    src_static = L.paths.static.joinpath(path_rel)
     if src_static.is_file():
-        dst_static = Path(L.paths.public, path_rel)
+        dst_static = L.paths.public.joinpath(path_rel)
         dst_static.parent.mkdir(exist_ok=True)
         if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
             L.info(f'Update static resource: {dst_static}')
@@ -53,7 +52,7 @@ def update_resource(path, L):
         return
 
     content = L.index[path]
-    path_dst = Path(L.paths.public, path_rel, 'index.html')
+    path_dst = L.paths.public.joinpath(path_rel, 'index.html')
 
     # Update content document.
     if 'doc' in content:
