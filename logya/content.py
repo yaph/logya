@@ -79,7 +79,7 @@ def parse(content, content_type=None):
     return parsed
 
 
-def read(path, settings):
+def read(path, paths):
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
@@ -91,7 +91,7 @@ def read(path, settings):
     doc['title'] = doc.get('title', path.stem)
 
     # URLs set in the document are prioritized and left unchanged.
-    doc['url'] = doc.get('url', create_url(path.relative_to(settings['paths']['content'])))
+    doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
 
     # Use file modification time for created and updated attributes if not set in document.
     modified = datetime.fromtimestamp(path.stat().st_mtime)
@@ -102,17 +102,17 @@ def read(path, settings):
     return doc
 
 
-def read_all(settings):
+def read_all(paths, settings):
     # Index mapping URLs to content objects
     index = {}
     collections = settings.get('collections')
 
-    for root, _, files in walk(settings['paths']['content']):
+    for root, _, files in walk(paths.content):
         for f in files:
             path = Path(root, f)
             if path.suffix.lstrip('.') not in allowed_exts:
                 continue
-            doc = read(path, settings)
+            doc = read(path, paths)
             if doc:
                 if collections:
                     add_collections(doc, index, collections)
