@@ -9,7 +9,7 @@ from logya.content import write_collection, write_page
 
 def generate(options):
     L = Logya(options)
-    L.build_index()
+    L.build()
 
     if not options.keep:
         print('Remove existing public directory.')
@@ -22,10 +22,10 @@ def generate(options):
 
     print('Write documents.')
     for url, content in L.index.items():
-        L.paths.dst = L.paths.public.joinpath(url.lstrip('/'), 'index.html')
+        path_dst = L.paths.public.joinpath(url.lstrip('/'), 'index.html')
         if 'doc' in content:
-            print(f'Write document page to: {L.paths.dst}')
-            write_page(L.paths.dst, content, L.settings)
+            print(f'Write document page to: {path_dst}')
+            write_page(path_dst, content, L.settings)
         elif 'docs' in content:
-            print(f'Write collection page to: {L.paths.dst}')
-            write_collection(L.paths.dst, content, L.settings)
+            print(f'Write collection page to: {path_dst}')
+            write_collection(path_dst, content, L.settings)
