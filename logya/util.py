@@ -31,6 +31,10 @@ def filepath(base: Path, url: str) -> Path:
     return path
 
 
+def load_yaml(text: str) -> dict:
+    return load(text, Loader=Loader)
+
+
 def paths(dir_site: str = None) -> dict:
     if dir_site:
         root = Path(dir_site)
@@ -44,10 +48,6 @@ def paths(dir_site: str = None) -> dict:
         static=root.joinpath('static'),
         public=root.joinpath('public')
     )
-
-
-def load_yaml(text: str) -> dict:
-    return load(text, Loader=Loader)
 
 
 # FIXME use tests in test_slugify
