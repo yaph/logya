@@ -6,7 +6,7 @@ from pathlib import Path
 from markdown import markdown
 
 from logya import allowed_exts
-from logya.template2 import render
+from logya.template import render
 from logya.util import load_yaml, slugify
 
 
