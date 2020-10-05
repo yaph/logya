@@ -45,7 +45,7 @@ def update_resource(path, L):
     # Rebuild index for HTML file requests which are not in index.
     if path.endswith(('/', '.html', '.htm')) and path not in L.index:
         L.info(f'Rebuild index for request URL: {path}')
-        L.build_index()
+        L.build()
 
     # Requested path does not exist.
     if path not in L.index:
@@ -56,7 +56,7 @@ def update_resource(path, L):
 
     # Update content document.
     if 'doc' in content:
-        content['doc'] = read(content['path'], L.settings)
+        content['doc'] = read(content['path'], L.paths)
         if 'collections' in L.settings:
             add_collections(content['doc'], L.index, L.settings['collections'])
         # Always write doc because of possible template changes.
@@ -73,7 +73,7 @@ def serve(options):
     base_url = f'http://{options.host}:{options.port}'
 
     L = Logya(options)
-    L.build_index()
+    L.build()
 
     # FIXME L_template.vars not used in write_page and write_collection
     # L.template_vars['base_url'] = base_url
