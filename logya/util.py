@@ -4,11 +4,11 @@ import re
 from collections import namedtuple
 from pathlib import Path
 
-from yaml import load
+from yaml import dump, load
 try:
-    from yaml import CLoader as Loader
+    from yaml import CDumper as Dumper, CLoader as Loader
 except ImportError:
-    from yaml import Loader
+    from yaml import Dumper, Loader
 
 
 # Characters not to be used in URLs
@@ -16,6 +16,12 @@ re_forbidden = re.compile(r'[\s\/\?\+\{\}\|\\\[\]:;&$=]+')
 
 directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
+
+
+def encode_content(headers, body):
+    """Encode headers and body in content format."""
+
+    return '---\n{}\n---\n{}'.format(dump(headers, Dumper=Dumper).strip(), body)
 
 
 # FIXME use tests in test_canonical_filename
