@@ -34,15 +34,6 @@ class Logya():
         self.paths = paths(dir_site=getattr(options, 'dir_site', None))
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
-        self.index = {}
-
-    def init_env(self):
-        """Initialize the environment for generating the Web site to public.
-
-        This function reads the Web site configuration, sets up the template
-        environment and sets object properties.
-        """
-
         # An index mapping URLs to documents and document collections.
         self.index = {}
 
