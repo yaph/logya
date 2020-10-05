@@ -73,13 +73,12 @@ def update_resource(path, L):
 def serve(options):
     base_url = f'http://{options.host}:{options.port}'
 
-    # FIXME L.template.vars not used in write_page
-    # L.template.vars['base_url'] = base_url
-    # L.template.vars['debug'] = True
-
     L = Logya(options)
-    # L.init_env()
-    # L.build_index()
+    L.build_index()
+
+    # FIXME L_template.vars not used in write_page and write_collection
+    # L.template_vars['base_url'] = base_url
+    # L.template_vars['debug'] = True
 
     HTTPRequestHandler.L = L
 
