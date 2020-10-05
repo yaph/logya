@@ -24,8 +24,8 @@ def generate(options):
     for url, content in L.index.items():
         path_dst = L.paths.public.joinpath(url.lstrip('/'), 'index.html')
         if 'doc' in content:
-            print(f'Write document page to: {path_dst}')
+            L.info(f'Write document page to: {path_dst}')
             write_page(path_dst, content, L.settings)
         elif 'docs' in content:
-            print(f'Write collection page to: {path_dst}')
+            L.info(f'Write collection page to: {path_dst}')
             write_collection(path_dst, content, L.settings)
