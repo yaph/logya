@@ -96,8 +96,12 @@ def read(path, paths):
     # Use file modification time for created and updated attributes if not set in document.
     modified = datetime.fromtimestamp(path.stat().st_mtime)
     for attr in ['created', 'updated']:
-        if attr not in doc:
-            doc[attr] = modified
+        doc[attr] = doc.get(attr, modified)
+        if isinstance(doc[attr], str):
+            try:
+                doc[attr] = datetime.fromisoformat(doc[attr])
+            except ValueError:
+                print(f'"{attr}" could not be converted to datetime. URL: {doc["url"]}')
 
     return doc
 
@@ -122,7 +126,7 @@ def read_all(paths, settings):
 
 
 def write_page(path, content, settings):
-    path.parent.mkdir(exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
 
     # Make all settings in site section available to templates.
     attrs = settings['site']
@@ -145,7 +149,7 @@ def write_page(path, content, settings):
 def write_collection(path, content, settings):
     """Write an auto-generated index.html file."""
 
-    path.parent.mkdir(exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
 
     attrs = settings['site']
     attrs['docs'] = content['docs']
