@@ -14,17 +14,14 @@ class Logya:
         self.paths = paths(dir_site=getattr(options, 'dir_site', None))
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
-        # Initialize template env and globel variables.
-        init_env(self.settings, self.index)
-        self.template_vars = self.settings['site']
-
-    def build_index(self):
+    def build(self):
         """Build index of documents and collections."""
 
-        self.index = read_all(self.settings)
+        self.index = read_all(self.paths, self.settings)
 
-    def write_index(self):
-        pass
+        # Initialize template env and global variables.
+        init_env(self.settings, self.index)
+        self.template_vars = self.settings['site']
 
     def info(self, msg):
         """Print message if in verbose mode."""
