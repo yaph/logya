@@ -15,7 +15,7 @@ class Logya:
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
         # Initialize template env and globel variables.
-        init_env(self.settings, self.index))
+        init_env(self.settings, self.index)
         self.template_vars = self.settings['site']
 
     def build_index(self):
