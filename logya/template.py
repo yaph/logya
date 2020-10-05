@@ -1,13 +1,34 @@
 # -*- coding: utf-8 -*-
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from operator import itemgetter
+
+from jinja2 import Environment, FileSystemLoader
 
 
 env = Environment(
     loader=FileSystemLoader('templates'),
-    autoescape=select_autoescape(),
     lstrip_blocks=True,
     trim_blocks=True
 )
+
+
+def _content_list(index: dict, url: str = '') -> list:
+    content = index.get(url)
+    if content:
+        return content.get('docs', [content.get('doc')])
+    return []
+
+
+def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
+    docs = []
+    if url:
+        docs = _content_list(index, url)
+    if not docs:
+        for doc_url, content in index.items():
+            if doc_url.startswith(url):
+                docs.extend(_content_list(index, doc_url))
+
+    reverse = True if sort_order == 'descending' else False
+    return sorted(docs, key=itemgetter(sort_attr), reverse=reverse)
 
 
 def init_env(settings, site_index):
@@ -20,6 +41,9 @@ def init_env(settings, site_index):
 
     # Get a document from its URL.
     env.globals['get_doc'] = lambda url: site_index.get(url)['doc']
+
+    # Get documents from a URL.
+    env.globals['get_docs'] = lambda **kwargs: _get_docs(site_index, **kwargs)
 
     # Filter docs list where the given attribute contains the given value.
     env.filters['attr_contains'] = lambda docs, attr, val: [
