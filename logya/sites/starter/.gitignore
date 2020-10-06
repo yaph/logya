@@ -1,7 +1,0 @@
-# Logya
-public/
-*.log
-
-# nodejs
-node_modules/
-.sass-cache

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Run this script from your Logya site directory, e. g.:
-# python scripts/site_index.py
+# python bin/site_index.py
 import json
 
 from logya.core import Logya

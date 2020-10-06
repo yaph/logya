@@ -1,8 +1,8 @@
 ---
-title: Sample Post 2
+title: Using Tags
 created: 2015-05-18 19:07:11
 template: post.html
-tags: [tag2, all]
+tags: [example, documentation]
 ---
 Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac
 cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
