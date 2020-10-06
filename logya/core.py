@@ -14,14 +14,18 @@ class Logya:
         self.paths = paths(dir_site=getattr(options, 'dir_site', None))
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
+        # Initialize index so scripts can generate indexed content before build.
+        self.index = {}
+
     def build(self):
         """Build index of documents and collections."""
 
-        self.index = read_all(self.paths, self.settings)
+        # Previously indexed content can exist. If a document exists in the read directory with the same URL as an
+        # already indexed content object, the existing object will be overridden.
+        self.index.update(read_all(self.paths, self.settings))
 
-        # Initialize template env and global variables.
+        # Initialize template env.
         init_env(self.settings, self.index)
-        self.template_vars = self.settings['site']
 
     def info(self, msg):
         """Print message if in verbose mode."""

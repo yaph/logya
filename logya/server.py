@@ -7,6 +7,7 @@ from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
 from logya.content import add_collections, read, write_collection, write_page
+from logya.template import env
 from logya.util import filepath
 
 
@@ -71,16 +72,14 @@ def update_resource(path, L):
 
 
 def serve(options):
-    base_url = f'http://{options.host}:{options.port}'
-
     L = Logya(options)
     L.build()
-
-    # FIXME L_template.vars not used in write_page and write_collection
-    # L.template_vars['base_url'] = base_url
-    # L.template_vars['debug'] = True
-
+    # Make Logya object accessible to server.
     HTTPRequestHandler.L = L
+
+    # Make sure absolute links work.
+    base_url = f'http://{options.host}:{options.port}'
+    env.globals['base_url'] = base_url
 
     # Avoid "OSError: [Errno 98] Address already in use"
     socketserver.TCPServer.allow_reuse_address = True
