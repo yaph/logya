@@ -10,11 +10,11 @@ from logya.server import serve
 
 def main():
     parent = argparse.ArgumentParser(add_help=False)
-    parent.add_argument('--version', '-V', action='version', version=__version__)
     parent.add_argument('--verbose', '-v', action='store_true', help='Print info messages during execution.')
     parent.add_argument('--dir_site', '-d', help='Path to Web site directory, absolute or relative to current working directory.')
 
     parser = argparse.ArgumentParser(description='Logya a static Web site generator.')
+    parser.add_argument('--version', '-V', action='version', version=__version__)
     subparsers = parser.add_subparsers()
 
     # create a basic site with the given name
@@ -38,6 +38,8 @@ def main():
     args = parser.parse_args()
     if getattr(args, 'func', None):
         args.func(args)
+    else:
+        parser.print_help()
 
 
 if __name__ == '__main__':
