@@ -56,12 +56,16 @@ def content_type(path):
 
 
 def create_url(path):
+    # index.md -> /
     # path/to/name.md -> /path/to/name/
     # path/to/index.md -> /path/to/
     if 'index' == path.stem:
         path = Path(path.parent)
     else:
-        path = Path(path.parent, path.stem)
+        path = path.parent.joinpath(path.stem)
+
+    if not path.parts:
+        return '/'
 
     return f'/{"/".join(slugify(p) for p in path.parts)}/'
 
