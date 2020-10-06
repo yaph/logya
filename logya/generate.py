@@ -5,6 +5,7 @@ from shutil import copytree
 
 from logya.core import Logya
 from logya.content import write_collection, write_page
+from logya.util import filepath
 
 
 def generate(options):
@@ -22,7 +23,7 @@ def generate(options):
 
     print('Write documents.')
     for url, content in L.index.items():
-        path_dst = L.paths.public.joinpath(url.lstrip('/'), 'index.html')
+        path_dst = filepath(L.paths.public, url)
         if 'doc' in content:
             L.info(f'Write document page to: {path_dst}')
             write_page(path_dst, content, L.settings)

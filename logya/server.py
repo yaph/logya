@@ -7,6 +7,7 @@ from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
 from logya.content import add_collections, read, write_collection, write_page
+from logya.util import filepath
 
 
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -29,13 +30,13 @@ def update_resource(path, L):
     For other HTML resources the whole `L.index` is updated and the destination is newly written."""
 
     # Use only the actual path and ignore possible query params (see issue #3).
-    path = unquote(urlparse(path).path)
-    path_rel = path.lstrip('/')
+    url = unquote(urlparse(path).path)
+    url_rel = path.lstrip('/')
 
     # If a static file is requested update it and return.
-    src_static = L.paths.static.joinpath(path_rel)
+    src_static = L.paths.static.joinpath(url_rel)
     if src_static.is_file():
-        dst_static = L.paths.public.joinpath(path_rel)
+        dst_static = L.paths.public.joinpath(url_rel)
         dst_static.parent.mkdir(exist_ok=True)
         if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
             L.info(f'Update static resource: {dst_static}')
@@ -43,16 +44,16 @@ def update_resource(path, L):
         return
 
     # Rebuild index for HTML file requests which are not in index.
-    if path.endswith(('/', '.html', '.htm')) and path not in L.index:
+    if url.endswith(('/', '.html', '.htm')) and path not in L.index:
         L.info(f'Rebuild index for request URL: {path}')
         L.build()
 
-    # Requested path does not exist.
-    if path not in L.index:
+    # Requested url does not exist.
+    if url not in L.index:
         return
 
     content = L.index[path]
-    path_dst = L.paths.public.joinpath(path_rel, 'index.html')
+    path_dst = filepath(L.paths.public, url)
 
     # Update content document.
     if 'doc' in content:
