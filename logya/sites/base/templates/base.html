@@ -4,18 +4,24 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title itemprop="name">{{ title }}</title>
     {% if description %}<meta name="description" content="{{ description }}">{% endif %}
     {% if author %}<meta name="author" content="{{ author }}">{% endif %}
     {% if image %}<meta property="og:image" content="{{ base_url }}{{ image }}">{% endif %}
-
     {% block meta %}{% endblock %}
-
-    <link href="{{ canonical }}" rel="canonical" itemprop="url">
-    <link href="/rss.xml" rel="alternate" type="application/rss+xml" title="RSS feed">
+    <link rel="canonical" itemprop="url" href="{{ canonical }}">
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic@6.5.3/picnic.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    {% block content %}{% endblock %}
+    <nav>
+        <a class="button" href="/">Home</a>
+        <a class="button" href="/about/">About</a>
+        <a class="button" href="/contact/">Contact</a>
+    </nav>
+    <section>
+        {% block content %}{% endblock %}
+    </section>
 </body>
 </html>
