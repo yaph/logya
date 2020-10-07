@@ -56,10 +56,9 @@ def content_type(path):
         return 'markdown'
 
 
-def create_url(path):
-    # index.md -> /
-    # path/to/name.md -> /path/to/name/
-    # path/to/index.md -> /path/to/
+def create_url(path: Path) -> str:
+    """Return document URL based on source file path."""
+
     if 'index' == path.stem:
         path = Path(path.parent)
     else:
