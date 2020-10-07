@@ -18,6 +18,19 @@ directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
 
 
+def deduplicate(li: list, attr: str):
+    """Return a list without duplicates, based on value of given attribute."""
+    result = []
+    seen = set()
+    for item in li:
+        value = frozenset(item[attr])
+        if value in seen:
+            continue
+        result.append(item)
+        seen.add(value)
+    return result
+
+
 def encode_content(headers, body):
     """Encode headers and body in content format."""
 
