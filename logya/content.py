@@ -36,6 +36,7 @@ def add_collections(doc, site_index, collections):
                 for idx, collection_doc in enumerate(content['docs']):
                     if doc['url'] == collection_doc['url']:
                         site_index[collection_url]['docs'][idx].update(doc)
+                        break
                 else:
                     content['docs'].append(doc)
             else:
