@@ -1,8 +1,9 @@
 ---
 title: Using Tags
-created: 2015-05-18 19:07:11
+description: An example post showing how to use tags.
+created: 2020-10-07 22:08:20
 template: post.html
-tags: [example, documentation]
+tags: [Example, Example, Example, Documentation]
 ---
 Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac
 cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit

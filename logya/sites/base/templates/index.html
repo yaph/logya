@@ -6,13 +6,11 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-<ul>
 {% for doc in docs %}
-    <li>
-        <h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2>
-        <p>{{ doc.created.strftime('%B %d, %Y') }}</p>
-        <p>{{ doc.description }}</p>
-    </li>
+<article class="card">
+    <header><h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2></header>
+    <p>{{ doc.description }}</p>
+    <footer>{{ doc.created.strftime('%B %d, %Y') }}</footer>
+</article>
 {% endfor %}
-</ul>
 {% endblock %}

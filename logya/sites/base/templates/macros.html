@@ -1,0 +1,5 @@
+{% macro collection_links(collection, separator=', ') %}
+{% for url, anchor in collection %}
+<a href="{{ url }}">{{ anchor }}</a>{% if not loop.last %}{{ separator }}{% endif %}
+{% endfor %}
+{% endmacro %}
