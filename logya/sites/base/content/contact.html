@@ -21,16 +21,15 @@ noindex: 1
             Woolton, Liverpool, Merseyside<br>
             England
         </address>
-        </div>
+    </div>
 </div>
 
 <script>
 document.getElementById('sendmail').onsubmit = () => {
-    let subject = document.getElementById('subject').value;
-    let message = document.getElementById('message').value;
-    let href = `mailto:name@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    let subject = encodeURIComponent(document.getElementById('subject').value);
+    let message = encodeURIComponent(document.getElementById('message').value);
     let a = document.createElement('a');
-    a.href = href;
+    a.href = `mailto:name@example.com?subject=${subject}&body=${message}`;
     a.click();
     return false;
 }
