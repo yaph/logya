@@ -3,6 +3,8 @@ from operator import itemgetter
 
 from jinja2 import Environment, FileSystemLoader
 
+from logya.util import deduplicate
+
 
 env = Environment(
     loader=FileSystemLoader('templates'),
@@ -18,6 +20,24 @@ def _content_list(index: dict, url: str = '') -> list:
     return []
 
 
+def _collection_index(
+        docs: list,
+        non_ascii_key='_',
+        sort_attr: str = 'created',
+        sort_order: str = 'descending') -> dict:
+    """Return an alphabetical index for a collection, i. e. a list of (URL, name) tuples.
+    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
+    """
+    pass
+    # collection_index = {}
+    # for t in collection:
+    #     key = t[1].lower()[0]
+    #     if key not in ascii_lowercase:
+    #         key = non_ascii_key
+    #     collection_index[key] = index.get(key, []) + [t]
+    # return {key: sorted(collection_index[key]) for key in sorted(collection_index.keys())}
+
+
 def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     if url:
@@ -28,7 +48,7 @@ def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order
                 docs.extend(_content_list(index, doc_url))
 
     reverse = True if sort_order == 'descending' else False
-    return sorted(docs, key=itemgetter(sort_attr), reverse=reverse)
+    return sorted(deduplicate(docs, attr='url'), key=itemgetter(sort_attr), reverse=reverse)
 
 
 def init_env(settings, site_index):
@@ -44,6 +64,9 @@ def init_env(settings, site_index):
 
     # Get documents from a URL.
     env.globals['get_docs'] = lambda **kwargs: _get_docs(site_index, **kwargs)
+
+    # Return an alphabetical index for a collection.
+    env.globals['collection_index'] = lambda **kwargs: _collection_index(site_index, **kwargs)
 
     # Filter docs list where the given attribute contains the given value.
     env.filters['attr_contains'] = lambda docs, attr, val: [
