@@ -98,10 +98,12 @@ def parse(content, content_type=None):
     """Parse document and return a dictionary of header fields and body."""
 
     # Extract YAML header and body and load header into dict.
-    pos1 = content.index('---')
-    pos2 = content.index('---', pos1 + 1)
-    header = content[pos1:pos2].strip()
-    body = content[pos2 + 3:].strip()
+    lines = content.splitlines()
+
+    header_start = lines.index('---') + 1
+    header_end = lines[header_start:].index('---') + 1
+    header = '\n'.join(lines[header_start:header_end])
+    body = '\n'.join(lines[header_end + 1:]).strip()
     parsed = load_yaml(header)
     parsed['body'] = body
     return parsed
