@@ -18,7 +18,7 @@ directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
 
 
-def deduplicate(li: list, attr: str):
+def deduplicate(li: list, attr: str) -> list:
     """Return a list without duplicates, based on value of given attribute."""
     result = []
     seen = set()
@@ -31,10 +31,10 @@ def deduplicate(li: list, attr: str):
     return result
 
 
-def encode_content(headers, body):
+def encode_content(headers: dict, body: str) -> str:
     """Encode headers and body in content format."""
 
-    return '---\n{}\n---\n{}'.format(dump(headers, Dumper=Dumper).strip(), body)
+    return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
 
 
 # FIXME use tests in test_canonical_filename
@@ -51,10 +51,12 @@ def filepath(base: Path, url: str) -> Path:
 
 
 def load_yaml(text: str) -> dict:
+    """Wrapper for yaml.load so yaml import is done only once."""
+
     return load(text, Loader=Loader)
 
 
-def paths(dir_site: str = None) -> dict:
+def paths(dir_site: str = None) -> Paths:
     if dir_site:
         root = Path(dir_site)
     else:

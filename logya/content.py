@@ -70,7 +70,9 @@ def add_collections(doc, site_index, collections):
                 }
 
 
-def content_type(path):
+def content_type(path: Path) -> str:
+    """Return content type based in file extensions."""
+
     if path.suffix in ['.html', '.htm']:
         return 'html'
     if path.suffix in ['.md', '.markdown']:
@@ -94,7 +96,7 @@ def create_url(path: Path) -> str:
     return f'/{"/".join(slugify(p) for p in path.parts)}{suffix}'
 
 
-def parse(content, content_type=None):
+def parse(content: str, content_type: str = None) -> dict:
     """Parse document and return a dictionary of header fields and body."""
 
     # Extract YAML header and body and load header into dict.
@@ -109,7 +111,7 @@ def parse(content, content_type=None):
     return parsed
 
 
-def read(path, paths):
+def read(path: Path, paths) -> str:
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
