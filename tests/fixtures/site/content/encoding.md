@@ -1,8 +1,6 @@
 ---
-url: /encoding/
-title: Test Encoding
+title: Encoding Example
 created: 2013-09-27 18:30:47
-template: page-with-sidebar.html
-noindex: 1
+template: page.html
 ---
 Test Encoding of md files: öäüßáóúíé
