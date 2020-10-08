@@ -16,10 +16,11 @@ def test_create_url():
         ('index.md', '/'),
         ('sitemap.xml', '/sitemap.xml'),
         ('path/to/index.md', '/path/to/'),
-        ('path/to/name.md', '/path/to/name/')]:
-
+        ('path/to/name.md', '/path/to/name/'),
+        ('path/to/my name.md', '/path/to/my-name/'),
+        ('path/to/My Name.md', '/path/to/My-Name/'),
+    ]:
         assert logya.content.create_url(Path(value)) == expected
-
 
 
 def test_read_markdown():

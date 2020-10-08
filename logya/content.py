@@ -5,7 +5,6 @@ from pathlib import Path
 
 from markdown import markdown
 
-from logya import allowed_exts
 from logya.template import render
 from logya.util import load_yaml, slugify
 
@@ -14,6 +13,28 @@ markdown_extensions = [
     'markdown.extensions.attr_list',
     'markdown.extensions.def_list',
     'markdown.extensions.fenced_code']
+
+# Extensions of content files that will be processed.
+process_extensions = {
+    '.html',
+    '.htm',
+    '.xml',
+    '.json',
+    '.js',
+    '.css',
+    '.php',
+    '.md',
+    '.markdown',
+    '.txt'
+}
+
+# Extensions of content files that will be removed.
+remove_extensions = {
+    '.htm',
+    '.html',
+    '.markdown',
+    '.md'
+}
 
 
 def add_collections(doc, site_index, collections):
@@ -59,15 +80,18 @@ def content_type(path):
 def create_url(path: Path) -> str:
     """Return document URL based on source file path."""
 
-    if 'index' == path.stem:
-        path = Path(path.parent)
-    else:
-        path = path.parent.joinpath(path.stem)
+    suffix = ''
+    if path.suffix in remove_extensions:
+        suffix = '/'
+        if 'index' == path.stem:
+            path = Path(path.parent)
+        else:
+            path = path.parent.joinpath(path.stem)
 
     if not path.parts:
         return '/'
 
-    return f'/{"/".join(slugify(p) for p in path.parts)}/'
+    return f'/{"/".join(slugify(p) for p in path.parts)}{suffix}'
 
 
 def parse(content, content_type=None):
@@ -118,7 +142,7 @@ def read_all(paths, settings):
     for root, _, files in walk(paths.content):
         for f in files:
             path = Path(root, f)
-            if path.suffix.lstrip('.') not in allowed_exts:
+            if path not in process_extensions:
                 continue
             doc = read(path, paths)
             if doc:
