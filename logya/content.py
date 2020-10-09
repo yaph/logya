@@ -104,35 +104,36 @@ def read(path: Path, path_rel: Path) -> str:
     return doc
 
 
-def write_page(path, content, settings):
-    path.parent.mkdir(parents=True, exist_ok=True)
+def template_attrs(content: dict, settings: dict) -> dict:
+    """Return dictionary created from site settings and content.
+
+    Site settings may be overridden by content."""
 
     # Make all settings in site section available to templates.
-    attrs = settings['site']
+    attrs = settings['site'].copy()
 
-    # Make doc attributes available to templates.
-    attrs.update(content['doc'])
+    # Set canonical URL, that can be overridden in content.
+    attrs['canonical'] = attrs['base_url'] + content['url']
 
-    # Set additional template variables.
-    attrs['canonical'] = settings['site']['base_url'] + attrs['url']
+    # Make content attributes available to templates.
+    attrs.update(content)
 
-    if 'body' in attrs and content_type(content['path']) == 'markdown':
-        attrs['body'] = markdown(attrs['body'], extensions=markdown_extensions)
-
-    if 'template' in attrs:
-        path.write_text(render(attrs['template'], attrs, pre_render='body'))
-    else:
-        path.write_text(attrs.get('body', ''))
+    return attrs
 
 
-def write_collection(path, content, settings):
-    """Write an auto-generated index.html file."""
+def write_page(path: Path, content: dict, settings: dict):
+    """Write a content page."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
+    attrs = template_attrs(content['doc'], settings)
+    if 'body' in attrs and content_type(content['path']) == 'markdown':
+        attrs['body'] = markdown(attrs['body'], extensions=markdown_extensions)
+    path.write_text(render(attrs['template'], attrs, pre_render='body'))
 
-    attrs = settings['site']
-    attrs['docs'] = content['docs']
-    attrs['title'] = content['title']
-    attrs['canonical'] = settings['site']['base_url'] + content['url']
 
-    path.write_text(render(content['template'], attrs))
+def write_collection(path: Path, content: dict, settings: dict):
+    """Write a collection page."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    attrs = template_attrs(content, settings)
+    path.write_text(render(attrs['template'], attrs))
