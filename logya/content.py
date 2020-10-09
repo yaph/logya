@@ -111,7 +111,7 @@ def parse(content: str, content_type: str = None) -> dict:
     return parsed
 
 
-def read(path: Path, paths) -> str:
+def read(path: Path, path_rel: Path) -> str:
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
@@ -123,7 +123,7 @@ def read(path: Path, paths) -> str:
     doc['title'] = doc.get('title', path.stem)
 
     # URLs set in the document are prioritized and left unchanged.
-    doc['url'] = doc.get('url', create_url(path.relative_to(paths.content)))
+    doc['url'] = doc.get('url', create_url(path_rel))
 
     # Use file modification time for created and updated attributes if not set in document.
     modified = datetime.fromtimestamp(path.stat().st_mtime)
