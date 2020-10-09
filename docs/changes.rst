@@ -21,7 +21,7 @@ This release includes several backwards incompatible changes, most notably it dr
 * Only rebuilt the index in serve mode when a requested URL is not in the index.
 * The template to use for a file in content must be specified as the header attribute `template`.
 * FIXME document breaking change from dir_*
-* FIXME document special attributes: body, url, template, title
+* FIXME document special attributes: body, url, template, title, created, updated
 
 4.7.1
 -----
