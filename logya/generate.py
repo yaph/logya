@@ -21,12 +21,14 @@ def generate(options):
         print('Copy static files.')
         copytree(L.paths.static, L.paths.public, dirs_exist_ok=True)  # dirs_exist_ok requires Python 3.8
 
-    print('Write documents.')
+    print('Write pages.')
     for url, content in L.index.items():
         path_dst = filepath(L.paths.public, url)
-        if 'doc' in content:
-            L.info(f'Write document page to: {path_dst}')
-            write_page(path_dst, content, L.settings)
-        elif 'docs' in content:
-            L.info(f'Write collection page to: {path_dst}')
+        L.info(f'Write page: {path_dst}')
+        write_page(path_dst, content, L.settings)
+
+    for name, coll in L.collections.items():
+        for url, content in coll['index'].items():
+            path_dst = filepath(L.paths.public, url)
+            L.info(f'Write collection: {path_dst}')
             write_collection(path_dst, content, L.settings)

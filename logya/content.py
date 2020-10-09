@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from os import walk
 from pathlib import Path
 
 from markdown import markdown
@@ -35,39 +34,6 @@ remove_extensions = {
     '.markdown',
     '.md'
 }
-
-
-def add_collections(doc, site_index, collections):
-    for attr, values in doc.copy().items():
-        if attr not in collections:
-            continue
-        root = collections[attr]['path']
-        for value in values:
-            collection_url = f'/{root}/{slugify(value).lower()}/'
-            # Add attribute for creating collection links in templates.
-            links = attr + '_links'
-            doc[links] = doc.get(links, []) + [(collection_url, value)]
-
-            content = site_index.get(collection_url)
-            if content:
-                if 'doc' in content:
-                    print(f'Index at {collection_url} will not be created, because a content document exists.')
-                    continue
-                # If doc is already in collection update it.
-                for idx, collection_doc in enumerate(content['docs']):
-                    if doc['url'] == collection_doc['url']:
-                        site_index[collection_url]['docs'][idx].update(doc)
-                        break
-                else:
-                    content['docs'].append(doc)
-            else:
-                site_index[collection_url] = {
-                    'docs': [doc],
-                    'title': value,
-                    'path': root,  # FIXME avoid setting path, it is confusing because not a pathlib Path
-                    'template': collections[attr]['template'],
-                    'url': collection_url
-                }
 
 
 def content_type(path: Path) -> str:
@@ -136,25 +102,6 @@ def read(path: Path, path_rel: Path) -> str:
                 print(f'"{attr}" could not be converted to datetime. URL: {doc["url"]}')
 
     return doc
-
-
-def read_all(paths, settings):
-    # Index mapping URLs to content objects
-    index = {}
-    collections = settings.get('collections')
-
-    for root, _, files in walk(paths.content):
-        for f in files:
-            path = Path(root, f)
-            if path not in process_extensions:
-                continue
-            doc = read(path, paths)
-            if doc:
-                if collections:
-                    add_collections(doc, index, collections)
-                index[doc['url']] = {'doc': doc, 'path': path}
-
-    return index
 
 
 def write_page(path, content, settings):

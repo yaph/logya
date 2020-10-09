@@ -6,7 +6,7 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import add_collections, read, write_collection, write_page
+from logya.content import read, write_collection, write_page
 from logya.template import env
 from logya.util import filepath
 
@@ -33,6 +33,7 @@ def update_resource(path, L):
     # Use only the actual path and ignore possible query params (see issue #3).
     url = unquote(urlparse(path).path)
     url_rel = path.lstrip('/')
+    path_dst = filepath(L.paths.public, url)
 
     # If a static file is requested update it and return.
     src_static = L.paths.static.joinpath(url_rel)
@@ -44,31 +45,25 @@ def update_resource(path, L):
             copyfile(src_static, dst_static)
         return
 
-    # Rebuild index for HTML file requests which are not in index.
-    if url.endswith(('/', '.html', '.htm')) and path not in L.index:
-        L.info(f'Rebuild index for request URL: {path}')
-        L.build()
-
-    # Requested url does not exist.
-    if url not in L.index:
-        return
-
-    content = L.index[path]
-    path_dst = filepath(L.paths.public, url)
-
-    # Update content document.
-    if 'doc' in content:
-        content['doc'] = read(content['path'], L.paths)
-        if 'collections' in L.settings:
-            add_collections(content['doc'], L.index, L.settings['collections'])
+    # Update content page.
+    if content := L.index.get(url):
+        content['doc'] = read(content['path'], content['path'].relative_to(L.paths.content))
+        if L.collections:
+            L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
         write_page(path_dst, content, L.settings)
         L.info(f'Refreshed doc at URL: {path}')
 
     # Update collection page.
-    if 'docs' in content:
-        write_collection(path_dst, content, L.settings)
-        L.info(f'Refreshed collection: {path}')
+    elif coll := L.collections.get(url.split('/')[1]):
+        if content := coll['index'].get(url):
+            write_collection(path_dst, content, L.settings)
+            L.info(f'Refreshed collection: {path}')
+
+    # Rebuild index for other HTML file requests.
+    elif url.endswith(('/', '.html', '.htm')):
+        L.info(f'Rebuild site for request URL: {path}')
+        L.build()
 
 
 def serve(options):

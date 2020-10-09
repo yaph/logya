@@ -2,9 +2,9 @@
 from os import walk
 from pathlib import Path
 
-from logya.content import read
+from logya.content import read, process_extensions
 from logya.template import init_env
-from logya.util import load_yaml, paths, process_extensions, slugify
+from logya.util import load_yaml, paths, slugify
 
 
 class Logya:
@@ -47,7 +47,7 @@ class Logya:
         for root, _, files in walk(self.paths.content):
             for f in files:
                 path = Path(root, f)
-                if path not in process_extensions:
+                if path.suffix not in process_extensions:
                     continue
                 doc = read(path, path.relative_to(self.paths.content))
                 if doc:
@@ -58,7 +58,8 @@ class Logya:
     def update_collections(self, doc: dict):
         """Update collections index for given doc."""
 
-        for attr, values in doc.items():
+        # Iterate over copy so attributes can be added.
+        for attr, values in doc.copy().items():
             if attr not in self.collections:
                 continue
             coll = self.collections[attr]
@@ -82,5 +83,6 @@ class Logya:
                     coll['index'][url] = {
                         'docs': [doc],
                         'title': value,
-                        'template': coll['template']
+                        'template': coll['template'],
+                        'url': url
                     }
