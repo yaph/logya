@@ -9,21 +9,19 @@ Changes
 TODO
 ====
 
-* Front page of base site not refreshed in serve mode.
 * In Logya create: copy content from base site first and then selected theme.
 * Rename site to theme.
 * Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
-* sitemap.xml directory is generated in public instead of file.
-* Implement noindex attribute for docs.
+* Document noindex usage for docs.
 
 This release includes several backwards incompatible changes, most notably it drops Python 2 support.
 
-* Don't lower case URL parts created from file locations, so URLs are case sensitive.
 * Rename the `deploy` directory to `public` and the attribute `dir_deploy` to `dir_public`.
 * Avoid "OSError: [Errno 98] Address already in use" by allowing address reuse.
 * Only rebuilt the index in serve mode when a requested URL is not in the index.
+* The template to use for a file in content must be specified as the header attribute `template`.
 * FIXME document breaking change from dir_*
-* FIXME reserved attributes: body, url, title
+* FIXME document special attributes: body, url, template, title
 
 4.7.1
 -----
