@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from operator import itemgetter
+from string import ascii_lowercase
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -21,21 +22,30 @@ def _content_list(index: dict, url: str = '') -> list:
 
 
 def _collection_index(
-        docs: list,
+        collections: dict,
+        name: str,
         non_ascii_key='_',
-        sort_attr: str = 'created',
-        sort_order: str = 'descending') -> dict:
+        sort_attr: str = 'title',
+        sort_order: str = 'ascending') -> dict:
     """Return an alphabetical index for a collection, i. e. a list of (URL, name) tuples.
     All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
     """
-    pass
-    # collection_index = {}
-    # for t in collection:
-    #     key = t[1].lower()[0]
-    #     if key not in ascii_lowercase:
-    #         key = non_ascii_key
-    #     collection_index[key] = index.get(key, []) + [t]
-    # return {key: sorted(collection_index[key]) for key in sorted(collection_index.keys())}
+
+    if name not in collections:
+        return
+
+    index = {}
+
+    for url, coll in collections[name]['index'].items():
+        value = coll[sort_attr]
+        key = value.lower()[0]
+        if key not in ascii_lowercase:
+            key = non_ascii_key
+        index[key] = index.get(key, []) + [coll]
+
+    reverse = False if sort_order == 'ascending' else True
+    keys = sorted(index.keys(), reverse=reverse)
+    return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
 def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
@@ -51,7 +61,7 @@ def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order
     return sorted(deduplicate(docs, attr='url'), key=itemgetter(sort_attr), reverse=reverse)
 
 
-def init_env(settings, site_index):
+def init_env(L):
     # Enable break and continue in templates.
     env.add_extension('jinja2.ext.loopcontrols')
     # Enable with statement for nested variable scopes.
@@ -60,13 +70,16 @@ def init_env(settings, site_index):
     env.add_extension('jinja2.ext.do')
 
     # Get a document from its URL.
-    env.globals['get_doc'] = lambda url: site_index.get(url)['doc']
+    env.globals['get_doc'] = lambda url: L.index.get(url)['doc']
 
     # Get documents from a URL.
-    env.globals['get_docs'] = lambda **kwargs: _get_docs(site_index, **kwargs)
+    env.globals['get_docs'] = lambda **kwargs: _get_docs(L.index, **kwargs)
+
+    # Get collection from its name.
+    env.globals['get_collection'] = lambda name: L.collections.get(name)
 
     # Return an alphabetical index for a collection.
-    env.globals['collection_index'] = lambda **kwargs: _collection_index(site_index, **kwargs)
+    env.globals['collection_index'] = lambda name, **kwargs: _collection_index(L.collections, name, **kwargs)
 
     # Filter docs list where the given attribute contains the given value.
     env.filters['attr_contains'] = lambda docs, attr, val: [

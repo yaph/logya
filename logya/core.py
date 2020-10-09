@@ -29,7 +29,7 @@ class Logya:
         self.read_content()
 
         # Initialize template env.
-        init_env(self.settings, self.index)
+        init_env(self)
 
     def info(self, msg: str):
         """Print message if in verbose mode."""
