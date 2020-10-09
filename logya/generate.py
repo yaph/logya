@@ -24,7 +24,7 @@ def generate(options):
     print('Write pages.')
     for url, content in L.index.items():
         path_dst = filepath(L.paths.public, url)
-        L.info(f'Write page: {path_dst}')
+        L.info(f'Write content: {path_dst}')
         write_page(path_dst, content, L.settings)
 
     for name, coll in L.collections.items():
