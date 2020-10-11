@@ -30,6 +30,27 @@ def get_collection_name(path, settings):
             return name
 
 
+def update_page(url: str, L):
+    """Update content or collection page."""
+
+    path_dst = filepath(L.paths.public, url)
+
+    if content := L.index.get(url):
+        content['doc'] = read(content['path'], content['path'].relative_to(L.paths.content))
+        if L.collections:
+            L.update_collections(content['doc'])
+        # Always write doc because of possible template changes.
+        write_page(path_dst, content, L.settings)
+        L.info(f'Refreshed doc: {url}')
+        return True
+
+    if coll := L.collections.get(get_collection_name(url.split('/')[1], L.settings)):
+        if content := coll['index'].get(url):
+            write_collection(path_dst, content, L.settings)
+            L.info(f'Refreshed collection: {url}')
+            return True
+
+
 def update_resource(path, L):
     """Update resource corresponding to given url.
 
@@ -38,8 +59,7 @@ def update_resource(path, L):
 
     # Use only the actual path and ignore possible query params (see issue #3).
     url = unquote(urlparse(path).path)
-    url_rel = path.lstrip('/')
-    path_dst = filepath(L.paths.public, url)
+    url_rel = url.lstrip('/')
 
     # If a static file is requested update it and return.
     src_static = L.paths.static.joinpath(url_rel)
@@ -51,25 +71,15 @@ def update_resource(path, L):
             copyfile(src_static, dst_static)
         return
 
-    # Update content page.
-    if content := L.index.get(url):
-        content['doc'] = read(content['path'], content['path'].relative_to(L.paths.content))
-        if L.collections:
-            L.update_collections(content['doc'])
-        # Always write doc because of possible template changes.
-        write_page(path_dst, content, L.settings)
-        L.info(f'Refreshed doc: {path}')
+    # Update content or collection existing in respective index.
+    if update_page(url, L):
+        return
 
-    # Update collection page.
-    elif coll := L.collections.get(get_collection_name(url.split('/')[1], L.settings)):
-        if content := coll['index'].get(url):
-            write_collection(path_dst, content, L.settings)
-            L.info(f'Refreshed collection: {path}')
-
-    # Rebuild index for other HTML file requests.
-    # elif url.endswith(('/', '.html', '.htm')):
-    #     L.info(f'Rebuild site for request URL: {path}')
-    #     L.build()
+    # Rebuild indexes for other HTML file requests and try again to update page in case of new content.
+    if url.endswith(('/', '.html', '.htm')):
+        L.info(f'Rebuild site for request URL: {url}')
+        L.build()
+        update_page(url, L)
 
 
 def serve(options):
