@@ -24,6 +24,12 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super(HTTPRequestHandler, self).do_GET()
 
 
+def get_collection_name(path, settings):
+    for name, coll in settings['collections'].items():
+        if path == coll['path']:
+            return name
+
+
 def update_resource(path, L):
     """Update resource corresponding to given url.
 
@@ -52,18 +58,18 @@ def update_resource(path, L):
             L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
         write_page(path_dst, content, L.settings)
-        L.info(f'Refreshed doc at URL: {path}')
+        L.info(f'Refreshed doc: {path}')
 
     # Update collection page.
-    elif coll := L.collections.get(url.split('/')[1]):
+    elif coll := L.collections.get(get_collection_name(url.split('/')[1], L.settings)):
         if content := coll['index'].get(url):
             write_collection(path_dst, content, L.settings)
             L.info(f'Refreshed collection: {path}')
 
     # Rebuild index for other HTML file requests.
-    elif url.endswith(('/', '.html', '.htm')):
-        L.info(f'Rebuild site for request URL: {path}')
-        L.build()
+    # elif url.endswith(('/', '.html', '.htm')):
+    #     L.info(f'Rebuild site for request URL: {path}')
+    #     L.build()
 
 
 def serve(options):
