@@ -64,10 +64,14 @@ class Logya:
                 continue
             coll = self.collections[attr]
 
-            # Process unique values.
-            for value in set(values):
-                url = f'/{coll["path"]}/{slugify(value).lower()}/'
+            # Process unique values while preserving their order to handle potentially duplicate collection values.
+            seen = set()
+            for value in values:
+                if value in seen:
+                    continue
+                seen.add(value)
 
+                url = f'/{coll["path"]}/{slugify(value).lower()}/'
                 if url in self.index:
                     print(f'Collection not created because content exists at {url}.')
                     continue
