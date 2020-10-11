@@ -3,6 +3,7 @@ import re
 
 from collections import namedtuple
 from pathlib import Path
+from string import punctuation, whitespace
 
 from yaml import dump, load
 try:
@@ -12,7 +13,8 @@ except ImportError:
 
 
 # Characters not to be used in URLs
-re_forbidden = re.compile(r'[\s\/\?\+\{\}\|\\\[\]:;&$=]+')
+re_forbidden = re.compile(f'[{re.escape(punctuation + whitespace)}]+')
+
 
 directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
@@ -37,7 +39,6 @@ def encode_content(headers: dict, body: str) -> str:
     return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
 
 
-# FIXME use tests in test_canonical_filename
 def filepath(base: Path, url: str) -> Path:
     """Get a Path object pointing to a file.
 
@@ -71,7 +72,6 @@ def paths(dir_site: str = None) -> Paths:
     )
 
 
-# FIXME use tests in test_slugify
 def slugify(s: str) -> str:
     """Return string with forbidden characters replaced with hyphens.
 
