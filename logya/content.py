@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from operator import itemgetter
 from pathlib import Path
 
 from markdown import markdown
@@ -135,5 +136,6 @@ def write_collection(path: Path, content: dict, settings: dict):
     """Write a collection page."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
+    content['docs'].sort(key=itemgetter('created'), reverse=True)
     attrs = template_attrs(content, settings)
     path.write_text(render(attrs['template'], attrs))
