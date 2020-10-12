@@ -27,5 +27,7 @@ def test_slugify():
         ('Rock \'n\' Roll', 'Rock-n-Roll'),
         ('multiple   spaces', 'multiple-spaces'),
         ('c♯dim', 'c♯dim'),
+        ('_85QotzbzHY', '_85QotzbzHY'),
+        ('dot.dot', 'dot.dot'),
     ]:
         assert logya.util.slugify(value) == expected

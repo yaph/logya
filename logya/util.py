@@ -12,9 +12,9 @@ except ImportError:
     from yaml import Dumper, Loader
 
 
-# Characters not to be used in URLs
-re_forbidden = re.compile(f'[{re.escape(punctuation + whitespace)}]+')
-
+# Characters not to be used in URLs, allowing some punctuation.
+forbidden = (set(punctuation) - set('+-_.,@')) | set(whitespace)
+re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 
 directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
