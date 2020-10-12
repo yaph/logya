@@ -82,9 +82,13 @@ class Logya:
 
                 # Update or create collection index value.
                 if url in coll['index']:
-                    coll['index'][url]['docs'].append(doc)
+                    coll_data = coll['index'][url]
+                    if doc['url'] not in coll_data['doc_urls']:
+                        coll_data['doc_urls'].add(doc['url'])
+                        coll_data['docs'].append(doc)
                 else:
                     coll['index'][url] = {
+                        'doc_urls': {doc['url']},
                         'docs': [doc],
                         'title': value,
                         'template': coll['template'],
