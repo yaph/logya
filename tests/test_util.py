@@ -31,3 +31,7 @@ def test_slugify():
         ('dot.dot', 'dot.dot'),
     ]:
         assert logya.util.slugify(value) == expected
+
+
+def test_paths():
+    assert site_paths.public.as_posix() == 'tests/fixtures/site/public'
