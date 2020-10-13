@@ -16,17 +16,18 @@ markdown_extensions = [
 
 # Extensions of content files that will be processed.
 process_extensions = {
-    '.html',
-    '.htm',
-    '.xml',
-    '.json',
-    '.js',
     '.css',
-    '.php',
-    '.md',
+    '.htm',
+    '.html',
+    '.js',
+    '.json',
     '.markdown',
-    '.txt'
+    '.md',
+    '.php',
+    '.txt',
+    '.xml'
 }
+
 
 # Extensions of content files that will be removed.
 remove_extensions = {
@@ -40,9 +41,9 @@ remove_extensions = {
 def content_type(path: Path) -> str:
     """Return content type based in file extensions."""
 
-    if path.suffix in ['.html', '.htm']:
+    if path.suffix in {'.html', '.htm'}:
         return 'html'
-    if path.suffix in ['.md', '.markdown']:
+    if path.suffix in {'.md', '.markdown'}:
         return 'markdown'
 
 
@@ -61,6 +62,18 @@ def create_url(path: Path) -> str:
         return '/'
 
     return f'/{"/".join(slugify(p) for p in path.parts)}{suffix}'
+
+
+def filepath(base: Path, url: str) -> Path:
+    """Get a Path object pointing to a file.
+
+    If url does not end in a file name 'index.html' will be appended.
+    """
+
+    path = Path(base, url.lstrip('/'))
+    if not path.suffix or path.suffix not in process_extensions:
+        path = path.joinpath('index.html')
+    return path
 
 
 def parse(content: str, content_type: str = None) -> dict:

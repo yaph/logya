@@ -4,8 +4,7 @@ import shutil
 from shutil import copytree
 
 from logya.core import Logya
-from logya.content import write_collection, write_page
-from logya.util import filepath
+from logya.content import filepath, write_collection, write_page
 
 
 def generate(options):

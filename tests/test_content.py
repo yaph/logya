@@ -35,8 +35,22 @@ def test_create_url():
         assert logya.content.create_url(Path(value)) == expected
 
 
+def test_filepath():
+    for value, expected in [
+        ('chord', 'public/chord/index.html'),
+        ('/chord', 'public/chord/index.html'),
+        ('/chord/', 'public/chord/index.html'),
+        ('chord/am', 'public/chord/am/index.html'),
+        ('/chord/am', 'public/chord/am/index.html'),
+        ('/chord/am/', 'public/chord/am/index.html'),
+        ('/artist/ben-e.-king/', 'public/artist/ben-e.-king/index.html'),
+    ]:
+        assert logya.content.filepath(site_paths.public, value).as_posix().endswith(expected)
+
+
 def test_parse_separator():
-    doc = logya.content.read(Path(site_root, 'content', 'separator.md'), site_paths)
+    path_md = Path(site_root, 'content', 'separator.md')
+    doc = logya.content.read(path_md, path_md.relative_to(site_paths.content))
     assert '---' in doc['body']
     assert '---' in doc['title']
 

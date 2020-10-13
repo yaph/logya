@@ -6,9 +6,8 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import read, write_collection, write_page
+from logya.content import filepath, read, write_collection, write_page
 from logya.template import env
-from logya.util import filepath
 
 
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):

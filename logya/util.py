@@ -39,18 +39,6 @@ def encode_content(headers: dict, body: str) -> str:
     return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
 
 
-def filepath(base: Path, url: str) -> Path:
-    """Get a Path object pointing to a file.
-
-    If url does not end in a file name 'index.html' will be appended.
-    """
-
-    path = Path(base, url.lstrip('/'))
-    if not path.suffix:
-        path = path.joinpath('index.html')
-    return path
-
-
 def load_yaml(text: str) -> dict:
     """Wrapper for yaml.load so yaml import is done only once."""
 
