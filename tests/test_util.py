@@ -6,6 +6,18 @@ site_root = 'tests/fixtures/site/'
 site_paths = logya.util.paths(site_root)
 
 
+def test_deduplicate():
+    li = [
+        {'url': '/', 'name': 'root'},
+        {'url': '/', 'name': 'duplicate root'},
+        {'url': '/contact/', 'name': 'contact'},
+    ]
+    unique = logya.util.deduplicate(li, 'url')
+    assert len(unique) == len(li) - 1
+    assert unique[0]['name'] == 'root'
+    assert unique[1]['name'] == 'contact'
+
+
 def test_slugify():
     for value, expected in [
         ('ac/dc', 'ac-dc'),
@@ -22,4 +34,4 @@ def test_slugify():
 
 
 def test_paths():
-    assert site_paths.public.as_posix() == 'tests/fixtures/site/public'
+    assert site_paths.public.as_posix() == site_root + 'public'
