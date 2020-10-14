@@ -14,6 +14,29 @@ env = Environment(
 )
 
 
+def _alpha_index(
+        items: list,
+        non_ascii_key: str = '_',
+        sort_attr: str = 'title',
+        sort_order: str = 'ascending') -> dict:
+    """Return an alphabetical index for a list of dicts. All strings that do not start with an ASCII letter are stored
+    in `non_ascii_key`.
+    """
+
+    index = {}
+
+    for item in items:
+        value = item[sort_attr]
+        key = value.lower()[0]
+        if key not in ascii_lowercase:
+            key = non_ascii_key
+        index[key] = index.get(key, []) + [item]
+
+    reverse = False if sort_order == 'ascending' else True
+    keys = sorted(index.keys(), reverse=reverse)
+    return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
+
+
 def _content_list(index: dict, url: str = '') -> list:
     content = index.get(url)
     if content:
@@ -68,6 +91,8 @@ def init_env(L):
     env.add_extension('jinja2.ext.with_')
     # Enable expression-statement extension that adds the do tag.
     env.add_extension('jinja2.ext.do')
+
+    env.filters['alpha_index'] = _alpha_index
 
     # Get a document from its URL.
     env.globals['get_doc'] = lambda url: L.index.get(url)['doc']
