@@ -7,11 +7,11 @@ from logya.core import Logya
 from logya.content import filepath, write_collection, write_page
 
 
-def generate(options):
-    L = Logya(**vars(options))
+def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
+    L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
-    if not options.keep:
+    if not keep:
         print('Remove existing public directory.')
         shutil.rmtree(L.paths.public, ignore_errors=True)
 

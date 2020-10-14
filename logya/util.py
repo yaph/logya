@@ -45,12 +45,8 @@ def load_yaml(text: str) -> dict:
     return load(text, Loader=Loader)
 
 
-def paths(dir_site: str = None) -> Paths:
-    if dir_site:
-        root = Path(dir_site)
-    else:
-        root = Path.cwd()
-
+def paths(dir_site: str) -> Paths:
+    root = Path(dir_site)
     return Paths(
         root=root,
         content=root.joinpath('content'),

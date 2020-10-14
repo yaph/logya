@@ -81,18 +81,18 @@ def update_resource(path, L):
         update_page(url, L)
 
 
-def serve(options):
-    L = Logya(**vars(options))
+def serve(dir_site: str, verbose: bool, host: str, port: int):
+    L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
     # Make Logya object accessible to server.
     HTTPRequestHandler.L = L
 
     # Make sure absolute links work.
-    base_url = f'http://{options.host}:{options.port}'
+    base_url = f'http://{host}:{port}'
     env.globals['base_url'] = base_url
 
     # Avoid "OSError: [Errno 98] Address already in use"
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer((options.host, options.port), HTTPRequestHandler) as httpd:
+    with socketserver.TCPServer((host, port), HTTPRequestHandler) as httpd:
         print(f'Serving on {base_url}')
         httpd.serve_forever()
