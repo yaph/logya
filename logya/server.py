@@ -82,7 +82,7 @@ def update_resource(path, L):
 
 
 def serve(options):
-    L = Logya(options)
+    L = Logya(**vars(options))
     L.build()
     # Make Logya object accessible to server.
     HTTPRequestHandler.L = L

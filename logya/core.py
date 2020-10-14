@@ -10,11 +10,11 @@ from logya.util import load_yaml, paths, slugify
 class Logya:
     """Object to store data such as site index and settings."""
 
-    def __init__(self, options):
+    def __init__(self, dir_site: str = None, verbose: bool = False, **kwargs):
         """Set required logya object properties."""
 
-        self.verbose = getattr(options, 'verbose', False)
-        self.paths = paths(dir_site=getattr(options, 'dir_site', None))
+        self.verbose = verbose
+        self.paths = paths(dir_site=dir_site)
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
         # Initialize index and collections so scripts can generate indexed content before build.

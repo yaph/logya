@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pytest
+
 import logya.content
 import tests.fixtures.docs as docs
 
@@ -53,6 +55,18 @@ def test_parse_separator():
     doc = logya.content.read(path_md, path_md.relative_to(site_paths.content))
     assert '---' in doc['body']
     assert '---' in doc['title']
+
+
+def test_read_auto_url():
+    path_md = Path(site_root, 'content', 'separator.md')
+    doc = logya.content.read(path_md, path_md.relative_to(site_paths.content))
+    assert '/separator/' == doc['url']
+
+
+def test_read_missing_file():
+    path_md = Path(site_root, 'content', 'missing.md')
+    with pytest.raises(FileNotFoundError) as err:
+        doc = logya.content.read(path_md, path_md.relative_to(site_paths.content))
 
 
 # def test_parse_markdown_links():

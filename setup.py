@@ -51,5 +51,5 @@ setup(
         ]
     },
     test_suite='tests',
-    tests_require=['tox'],
+    tests_require=['pytest', 'tox'],
 )

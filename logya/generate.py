@@ -8,7 +8,7 @@ from logya.content import filepath, write_collection, write_page
 
 
 def generate(options):
-    L = Logya(options)
+    L = Logya(**vars(options))
     L.build()
 
     if not options.keep:
