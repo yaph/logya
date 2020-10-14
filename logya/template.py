@@ -44,33 +44,6 @@ def _content_list(index: dict, url: str = '') -> list:
     return []
 
 
-def _collection_index(
-        collections: dict,
-        name: str,
-        non_ascii_key='_',
-        sort_attr: str = 'title',
-        sort_order: str = 'ascending') -> dict:
-    """Return an alphabetical index for a collection, i. e. a list of (URL, name) tuples.
-    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
-    """
-
-    if name not in collections:
-        return
-
-    index = {}
-
-    for url, coll in collections[name]['index'].items():
-        value = coll[sort_attr]
-        key = value.lower()[0]
-        if key not in ascii_lowercase:
-            key = non_ascii_key
-        index[key] = index.get(key, []) + [coll]
-
-    reverse = False if sort_order == 'ascending' else True
-    keys = sorted(index.keys(), reverse=reverse)
-    return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
-
-
 def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     if url:
@@ -102,9 +75,6 @@ def init_env(L):
 
     # Get collection from its name.
     env.globals['get_collection'] = lambda name: L.collections.get(name)
-
-    # Return an alphabetical index for a collection.
-    env.globals['collection_index'] = lambda name, **kwargs: _collection_index(L.collections, name, **kwargs)
 
     # Filter docs list where the given attribute contains the given value.
     env.filters['attr_contains'] = lambda docs, attr, val: [
