@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from operator import itemgetter
+from pathlib import Path
 from string import ascii_lowercase
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, escape
 
 from logya.util import deduplicate
 
@@ -44,6 +45,24 @@ def _content_list(index: dict, url: str = '') -> list:
     return []
 
 
+def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> str:
+    """Read and return source of text files.
+
+    A template function that reads the source of the given file and returns it. Content is escaped by default so it can
+    be rendered safely on a Web page. The lines keyword argument is used to limit the number of lines returned. To not
+    escape the content you can set the raw keyword argument to False. A use case is for documentation projects to show
+    the source code used to render the current example.
+    """
+
+    # Call lstrip to prevent loading files outside the site directory.
+    text = root.joinpath(name.lstrip('/')).read_text()
+    if lines:
+        text = '\n'.join(text.split('\n')[:lines])
+    if raw:
+        return text
+    return escape(text)
+
+
 def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     if url:
@@ -65,7 +84,11 @@ def init_env(L):
     # Enable expression-statement extension that adds the do tag.
     env.add_extension('jinja2.ext.do')
 
+    # Create an alphabetical index for a list of objects.
     env.filters['alpha_index'] = _alpha_index
+
+    # Include the source of a file.
+    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
 
     # Get a document from its URL.
     env.globals['get_doc'] = lambda url: L.index.get(url)['doc']
