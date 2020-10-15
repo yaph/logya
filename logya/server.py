@@ -78,7 +78,8 @@ def update_resource(path, L):
     if url.endswith(('/', '.html', '.htm')):
         L.info(f'Rebuild site for request URL: {url}')
         L.build()
-        update_page(url, L)
+        if not update_page(url, L):
+            L.info(f'URL not found: {url}')
 
 
 def serve(dir_site: str, verbose: bool, host: str, port: int, **kwargs):
