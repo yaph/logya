@@ -6,7 +6,7 @@
 Logya Web Site Generator
 ========================
 
-Logya is a command line tool to generate static Web sites, designed to
+Logya is a command line tool to generate static websites, designed to
 be easy to use and flexible.
 
 Contents:

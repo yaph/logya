@@ -19,7 +19,7 @@ with io.open('requirements.txt', encoding='utf-8') as f:
 setup(
     name='logya',
     version=__version__,
-    description='Logya: easy to use and flexible static Web site generator.',
+    description='Logya: easy to use and flexible static site generator.',
     long_description=readme,
     url='https://ramiro.org/logya/',
     author='Ramiro Gómez',

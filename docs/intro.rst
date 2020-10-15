@@ -3,9 +3,9 @@
 Introduction
 ============
 
-I started working on Logya in need of a tool for creating Web sites with consistent user interfaces, that are edited in a familiar and convenient manner and easy to maintain.
+I started working on Logya in need of a tool for creating websites with consistent user interfaces, that are edited in a familiar and convenient manner and easy to maintain.
 
-Moreover, I wanted to migrate existing CMS backed sites to static Web sites, while retaining the main "dynamic" features and the URL structure.
+Moreover, I wanted to migrate existing CMS backed sites to static websites, while retaining the main "dynamic" features and the URL structure.
 
 There were other site generators, most prominently `Jekyll <https://github.com/mojombo/jekyll>`_, available in 2011, but at that time none seemed to support the flexibility I wanted regarding URLs so Logya was born.
 

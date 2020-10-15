@@ -25,7 +25,7 @@ Quickstart
     logya serve
 
 
-Please see the `documentation`_ for more information on how to use Logya for creating Web sites.
+Please see the `documentation`_ for more information on how to use Logya for creating websites.
 
 Sites built with Logya
 ----------------------

@@ -11,14 +11,14 @@ from logya.server import serve
 def main():
     parent = argparse.ArgumentParser(add_help=False)
     parent.add_argument('--verbose', '-v', action='store_true', help='Print info messages during execution.')
-    parent.add_argument('--dir_site', '-d', default='.', help='Path to Web site directory, absolute or relative to current working directory.')
+    parent.add_argument('--dir_site', '-d', default='.', help='Path to site directory, absolute or relative to current working directory.')
 
-    parser = argparse.ArgumentParser(description='Logya a static Web site generator.')
+    parser = argparse.ArgumentParser(description='Logya a static site generator.')
     parser.add_argument('--version', '-V', action='version', version=__version__)
     subparsers = parser.add_subparsers()
 
     # create a basic site with the given name
-    p_create = subparsers.add_parser('create', parents=[parent], help='Create a starter Web site in the specified directory.')
+    p_create = subparsers.add_parser('create', parents=[parent], help='Create a starter site in the specified directory.')
     p_create.add_argument('name', help='name of the directory to create.')
     p_create.set_defaults(func=create)
     p_create.add_argument('--site', '-s', default='starter', help='Name one of the available sites.')

@@ -29,7 +29,7 @@ Generate files to public:
     logya generate
 
 This command generates HTML files from the documents found in the
-content directory, collections for Web site directories, and copies static
+content directory, collections for website directories, and copies static
 resources to the newly created ``public`` directory.
 
 Serve site from public directory:

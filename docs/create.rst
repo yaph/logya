@@ -19,7 +19,7 @@ Currently there are two alternatives: the ``bare`` site with minimal markup and 
 Directory Structure
 -------------------
 
-The following directories and files are recognized when generating a Web site with Logya.
+The following directories and files are recognized when generating a website with Logya.
 
 content/ - required
 ~~~~~~~~~~~~~~~~~~~
