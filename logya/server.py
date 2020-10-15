@@ -81,7 +81,7 @@ def update_resource(path, L):
         update_page(url, L)
 
 
-def serve(dir_site: str, verbose: bool, host: str, port: int):
+def serve(dir_site: str, verbose: bool, host: str, port: int, **kwargs):
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
     # Make Logya object accessible to server.
