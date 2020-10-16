@@ -4,6 +4,7 @@ import re
 from collections import namedtuple
 from pathlib import Path
 from string import punctuation, whitespace
+from typing import Union
 
 from yaml import dump, load
 try:
@@ -37,6 +38,14 @@ def encode_content(headers: dict, body: str) -> str:
     """Encode headers and body in content format."""
 
     return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
+
+
+def get_item(items: list, value: str, attr: str = 'url') -> Union[dict, None]:
+    """Return an item from a list of dicts, whose attribute matches the given value."""
+
+    for item in items:
+        if items.get(attr) == value:
+            return item
 
 
 def load_yaml(text: str) -> dict:
