@@ -5,8 +5,6 @@ from string import ascii_lowercase
 
 from jinja2 import Environment, FileSystemLoader, escape
 
-from logya.util import deduplicate
-
 
 env = Environment(
     loader=FileSystemLoader('templates'),
