@@ -6,7 +6,7 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import filepath, read, write_collection, write_page
+from logya.content import filepath, read, write_collection, write_doc
 from logya.template import env
 
 
@@ -34,27 +34,26 @@ def update_page(url: str, L):
 
     path_dst = filepath(L.paths.public, url)
 
-    if content := L.index.get(url):
+    if content := L.doc_index.get(url):
         content['doc'] = read(content['path'], content['path'].relative_to(L.paths.content))
         if L.collections:
             L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
-        write_page(path_dst, content, L.settings)
+        write_doc(path_dst, content, L.settings)
         L.info(f'Refreshed doc: {url}')
         return True
 
-    if coll := L.collections.get(get_collection_name(url.split('/')[1], L.settings)):
-        if content := coll['index'].get(url):
-            write_collection(path_dst, content, L.settings)
-            L.info(f'Refreshed collection: {url}')
-            return True
+    if content := L.collection_index.get(url):
+        write_collection(path_dst, content, L.settings)
+        L.info(f'Refreshed collection: {url}')
+        return True
 
 
 def update_resource(path, L):
     """Update resource corresponding to given url.
 
     Resources that exist in the `static` directory are updated if they are newer than the destination file.
-    For other HTML resources the whole `L.index` is updated and the destination is newly written."""
+    For other HTML resources the whole `L.doc_index` is updated and the destination is newly written."""
 
     # Use only the actual path and ignore possible query params (see issue #3).
     url = unquote(urlparse(path).path)

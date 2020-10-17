@@ -135,8 +135,8 @@ def template_attrs(content: dict, settings: dict) -> dict:
     return attrs
 
 
-def write_page(path: Path, content: dict, settings: dict):
-    """Write a content page."""
+def write_doc(path: Path, content: dict, settings: dict):
+    """Write a document page."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
     attrs = template_attrs(content['doc'], settings)

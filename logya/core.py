@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collections import ChainMap
 from os import walk
 from pathlib import Path
 
@@ -18,7 +19,7 @@ class Logya:
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
         # Initialize index and collections so scripts can generate indexed content before build.
-        self.index = {}
+        self.doc_index = {}
         self.collections = self.settings.get('collections', {})
         for name, coll in self.collections.items():
             coll['index'] = {}
@@ -26,7 +27,11 @@ class Logya:
     def build(self):
         """Read content and initialize template environment."""
 
+        # Read all recognized files in content directory and create document index and collections.
         self.read_content()
+
+        # Create a ChainMap view from collection indexes.
+        self.collection_index = ChainMap(*[coll['index'] for coll in self.collections.values()])
 
         # Initialize template env.
         init_env(self)
@@ -53,7 +58,7 @@ class Logya:
                 if doc:
                     if self.collections:
                         self.update_collections(doc)
-                    self.index[doc['url']] = {'doc': doc, 'path': path}
+                    self.doc_index[doc['url']] = {'doc': doc, 'path': path}
 
     def update_collections(self, doc: dict):
         """Update collections index for given doc."""
@@ -72,7 +77,7 @@ class Logya:
                 seen.add(value)
 
                 url = f'/{coll["path"]}/{slugify(value).lower()}/'
-                if url in self.index:
+                if url in self.doc_index:
                     print(f'Collection not created because content exists at {url}.')
                     continue
 

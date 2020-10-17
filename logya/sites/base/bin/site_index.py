@@ -11,7 +11,7 @@ L = Logya()
 L.build()
 site_index = {}
 
-for url, doc in L.index.items():
+for url, doc in L.doc_index.items():
     del doc['body']
     site_index[url] = doc
 

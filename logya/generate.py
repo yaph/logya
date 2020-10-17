@@ -4,7 +4,7 @@ import shutil
 from shutil import copytree
 
 from logya.core import Logya
-from logya.content import filepath, write_collection, write_page
+from logya.content import filepath, write_collection, write_doc
 
 
 def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
@@ -21,13 +21,12 @@ def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
         copytree(L.paths.static, L.paths.public, dirs_exist_ok=True)  # dirs_exist_ok requires Python 3.8
 
     print('Write pages.')
-    for url, content in L.index.items():
+    for url, content in L.doc_index.items():
         path_dst = filepath(L.paths.public, url)
         L.info(f'Write content: {path_dst}')
-        write_page(path_dst, content, L.settings)
+        write_doc(path_dst, content, L.settings)
 
-    for name, coll in L.collections.items():
-        for url, content in coll['index'].items():
-            path_dst = filepath(L.paths.public, url)
-            L.info(f'Write collection: {path_dst}')
-            write_collection(path_dst, content, L.settings)
+    for url, content in L.collection_index.items():
+        path_dst = filepath(L.paths.public, url)
+        L.info(f'Write collection: {path_dst}')
+        write_collection(path_dst, content, L.settings)

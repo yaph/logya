@@ -64,6 +64,7 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
 
 
 def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
+    # FIXME I don't like how this works. Don't return a list with a single doc.
     docs = []
     if url:
         docs = _content_list(index, url)
@@ -91,10 +92,10 @@ def init_env(L):
     env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
 
     # Get a document from its URL.
-    env.globals['get_doc'] = lambda url: L.index.get(url)['doc']
+    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
 
     # Get documents from a URL.
-    env.globals['get_docs'] = lambda **kwargs: _get_docs(L.index, **kwargs)
+    env.globals['get_docs'] = lambda **kwargs: _get_docs(L.doc_index, **kwargs)
 
     # Get collection from its name.
     env.globals['get_collection'] = lambda name: L.collections.get(name)
