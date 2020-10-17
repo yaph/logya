@@ -23,12 +23,6 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super(HTTPRequestHandler, self).do_GET()
 
 
-def get_collection_name(path, settings):
-    for name, coll in settings['collections'].items():
-        if path == coll['path']:
-            return name
-
-
 def update_page(url: str, L):
     """Update content or collection page."""
 

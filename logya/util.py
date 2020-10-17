@@ -21,6 +21,7 @@ directories = ['root', 'content', 'public', 'static', 'templates']
 Paths = namedtuple('Paths', directories)
 
 
+# FIXME function never called, except in tests
 def deduplicate(li: list, attr: str) -> list:
     """Return a list without duplicates, based on value of given attribute."""
     result = []
@@ -40,6 +41,7 @@ def encode_content(headers: dict, body: str) -> str:
     return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
 
 
+# FIXME function never called
 def get_item(items: list, value: str, attr: str = 'url') -> Union[dict, None]:
     """Return an item from a list of dicts, whose attribute matches the given value."""
 

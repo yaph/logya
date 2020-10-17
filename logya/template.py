@@ -38,6 +38,7 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
+# FIXME function never called
 def _content_list(index: dict, url: str = '') -> list:
     content = index.get(url)
     if content:
@@ -63,18 +64,19 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
     return escape(text)
 
 
-def _get_docs(index: dict, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
+def _get_docs(L, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     # FIXME I don't like how this works. Don't return a list with a single doc.
     docs = []
-    if url:
-        docs = _content_list(index, url)
+    # A collection index will only exist at the given URL if there is no content document with the same URL.
+    if coll := L.collection_index.get(url):
+        docs = coll['docs']
     if not docs:
-        for doc_url, content in index.items():
+        for doc_url, content in L.doc_index.items():
             if doc_url.startswith(url):
-                docs.extend(_content_list(index, doc_url))
+                docs.append(content['doc'])
 
     reverse = True if sort_order == 'descending' else False
-    return sorted(deduplicate(docs, attr='url'), key=itemgetter(sort_attr), reverse=reverse)
+    return sorted(docs, key=itemgetter(sort_attr), reverse=reverse)
 
 
 def init_env(L):
@@ -95,7 +97,7 @@ def init_env(L):
     env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
 
     # Get documents from a URL.
-    env.globals['get_docs'] = lambda **kwargs: _get_docs(L.doc_index, **kwargs)
+    env.globals['get_docs'] = lambda **kwargs: _get_docs(L, **kwargs)
 
     # Get collection from its name.
     env.globals['get_collection'] = lambda name: L.collections.get(name)
