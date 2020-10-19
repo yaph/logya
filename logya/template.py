@@ -36,14 +36,6 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
-# FIXME function never called
-def _content_list(index: dict, url: str = '') -> list:
-    content = index.get(url)
-    if content:
-        return content.get('docs', [content.get('doc')])
-    return []
-
-
 def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> str:
     """Read and return source of text files.
 
