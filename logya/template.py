@@ -62,8 +62,7 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
     return escape(text)
 
 
-def _get_docs(L, url: str = '', sort_attr: str = 'created', sort_order: str = 'descending') -> list:
-    # FIXME I don't like how this works. Don't return a list with a single doc.
+def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     # A collection index will only exist at the given URL if there is no content document with the same URL.
     if coll := L.collection_index.get(url):
@@ -95,7 +94,7 @@ def init_env(L):
     env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
 
     # Get documents from a URL.
-    env.globals['get_docs'] = lambda **kwargs: _get_docs(L, **kwargs)
+    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
 
     # Get collection from its name.
     env.globals['get_collection'] = lambda name: L.collections.get(name)
