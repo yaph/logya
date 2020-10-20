@@ -9,8 +9,6 @@ from logya.template import render
 from logya.util import load_yaml, slugify
 
 
-markdown_extensions = ['attr_list', 'def_list', 'fenced_code', 'toc']
-
 # Extensions of content files that will be processed.
 process_extensions = {
     '.css',
@@ -137,7 +135,7 @@ def write_doc(path: Path, content: dict, settings: dict):
     path.parent.mkdir(parents=True, exist_ok=True)
     attrs = template_attrs(content['doc'], settings)
     if 'body' in attrs and content_type(content['path']) == 'markdown':
-        attrs['body'] = markdown(attrs['body'], extensions=markdown_extensions)
+        attrs['body'] = markdown(attrs['body'], extensions=settings.get('extensions', {}).get('markdown', []))
     path.write_text(render(attrs['template'], attrs, pre_render='body'))
 
 

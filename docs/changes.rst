@@ -9,7 +9,6 @@ Changes
 TODO
 ====
 
-* Make markdown extensions configurable?
 * In Logya create: copy content from base site first and then selected theme.
 * Rename site to theme.
 * Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
@@ -21,6 +20,7 @@ This release includes several backwards incompatible changes, most notably it dr
 * Avoid "OSError: [Errno 98] Address already in use" by allowing address reuse.
 * Only rebuilt the index in serve mode when a requested URL is not in the index.
 * The template to use for a file in content must be specified as the header attribute `template`.
+* Markdown extensions are configurable in site.yaml. By default no extensions will be used.
 * FIXME document breaking change from dir_*
 * FIXME document special attributes: body, url, template, title, created, updated
 
