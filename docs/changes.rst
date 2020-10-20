@@ -9,6 +9,7 @@ Changes
 TODO
 ====
 
+* Make markdown extensions configurable?
 * In Logya create: copy content from base site first and then selected theme.
 * Rename site to theme.
 * Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
