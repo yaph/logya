@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import io
+from pathlib import Path
 
 try:
     from setuptools import setup
@@ -9,18 +9,13 @@ except ImportError:
 
 from logya import __version__
 
-# Use io.open to be able to set encoding to utf-8.
-with io.open('README.rst', encoding='utf-8') as f:
-    readme = f.read()
-
-with io.open('requirements.txt', encoding='utf-8') as f:
-    requirements = f.read().splitlines()
 
 setup(
     name='logya',
     version=__version__,
     description='Logya: easy to use and flexible static site generator.',
-    long_description=readme,
+    long_description=Path('README.md').read_text(),
+    long_description_content_type='text/markdown',
     url='https://ramiro.org/logya/',
     author='Ramiro Gómez',
     author_email='code@ramiro.org',
@@ -32,7 +27,7 @@ setup(
     package_data={'': ['LICENSE']},
     include_package_data=True,
     exclude_package_data={'': ['*.pyc']},
-    install_requires=requirements,
+    install_requires=Path('requirements.txt').read_text().split('\n'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
