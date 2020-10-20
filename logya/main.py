@@ -21,7 +21,7 @@ def main():
     p_create = subparsers.add_parser('create', parents=[parent], help='Create a starter site in the specified directory.')
     p_create.add_argument('name', help='name of the directory to create.')
     p_create.set_defaults(func=create)
-    p_create.add_argument('--site', '-s', default='starter', help='Name one of the available sites.')
+    p_create.add_argument('--site', '-s', default='base', help='Name one of the available sites.')
 
     # generate a site in public directory, generate and gen sub commands do the same
     p_generate = subparsers.add_parser('generate', aliases=('gen',), parents=[parent], help='Generate site in public directory.')
