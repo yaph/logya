@@ -54,8 +54,7 @@ class Logya:
                 path = Path(root, f)
                 if path.suffix not in process_extensions:
                     continue
-                doc = read(path, path.relative_to(self.paths.content))
-                if doc:
+                if doc := read(path, path.relative_to(self.paths.content)):
                     if self.collections:
                         self.update_collections(doc)
                     self.doc_index[doc['url']] = {'doc': doc, 'path': path}
@@ -91,8 +90,7 @@ class Logya:
                 doc[links] = doc.get(links, []) + [(url, value)]
 
                 # Update or create collection index value.
-                if url in coll['index']:
-                    coll_data = coll['index'][url]
+                if coll_data := coll['index'].get(url):
                     if doc['url'] not in coll_data['doc_urls']:
                         coll_data['doc_urls'].add(doc['url'])
                         coll_data['docs'].append(doc)
