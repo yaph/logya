@@ -33,5 +33,6 @@ information on how to use Logya for creating websites.
 * https://programminglanguages.info
 * https://punknroll.net
 * https://strahlungsarmehandys.com
+* https://ukealong.com
 * https://www.linux-netbook.com
 * https://www.spaghetti-western.de

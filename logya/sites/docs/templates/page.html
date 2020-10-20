@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+
+{% block content %}
+<div class="flex two-800">
+    <div class="four-fifth">
+        <h1>{{ title }}</h1>
+        {{ body }}
+    </div>
+    <div class="fifth">
+        <h3>Table of Contents</h3>
+        {{ m.toc() }}
+    </div>
+</div>
+{% endblock %}

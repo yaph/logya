@@ -65,7 +65,7 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
                 docs.append(content['doc'])
 
     reverse = True if sort_order == 'descending' else False
-    return sorted(docs, key=itemgetter(sort_attr), reverse=reverse)
+    return sorted((d for d in docs if sort_attr in d), key=itemgetter(sort_attr), reverse=reverse)
 
 
 def init_env(L):

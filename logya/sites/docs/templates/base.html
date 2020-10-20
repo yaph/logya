@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title itemprop="name">{{ title }}</title>
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    {% if author %}<meta name="author" content="{{ author }}">{% endif %}
+    {% if image %}<meta property="og:image" content="{{ base_url }}{{ image }}">{% endif %}
+    {% block meta %}{% endblock %}
+    <link rel="canonical" itemprop="url" href="{{ canonical }}">
+    <link rel="shortcut icon" href="/img/logya-16.png">
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic@6.5.3/picnic.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav>
+        <a class="button" href="/">Documentation Home</a>
+        <!-- responsive-->
+        <input id="bmenub" type="checkbox" class="show">
+        <label for="bmenub" class="burger pseudo button">menu</label>
+        <div class="menu">
+            <a class="button warning" href="/rss.xml">RSS Feed</a>
+        </div>
+    </nav>
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>
