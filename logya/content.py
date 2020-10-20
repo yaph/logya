@@ -9,10 +9,7 @@ from logya.template import render
 from logya.util import load_yaml, slugify
 
 
-markdown_extensions = [
-    'markdown.extensions.attr_list',
-    'markdown.extensions.def_list',
-    'markdown.extensions.fenced_code']
+markdown_extensions = ['attr_list', 'def_list', 'fenced_code', 'toc']
 
 # Extensions of content files that will be processed.
 process_extensions = {
@@ -27,7 +24,6 @@ process_extensions = {
     '.txt',
     '.xml'
 }
-
 
 # Extensions of content files that will be removed.
 remove_extensions = {
