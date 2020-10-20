@@ -77,6 +77,11 @@ class Logya:
                 seen.add(value)
 
                 url = f'/{coll["path"]}/{slugify(value).lower()}/'
+
+                # Prepend language code to URL if language is specified in doc and exists in configuration.
+                if 'language' in doc and doc['language'] in self.settings.get('languages'):
+                    url = f'/{doc["language"]}{url}'
+
                 if url in self.doc_index:
                     print(f'Collection not created because content exists at {url}.')
                     continue

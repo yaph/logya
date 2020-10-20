@@ -16,7 +16,7 @@ collections:
 
 # Language settings for multilingual sites
 languages:
-  - name: Deutsch
-    code: de
-  - name: English
-    code: en
+    de:
+        name: Deutsch
+    en:
+        name: English
