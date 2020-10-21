@@ -38,7 +38,7 @@ def update_page(url: str, L):
         return True
 
     if content := L.collection_index.get(url):
-        write_collection(path_dst, content, L.settings)
+        write_collection(path_dst, content)
         L.info(f'Refreshed collection: {url}')
         return True
 

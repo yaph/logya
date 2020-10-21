@@ -29,4 +29,4 @@ def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
     for url, content in L.collection_index.items():
         path_dst = filepath(L.paths.public, url)
         L.info(f'Write collection: {path_dst}')
-        write_collection(path_dst, content, L.settings)
+        write_collection(path_dst, content)
