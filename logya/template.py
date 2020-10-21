@@ -79,6 +79,9 @@ def init_env(L):
     # Create an alphabetical index for a list of objects.
     env.filters['alpha_index'] = _alpha_index
 
+    # Filter docs list where the given attribute contains the given value.
+    env.filters['attr_contains'] = lambda docs, attr, val: [doc for doc in docs if val in doc.get(attr, '')]
+
     # Include the source of a file.
     env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
 
@@ -90,10 +93,6 @@ def init_env(L):
 
     # Get collection from its name.
     env.globals['get_collection'] = lambda name: L.collections.get(name)
-
-    # Filter docs list where the given attribute contains the given value.
-    env.filters['attr_contains'] = lambda docs, attr, val: [
-        doc for doc in docs if attr in doc and val in doc[attr]]
 
 
 def render(tpl, variables, pre_render=None):
