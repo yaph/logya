@@ -2,7 +2,7 @@
 noindex: 1
 title: Logya Static Site Generator Documentation
 template: front.html
-created: 2020-10-21 00:20:29
+created: 2011-10-29 01:20:22
 ---
 Logya is a command line tool to generate static websites, designed to be easy to use and flexible.
 

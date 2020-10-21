@@ -2,7 +2,7 @@
 page: 1
 title: Installation
 template: page.html
-created: 2020-10-21 00:44:04
+created: 2013-09-08 19:45:45
 ---
 Logya is an open source Python application, check out the source code [on Github](https://github.com/yaph/logya). To install Logya with pip from PyPI run:
 

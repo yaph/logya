@@ -2,7 +2,7 @@
 page: 2
 title: Getting Started
 template: page.html
-created: 2020-10-21 00:54:24
+created: 2013-09-08 19:45:45
 ---
 ## Create a starter site
 

@@ -2,7 +2,7 @@
 page: 3
 title: Create a Site
 template: page.html
-created: 2020-10-21 01:17:21
+created: 2013-09-08 19:45:45
 ---
 The following command creates the directory `mysite` and copies the `base` site files into it.
 
