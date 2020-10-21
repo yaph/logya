@@ -3,7 +3,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel><title>{{ title }}</title>
-    <link>{{ canonical }}</link>
+    <link>{{ base_url + url }}</link>
     <description>{{ description }}</description>
     <lastBuildDate>{{ updated.strftime("%a, %d %b %Y %H:%M:%S %z") }}</lastBuildDate>
     <generator>Logya</generator>

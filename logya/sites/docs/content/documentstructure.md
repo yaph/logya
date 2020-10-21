@@ -45,41 +45,6 @@ The `updated` datetime works like `created` and should show when the document wa
 
 ---
 
-### Reserved Variable Names
-
-`body`, `canonical` and `debug` are reserved variable names, that will
-be set during site generation. If they are used in document headers,
-their values will be overwritten.
-
-`body` is set to the `ref-body`{.interpreted-text role="ref"}.
-
-`canonical` is set to the canonical URL of the current page including
-the host part and `debug` will be set to `True` in serve mode in other
-modes it is not set.
-
-An example where the `debug` variable is useful: you want to use
-uncompressed JavaScript files during development and use compressed ones
-on the live site. You can do so using the following check in your
-template:
-
-    {% if debug %}
-        <script src="/js/script.js"></script>
-    {% else %}
-        <script src="/js/script.min.js"></script>
-    {% endif %}
-
-`base_url`, `disqus_shortname` and `author` are set in the default
-configuaration, where you can set arbitrary attributes that will be
-available in templates. These values will be overwritten though, when
-used as document attributes, which may or may not be what you want, so
-keep that in mind.
-
-`noindex` has a special meaning to Logya. If you set it to a true value
-in a document header, that document will not appear in any of the
-document collections, including sitemaps and RSS feeds. The HTML page
-for that content will be created though, so you can use this for drafts
-that can be accessed but will not be automatically linked.
-
 ### Collections
 
 You can create a document collection to be included in the index from

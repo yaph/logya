@@ -13,10 +13,6 @@ All settings in this section will be available to all templates, so
 names for configuration variables mustn't be used as names in document
 headers.
 
-* **base\_url**
-    `base_url` is the only required setting needed to create the
-    canonical variable and to generate RSS feeds.
-
 ## collections section
 
 This section allows to set document collections from header variables.

@@ -14,5 +14,4 @@ Logya is a command line tool to generate static websites, designed to be easy to
 * Migrate WordPress or Drupal sites to fast static sites keeping the URLs.
 * Built-in Web server with logging and immediate editing feedback in the browser.
 * Manage, deploy and backup the site with the tools you know.
-* Canonical URL as ``canonical`` variable available in all templates.
 * Use Jinja2 template tags in content body.

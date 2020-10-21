@@ -21,6 +21,7 @@ This release includes several backwards incompatible changes, most notably it re
 * Load site settings once during initialization. Changes to `site.yaml` are visible only after restarting the server.
 * The template to use for a file in content must be specified as the header attribute `template`.
 * Markdown extensions are configurable in site.yaml. By default no extensions will be used.
+* Removed `canonical` template variable.
 * FIXME document i18n
 * FIXME document breaking change from `dir_*`
 * FIXME document special attributes: body, url, template, title, created, updated
