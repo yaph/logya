@@ -1,8 +1,8 @@
 # General settings that will be available in templates.
 site:
-    base_url: http://localhost:8080
-    author: Author Name
-    name: Website Name
+    base_url: https://ramiro.org/logya/docs
+    author: Ramiro Gómez
+    name: Logya documentation
 
 
 # Settings that affect collections in the document index. Top-level keys of

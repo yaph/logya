@@ -4,8 +4,6 @@ title: Document Structure
 template: page.html
 created: 2013-09-08 19:45:45
 ---
-# Document Structure
-
 Documents are dived into header and body parts.
 
 ## Document Header
@@ -17,7 +15,7 @@ Documents are dived into header and body parts.
     image: /path/to/image.png
     ---
 
-The header is in [YAML](http://yaml.org/) format. It starts and ends with 3 dashes. The header is used for setting document attributes, that can be of arbitrary complexity and are accessible in templates. You can set a meta description, the scripts and stylesheets to include and whatever is useful in your scenario. The following attributes are reserved to have special meanings.
+The header is in [YAML](https://yaml.org/) format. It starts and ends with 3 dashes. The header is used for setting document attributes, that can be of arbitrary complexity and are accessible in templates. You can set a meta description, the scripts and stylesheets to include and whatever is useful in your scenario. The following attributes are reserved to have special meanings.
 
 ### body
 
@@ -43,59 +41,34 @@ If you specify a `created` datetime, you must use the format `YYYY-MM-DD HH:MM:S
 
 The `updated` datetime works like `created` and should show when the document was last edited. This can be useful if you want to highlight an edit, but typically the default value is fine.
 
----
+### pre_render
+
+Use `pre_render` to enable the use of Jinja template syntax and documents. A sample use case would be for creating absolute URLs for internal links using the `base_url` setting.
+
+    <a href="{{ base_url }}/path/to/page/">Link text</a>
+
+For this to work you have to set `pre_render` to a list of attribute names. To pre-render the `body` add the following line to the document header.
+
+    pre_render: [body]
 
 ### Collections
 
-You can create a document collection to be included in the index from
-one or more header attributes by adding a setting for it in the site
-config and specifying a list of values in the doc header.
+You can create document collections using content attributes and corresponding settings in `site.yaml`. An example is to categorize content using a `tags` attribute.
 
-For example add an attribute called `tags` and assign it a list of comma
-separated values:
+    tags: [source code, python, programming]
 
-    tags: [example tag 1, example tag 2, example tag 3]
+For each value in `tags` a collection is created, that contains all documents where value appears in the `tags` attribute. For each tag value a page is automatically created where you can show the documents in that collection. The URL of the collection page is created from the collection `path` value in `site.yaml` and the value, e. g. the `source code` collection URL could be `/tag/source-code/`.
 
-If you specify document tags the `tags` sub-directory will be added to
-the document index, containing links to the corresponding documents. If
-you do this, don\'t create document URLs that start with `/tags/`, the
-same applies to other user-defined index headers.
+For each collection in a document an additional template variable will be available named from the collection name and the suffix `_links`, e. g. `tags_links`. This can be used in templates to create a list of links to the collection pages on a content page.
 
-To create a list of links to these index pages from a post you can
-access the `tags_links` template variable, which is populated
-automatically and mustn\'t be specified manually in the document header:
+    <ul>
+    {% for url, anchor in tags_links %}
+        <li><a href="{{ url }}">{{ anchor }}</a></li>
+    {% endfor %}
+    </ul>
 
-    {% if tags_links %}
-      {% for url, anchor in tags_links %}
-        <span class="tag"><a href="{{url|e}}">{{anchor|e}}</a></span>
-      {% endfor %}
-    {% endif %}
+Only use letters and underscores in the names of collections and set the document attribute to a list of string values.
 
-Alternatively you can use the provided `collection` macro as follows:
+## Document Body
 
-    {% import 'macros/links.html' as links %}
-    <p>Tags: {{ links.collection(tags_links) }}</p>
-
-Since this template variable is generated from the corresponding
-attribute name, only use letters and underscores in it. An index
-collection can be created for header attributes that contain a list of
-string values.
-
-## Document Body {#ref-body}
-
-The remaining part of the document is treated as the content that goes
-in the body of the created HTML page. This content can either be written
-in [markdown](http://daringfireball.net/projects/markdown/) or marked up
-with any HTML tag that can be in the body of an HTML document. The body
-format is indicated by the file name extension.
-
-### HTML
-
-    <h1>This is a heading</h1>
-    <p>This is a paragraph</p>
-
-### Markdown
-
-    # This is a heading
-
-    This is a paragraph
+The part after the second `---` separator is the document `body`. Text written in [Markdown](https://daringfireball.net/projects/markdown/) will be converted to HTML, if the corresponding file name ends with `.md` or `.markdown`.
