@@ -21,7 +21,7 @@ class Logya:
         # Initialize index and collections so scripts can generate indexed content before build.
         self.doc_index = {}
         self.collections = self.settings.get('collections', {})
-        for name, coll in self.collections.items():
+        for coll in self.collections.values():
             coll['index'] = {}
 
     def build(self):
