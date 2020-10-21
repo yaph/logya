@@ -112,37 +112,22 @@ def read(path: Path, path_rel: Path) -> str:
     return doc
 
 
-def template_attrs(content: dict, settings: dict) -> dict:
-    """Return dictionary created from site settings and content.
-
-    Site settings may be overridden by content."""
-
-    # Make all settings in site section available to templates.
-    attrs = settings['site'].copy()
-
-    # Set canonical URL, that can be overridden in content.
-    attrs['canonical'] = attrs['base_url'] + content['url']
-
-    # Make content attributes available to templates.
-    attrs.update(content)
-
-    return attrs
-
-
 def write_doc(path: Path, content: dict, settings: dict):
     """Write a document page."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    attrs = template_attrs(content['doc'], settings)
+    attrs = content['doc'].copy()
     if 'body' in attrs and content_type(content['path']) == 'markdown':
         attrs['body'] = markdown(attrs['body'], extensions=settings.get('extensions', {}).get('markdown', []))
-    path.write_text(render(attrs['template'], attrs, pre_render='body'))
+    path.write_text(render(attrs, pre_render='body'))
 
 
-def write_collection(path: Path, content: dict, settings: dict):
-    """Write a collection page."""
+def write_collection(path: Path, content: dict):
+    """Write a collection page.
+
+    Documents are sorted by created datetime in descending order.
+    """
 
     path.parent.mkdir(parents=True, exist_ok=True)
     content['docs'].sort(key=itemgetter('created'), reverse=True)
-    attrs = template_attrs(content, settings)
-    path.write_text(render(attrs['template'], attrs))
+    path.write_text(render(content))
