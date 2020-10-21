@@ -1,5 +1,9 @@
-# Configuration
-
+---
+page: 6
+title: Configuration
+template: page.html
+created: 2013-09-08 19:45:45
+---
 Below you find an explanation of the sections and settings in the
 `site.yaml` configuration file.
 

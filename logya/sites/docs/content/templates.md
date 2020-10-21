@@ -1,5 +1,9 @@
-# Templates
-
+---
+page: 5
+title: Templates
+template: page.html
+created: 2013-09-08 19:45:45
+---
 The template engine that comes with Logya is
 [jinja2](http://jinja.pocoo.org/). In addition to the many functions and
 filters jinja2 provides you can use the following filters and global

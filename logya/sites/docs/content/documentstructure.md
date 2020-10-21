@@ -37,7 +37,7 @@ You can manually set a `url` attribute, which must be unique and can be used to 
 
 ### created
 
-If you specify a `created` datetime, you must use the format `YYYY-MM-DD HH:MM:SS` as shown in the example. Otherwise it will be set to the file modification time. I recommend setting this manually to the date of first publication. When you call the `get_docs` function in templates, by default documents will be sorted by `created` in descending order, so newest documents show up first.
+If you specify a `created` datetime, you must use the format `YYYY-MM-DD HH:MM:SS` as shown in the example. Otherwise it will be set to the file modification time. I recommend setting this manually to the date of first publication. When you call the `get_docs` function in templates, by default documents will be sorted by `created` in descending order, so newest documents show up first. This is also the order in which documents appear in automatically created collection pages.
 
 ### updated
 
