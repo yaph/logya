@@ -119,7 +119,7 @@ def write_doc(path: Path, content: dict, settings: dict):
     attrs = content['doc'].copy()
     if 'body' in attrs and content_type(content['path']) == 'markdown':
         attrs['body'] = markdown(attrs['body'], extensions=settings.get('extensions', {}).get('markdown', []))
-    path.write_text(render(attrs, pre_render='body'))
+    path.write_text(render(attrs))
 
 
 def write_collection(path: Path, content: dict):

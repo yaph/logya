@@ -98,8 +98,8 @@ def init_env(L):
     env.globals.update(L.settings['site'])
 
 
-def render(variables: dict, pre_render: str = None) -> str:
-    # Pre-render enables the use of Jinja2 template tags in the value of the given attribute.
-    if pre_render and pre_render in variables:
-        variables[pre_render] = env.from_string(variables[pre_render]).render(variables)
+def render(variables: dict) -> str:
+    # Pre-render enables the use of Jinja2 template syntax in attribute values.
+    for attr in variables.get('pre_render', []):
+        variables[attr] = env.from_string(variables[attr]).render(variables)
     return env.get_template(variables['template']).render(variables)
