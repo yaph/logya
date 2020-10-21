@@ -85,18 +85,21 @@ def init_env(L):
     # Include the source of a file.
     env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
 
+    # Get collection from its name.
+    env.globals['get_collection'] = lambda name: L.collections.get(name)
+
     # Get a document from its URL.
     env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
 
     # Get documents from a URL.
     env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
 
-    # Get collection from its name.
-    env.globals['get_collection'] = lambda name: L.collections.get(name)
+    # Include the site settings last.
+    env.globals.update(L.settings['site'])
 
 
-def render(tpl, variables, pre_render=None):
+def render(variables: dict, pre_render: str = None) -> str:
     # Pre-render enables the use of Jinja2 template tags in the value of the given attribute.
     if pre_render and pre_render in variables:
         variables[pre_render] = env.from_string(variables[pre_render]).render(variables)
-    return env.get_template(tpl).render(variables)
+    return env.get_template(variables['template']).render(variables)
