@@ -51,25 +51,25 @@ def test_filepath():
 
 
 def test_parse_empty_body():
-    path_md = Path(site_root, 'content', 'empty_body.md')
-    doc = logya.content.read(path_md, path_md.relative_to(site_paths.content), markdown_extensions)
+    md = Path(site_root, 'content', 'empty-body.md')
+    doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
     assert '' == doc['body']
 
 
+def test_parse_error():
+    md = Path(site_root, 'content', 'parse-error.md')
+    doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
+    assert doc is None
+
+
 def test_read_auto_url():
-    path_md = Path(site_root, 'content', 'separator.md')
-    doc = logya.content.read(path_md, path_md.relative_to(site_paths.content), markdown_extensions)
+    md = Path(site_root, 'content', 'separator.md')
+    doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
     assert '/separator/' == doc['url']
 
 
-def test_read_missing_file():
-    path_md = Path(site_root, 'content', 'missing.md')
-    with pytest.raises(FileNotFoundError) as err:
-        doc = logya.content.read(path_md, path_md.relative_to(site_paths.content), markdown_extensions)
-
-
 def test_read_markdown():
-    path_md = Path(site_root, 'content', 'markdown.md')
-    doc = logya.content.read(path_md, path_md.relative_to(site_paths.content), markdown_extensions)
+    md = Path(site_root, 'content', 'markdown.md')
+    doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
     assert '<a href="/url/">Link</a>' in doc['body']
     assert '<a class="foo bar" href="/url/" title="Some title!">Link with attributes</a>' in doc['body']
