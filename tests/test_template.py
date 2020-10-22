@@ -3,7 +3,7 @@
 import logya.core
 import logya.template
 
-L = logya.core.Logya(dir_site='logya/sites/base/')
+L = logya.core.Logya(dir_site='logya/sites/docs/')
 L.build()
 
 # Test the functions called in templates.
@@ -22,5 +22,9 @@ def test_get_docs():
 
 def test_filesource():
     text = env_globals['filesource']('site.yaml')
-    assert 'base_url: http://localhost:8080' in text
+    assert 'base_url:' in text
     assert 'collections:' in text
+
+
+def test_filesource_image():
+    image = env_globals['filesource']('static/img/logya.png')
