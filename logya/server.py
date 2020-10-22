@@ -29,7 +29,8 @@ def update_page(url: str, L):
     path_dst = filepath(L.paths.public, url)
 
     if content := L.doc_index.get(url):
-        content['doc'] = read(content['path'], content['path'].relative_to(L.paths.content))
+        path_rel = content['path'].relative_to(L.paths.content)
+        content['doc'] = read(content['path'], path_rel, L.markdown_extensions)
         if L.collections:
             L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
