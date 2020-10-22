@@ -56,9 +56,10 @@ def test_parse_empty_body():
     assert '' == doc['body']
 
 
-def test_parse_error():
+def test_parse_error(capsys):
     md = Path(site_root, 'content', 'parse-error.md')
     doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
+    assert 'error' in capsys.readouterr().out.lower()
     assert doc is None
 
 
@@ -66,6 +67,13 @@ def test_read_auto_url():
     md = Path(site_root, 'content', 'separator.md')
     doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
     assert '/separator/' == doc['url']
+
+
+def test_read_error(capsys):
+    text = Path(site_root, 'content', 'gif-disguised-as.html')
+    doc = logya.content.read(text, text.relative_to(site_paths.content), [])
+    assert 'error' in capsys.readouterr().out.lower()
+    assert doc is None
 
 
 def test_read_markdown():
