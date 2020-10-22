@@ -33,7 +33,7 @@ def update_page(url: str, L):
         if L.collections:
             L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
-        write_doc(path_dst, content, L.settings)
+        write_doc(path_dst, content)
         L.info(f'Refreshed doc: {url}')
         return True
 

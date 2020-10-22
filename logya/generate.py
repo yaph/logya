@@ -24,7 +24,7 @@ def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
     for url, content in L.doc_index.items():
         path_dst = filepath(L.paths.public, url)
         L.info(f'Write content: {path_dst}')
-        write_doc(path_dst, content, L.settings)
+        write_doc(path_dst, content)
 
     for url, content in L.collection_index.items():
         path_dst = filepath(L.paths.public, url)

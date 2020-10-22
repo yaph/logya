@@ -64,13 +64,13 @@ def filepath(base: Path, url: str) -> Path:
     If url does not end in a file name 'index.html' will be appended.
     """
 
-    path = Path(base, url.lstrip('/'))
+    path = base.joinpath(url.lstrip('/'))
     if not path.suffix or path.suffix not in process_extensions:
         path = path.joinpath('index.html')
     return path
 
 
-def parse(content: str, content_type: str = None) -> dict:
+def parse(content: str) -> dict:
     """Parse document and return a dictionary of header fields and body."""
 
     # Extract YAML header and body and load header into dict.
@@ -86,9 +86,8 @@ def parse(content: str, content_type: str = None) -> dict:
 
 
 def read(path: Path, path_rel: Path, markdown_extensions: list) -> str:
-    content = path.read_text().strip()
     try:
-        doc = parse(content, content_type=content_type(path))
+        doc = parse(path.read_text().strip())
     except Exception as err:
         print(f'Error parsing: {path}\n{err}')
         return
