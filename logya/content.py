@@ -85,13 +85,16 @@ def parse(content: str, content_type: str = None) -> dict:
     return parsed
 
 
-def read(path: Path, path_rel: Path) -> str:
+def read(path: Path, path_rel: Path, markdown_extensions: list) -> str:
     content = path.read_text().strip()
     try:
         doc = parse(content, content_type=content_type(path))
     except Exception as err:
         print(f'Error parsing: {path}\n{err}')
         return
+
+    if 'markdown' == content_type(path):
+        doc['body'] = markdown(doc['body'], extensions=markdown_extensions)
 
     # Ensure doc has a title.
     doc['title'] = doc.get('title', path.stem)
@@ -112,17 +115,14 @@ def read(path: Path, path_rel: Path) -> str:
     return doc
 
 
-def write_doc(path: Path, content: dict, settings: dict):
+def write_doc(path: Path, content: dict) -> None:
     """Write a document page."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    attrs = content['doc'].copy()
-    if 'body' in attrs and content_type(content['path']) == 'markdown':
-        attrs['body'] = markdown(attrs['body'], extensions=settings.get('extensions', {}).get('markdown', []))
-    path.write_text(render(attrs))
+    path.write_text(render(content['doc']))
 
 
-def write_collection(path: Path, content: dict):
+def write_collection(path: Path, content: dict) -> None:
     """Write a collection page.
 
     Documents are sorted by created datetime in descending order.

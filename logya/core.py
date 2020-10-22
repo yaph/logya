@@ -24,6 +24,9 @@ class Logya:
         for coll in self.collections.values():
             coll['index'] = {}
 
+        # Initialize extensions
+        self.markdown_extensions = self.settings.get('extensions', {}).get('markdown', [])
+
     def build(self):
         """Read content and initialize template environment."""
 
@@ -54,7 +57,7 @@ class Logya:
                 path = Path(root, f)
                 if path.suffix not in process_extensions:
                     continue
-                if doc := read(path, path.relative_to(self.paths.content)):
+                if doc := read(path, path.relative_to(self.paths.content), self.markdown_extensions):
                     if self.collections:
                         self.update_collections(doc)
                     self.doc_index[doc['url']] = {'doc': doc, 'path': path}
