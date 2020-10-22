@@ -8,6 +8,7 @@ created: 2013-09-08 19:45:45
 
 # TODO
 
+* Use logging module and set log level in Logya?
 * Don't set content title?
 * Change Jinja pre-rendering to work on demand by setting a `pre_render` content attribute. Value could be a string like body or a list, if it makes sense.
 * In Logya create: copy content from base site first and then selected theme.
