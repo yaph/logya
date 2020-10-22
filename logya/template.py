@@ -46,7 +46,12 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
     """
 
     # Call lstrip to prevent loading files outside the site directory.
-    text = root.joinpath(name.lstrip('/')).read_text()
+    path_src = root.joinpath(name.lstrip('/'))
+    try:
+        text = path_src.read_text()
+    except UnicodeDecodeError:
+        print(f'Error reading: {path_src.as_posix()}')
+        return
     if lines:
         text = '\n'.join(text.split('\n')[:lines])
     if raw:
