@@ -89,7 +89,7 @@ def read(path: Path, path_rel: Path, markdown_extensions: list) -> str:
     try:
         doc = parse(path.read_text().strip())
     except Exception as err:
-        print(f'Error parsing: {path}\n{err}')
+        print(f'Error reading/parsing: {path}\n{err}')
         return
 
     if 'markdown' == content_type(path):
@@ -112,6 +112,14 @@ def read(path: Path, path_rel: Path, markdown_extensions: list) -> str:
                 print(f'"{attr}" could not be converted to datetime. URL: {doc["url"]}')
 
     return doc
+
+
+def write_page(base_path: Path, content: dict) -> None:
+    """Write a rendered content page."""
+
+    path_page = filepath(base_path, content['url'])
+    path_page.parent.mkdir(parents=True, exist_ok=True)
+    path_page.write_text(render(content))
 
 
 def write_doc(path: Path, content: dict) -> None:
