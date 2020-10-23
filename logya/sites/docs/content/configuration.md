@@ -17,8 +17,14 @@ This section allows to define collections for categorizing content via correspon
 
 ## extensions section
 
-In this section you can set Markdown extensions to be used when the document `body` is converted to HTML.
+In this section you can set Markdown and Jinja extensions to be used when the document `body` is converted to HTML and the page is rendered.
 
 ## languages section
 
 The languages section is optional and exists to enable additional features for multilingual sites. Please see [I18N]({{ base_url }}/i18n/) for more information.
+
+## Example Configuration
+
+To give a real world example, this site's configuration is shown below.
+
+    {{ filesource('site.yaml') }}

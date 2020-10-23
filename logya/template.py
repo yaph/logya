@@ -75,12 +75,8 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
 
 
 def init_env(L):
-    # Enable break and continue in templates.
-    env.add_extension('jinja2.ext.loopcontrols')
-    # Enable with statement for nested variable scopes.
-    env.add_extension('jinja2.ext.with_')
-    # Enable expression-statement extension that adds the do tag.
-    env.add_extension('jinja2.ext.do')
+    for ext in L.jinja_extensions:
+        env.add_extension(ext)
 
     # Create an alphabetical index for a list of objects.
     env.filters['alpha_index'] = _alpha_index

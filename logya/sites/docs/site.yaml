@@ -2,7 +2,7 @@
 site:
     base_url: https://ramiro.org/logya/docs
     author: Ramiro Gómez
-    name: Logya documentation
+    name: Logya Documentation
 
 
 # Settings that affect collections in the document index. Top-level keys of
@@ -15,4 +15,12 @@ collections:
 
 
 extensions:
-    markdown: ['attr_list', 'def_list', 'fenced_code', 'toc']
+    jinja:  # https://jinja.palletsprojects.com/extensions/
+        - 'jinja2.ext.do'
+        - 'jinja2.ext.loopcontrols'
+        - 'jinja2.ext.with_'
+    markdown:  # https://python-markdown.github.io/extensions/
+        - 'attr_list'
+        - 'def_list'
+        - 'fenced_code'
+        - 'toc'

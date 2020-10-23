@@ -26,7 +26,9 @@ class Logya:
             coll['index'] = {}
 
         # Simplify access to these settings.
-        self.markdown_extensions = self.settings.get('extensions', {}).get('markdown', [])
+        extensions = self.settings.get('extensions', {})
+        self.jinja_extensions = extensions.get('jinja', [])
+        self.markdown_extensions = extensions.get('markdown', [])
         self.languages = self.settings.get('languages', {})
 
     def build(self):
