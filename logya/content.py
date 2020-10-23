@@ -122,19 +122,11 @@ def write_page(base_path: Path, content: dict) -> None:
     path_page.write_text(render(content))
 
 
-def write_doc(path: Path, content: dict) -> None:
-    """Write a document page."""
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(render(content['doc']))
-
-
-def write_collection(path: Path, content: dict) -> None:
+def write_collection(base_path: Path, content: dict) -> None:
     """Write a collection page.
 
     Documents are sorted by created datetime in descending order.
     """
 
-    path.parent.mkdir(parents=True, exist_ok=True)
     content['docs'].sort(key=itemgetter('created'), reverse=True)
-    path.write_text(render(content))
+    write_page(base_path, content)

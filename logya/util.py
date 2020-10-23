@@ -17,8 +17,7 @@ except ImportError:
 forbidden = (set(punctuation) - set('+-_.,@')) | set(whitespace)
 re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 
-directories = ['root', 'content', 'public', 'static', 'templates']
-Paths = namedtuple('Paths', directories)
+Paths = namedtuple('Paths', ['root', 'content', 'public', 'static', 'templates'])
 
 
 # FIXME function never called, except in tests
@@ -46,7 +45,7 @@ def get_item(items: list, value: str, attr: str = 'url') -> Union[dict, None]:
     """Return an item from a list of dicts, whose attribute matches the given value."""
 
     for item in items:
-        if items.get(attr) == value:
+        if item.get(attr) == value:
             return item
 
 

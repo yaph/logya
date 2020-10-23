@@ -6,7 +6,7 @@ from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
 from logya.core import Logya
-from logya.content import filepath, read, write_collection, write_doc
+from logya.content import read, write_collection, write_page
 from logya.template import env
 
 
@@ -23,10 +23,8 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super(HTTPRequestHandler, self).do_GET()
 
 
-def update_page(url: str, L):
+def update_page(url: str, L: Logya):
     """Update content or collection page."""
-
-    path_dst = filepath(L.paths.public, url)
 
     if content := L.doc_index.get(url):
         path_rel = content['path'].relative_to(L.paths.content)
@@ -34,17 +32,17 @@ def update_page(url: str, L):
         if L.collections:
             L.update_collections(content['doc'])
         # Always write doc because of possible template changes.
-        write_doc(path_dst, content)
+        write_page(L.paths.public, content['doc'])
         L.info(f'Refreshed doc: {url}')
         return True
 
     if content := L.collection_index.get(url):
-        write_collection(path_dst, content)
+        write_collection(L.paths.public, content)
         L.info(f'Refreshed collection: {url}')
         return True
 
 
-def update_resource(path, L):
+def update_resource(path: str, L: Logya) -> None:
     """Update resource corresponding to given url.
 
     Resources that exist in the `static` directory are updated if they are newer than the destination file.
@@ -76,7 +74,7 @@ def update_resource(path, L):
             L.info(f'URL not found: {url}')
 
 
-def serve(dir_site: str, verbose: bool, host: str, port: int, **kwargs):
+def serve(dir_site: str, verbose: bool, host: str, port: int, **kwargs) -> None:
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
     # Make Logya object accessible to server.

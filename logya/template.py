@@ -2,6 +2,7 @@
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
+from typing import Union
 
 from jinja2 import Environment, FileSystemLoader, escape
 
@@ -36,7 +37,7 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
-def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> str:
+def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> Union[None, str]:
     """Read and return source of text files.
 
     A template function that reads the source of the given file and returns it. Content is escaped by default so it can
@@ -51,7 +52,7 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
         text = path_src.read_text()
     except UnicodeDecodeError:
         print(f'Error reading: {path_src.as_posix()}')
-        return
+        return None
     if lines:
         text = '\n'.join(text.split('\n')[:lines])
     if raw:

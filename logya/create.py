@@ -12,7 +12,7 @@ def create(dir_site: str, name: str, site: str = None, **kwargs):
         print(f'Error: "{target}" already exists. Please remove it or specify another location.')
         return
     try:
-        source = resource_filename(__name__, 'sites/' + site)
+        source = resource_filename(__name__, f'sites/{site}')
     except KeyError:
         print(f'The site "{site}" is not installed.')
     else:
