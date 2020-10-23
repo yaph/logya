@@ -13,7 +13,7 @@ from logya.template import env
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     """SimpleHTTPRequestHandler based class to return resources."""
 
-    L = None
+    L: Logya
 
     def __init__(self, *args):
         super(HTTPRequestHandler, self).__init__(*args, directory=self.L.paths.public.as_posix())

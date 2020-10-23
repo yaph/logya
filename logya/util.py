@@ -10,7 +10,7 @@ from yaml import dump, load
 try:
     from yaml import CDumper as Dumper, CLoader as Loader
 except ImportError:
-    from yaml import Dumper, Loader
+    from yaml import Dumper, Loader  # type: ignore
 
 
 # Characters not to be used in URLs, allowing some punctuation.
@@ -47,6 +47,7 @@ def get_item(items: list, value: str, attr: str = 'url') -> Union[dict, None]:
     for item in items:
         if item.get(attr) == value:
             return item
+    return None
 
 
 def load_yaml(text: str) -> dict:

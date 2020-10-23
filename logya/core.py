@@ -25,8 +25,9 @@ class Logya:
         for coll in self.collections.values():
             coll['index'] = {}
 
-        # Initialize extensions
+        # Simplify access to these settings.
         self.markdown_extensions = self.settings.get('extensions', {}).get('markdown', [])
+        self.languages = self.settings.get('languages', {})
 
     def build(self):
         """Read content and initialize template environment."""
@@ -82,7 +83,7 @@ class Logya:
                 url = f'/{coll["path"]}/{slugify(value).lower()}/'
 
                 # Prepend language code to URL if language is specified in doc and exists in configuration.
-                if 'language' in doc and doc['language'] in self.settings.get('languages'):
+                if 'language' in doc and doc['language'] in self.languages:
                     url = f'/{doc["language"]}{url}'
 
                 if url in self.doc_index:

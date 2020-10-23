@@ -40,6 +40,7 @@ def content_type(path: Path) -> Union[None, str]:
         return 'html'
     if path.suffix in {'.md', '.markdown'}:
         return 'markdown'
+    return None
 
 
 def create_url(path: Path) -> str:
