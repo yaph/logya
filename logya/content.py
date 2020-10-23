@@ -2,6 +2,7 @@
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
+from typing import Union
 
 from markdown import markdown
 
@@ -32,7 +33,7 @@ remove_extensions = {
 }
 
 
-def content_type(path: Path) -> str:
+def content_type(path: Path) -> Union[None, str]:
     """Return content type based in file extensions."""
 
     if path.suffix in {'.html', '.htm'}:
@@ -85,12 +86,12 @@ def parse(content: str) -> dict:
     return parsed
 
 
-def read(path: Path, path_rel: Path, markdown_extensions: list) -> str:
+def read(path: Path, path_rel: Path, markdown_extensions: list) -> Union[None, dict]:
     try:
         doc = parse(path.read_text().strip())
     except Exception as err:
         print(f'Error reading/parsing: {path}\n{err}')
-        return
+        return None
 
     if 'markdown' == content_type(path):
         doc['body'] = markdown(doc['body'], extensions=markdown_extensions)

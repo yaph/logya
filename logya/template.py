@@ -2,7 +2,7 @@
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
-from typing import Union
+from typing import Dict, Union
 
 from jinja2 import Environment, FileSystemLoader, escape
 
@@ -23,7 +23,7 @@ def _alpha_index(
     in `non_ascii_key`.
     """
 
-    index = {}
+    index: Dict[str, list] = {}
 
     for item in items:
         value = item[sort_attr]

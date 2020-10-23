@@ -2,6 +2,7 @@
 from collections import ChainMap
 from os import walk
 from pathlib import Path
+from typing import Dict
 
 from logya.content import read, process_extensions
 from logya.template import init_env
@@ -19,7 +20,7 @@ class Logya:
         self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
 
         # Initialize index and collections so scripts can generate indexed content before build.
-        self.doc_index = {}
+        self.doc_index: Dict[str, dict] = {}
         self.collections = self.settings.get('collections', {})
         for coll in self.collections.values():
             coll['index'] = {}
