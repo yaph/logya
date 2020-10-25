@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import yaml
+
 from collections import ChainMap
 from os import walk
 from pathlib import Path
@@ -21,8 +23,10 @@ class Logya:
 
         try:
             self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
-        except FileNotFoundError as err:
+        except FileNotFoundError:
             exit('Error: The site configuration file site.yaml was not found.')
+        except yaml.scanner.ScannerError:
+            exit('Error: The site configuration file site.yaml could not be parsed.')
 
         # Initialize index and collections so scripts can generate indexed content before build.
         self.doc_index: Dict[str, dict] = {}
