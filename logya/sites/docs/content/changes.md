@@ -8,13 +8,12 @@ created: 2013-09-08 19:45:45
 
 # TODO
 
-* Use logging module and set log level in Logya?
-* Don't set content title?
-* Change Jinja pre-rendering to work on demand by setting a `pre_render` content attribute. Value could be a string like body or a list, if it makes sense.
 * In Logya create: copy content from base site first and then selected theme.
 * Rename site to theme.
 * Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
 * Document noindex usage for docs.
+* FIXME document i18n
+* FIXME document breaking change from `dir_*`
 
 This release includes several backwards incompatible changes, most notably it requires Python 3.8 or higher.
 
@@ -26,9 +25,6 @@ This release includes several backwards incompatible changes, most notably it re
 * Markdown extensions are configurable in site.yaml. By default no extensions will be used.
 * Pre-render content attributes on demand by setting the `pre_render` document attribute to a list of attribute names.
 * Removed `canonical` template variable.
-* FIXME document i18n
-* FIXME document breaking change from `dir_*`
-* FIXME document special attributes: body, url, template, title, created, updated
 
 ## 4.7.1
 
