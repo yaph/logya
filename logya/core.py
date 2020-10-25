@@ -2,6 +2,7 @@
 from collections import ChainMap
 from os import walk
 from pathlib import Path
+from sys import exit
 from typing import Dict
 
 from logya.content import read, process_extensions
@@ -12,12 +13,16 @@ from logya.util import load_yaml, paths, slugify
 class Logya:
     """Object to store data such as site index and settings."""
 
-    def __init__(self, dir_site: str = '.', verbose: bool = False):
+    def __init__(self, dir_site: str = '.', verbose: bool = False) -> None:
         """Set required logya object properties."""
 
         self.verbose = verbose
         self.paths = paths(dir_site)
-        self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
+
+        try:
+            self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
+        except FileNotFoundError as err:
+            exit('Error: The site configuration file site.yaml was not found.')
 
         # Initialize index and collections so scripts can generate indexed content before build.
         self.doc_index: Dict[str, dict] = {}
