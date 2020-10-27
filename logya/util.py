@@ -32,34 +32,10 @@ def cache(func):
     return f
 
 
-# FIXME function never called, except in tests
-def deduplicate(li: list, attr: str) -> list:
-    """Return a list without duplicates, based on value of given attribute."""
-    result = []
-    seen = set()
-    for item in li:
-        value = frozenset(item[attr])
-        if value in seen:
-            continue
-        result.append(item)
-        seen.add(value)
-    return result
-
-
 def encode_content(headers: dict, body: str) -> str:
     """Encode headers and body in content format."""
 
     return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
-
-
-# FIXME function never called
-def get_item(items: list, value: str, attr: str = 'url') -> Union[dict, None]:
-    """Return an item from a list of dicts, whose attribute matches the given value."""
-
-    for item in items:
-        if item.get(attr) == value:
-            return item
-    return None
 
 
 def load_yaml(text: str) -> dict:
