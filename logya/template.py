@@ -6,6 +6,8 @@ from typing import Dict, Union
 
 from jinja2 import Environment, FileSystemLoader, escape
 
+from logya.util import cache
+
 
 env = Environment(
     loader=FileSystemLoader('templates'),
@@ -59,7 +61,7 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
         return text
     return escape(text)
 
-
+@cache
 def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     # A collection index will only exist at the given URL if there is no content document with the same URL.

@@ -20,6 +20,18 @@ re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 Paths = namedtuple('Paths', ['root', 'content', 'public', 'static', 'templates'])
 
 
+def cache(func):
+    """Decorator for caching function calls."""
+
+    mapping = {}
+    def f(*args, **kwargs):
+        key = str(args) + str(kwargs)
+        if key not in mapping:
+            mapping[key] = func(*args, **kwargs)
+        return mapping[key]
+    return f
+
+
 # FIXME function never called, except in tests
 def deduplicate(li: list, attr: str) -> list:
     """Return a list without duplicates, based on value of given attribute."""
