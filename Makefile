@@ -53,8 +53,7 @@ test:
 	python -m pytest tests/
 
 coverage:
-	python -m coverage run --source=logya -m pytest
-	coverage report -m
+	pytest --cov=logya tests/
 
 docs:
 	rm -f docs/logya.rst
