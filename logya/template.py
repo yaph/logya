@@ -60,6 +60,7 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
         return text
     return escape(text)
 
+
 @cache
 def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []

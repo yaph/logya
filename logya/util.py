@@ -4,7 +4,6 @@ import re
 from collections import namedtuple
 from pathlib import Path
 from string import punctuation, whitespace
-from typing import Union
 
 from yaml import dump, load
 try:
@@ -24,6 +23,7 @@ def cache(func):
     """Decorator for caching function calls."""
 
     mapping = {}
+
     def f(*args, **kwargs):
         key = str(args) + str(kwargs)
         if key not in mapping:
