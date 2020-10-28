@@ -10,7 +10,6 @@ from logya.util import cache
 
 
 env = Environment(
-    loader=FileSystemLoader('templates'),
     lstrip_blocks=True,
     trim_blocks=True
 )
@@ -77,6 +76,8 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
 
 
 def init_env(L):
+    env.loader = FileSystemLoader(L.paths.root.joinpath('templates'))
+
     for ext in L.jinja_extensions:
         env.add_extension(ext)
 

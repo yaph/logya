@@ -9,7 +9,7 @@ from typing import Union
 from yaml import dump, load
 try:
     from yaml import CDumper as Dumper, CLoader as Loader
-except ImportError:
+except ImportError:  # pragma: no cover
     from yaml import Dumper, Loader  # type: ignore
 
 
