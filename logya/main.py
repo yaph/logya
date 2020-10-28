@@ -11,7 +11,7 @@ from logya.server import serve
 def main():
     parent = argparse.ArgumentParser(add_help=False)
     parent.add_argument('--verbose', '-v', action='store_true', help='Print info messages during execution.')
-    parent.add_argument('--dir_site', '-d', default='.', help='Path to site directory, absolute or relative to current working directory.')
+    parent.add_argument('--dir-site', '-d', default='.', help='Path to site directory, absolute or relative to current working directory.')
 
     parser = argparse.ArgumentParser(description='Logya a static site generator.')
     parser.add_argument('--version', '-V', action='version', version=__version__)
