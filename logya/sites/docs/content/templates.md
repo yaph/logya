@@ -47,7 +47,7 @@ This can be used for example to inline SVG code when using SVG sprites.
 
 ### get_collection
 
-Call this function with a collection name as defined in your settings to get a dictionary representing that collection. The `index` of a collection is a mapping of URLs to the corresponding documents.
+Call this function with a collection name as defined in your settings to get a dictionary representing that collection. The `index` of a collection is a mapping of URLs to the corresponding collection's meta data and the list of documents contained within it, accessible via the `docs` attribute.
 
 ### get_doc
 
