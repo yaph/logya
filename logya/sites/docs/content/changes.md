@@ -9,10 +9,7 @@ created: 2013-09-08 19:45:45
 # TODO
 
 * In Logya create: copy content from base site first and then selected theme.
-* Rename site to theme.
-* Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
-* Document noindex usage for docs.
-* FIXME document i18n
+* Document noindex/hide usage for docs in recipes.
 * FIXME document breaking change from `dir_*`
 
 This release includes several backwards incompatible changes, most notably it requires Python 3.8 or higher.
@@ -25,6 +22,13 @@ This release includes several backwards incompatible changes, most notably it re
 * Markdown extensions are configurable in site.yaml. By default no extensions will be used.
 * Pre-render content attributes on demand by setting the `pre_render` document attribute to a list of attribute names.
 * Removed `canonical` template variable.
+* The `languages` setting for multilingual sites and the auto-prefixing of collection URLs with language codes changed.
+
+# Maybe
+
+* Simply make languages a list if codes? The name is not accessible anyway.
+* Rename site to theme.
+* Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
 
 ## 4.7.1
 
