@@ -4,36 +4,36 @@ title: Recipes
 template: page.html
 created: 2013-09-08 19:45:45
 ---
-# Recipes
+This page shows example solutions for common problems. Note that attributes like `comments` and `ignore` don't have a special meaning in Logya until you make them special.
 
-## Conditional Comments in Documents
+[TOC]
 
-Add a document header field `comments` and give it a value to enable
-comments for a document:
+## Conditional Comments
+
+Add a document attribute `comments` and give it a truthy value to enable comments for a document:
 
     comments: 1
 
-If you don't want comments on particular posts just omit the `comments`
-header field or don't give it a value:
+If you don't want comments on particular posts omit the `comments` attribute or give it falsy a value:
 
-    comments:
+    comments: 0
 
-In the document's template check for the value of the `comments` field
-and add the code for an external comment systems like Disqus or Facebook
-comments:
+In the document's template check for the value of the `comments` field and add the code for an external comment system:
 
     {% if comments %}
-        comments go here
+        Include external comments script here
     {% endif %}
 
-The above code checks that the `comments` variable exists and has a
-value, so this will also show the comments section if you enter a value
-of 0 in the document header.
+## Ignore Documents in Listings
 
-## Setting all content files in directory to noindex
+Usually you don't want the front page of a website or the contact form to appear in listings like an RSS feed. Use a document attribute such as `ignore` and set it to a truthy value and reject these documents in templates:
 
-To set all files in a given directory recursively so that they still
-have a page generated but don't appear in any index, you can use this
-command in Bash:
+    {% set docs = get_docs()|rejectattr('ignore') %}
 
-    find content/lesson/ -type f -exec perl -i -pe "BEGIN{undef $/;} s/\-\-\-\n/---\nnoindex: 1\n/s" {} \;
+You can the iterate over `docs` without encountering those with the `ignore` attribute.
+
+### Setting Content Files in a Directory to `ignore`
+
+To set all files in a given directory recursively, you can use the following command:
+
+    find content/lesson/ -type f -exec perl -i -pe "BEGIN{undef $/;} s/\-\-\-\n/---\nignore: 1\n/s" {} \;

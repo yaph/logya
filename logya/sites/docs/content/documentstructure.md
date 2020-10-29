@@ -6,6 +6,8 @@ created: 2013-09-08 19:45:45
 ---
 Documents are dived into header and body parts.
 
+[TOC]
+
 ## Document Header
 
     ---
@@ -17,31 +19,33 @@ Documents are dived into header and body parts.
 
 The header is in [YAML](https://yaml.org/) format. It starts and ends with 3 dashes. The header is used for setting document attributes, that can be of arbitrary complexity and are accessible in templates. You can set a meta description, the scripts and stylesheets to include and whatever is useful in your scenario. The following attributes are reserved to have special meanings.
 
-### body
+### Special Attributes
+
+#### body
 
 Don't set a `body` attribute in the document header. It will be set to the body of the document automatically. An existing value will be overwritten.
 
-### template
+#### template
 
 This is the only required attribute. Set it to the Jinja2 template to use for rendering the document. The template file name has to be specified relative to the `templates` directory.
 
-### title
+#### title
 
 Setting a document `title` is highly recommended, but if not present the stem part of the content file name will be set as the document title.
 
-### url
+#### url
 
 You can manually set a `url` attribute, which must be unique and can be used to refer to a document in templates. If you omit the `url` it will be created from the file name, e. g. the document in `content/book/chapter-1.html` will get the URL `/book/chapter-1/` with the file extension removed. File extensions are removed from HTML and Markdown files.
 
-### created
+#### created
 
 If you specify a `created` datetime, you must use the format `YYYY-MM-DD HH:MM:SS` as shown in the example. Otherwise it will be set to the file modification time. I recommend setting this manually to the date of first publication. When you call the `get_docs` function in templates, by default documents will be sorted by `created` in descending order, so newest documents show up first. This is also the order in which documents appear in automatically created collection pages.
 
-### updated
+#### updated
 
 The `updated` datetime works like `created` and should show when the document was last edited. This can be useful if you want to highlight an edit, but typically the default value is fine.
 
-### pre_render
+#### pre_render
 
 Use `pre_render` to enable the use of Jinja template syntax and documents. A sample use case would be for creating absolute URLs for internal links using the `base_url` setting.
 
@@ -51,7 +55,7 @@ For this to work you have to set `pre_render` to a list of attribute names. To p
 
     pre_render: [body]
 
-### Collections
+## Collections
 
 You can create document collections using content attributes and corresponding settings in `site.yaml`. An example is to categorize content using a `tags` attribute.
 

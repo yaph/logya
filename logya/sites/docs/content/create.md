@@ -16,18 +16,18 @@ Currently there are two alternatives: the `docs` site, wich you currently read, 
 
 The following directories and files are recognized when generating a website with Logya.
 
-### content/ - required
+### content (required)
 
 The content directory contains all of the site's documents. Documents can be located in arbitrary sub directories. To be loaded and parsed ascontent a file must end in one of the following extensions: `html`, `htm`, `xml`, `json`, `js`, `css`, `php`, `md`, `markdown`, `txt`.
 
-### templates/ - required
+### templates (required)
 
 The templates directory contains all of the site's Jinja2 templates.
 
-### site.yaml - required
+### site.yaml (required)
 
 This file contains the site configuration in YAML format.
 
-### static/ - optional
+### static (optional)
 
 All files and directories inside `static` will be copied to the root directory of the generated site maintaining its file structure. All static resources such as JavaScript, CSS, image, and server configuration files belong here. You can use any tools you like to compile or generate resources from outside directories.

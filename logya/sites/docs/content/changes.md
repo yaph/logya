@@ -9,7 +9,6 @@ created: 2013-09-08 19:45:45
 # TODO
 
 * In Logya create: copy content from base site first and then selected theme.
-* Document noindex/hide usage for docs in recipes.
 * FIXME document breaking change from `dir_*`
 
 This release includes several backwards incompatible changes, most notably it requires Python 3.8 or higher.

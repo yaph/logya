@@ -6,3 +6,7 @@ section {
 nav {
     position: relative;
 }
+
+.footer {
+    font-size: .9rem;
+}

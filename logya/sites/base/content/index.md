@@ -1,5 +1,5 @@
 ---
-noindex: 1
+ignore: 1
 title: Welcome to Your Logya Site
 template: page.html
 created: 2020-10-07 01:43:52

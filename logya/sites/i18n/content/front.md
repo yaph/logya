@@ -1,5 +1,5 @@
 ---
-noindex: 1
+ignore: 1
 url: /
 title: Start
 template: page.html

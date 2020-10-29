@@ -1,5 +1,5 @@
 ---
-noindex: 1
+ignore: 1
 title: Logya Static Site Generator Documentation
 template: page.html
 created: 2011-10-29 01:20:22
