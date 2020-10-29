@@ -10,18 +10,20 @@
     {% if image %}<meta property="og:image" content="{{ base_url }}{{ image }}">{% endif %}
     {% block meta %}{% endblock %}
     <link rel="canonical" itemprop="url" href="{{ base_url + url }}">
-    <link rel="shortcut icon" href="/img/logya-16.png">
+    <link rel="shortcut icon" href="/favicon.ico">
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic@6.5.3/picnic.min.css">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <nav>
-        <a class="button" href="/">Documentation Home</a>
+    <nav class="navbar">
+        <a class="brand" href="/"><img class="logo" src="/img/logya-small.png" alt="Logya Documentation Home"></a>
         <!-- responsive-->
         <input id="bmenub" type="checkbox" class="show">
         <label for="bmenub" class="burger pseudo button">menu</label>
         <div class="menu">
+            <a class="button pseudo" href="https://github.com/yaph/logya/">GitHub</a>
+            <a class="button pseudo" href="https://pypi.org/project/logya/">PyPI Package</a>
             <a class="button warning" href="/rss.xml">RSS Feed</a>
         </div>
     </nav>

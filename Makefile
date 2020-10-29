@@ -68,6 +68,13 @@ dist: clean
 	python setup.py bdist_wheel
 	ls -l dist
 
+logo:
+	convert images/wordmark.svg -define icon:auto-resize=64,48,32,16 logya/sites/docs/static/favicon.ico
+	convert images/logo.svg -resize x40 -transparent white logya/sites/docs/static/img/logya-small.png
+
+	cp logya/sites/docs/static/favicon.ico logya/sites/base/static/favicon.ico
+	cp logya/sites/docs/static/img/logya-small.png logya/sites/base/static/img/logya-small.png
+
 # Call example: make release version=4.7.1
 release: dist
 	git tag -a $(version) -m 'Create version $(version)'

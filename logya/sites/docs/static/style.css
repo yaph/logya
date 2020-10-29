@@ -3,10 +3,11 @@ section {
     margin: 0 auto;
 }
 
-nav {
-    position: relative;
-}
-
 .footer {
     font-size: .9rem;
+}
+
+.navbar {
+    position: relative;
+    background-color: #edf2f3;
 }
