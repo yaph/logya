@@ -1,9 +1,4 @@
 public/
-<<<<<<< HEAD
-t/
-MANIFEST
-=======
->>>>>>> v5
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
