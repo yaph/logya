@@ -53,7 +53,7 @@ def test_filesource_lines():
 
 
 def test_filesource_image():
-    text = env_globals['filesource']('static/img/logya.png')
+    text = env_globals['filesource']('static/img/logya-small.png')
     assert text is None
 
 
