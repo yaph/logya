@@ -3,6 +3,11 @@
 Changes
 =======
 
+4.7.2
+-----
+
+* Allow for header attribute values to contain `---` without breaking the parser.
+
 4.7.1
 -----
 
