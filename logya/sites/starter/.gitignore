@@ -1,7 +1,0 @@
-# Logya
-deploy/
-*.log
-
-# nodejs
-node_modules/
-.sass-cache

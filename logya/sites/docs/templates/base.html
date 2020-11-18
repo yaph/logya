@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title itemprop="name">{{ title }}</title>
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    {% if author %}<meta name="author" content="{{ author }}">{% endif %}
+    {% if image %}<meta property="og:image" content="{{ base_url }}{{ image }}">{% endif %}
+    {% block meta %}{% endblock %}
+    <link rel="canonical" itemprop="url" href="{{ base_url + url }}">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic@6.5.3/picnic.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a class="brand" href="/"><img class="logo" src="/img/logya-small.png" alt="Logya Documentation Home"></a>
+        <!-- responsive-->
+        <input id="bmenub" type="checkbox" class="show">
+        <label for="bmenub" class="burger pseudo button">menu</label>
+        <div class="menu">
+            <a class="button pseudo" href="https://github.com/yaph/logya/">GitHub</a>
+            <a class="button pseudo" href="https://pypi.org/project/logya/">PyPI Package</a>
+            <a class="button warning" href="/rss.xml">RSS Feed</a>
+        </div>
+    </nav>
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+    <section class="footer">
+        © <script>document.write(new Date().getFullYear())</script> <a href="https://ramiro.org/">Ramiro Gómez</a>.
+    </section>
+</body>
+</html>

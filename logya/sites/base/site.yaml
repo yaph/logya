@@ -1,0 +1,18 @@
+# General settings that will be available in templates.
+site:
+    base_url: http://localhost:8080
+    author: Author Name
+    name: Website Name
+
+
+# Settings that affect collections in the document index. Top-level keys of
+# collections can be used as document attributes for grouping it in the
+# corresponding collection.
+collections:
+    tags:
+        path: tags
+        template: index.html
+
+
+extensions:
+    markdown: ['attr_list', 'def_list', 'fenced_code', 'toc']

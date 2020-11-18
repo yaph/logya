@@ -1,146 +1,111 @@
 # -*- coding: utf-8 -*-
-import io
-import os
-
+from operator import itemgetter
+from pathlib import Path
 from string import ascii_lowercase
+from typing import Dict, Union
 
-from jinja2 import Environment, BaseLoader, TemplateNotFound, escape
+from jinja2 import Environment, FileSystemLoader, escape
 
-from logya.path import slugify
+from logya.util import cache
 
 
-def collection_index(collection, non_ascii_key):
-    """Return an alphabetical index for a collection, i. e. a list of (URL, name) tuples.
+env = Environment(
+    lstrip_blocks=True,
+    trim_blocks=True
+)
 
-    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
+
+def _alpha_index(
+        items: list,
+        non_ascii_key: str = '_',
+        sort_attr: str = 'title',
+        sort_order: str = 'ascending') -> dict:
+    """Return an alphabetical index for a list of dicts. All strings that do not start with an ASCII letter are stored
+    in `non_ascii_key`.
     """
 
-    index = {}
-    for t in collection:
-        key = t[1].lower()[0]
+    index: Dict[str, list] = {}
+
+    for item in items:
+        value = item[sort_attr]
+        key = value.lower()[0]
         if key not in ascii_lowercase:
             key = non_ascii_key
-        index[key] = index.get(key, []) + [t]
+        index[key] = index.get(key, []) + [item]
 
-    return {key: sorted(index[key]) for key in sorted(index.keys())}
-
-
-def doc_index(docs, attr, non_ascii_key):
-    """Return an alphabetical index for a list of document objects based on attribute.
-
-    All strings that do not start with an ASCII letter are stored in `non_ascii_key`.
-    """
-
-    index = {}
-    for doc in docs:
-        key = doc[attr].lower()[0]
-        if key not in ascii_lowercase:
-            key = non_ascii_key
-        index[key] = index.get(key, []) + [doc]
-
-    return {key: sorted(index[key], key=lambda x: x[attr]) for key in sorted(index.keys())}
+    reverse = False if sort_order == 'ascending' else True
+    keys = sorted(index.keys(), reverse=reverse)
+    return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
-def filesource(logya_inst, name, lines=None, raw=False):
+def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> Union[None, str]:
     """Read and return source of text files.
 
-    A template function that reads the source of the given file and returns it.
-    Content is escaped by default so it can be rendered safely on a Web page.
-
-    The lines keyword argument is used to limit the number of lines returned.
-
-    To not escape the content you can set the raw keyword argument to False.
-
-    A use case is for documentation projects to show the source code used
-    to render the current example.
+    A template function that reads the source of the given file and returns it. Content is escaped by default so it can
+    be rendered safely on a Web page. The lines keyword argument is used to limit the number of lines returned. To not
+    escape the content you can set the raw keyword argument to False. A use case is for documentation projects to show
+    the source code used to render the current example.
     """
 
-    fname = os.path.join(logya_inst.dir_site, name)
-    content = ''
-    with io.open(fname, 'r', encoding='utf-8') as f:
-        try:
-            if lines is None:
-                content = f.read()
-            else:
-                content = ''.join(f.readlines()[:lines])
-        except UnicodeDecodeError:
-            print('File {} could not be decoded.'.format(fname))
+    # Call lstrip to prevent loading files outside the site directory.
+    path_src = root.joinpath(name.lstrip('/'))
+    try:
+        text = path_src.read_text()
+    except UnicodeDecodeError:
+        print(f'Error reading: {path_src.as_posix()}')
+        return None
+    if lines:
+        text = '\n'.join(text.split('\n')[:lines])
     if raw:
-        return content
-
-    return escape(content)
-
-
-def get_doc(logya_inst, url):
-    """Get document located at given URL."""
-
-    return logya_inst.docs.get(url)
+        return text
+    return escape(text)
 
 
-class Template():
-    """Class to handle templates."""
+@cache
+def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
+    docs = []
+    # A collection index will only exist at the given URL if there is no content document with the same URL.
+    if coll := L.collection_index.get(url):
+        docs = coll['docs']
+    if not docs:
+        for doc_url, content in L.doc_index.items():
+            if doc_url.startswith(url):
+                docs.append(content['doc'])
 
-    def __init__(self, logya_inst):
-        """Initialize template environment."""
-
-        self.vars = {}
-        self.dir_templates = logya_inst.dir_templates
-        self.env = Environment(loader=TemplateLoader(self.dir_templates))
-
-        # Enable break and continue in templates.
-        self.env.add_extension('jinja2.ext.loopcontrols')
-
-        # Enable with statement for nested variable scopes.
-        self.env.add_extension('jinja2.ext.with_')
-
-        # Enable expression-statement extension that adds the do tag.
-        self.env.add_extension('jinja2.ext.do')
-
-        # Trim whitespace around template tags if configured.
-        tpl_settings = logya_inst.config.get('template')
-        if tpl_settings and tpl_settings.get('trim_whitespace'):
-            self.env.lstrip_blocks = True
-            self.env.trim_blocks = True
-
-        # Return an alphabetical index for a list of collection tuples.
-        self.env.globals['collection_index'] = lambda collection, non_ascii_key='_': collection_index(
-            collection, non_ascii_key)
-
-        # Return an alphabetical index for a list of doc objects.
-        self.env.globals['doc_index'] = lambda docs, attr='title', non_ascii_key='_': doc_index(
-            docs, attr, non_ascii_key)
-
-        # Include the source of a file.
-        self.env.globals['filesource'] = lambda x, lines=None, raw=False: filesource(
-            logya_inst, x, lines=lines, raw=raw)
-
-        # Get a document from its URL.
-        self.env.globals['get_doc'] = lambda x: get_doc(logya_inst, x)
-
-        # Filter docs list where the given attribute contains the given value.
-        self.env.filters['attr_contains'] = lambda docs, attr, val: [
-            doc for doc in docs if attr in doc and val in doc[attr]]
-
-        # Create slugs for use in URLs
-        self.env.filters['slugify'] = slugify
+    reverse = True if sort_order == 'descending' else False
+    return sorted((d for d in docs if sort_attr in d), key=itemgetter(sort_attr), reverse=reverse)
 
 
-class TemplateLoader(BaseLoader):
+def init_env(L):
+    env.loader = FileSystemLoader(L.paths.root.joinpath('templates'))
 
-    """Class to handle template Loading."""
+    for ext in L.jinja_extensions:
+        env.add_extension(ext)
 
-    def __init__(self, path):
-        """Set template path."""
+    # Create an alphabetical index for a list of objects.
+    env.filters['alpha_index'] = _alpha_index
 
-        self.path = path
+    # Filter docs list where the given attribute contains the given value.
+    env.filters['attr_contains'] = lambda docs, attr, val: [doc for doc in docs if val in doc.get(attr, '')]
 
-    def get_source(self, environment, template):
-        """Set template source."""
+    # Include the source of a file.
+    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
 
-        path = os.path.join(self.path, template)
-        if not os.path.exists(path):
-            raise TemplateNotFound(template)
-        mtime = os.path.getmtime(path)
-        with io.open(path, 'r', encoding='utf-8') as f:
-            source = f.read()
-        return source, path, lambda: mtime == os.path.getmtime(path)
+    # Get collection from its name.
+    env.globals['get_collection'] = lambda name: L.collections.get(name)
+
+    # Get a document from its URL.
+    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
+
+    # Get documents from a URL.
+    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
+
+    # Include the site settings last.
+    env.globals.update(L.settings['site'])
+
+
+def render(variables: dict) -> str:
+    # Pre-render enables the use of Jinja2 template syntax in attribute values.
+    for attr in variables.get('pre_render', []):
+        variables[attr] = env.from_string(variables[attr]).render(variables)
+    return env.get_template(variables['template']).render(variables)

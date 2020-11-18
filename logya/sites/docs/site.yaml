@@ -1,0 +1,26 @@
+# General settings that will be available in templates.
+site:
+    base_url: https://ramiro.org/logya/docs
+    author: Ramiro Gómez
+    name: Logya Documentation
+
+
+# Settings that affect collections in the document index. Top-level keys of
+# collections can be used as document attributes for grouping it in the
+# corresponding collection.
+collections:
+    tags:
+        path: tags
+        template: index.html
+
+
+extensions:
+    jinja:  # https://jinja.palletsprojects.com/extensions/
+        - 'jinja2.ext.do'
+        - 'jinja2.ext.loopcontrols'
+        - 'jinja2.ext.with_'
+    markdown:  # https://python-markdown.github.io/extensions/
+        - 'attr_list'
+        - 'def_list'
+        - 'fenced_code'
+        - 'toc'

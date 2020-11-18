@@ -1,0 +1,7 @@
+{% extends "page.html" %}
+{% import "macros.html" as m %}
+
+{% block content %}
+{{ super() }}
+<div>Tags: {{ m.collection_links(tags_links) }}</div>
+{% endblock %}

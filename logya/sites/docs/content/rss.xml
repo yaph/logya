@@ -1,0 +1,6 @@
+---
+noindex: 1
+description: Main RSS feed.
+title: RSS Feed
+template: rss2.xml
+---

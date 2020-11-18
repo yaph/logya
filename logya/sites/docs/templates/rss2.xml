@@ -1,0 +1,20 @@
+{% set docs = get_docs()|rejectattr('ignore')|list %}
+{% set limit = 10 %}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel><title>{{ title }}</title>
+    <link>{{ base_url + url }}</link>
+    <description>{{ description }}</description>
+    <lastBuildDate>{{ updated.strftime("%a, %d %b %Y %H:%M:%S %z") }}</lastBuildDate>
+    <generator>Logya</generator>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    {% for doc in docs[:limit] %}
+    <item>
+        <title><![CDATA[{{ doc.title }}]]></title>
+        <link><![CDATA[{{ base_url }}{{ doc.url }}]]></link>
+        <description><![CDATA[<p>{{ doc.description }}</p>]]></description>
+        <guid><![CDATA[{{ base_url }}{{ doc.url }}]]></guid>
+        <pubDate>{{ doc.created.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
+    </item>
+    {% endfor %}
+</channel></rss>

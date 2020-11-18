@@ -1,5 +1,7 @@
 coverage
 flake8
+ipython
+ipdb
 Sphinx
 sphinx-rtd-theme
 tox

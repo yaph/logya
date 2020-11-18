@@ -50,11 +50,10 @@ lint:
 	flake8 logya tests
 
 test:
-	python setup.py test
+	pytest tests/
 
 coverage:
-	coverage run --source logya setup.py test
-	coverage report -m
+	pytest --cov=logya tests/
 
 docs:
 	rm -f docs/logya.rst
@@ -68,6 +67,13 @@ dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
+
+logo:
+	convert images/wordmark.svg -define icon:auto-resize=64,48,32,16 logya/sites/docs/static/favicon.ico
+	convert images/logo.svg -resize x40 -transparent white logya/sites/docs/static/img/logya-small.png
+
+	cp logya/sites/docs/static/favicon.ico logya/sites/base/static/favicon.ico
+	cp logya/sites/docs/static/img/logya-small.png logya/sites/base/static/img/logya-small.png
 
 # Call example: make release version=4.7.1
 release: dist
