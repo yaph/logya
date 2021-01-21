@@ -36,6 +36,7 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary',
         'Topic :: Internet :: WWW/HTTP :: Site Management',
         'Topic :: Text Processing :: Markup :: HTML'
