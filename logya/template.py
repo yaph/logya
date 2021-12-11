@@ -2,7 +2,7 @@
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 from jinja2 import Environment, FileSystemLoader, escape
 
@@ -61,6 +61,12 @@ def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> 
     return escape(text)
 
 
+def _sort_docs(item: dict, key: str) -> Any:
+    """Return sort value from item and use casefold for strings to make sorting case insensitive."""
+    value = item.get(key)
+    return value.casefold() if isinstance(value, str) else value
+
+
 @cache
 def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
@@ -73,7 +79,7 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
                 docs.append(content['doc'])
 
     reverse = True if sort_order == 'descending' else False
-    return sorted((d for d in docs if sort_attr in d), key=itemgetter(sort_attr), reverse=reverse)
+    return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 
 def init_env(L):
