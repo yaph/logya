@@ -25,14 +25,11 @@ information on how to use Logya for creating websites.
 
 ## Sites built with Logya
 
-* https://d3-geomap.github.io
 * https://exploring-data.com
 * https://geeksta.net
 * https://guitarstreams.com
 * https://ramiro.org
 * https://programminglanguages.info
 * https://punknroll.net
-* https://strahlungsarmehandys.com
 * https://ukealong.com
 * https://www.linux-netbook.com
-* https://www.spaghetti-western.de

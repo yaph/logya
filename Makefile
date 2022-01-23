@@ -34,7 +34,6 @@ clean-sites:
 
 clean-test:
 	rm -fr t/
-	rm -fr .tox/
 	rm -f .coverage
 	rm -fr htmlcov/
 
