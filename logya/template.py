@@ -4,7 +4,8 @@ from pathlib import Path
 from string import ascii_lowercase
 from typing import Any, Dict, Union
 
-from jinja2 import Environment, FileSystemLoader, escape
+from jinja2 import Environment, FileSystemLoader
+from markupsafe import escape
 
 from logya.util import cache
 
