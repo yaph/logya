@@ -6,24 +6,9 @@ created: 2013-09-08 19:45:45
 ---
 ## 5.0.0
 
-# TODO
-
-* In Logya create: copy content from base site first and then selected theme.
-* FIXME document breaking change from `dir_*`
-
 This release includes several backwards incompatible changes, most notably it requires Python 3.8 or higher.
 
-<<<<<<< HEAD:docs/changes.rst
-4.7.2
------
-
-* Allow for header attribute values to contain `---` without breaking the parser.
-
-4.7.1
------
-=======
 * Rename the `deploy` directory to `public` and the attribute `dir_deploy` to `dir_public`.
-* Avoid "OSError: \[Errno 98\] Address already in use" by allowing address reuse.
 * Only rebuilt the index in serve mode when a requested URL is not in the index.
 * Load site settings once during initialization. Changes to `site.yaml` are visible only after restarting the server.
 * The template to use for a file in content must be specified as the header attribute `template`.
@@ -32,14 +17,11 @@ This release includes several backwards incompatible changes, most notably it re
 * Removed `canonical` template variable.
 * The `languages` setting for multilingual sites and the auto-prefixing of collection URLs with language codes changed.
 
-# Maybe
+## 4.7.2
 
-* Simply make languages a list if codes? The name is not accessible anyway.
-* Rename site to theme.
-* Rename site option to theme or remove option and sites dir to themes. The current option name site is less clear.
+* Allow for header attribute values to contain `---` without breaking the parser.
 
 ## 4.7.1
->>>>>>> v5:logya/sites/docs/content/changes.md
 
 * Only build index for directory and HTML page requests on serve mode.
 

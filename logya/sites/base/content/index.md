@@ -4,6 +4,7 @@ title: Welcome to Your Logya Site
 template: page.html
 created: 2020-10-07 01:43:52
 tags: [Example, Documentation]
+pre_render: [body]
 ---
 [TOC]
 
@@ -36,7 +37,7 @@ Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac
 cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
 amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
 
-## Source
+## Page Source
 
 <pre>
 {{ filesource('content/index.md') }}

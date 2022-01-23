@@ -1,6 +1,6 @@
 {% macro collection_links(collection, separator=', ') %}
 {% for url, anchor in collection %}
-<a href="{{ url }}">{{ anchor }}</a>{% if not loop.last %}{{ separator }}{% endif %}
+<a href="{{ base_url }}{{ url }}">{{ anchor }}</a>{% if not loop.last %}{{ separator }}{% endif %}
 {% endfor %}
 {% endmacro %}
 
@@ -8,7 +8,7 @@
 {% macro toc() %}
 <ul>
 {% for doc in get_docs(sort_attr='page', sort_order='ascending') %}
-    <li><a href="{{ doc.url }}">{{ doc.title }}</a></li>
+    <li><a href="{{ base_url }}{{ doc.url }}">{{ doc.title }}</a></li>
 {% endfor %}
 </ul>
 {% endmacro %}

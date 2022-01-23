@@ -55,12 +55,7 @@ coverage:
 	pytest --cov=logya tests/
 
 docs:
-	rm -f docs/logya.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ logya
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	firefox docs/_build/html/index.html
+	cd logya/sites/docs/ && logya gen
 
 dist: clean
 	python setup.py sdist
