@@ -49,10 +49,10 @@ lint:
 	flake8 logya tests
 
 test:
-	pytest --ignore=tests/test_cli.py tests/
+	pytest tests/
 
 coverage:
-	pytest --ignore=tests/test_cli.py --cov=logya tests/
+	pytest --cov=logya tests/
 
 docs:
 	cd logya/sites/docs/ && logya gen
