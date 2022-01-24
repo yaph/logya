@@ -8,10 +8,8 @@ help:
 	@echo "clean-test - remove test and coverage artifacts"
 	@echo "lint - check style with flake8"
 	@echo "test - run tests quickly with the default Python"
-	@echo "test-all - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
-	@echo "docs - generate Sphinx HTML documentation, including API docs"
-	@echo "docs-release - generate and upload docs to PyPI"
+	@echo "docs - generate HTML documentation"
 	@echo "release - package and upload a release"
 	@echo "dist - package"
 
@@ -67,9 +65,11 @@ logo:
 	convert images/logo.svg -resize x40 -transparent white logya/sites/docs/static/img/logya-small.png
 
 	cp logya/sites/docs/static/favicon.ico logya/sites/base/static/favicon.ico
+	cp logya/sites/docs/static/favicon.ico logya/sites/i18n/static/favicon.ico
+
 	cp logya/sites/docs/static/img/logya-small.png logya/sites/base/static/img/logya-small.png
 
-# Call example: make release version=4.7.1
+# Call example: make release version=5.0.0
 release: dist
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags

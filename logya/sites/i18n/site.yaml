@@ -20,3 +20,8 @@ languages:
         name: Deutsch
     en:
         name: English
+
+
+extensions:
+    jinja:  # https://jinja.palletsprojects.com/extensions/
+        - 'jinja2.ext.loopcontrols'
