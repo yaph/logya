@@ -3,6 +3,11 @@
 Changes
 =======
 
+4.7.3
+-----
+
+* Fix dependencies to specific versions, so Logya 4 works.
+
 4.7.2
 -----
 
