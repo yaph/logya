@@ -28,6 +28,5 @@ information on how to use Logya for creating websites.
 * https://guitarstreams.com
 * https://ramiro.org
 * https://programminglanguages.info
-* https://punknroll.net
 * https://ukealong.com
 * https://www.linux-netbook.com
