@@ -47,7 +47,7 @@ lint:
 	flake8 logya tests
 
 test:
-	pytest tests/
+	pytest -k 'not cli' tests/
 
 coverage:
 	pytest --cov=logya tests/
