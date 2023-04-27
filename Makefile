@@ -73,4 +73,15 @@ logo:
 release: dist
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags
-	twine upload dist/*
+	hatch publish
+
+# Upgrade packages and requirements files
+requirements:
+	pip freeze --local > requirements.txt
+	sed -i 's/==/>=/g' requirements.txt
+	pip install -r requirements.txt --upgrade
+	pip freeze --local > requirements.txt
+
+	rm -f requirements.tmp
+	grep -f requirements-base.txt requirements.txt > requirements.tmp
+	mv requirements.tmp requirements.txt
