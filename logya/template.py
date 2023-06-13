@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
@@ -106,6 +107,9 @@ def init_env(L):
 
     # Get documents from a URL.
     env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
+
+    # Make current datetime available.
+    env.globals['now'] = datetime.utcnow
 
     # Include the site settings last.
     env.globals.update(L.settings['site'])
