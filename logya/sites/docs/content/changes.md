@@ -4,7 +4,7 @@ title: Changelog
 template: page.html
 created: 2013-09-08 19:45:45
 ---
-## 5.0.1
+## 5.1.0
 
 * Make `util.slugify` available to templates.
 
