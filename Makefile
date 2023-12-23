@@ -69,7 +69,7 @@ logo:
 
 	cp logya/sites/docs/static/img/logya-small.png logya/sites/base/static/img/logya-small.png
 
-# Call example: make release version=5.0.0
+# Call example: make release version=5.1.0
 release: dist
 	git tag -a $(version) -m 'Create version $(version)'
 	git push --tags

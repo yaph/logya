@@ -4,6 +4,10 @@ title: Changelog
 template: page.html
 created: 2013-09-08 19:45:45
 ---
+## 5.0.1
+
+* Make `util.slugify` available to templates.
+
 ## 5.0.0
 
 This release includes several backwards incompatible changes, most notably it requires Python 3.8 or higher.
