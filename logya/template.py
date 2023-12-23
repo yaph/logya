@@ -8,7 +8,7 @@ from typing import Any, Dict, Union
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import escape
 
-from logya.util import cache
+from logya.util import cache, slugify
 
 
 env = Environment(
@@ -95,6 +95,9 @@ def init_env(L):
 
     # Filter docs list where the given attribute contains the given value.
     env.filters['attr_contains'] = lambda docs, attr, val: [doc for doc in docs if val in doc.get(attr, '')]
+
+    # Make slugify available
+    env.filters['slugify'] = slugify
 
     # Include the source of a file.
     env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
