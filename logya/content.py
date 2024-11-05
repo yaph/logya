@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
@@ -7,7 +6,6 @@ from markdown import markdown
 
 from logya.template import render
 from logya.util import load_yaml, slugify
-
 
 # Extensions of content files that will be processed.
 process_extensions = {
@@ -48,7 +46,7 @@ def create_url(path: Path) -> str:
     suffix = ''
     if path.suffix in remove_extensions:
         suffix = '/'
-        if 'index' == path.stem:
+        if path.stem == 'index':
             path = Path(path.parent)
         else:
             path = path.parent.joinpath(path.stem)
@@ -93,7 +91,7 @@ def read(path: Path, path_rel: Path, markdown_extensions: list) -> dict | None:
         print(f'Error reading/parsing: {path}\n{err}')
         return None
 
-    if 'markdown' == content_type(path):
+    if content_type(path) == 'markdown':
         doc['body'] = markdown(doc['body'], extensions=markdown_extensions)
 
     # Ensure doc has a title.

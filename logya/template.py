@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
@@ -9,7 +8,6 @@ from jinja2 import Environment, FileSystemLoader
 from markupsafe import escape
 
 from logya.util import cache, slugify
-
 
 env = Environment(
     lstrip_blocks=True,

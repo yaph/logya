@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 import shutil
 import sys
-
 from importlib import resources
 
 from logya.util import paths

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import logya.util
-
 
 site_root = 'tests/fixtures/site/'
 site_paths = logya.util.paths(site_root)
@@ -8,7 +6,7 @@ site_paths = logya.util.paths(site_root)
 
 def test_encode_content():
     text = logya.util.encode_content({}, '')
-    assert 2 == text.count('---\n')
+    assert text.count('---\n') == 2
 
 
 def test_slugify():

@@ -1,13 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-import pytest
-
-import logya.content
 
 from pathlib import Path
 
+import logya.content
 from logya.util import paths
-
 
 markdown_extensions = ['attr_list', 'def_list', 'fenced_code', 'toc']
 site_root = 'tests/fixtures/site/'
@@ -53,7 +49,7 @@ def test_filepath():
 def test_parse_empty_body():
     md = Path(site_root, 'content', 'empty-body.md')
     doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
-    assert '' == doc['body']
+    assert doc['body'] == ''
 
 
 def test_parse_error(capsys):
@@ -66,7 +62,7 @@ def test_parse_error(capsys):
 def test_read_auto_url():
     md = Path(site_root, 'content', 'separator.md')
     doc = logya.content.read(md, md.relative_to(site_paths.content), markdown_extensions)
-    assert '/separator/' == doc['url']
+    assert doc['url'] == '/separator/'
 
 
 def test_read_error(capsys):

@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 import http.server
 import socketserver
-
 from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
-from logya.core import Logya
 from logya.content import read, write_collection, write_page
+from logya.core import Logya
 from logya.template import env
 
 

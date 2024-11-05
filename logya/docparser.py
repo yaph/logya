@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import markdown
-
 from yaml import load
+
 try:
     from yaml import CLoader as Loader
 except ImportError:

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import shutil
-
 from shutil import copytree
 
-from logya.core import Logya
 from logya.content import write_collection, write_page
+from logya.core import Logya
 
 
 def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):

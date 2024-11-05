@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 import re
-
 from collections import namedtuple
 from pathlib import Path
 from string import punctuation, whitespace
 
 from yaml import dump, load
+
 try:
-    from yaml import CDumper as Dumper, CLoader as Loader
+    from yaml import CDumper as Dumper
+    from yaml import CLoader as Loader
 except ImportError:  # pragma: no cover
     from yaml import Dumper, Loader  # type: ignore
 

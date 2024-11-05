@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pytest
 
 import logya.core
@@ -49,7 +48,7 @@ def test_filesource():
 
 def test_filesource_lines():
     text = env_globals['filesource']('content/rss.xml', lines=1)
-    assert '---' == text
+    assert text == '---'
 
 
 def test_filesource_image():

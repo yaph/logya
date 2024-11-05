@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from pathlib import Path
 
 try:
@@ -8,7 +7,6 @@ except ImportError:
     from distutils.core import setup
 
 from logya import __version__
-
 
 setup(
     name='logya',

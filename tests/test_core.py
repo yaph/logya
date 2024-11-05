@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import pytest
 
 import logya.core
+
 
 @pytest.fixture
 def L():
