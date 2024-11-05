@@ -1,4 +1,4 @@
-.PHONY: clean-cache clean-build docs clean install uninstall
+.PHONY: clean-cache clean-build docs clean
 
 help:
 	@echo "clean - remove all build, test, coverage and Python artifacts"
@@ -6,12 +6,7 @@ help:
 	@echo "clean-cache - remove Python file artifacts"
 	@echo "clean-sites - remove deploy directory from starter site"
 	@echo "clean-test - remove test and coverage artifacts"
-	@echo "lint - check style with flake8"
-	@echo "test - run tests quickly with the default Python"
-	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate HTML documentation"
-	@echo "release - package and upload a release"
-	@echo "dist - package"
 
 clean: clean-build clean-cache clean-sites clean-test
 
@@ -30,37 +25,15 @@ clean-cache:
 	find . -name '*~' -exec rm -f {} +
 
 clean-sites:
-	find logya/sites/ -type d -name deploy -exec rm -rf {} +
+	find logya/sites/ -type d -name public -exec rm -rf {} +
 
 clean-test:
 	rm -fr t/
 	rm -f .coverage
 	rm -fr htmlcov/
 
-install: clean
-	python setup.py install
-
-uninstall:
-	pip uninstall -y logya
-
-reinstall: uninstall install
-
-lint:
-	flake8 logya tests
-
-test:
-	pytest -k 'not cli' tests/
-
-coverage:
-	pytest --cov=logya tests/
-
 docs:
-	cd logya/sites/docs/ && logya gen
-
-dist: clean
-	python setup.py sdist
-	python setup.py bdist_wheel
-	ls -l dist
+	hatch run logya gen -d logya/sites/docs
 
 logo:
 	convert images/wordmark.svg -define icon:auto-resize=64,48,32,16 logya/sites/docs/static/favicon.ico
@@ -70,12 +43,6 @@ logo:
 	cp logya/sites/docs/static/favicon.ico logya/sites/i18n/static/favicon.ico
 
 	cp logya/sites/docs/static/img/logya-small.png logya/sites/base/static/img/logya-small.png
-
-# Call example: make release version=5.1.0
-release: dist
-	git tag -a $(version) -m 'Create version $(version)'
-	git push --tags
-	hatch publish
 
 # Upgrade packages and requirements files
 requirements:
