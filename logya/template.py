@@ -40,7 +40,7 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
-def _filesource(root: Path, name: str, lines: int = None, raw: bool = False) -> Union[None, str]:
+def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = False) -> Union[None, str]:
     """Read and return source of text files.
 
     A template function that reads the source of the given file and returns it. Content is escaped by default so it can
