@@ -7,14 +7,15 @@ from importlib import resources
 from logya.util import paths
 
 
-def create(dir_site: str, name: str, site: str | None = None, **kwargs):
+def create(dir_site: str, name: str, site: str, **kwargs):
     target = paths(dir_site=dir_site).root.joinpath(name)
     if target.exists():
         sys.exit(f'Error: "{target}" already exists. Please remove it or specify another location.')
-    try:
-        source = resources.files(__name__).joinpath(f'sites/{site}')
-    except KeyError:
-        sys.exit(f'The site "{site}" is not installed.')
+
+    source = resources.files(__name__).joinpath(f'sites/{site}')
+    if source.is_dir():
+        shutil.copytree(source, target)  # type: ignore
     else:
-        shutil.copytree(source, target)
-        print(f'Site created in "{target}".')
+        sys.exit(f'The site "{site}" is not installed.')
+
+    print(f'Site created in "{target}".')
