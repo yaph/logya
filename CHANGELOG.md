@@ -6,15 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
-## Unreleased
+## [5.2.0](https://github.com/yaph/logya/releases/tag/5.2.0) - 2024-11-05
 
-<small>[Compare with latest](https://github.com/yaph/logya/compare/5.1.0...HEAD)</small>
+<small>[Compare with 5.1.0](https://github.com/yaph/logya/compare/5.1.0...5.2.0)</small>
+
+### Added
+
+- Add pyproject.toml and update dependencies. Remove obsolote requirements and setup files. ([de0f5d7](https://github.com/yaph/logya/commit/de0f5d740f504e2198be1ebfe4af3525fb04ad1f) by Ramiro Gómez).
+- Add CHANGELOG.md ([15a0205](https://github.com/yaph/logya/commit/15a0205c0f2e56d46115a32d37b9413bb03df781) by Ramiro Gómez).
 
 ### Fixed
 
+- Fix linting issues. ([33962ca](https://github.com/yaph/logya/commit/33962ca244ab64edbdff512df0d687106f9b166d) by Ramiro Gómez).
+- Fix typing issues ([df42711](https://github.com/yaph/logya/commit/df4271128d4e8eb1fa461103b716a6787b5e03d3) by Ramiro Gómez).
 - Fix typo ([39c679a](https://github.com/yaph/logya/commit/39c679ae0c0505507ced84dd8251f36f42838654) by Ramiro Gómez).
 
-<!-- insertion marker -->
+### Removed
+
+- Remove obsolete tasks ([52f00e9](https://github.com/yaph/logya/commit/52f00e9461d43891031a7ffbef32d8dab87bf9c5) by Ramiro Gómez).
+
 ## [5.1.0](https://github.com/yaph/logya/releases/tag/5.1.0) - 2023-12-23
 
 <small>[Compare with 5.0.0](https://github.com/yaph/logya/compare/5.0.0...5.1.0)</small>
