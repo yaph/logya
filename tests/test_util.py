@@ -6,7 +6,7 @@ site_paths = logya.util.paths(site_root)
 
 def test_encode_content():
     text = logya.util.encode_content({}, '')
-    assert text.count('---\n') == 2
+    assert text.count('---\n') == 2  # noqa: PLR2004
 
 
 def test_slugify():

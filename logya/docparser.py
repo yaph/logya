@@ -17,7 +17,7 @@ def parse(content, content_type=None):
     header_end = lines[header_start:].index('---') + 1
     header = '\n'.join(lines[header_start:header_end])
     body = '\n'.join(lines[header_end + 1:]).strip()
-    parsed = load(header, Loader=Loader)
+    parsed = load(header, Loader=Loader)  # noqa: S506
 
     # Parse body if not HTML/XML.
     if body and content_type == 'markdown':

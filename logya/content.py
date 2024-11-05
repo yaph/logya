@@ -46,10 +46,7 @@ def create_url(path: Path) -> str:
     suffix = ''
     if path.suffix in remove_extensions:
         suffix = '/'
-        if path.stem == 'index':
-            path = Path(path.parent)
-        else:
-            path = path.parent.joinpath(path.stem)
+        path = Path(path.parent) if path.stem == 'index' else path.parent.joinpath(path.stem)
 
     if not path.parts:
         return '/'

@@ -10,6 +10,7 @@ from markupsafe import escape
 from logya.util import cache, slugify
 
 env = Environment(
+    autoescape=True,
     lstrip_blocks=True,
     trim_blocks=True
 )
@@ -31,9 +32,9 @@ def _alpha_index(
         key = value.lower()[0]
         if key not in ascii_lowercase:
             key = non_ascii_key
-        index[key] = index.get(key, []) + [item]
+        index[key] = [*index.get(key, []), item]
 
-    reverse = False if sort_order == 'ascending' else True
+    reverse = (sort_order == 'ascending')
     keys = sorted(index.keys(), reverse=reverse)
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
@@ -78,7 +79,7 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
             if doc_url.startswith(url):
                 docs.append(content['doc'])
 
-    reverse = True if sort_order == 'descending' else False
+    reverse = (sort_order == 'descending')
     return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 

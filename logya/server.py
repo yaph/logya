@@ -14,14 +14,14 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     L: Logya
 
     def __init__(self, *args):
-        super(HTTPRequestHandler, self).__init__(*args, directory=self.L.paths.public.as_posix())
+        super().__init__(*args, directory=self.L.paths.public.as_posix())
 
-    def do_GET(self):
+    def do_GET(self):  # noqa: N802
         update_resource(self.path, self.L)
-        super(HTTPRequestHandler, self).do_GET()
+        super().do_GET()
 
 
-def update_page(url: str, L: Logya):
+def update_page(url: str, L: Logya) -> bool:
     """Update content or collection page."""
 
     if content := L.doc_index.get(url):
@@ -38,6 +38,8 @@ def update_page(url: str, L: Logya):
         write_collection(L.paths.public, content)
         L.info(f'Refreshed collection: {url}')
         return True
+
+    return False
 
 
 def update_resource(path: str, L: Logya) -> None:

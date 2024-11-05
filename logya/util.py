@@ -1,7 +1,7 @@
 import re
-from collections import namedtuple
 from pathlib import Path
 from string import punctuation, whitespace
+from typing import NamedTuple
 
 from yaml import dump, load
 
@@ -16,7 +16,13 @@ except ImportError:  # pragma: no cover
 forbidden = (set(punctuation) - set('+-_.,@')) | set(whitespace)
 re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 
-Paths = namedtuple('Paths', ['root', 'content', 'public', 'static', 'templates'])
+# For accessing site paths.
+class Paths(NamedTuple):
+    root: str
+    content: str
+    public: str
+    static: str
+    templates: str
 
 
 def cache(func):
@@ -41,7 +47,7 @@ def encode_content(headers: dict, body: str) -> str:
 def load_yaml(text: str) -> dict:
     """Wrapper for yaml.load so yaml import is done only once."""
 
-    return load(text, Loader=Loader)
+    return load(text, Loader=Loader)  # noqa: S506
 
 
 def paths(dir_site: str) -> Paths:

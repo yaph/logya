@@ -43,7 +43,7 @@ dependencies = [
 logya = "logya.main:main"
 
 [project.urls]
-Documentation = "https://github.com/yaph/logya#readme"
+Documentation = "https://ramiro.org/logya/docs/"
 Issues = "https://github.com/yaph/logya/issues"
 Source = "https://github.com/yaph/logya"
 
@@ -94,8 +94,11 @@ exclude_lines = [
 ]
 
 [tool.ruff.lint]
-ignore = ["T201", "DTZ005", "FA100"]
+ignore = ["DTZ006", "FA100", "FBT001", "FBT002", "N803", "N806", "T201"]
 
 [tool.ruff.format]
 quote-style = "preserve"
 skip-magic-trailing-comma = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["INP", "N", "S"]

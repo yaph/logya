@@ -101,7 +101,7 @@ class Logya:
 
                 # Add attribute for creating collection links in templates.
                 links = attr + '_links'
-                doc[links] = doc.get(links, []) + [(url, value)]
+                doc[links] = [*doc.get(links, []), (url, value)]
 
                 # Update or create collection index value.
                 if coll_data := coll['index'].get(url):
