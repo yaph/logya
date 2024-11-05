@@ -18,11 +18,11 @@ re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 
 # For accessing site paths.
 class Paths(NamedTuple):
-    root: str
-    content: str
-    public: str
-    static: str
-    templates: str
+    root: Path
+    content: Path
+    public: Path
+    static: Path
+    templates: Path
 
 
 def cache(func):
