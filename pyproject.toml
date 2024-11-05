@@ -1,0 +1,101 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "logya"
+dynamic = ["version"]
+description = 'Logya: easy to use and flexible static site generator.'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = [
+  'static-site-generator',
+  'site-generator',
+  'website',
+  'cli',
+  'jinja',
+  'yaml',
+  'terminal'
+]
+authors = [
+  { name = "Ramiro Gómez", email = "code@ramiro.org" },
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary",
+  "Topic :: Internet :: WWW/HTTP :: Site Management",
+  "Topic :: Text Processing :: Markup :: HTML"
+]
+dependencies = [
+  "Jinja2>=3.1.4",
+  "Markdown>=3.7",
+  "PyYAML>=6.0.2"
+]
+
+[project.scripts]
+logya = "logya.main:main"
+
+[project.urls]
+Documentation = "https://github.com/yaph/logya#readme"
+Issues = "https://github.com/yaph/logya/issues"
+Source = "https://github.com/yaph/logya"
+
+[tool.hatch.version]
+path = "logya/__init__.py"
+
+[tool.hatch.envs.logya-dev]
+extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
+
+[tool.hatch.envs.logya-dev.scripts]
+type_check = "mypy --install-types --non-interactive {args:logya tests}"
+qa = [
+  "hatch run type_check",
+  "hatch test"
+]
+release = [
+  "hatch run qa",
+  "hatch build --clean",
+  "hatch publish",
+  "git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
+  "git push --tags",
+  "git-changelog -o CHANGELOG.md",
+  "git commit -m 'Update CHANGELOG' CHANGELOG.md",
+  "git push"
+]
+test_release = [
+  "hatch run qa",
+  "hatch build --clean"
+]
+
+[tool.coverage.run]
+source_pkgs = ["logya", "tests"]
+branch = true
+parallel = true
+omit = [
+  "logya/__about__.py",
+]
+
+[tool.coverage.paths]
+logya = ["logya", "*/logya/logya"]
+tests = ["tests", "*/logya/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.ruff.lint]
+ignore = ["T201", "DTZ005", "FA100"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+skip-magic-trailing-comma = true
