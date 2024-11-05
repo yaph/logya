@@ -10,6 +10,7 @@ from markupsafe import escape
 from logya.util import cache, slugify
 
 env = Environment(
+    autoescape=False,
     lstrip_blocks=True,
     trim_blocks=True
 )
