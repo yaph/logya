@@ -7,7 +7,7 @@ name = "logya"
 dynamic = ["version"]
 description = 'Logya: easy to use and flexible static site generator.'
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = "MIT"
 keywords = [
   'static-site-generator',
