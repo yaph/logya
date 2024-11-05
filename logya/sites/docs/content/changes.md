@@ -4,6 +4,11 @@ title: Changelog
 template: page.html
 created: 2013-09-08 19:45:45
 ---
+## 5.2.0
+
+* Use pyproject.toml instead of setup.py.
+* Update dependencies and don't pin specific versions.
+
 ## 5.1.0
 
 * Make `util.slugify` available to templates.
