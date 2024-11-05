@@ -3,7 +3,7 @@ from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
-from typing import Any, Dict, Union
+from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 from markupsafe import escape
@@ -26,7 +26,7 @@ def _alpha_index(
     in `non_ascii_key`.
     """
 
-    index: Dict[str, list] = {}
+    index: dict[str, list] = {}
 
     for item in items:
         value = item[sort_attr]
@@ -40,7 +40,7 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
-def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = False) -> Union[None, str]:
+def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = False) -> str | None:
     """Read and return source of text files.
 
     A template function that reads the source of the given file and returns it. Content is escaped by default so it can
