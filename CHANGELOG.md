@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [5.2.1](https://github.com/yaph/logya/releases/tag/5.2.1) - 2024-11-05
+
+<small>[Compare with 5.2.0](https://github.com/yaph/logya/compare/5.2.0...5.2.1)</small>
+
 ## [5.2.0](https://github.com/yaph/logya/releases/tag/5.2.0) - 2024-11-05
 
 <small>[Compare with 5.1.0](https://github.com/yaph/logya/compare/5.1.0...5.2.0)</small>
