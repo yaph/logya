@@ -4,6 +4,10 @@ title: Changelog
 template: page.html
 created: 2013-09-08 19:45:45
 ---
+## 5.2.1
+
+* Fix escaping of HTML in content by turning off Jinja autoescape.
+
 ## 5.2.0
 
 * Use pyproject.toml instead of setup.py.
