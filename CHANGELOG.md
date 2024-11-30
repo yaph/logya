@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [5.2.2](https://github.com/yaph/logya/releases/tag/5.2.2) - 2024-11-30
+
+<small>[Compare with 5.2.1](https://github.com/yaph/logya/compare/5.2.1...5.2.2)</small>
+
+### Fixed
+
+- Fix logic to determine sort order in `_alpha_index()`. ([b468f32](https://github.com/yaph/logya/commit/b468f3263edc7a908b1dc5cc7f733828b58ef094) by Ramiro Gómez).
+
+### Changed
+
+- Changes. ([b3be03d](https://github.com/yaph/logya/commit/b3be03d1621871e8989d545c9c63ff180178e4b7) by Ramiro Gómez).
+
 ## [5.2.1](https://github.com/yaph/logya/releases/tag/5.2.1) - 2024-11-05
 
 <small>[Compare with 5.2.0](https://github.com/yaph/logya/compare/5.2.0...5.2.1)</small>
