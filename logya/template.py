@@ -34,7 +34,7 @@ def _alpha_index(
             key = non_ascii_key
         index[key] = [*index.get(key, []), item]
 
-    reverse = (sort_order == 'ascending')
+    reverse = (sort_order != 'ascending')
     keys = sorted(index.keys(), reverse=reverse)
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
