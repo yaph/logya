@@ -16,7 +16,7 @@ def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
     print(f'Generate site in directory: {L.paths.public.as_posix()}')
     if L.paths.static.exists():
         print('Copy static files.')
-        copytree(L.paths.static, L.paths.public, dirs_exist_ok=True)  # dirs_exist_ok requires Python 3.8
+        copytree(L.paths.static, L.paths.public, dirs_exist_ok=True)
 
     print('Write pages.')
     for url, content in L.doc_index.items():
