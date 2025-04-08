@@ -77,24 +77,23 @@ class Logya:
         """Update collections index for given doc."""
 
         # Iterate over copy so attributes can be added.
-        for attr, values in doc.copy().items():
-            if attr not in self.collections:
+        for attr, val in doc.copy().items():
+            if attr not in self.collections or val is None:
                 continue
             coll = self.collections[attr]
 
-            # Process unique values while preserving their order to handle potentially duplicate collection values.
-            seen = set()
-            for value in values:
-                if value in seen:
-                    continue
-                seen.add(value)
+            # Turn string into single item list.
+            values = [val] if isinstance(val, str) else val
 
+            # Process unique values
+            for value in set(values):
                 url = f'/{coll["path"]}/{slugify(value).lower()}/'
 
                 # Prepend language code to URL if language is specified in doc and exists in configuration.
                 if 'language' in doc and doc['language'] in self.languages:
                     url = f'/{doc["language"]}{url}'
 
+                # Don't overwrite existing content.
                 if url in self.doc_index:
                     print(f'Collection not created because content exists at {url}.')
                     continue
