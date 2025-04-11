@@ -1,3 +1,5 @@
+import sys
+
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
@@ -115,7 +117,12 @@ def write_page(base_path: Path, content: dict) -> None:
 
     path_page = filepath(base_path, content['url'])
     path_page.parent.mkdir(parents=True, exist_ok=True)
-    path_page.write_text(render(content))
+
+    try:
+        rendered = render(content)
+    except TypeError as err:
+        sys.exit(f'Error rendering: {content["url"]}\n{err}\n')
+    path_page.write_text(rendered)
 
 
 def write_collection(base_path: Path, content: dict) -> None:
