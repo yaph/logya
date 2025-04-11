@@ -16,7 +16,7 @@ def parse(content, content_type=None):
     header_start = lines.index('---') + 1
     header_end = lines[header_start:].index('---') + 1
     header = '\n'.join(lines[header_start:header_end])
-    body = '\n'.join(lines[header_end + 1:]).strip()
+    body = '\n'.join(lines[header_end + 1 :]).strip()
     parsed = load(header, Loader=Loader)  # noqa: S506
 
     # Parse body if not HTML/XML.
@@ -26,8 +26,9 @@ def parse(content, content_type=None):
             extensions=[
                 'markdown.extensions.attr_list',
                 'markdown.extensions.def_list',
-                'markdown.extensions.fenced_code'
-            ])
+                'markdown.extensions.fenced_code',
+            ],
+        )
 
     parsed['body'] = body
     return parsed

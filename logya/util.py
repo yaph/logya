@@ -4,7 +4,7 @@ from pathlib import Path
 from string import punctuation, whitespace
 from typing import NamedTuple
 
-from yaml import dump, load, YAMLError
+from yaml import YAMLError, dump, load
 
 try:
     from yaml import CDumper as Dumper
@@ -16,6 +16,7 @@ except ImportError:  # pragma: no cover
 # Characters not to be used in URLs, allowing some punctuation.
 forbidden = (set(punctuation) - set('+-_.,@')) | set(whitespace)
 re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
+
 
 # For accessing site paths.
 class Paths(NamedTuple):
@@ -36,6 +37,7 @@ def cache(func):
         if key not in mapping:
             mapping[key] = func(*args, **kwargs)
         return mapping[key]
+
     return f
 
 
@@ -51,8 +53,7 @@ def load_yaml(text: str) -> dict:
     try:
         return load(text, Loader=Loader)  # noqa: S506
     except YAMLError as err:
-        sys.exit(f'Error loading YAML:\n{text}\n{err}')
-
+        sys.exit(f'Error loading YAML:\n{text}\n{err}\nExiting...')
 
 
 def paths(dir_site: str) -> Paths:
@@ -62,7 +63,7 @@ def paths(dir_site: str) -> Paths:
         content=root.joinpath('content'),
         templates=root.joinpath('templates'),
         static=root.joinpath('static'),
-        public=root.joinpath('public')
+        public=root.joinpath('public'),
     )
 
 

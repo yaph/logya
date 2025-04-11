@@ -1,8 +1,8 @@
+import sys
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
-import sys
 from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
@@ -13,15 +13,13 @@ from logya.util import cache, slugify
 env = Environment(
     autoescape=False,  # noqa: S701 # Disable autoescaping to allow raw HTML in templates.
     lstrip_blocks=True,
-    trim_blocks=True
+    trim_blocks=True,
 )
 
 
 def _alpha_index(
-        items: list,
-        non_ascii_key: str = '_',
-        sort_attr: str = 'title',
-        sort_order: str = 'ascending') -> dict:
+    items: list, non_ascii_key: str = '_', sort_attr: str = 'title', sort_order: str = 'ascending'
+) -> dict:
     """Return an alphabetical index for a list of dicts. All strings that do not start with an ASCII letter are stored
     in `non_ascii_key`.
     """
@@ -35,7 +33,7 @@ def _alpha_index(
             key = non_ascii_key
         index[key] = [*index.get(key, []), item]
 
-    reverse = (sort_order != 'ascending')
+    reverse = sort_order != 'ascending'
     keys = sorted(index.keys(), reverse=reverse)
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
@@ -80,7 +78,7 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
             if doc_url.startswith(url):
                 docs.append(content['doc'])
 
-    reverse = (sort_order == 'descending')
+    reverse = sort_order == 'descending'
     return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 
@@ -126,4 +124,4 @@ def render(variables: dict) -> str:
     try:
         return env.get_template(variables['template']).render(variables)
     except TypeError as err:
-        sys.exit(f'Error rendering: {variables}\n{err}\nExiting.')
+        sys.exit(f'Error rendering: {variables}\n{err}\nExiting...')

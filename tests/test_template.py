@@ -7,6 +7,7 @@ import logya.template
 env_globals = logya.template.env.globals
 env_filters = logya.template.env.filters
 
+
 @pytest.fixture
 def L():
     L = logya.core.Logya(dir_site='logya/sites/docs/')

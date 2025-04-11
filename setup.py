@@ -37,13 +37,9 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary',
         'Topic :: Internet :: WWW/HTTP :: Site Management',
-        'Topic :: Text Processing :: Markup :: HTML'
+        'Topic :: Text Processing :: Markup :: HTML',
     ],
-    entry_points={
-        'console_scripts': [
-            'logya = logya.main:main'
-        ]
-    },
+    entry_points={'console_scripts': ['logya = logya.main:main']},
     test_suite='tests',
     tests_require=['pytest', 'tox'],
 )

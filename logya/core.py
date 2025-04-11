@@ -113,5 +113,5 @@ class Logya:
                         'docs': [doc],
                         'title': value,
                         'template': coll['template'],
-                        'url': url
+                        'url': url,
                     }
