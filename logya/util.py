@@ -1,9 +1,10 @@
 import re
+import sys
 from pathlib import Path
 from string import punctuation, whitespace
 from typing import NamedTuple
 
-from yaml import dump, load
+from yaml import dump, load, YAMLError
 
 try:
     from yaml import CDumper as Dumper
@@ -47,7 +48,11 @@ def encode_content(headers: dict, body: str) -> str:
 def load_yaml(text: str) -> dict:
     """Wrapper for yaml.load so yaml import is done only once."""
 
-    return load(text, Loader=Loader)  # noqa: S506
+    try:
+        return load(text, Loader=Loader)  # noqa: S506
+    except YAMLError as err:
+        sys.exit(f'Error loading YAML:\n{text}\n{err}')
+
 
 
 def paths(dir_site: str) -> Paths:

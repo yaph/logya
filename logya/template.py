@@ -2,6 +2,7 @@ from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
+import sys
 from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
@@ -10,7 +11,7 @@ from markupsafe import escape
 from logya.util import cache, slugify
 
 env = Environment(
-    autoescape=False,
+    autoescape=False,  # noqa: S701 # Disable autoescaping to allow raw HTML in templates.
     lstrip_blocks=True,
     trim_blocks=True
 )
@@ -121,4 +122,8 @@ def render(variables: dict) -> str:
     # Pre-render enables the use of Jinja2 template syntax in attribute values.
     for attr in variables.get('pre_render', []):
         variables[attr] = env.from_string(variables[attr]).render(variables)
-    return env.get_template(variables['template']).render(variables)
+
+    try:
+        return env.get_template(variables['template']).render(variables)
+    except TypeError as err:
+        sys.exit(f'Error rendering: {variables}\n{err}\nExiting.')
