@@ -50,18 +50,17 @@ def filepath(base: Path, url: str) -> Path:
     return path
 
 
-def parse(content: str) -> dict:
+def parse(content: str, delimiter: str = '---') -> dict:
     """Parse document and return a dictionary of header fields and body."""
 
-    # Extract YAML header and body and load header into dict.
+    # Parse the document line by line to ensure the separator is not inside a header value.
     lines = content.splitlines()
 
-    header_start = lines.index('---') + 1
-    header_end = lines[header_start:].index('---') + 1
-    header = '\n'.join(lines[header_start:header_end])
-    body = '\n'.join(lines[header_end + 1 :]).strip()
-    parsed = load_yaml(header)
-    parsed['body'] = body
+    # Extract YAML header and body and load header into dict.
+    header_start = lines.index(delimiter) + 1
+    header_end = lines[header_start:].index(delimiter) + 1
+    parsed = load_yaml('\n'.join(lines[header_start:header_end]))
+    parsed['body'] = '\n'.join(lines[header_end + 1 :]).strip()
     return parsed
 
 
