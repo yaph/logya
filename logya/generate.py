@@ -5,7 +5,7 @@ from logya.content import write_collection, write_page
 from logya.core import Logya
 
 
-def generate(dir_site: str, verbose: bool, keep: bool, **kwargs):
+def generate(dir_site: str, verbose: bool, keep: bool, **_kwargs):
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 

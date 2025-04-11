@@ -5,7 +5,7 @@ from importlib import resources
 from logya.util import paths
 
 
-def create(dir_site: str, name: str, site: str, **kwargs):
+def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     target = paths(dir_site=dir_site).root.joinpath(name)
     if target.exists():
         sys.exit(f'Error: "{target}" already exists. Please remove it or specify another location.')

@@ -74,7 +74,7 @@ def update_resource(path: str, L: Logya) -> None:
             L.info(f'URL not found: {url}')
 
 
-def serve(dir_site: str, verbose: bool, host: str, port: int, **kwargs) -> None:
+def serve(dir_site: str, verbose: bool, host: str, port: int, **_kwargs) -> None:
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
     # Make Logya object accessible to server.
