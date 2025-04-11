@@ -8,26 +8,10 @@ from logya.template import render
 from logya.util import load_yaml, slugify
 
 # Extensions of content files that will be processed.
-process_extensions = {
-    '.css',
-    '.htm',
-    '.html',
-    '.js',
-    '.json',
-    '.markdown',
-    '.md',
-    '.php',
-    '.txt',
-    '.xml'
-}
+process_extensions = {'.css', '.htm', '.html', '.js', '.json', '.markdown', '.md', '.php', '.txt', '.xml'}
 
 # Extensions of content files that will be removed.
-remove_extensions = {
-    '.htm',
-    '.html',
-    '.markdown',
-    '.md'
-}
+remove_extensions = {'.htm', '.html', '.markdown', '.md'}
 
 
 def content_type(path: Path) -> str | None:
@@ -75,7 +59,7 @@ def parse(content: str) -> dict:
     header_start = lines.index('---') + 1
     header_end = lines[header_start:].index('---') + 1
     header = '\n'.join(lines[header_start:header_end])
-    body = '\n'.join(lines[header_end + 1:]).strip()
+    body = '\n'.join(lines[header_end + 1 :]).strip()
     parsed = load_yaml(header)
     parsed['body'] = body
     return parsed
@@ -84,7 +68,7 @@ def parse(content: str) -> dict:
 def read(path: Path, path_rel: Path, markdown_extensions: list) -> dict | None:
     try:
         doc = parse(path.read_text().strip())
-    except Exception as err:
+    except UnicodeDecodeError as err:
         print(f'Error reading/parsing: {path}\n{err}')
         return None
 
