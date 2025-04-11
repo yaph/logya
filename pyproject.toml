@@ -57,7 +57,7 @@ extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 type_check = "mypy --install-types --non-interactive {args:logya tests}"
 qa = [
   "hatch run type_check",
-  "hatch test"
+  "pytest tests"
 ]
 release = [
   "hatch run qa",
