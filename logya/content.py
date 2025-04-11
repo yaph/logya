@@ -68,7 +68,7 @@ def parse(content: str) -> dict:
 def read(path: Path, path_rel: Path, markdown_extensions: list) -> dict | None:
     try:
         doc = parse(path.read_text().strip())
-    except UnicodeDecodeError as err:
+    except (UnicodeDecodeError, ValueError) as err:
         print(f'Error reading/parsing: {path}\n{err}')
         return None
 
