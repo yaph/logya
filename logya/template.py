@@ -5,7 +5,7 @@ from pathlib import Path
 from string import ascii_lowercase
 from typing import Any
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, exceptions
 from markupsafe import escape
 
 from logya.util import cache, slugify
@@ -123,5 +123,5 @@ def render(variables: dict) -> str:
 
     try:
         return env.get_template(variables['template']).render(variables)
-    except TypeError as err:
+    except (TypeError, exceptions.UndefinedError) as err:
         sys.exit(f'Error rendering: {variables}\n{err}\nExiting...')
