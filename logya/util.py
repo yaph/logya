@@ -44,7 +44,7 @@ def cache(func):
 def encode_content(headers: dict, body: str) -> str:
     """Encode headers and body in content format."""
 
-    return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body}'
+    return f'---\n{dump(headers, Dumper=Dumper).strip()}\n---\n{body.strip()}'
 
 
 def load_yaml(text: str) -> dict:
