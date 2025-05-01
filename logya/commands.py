@@ -14,7 +14,7 @@ def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     if target.exists():
         sys.exit(f'Error: "{target}" already exists. Please remove it or specify another location.')
 
-    source = resources.files(__name__).joinpath(f'sites/{site}')
+    source = resources.files('logya').joinpath(f'sites/{site}')
     if source.is_dir():
         shutil.copytree(source, target)  # type: ignore
     else:
