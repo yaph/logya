@@ -33,7 +33,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install Dependencies
-      run: pip install --upgrade pytest pytest-cov
+      run: pip install --upgrade pytest pytest-cov .
 
     - name: Run tests
       run: pytest --cov --cov-report=term-missing --tb=short
