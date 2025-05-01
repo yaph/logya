@@ -2,8 +2,7 @@
 import argparse
 
 from logya import __version__
-from logya.create import create
-from logya.generate import generate
+from logya.commands import create, generate
 from logya.server import serve
 
 
