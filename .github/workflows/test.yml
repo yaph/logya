@@ -32,8 +32,15 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install Dependencies
-      run: pip install --upgrade . pytest pytest-cov
+    - name: Install Hatch
+      run: pip install --upgrade hatch
+
+    - name: Activate environment
+      run: hatch shell
+
+    - name: Run static analysis
+      run: hatch fmt --check
 
     - name: Run tests
-      run: pytest --cov --cov-report=term-missing --tb=short
+      run: hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1
+
