@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [5.3.0](https://github.com/yaph/logya/releases/tag/5.3.0) - 2025-05-04
+
+<small>[Compare with 5.2.2](https://github.com/yaph/logya/compare/5.2.2...5.3.0)</small>
+
+### Added
+
+- Add cwd to pip install ([225fd3f](https://github.com/yaph/logya/commit/225fd3f479158012ea1ead4b89cc1edc232f9c19) by Ramiro Gómez).
+- Add comments Fewer variables ([99d53ae](https://github.com/yaph/logya/commit/99d53ae20d18703ef90d16bf16b2411ca6707a6b) by Ramiro Gómez).
+
+### Changed
+
+- Change import to: from logya import __version__, commands, server ([e05b9f5](https://github.com/yaph/logya/commit/e05b9f532c4d436298d1f8a3ab392de3e2a70388) by Ramiro Gómez).
+
+### Removed
+
+- Remove superflous comment ([e743530](https://github.com/yaph/logya/commit/e7435306790a399795e92bc9d37a68ab8f3566ca) by Ramiro Gómez).
+
 ## [5.2.2](https://github.com/yaph/logya/releases/tag/5.2.2) - 2024-11-30
 
 <small>[Compare with 5.2.1](https://github.com/yaph/logya/compare/5.2.1...5.2.2)</small>
