@@ -1,7 +1,8 @@
 # Logya
 public/
 static/compiled/
+.cache/
 
 # nodejs
 node_modules/
-.sass-cache
+.sass-cache/

@@ -6,7 +6,7 @@ from sys import exit
 import yaml
 
 from logya.content import process_extensions, read
-from logya.template import init_env
+from logya.template import init_env, precompile_templates
 from logya.util import load_yaml, paths, slugify
 
 
@@ -49,6 +49,8 @@ class Logya:
 
         # Initialize template env.
         init_env(self)
+        precompile_templates(self)
+
 
     def info(self, msg: str):
         """Print message if in verbose mode."""
