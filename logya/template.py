@@ -62,7 +62,6 @@ def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = Fal
     return escape(text)
 
 
-@lru_cache
 def _sort_docs(item: dict, key: str) -> Any:
     """Return sort value from item and use casefold for strings to make sorting case insensitive."""
     value = item.get(key)

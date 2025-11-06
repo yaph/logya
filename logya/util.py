@@ -54,7 +54,7 @@ def paths(dir_site: str) -> Paths:
     )
 
 
-@lru_cache
+@lru_cache(maxsize=256)
 def slugify(s: str) -> str:
     """Return string with forbidden characters replaced with hyphens.
 
