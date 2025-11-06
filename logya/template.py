@@ -82,10 +82,33 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
     return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 
-def cache_templates(L) -> None:
+def add_filters() -> None:
+    # Create an alphabetical index for a list of objects.
+    env.filters['alpha_index'] = _alpha_index
+    # Filter docs list where the given attribute contains the given value.
+    env.filters['attr_contains'] = lambda docs, attr, val: [d for d in docs if val in d.get(attr, '')]
+    # Make slugify available
+    env.filters['slugify'] = slugify
+
+
+def add_globals(L) -> None:
+    # Include the source of a file.
+    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
+    # Get collection from its name.
+    env.globals['get_collection'] = lambda name: L.collections.get(name)
+    # Get a document from its URL.
+    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
+    # Get documents from a URL.
+    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
+    # Make current datetime available.
+    env.globals['now'] = datetime.now(timezone.utc)
+    # Include the site settings last.
+    env.globals.update(L.settings['site'])
+
+
+def cache_templates(cache_dir: Path) -> None:
     """Setup Bytecode cache for templates."""
 
-    cache_dir = L.paths.root.joinpath('.cache')
     try:
         cache_dir.mkdir(parents=True, exist_ok=True)
         env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
@@ -103,32 +126,9 @@ def init_env(L):
     for ext in L.jinja_extensions:
         env.add_extension(ext)
 
-    # Create an alphabetical index for a list of objects.
-    env.filters['alpha_index'] = _alpha_index
-
-    # Filter docs list where the given attribute contains the given value.
-    env.filters['attr_contains'] = lambda docs, attr, val: [doc for doc in docs if val in doc.get(attr, '')]
-
-    # Make slugify available
-    env.filters['slugify'] = slugify
-
-    # Include the source of a file.
-    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
-
-    # Get collection from its name.
-    env.globals['get_collection'] = lambda name: L.collections.get(name)
-
-    # Get a document from its URL.
-    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
-
-    # Get documents from a URL.
-    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
-
-    # Make current datetime available.
-    env.globals['now'] = datetime.now(timezone.utc)
-
-    # Include the site settings last.
-    env.globals.update(L.settings['site'])
+    add_filters()
+    add_globals(L)
+    cache_templates(L.paths.root.joinpath('.cache'))
 
 
 def render(variables: dict) -> str:
