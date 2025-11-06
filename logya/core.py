@@ -50,7 +50,6 @@ class Logya:
         # Initialize template env.
         init_env(self)
 
-
     def info(self, msg: str):
         """Print message if in verbose mode."""
 

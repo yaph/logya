@@ -5,7 +5,7 @@ from pathlib import Path
 from string import ascii_lowercase
 from typing import Any
 
-from jinja2 import Environment, exceptions, FileSystemLoader, FileSystemBytecodeCache
+from jinja2 import Environment, FileSystemBytecodeCache, FileSystemLoader, exceptions
 from markupsafe import escape
 
 from logya.util import cache, slugify
@@ -120,7 +120,7 @@ def init_env(L):
     try:
         cache_dir.mkdir(parents=True, exist_ok=True)
         env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
-    except Exception:
+    except OSError:
         env.bytecode_cache = None
 
     add_filters()
