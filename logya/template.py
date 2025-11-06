@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
@@ -82,6 +82,18 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
     return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 
+def cache_templates(L) -> None:
+    """Setup Bytecode cache for templates."""
+
+    cache_dir = L.paths.root.joinpath('.cache')
+    try:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
+    except Exception:
+        # Fail gracefully if cache can't be created; environment will work without it.
+        env.bytecode_cache = None
+
+
 def init_env(L):
     if not L.paths.templates.exists() or not L.paths.templates.is_dir():
         sys.exit('No templates directory found.')
@@ -113,22 +125,10 @@ def init_env(L):
     env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
 
     # Make current datetime available.
-    env.globals['now'] = datetime.utcnow
+    env.globals['now'] = datetime.now(timezone.utc)
 
     # Include the site settings last.
     env.globals.update(L.settings['site'])
-
-
-def cache_templates(L) -> None:
-    """Setup Bytecode cache for templates."""
-
-    cache_dir = L.paths.root.joinpath('.cache')
-    try:
-        cache_dir.mkdir(parents=True, exist_ok=True)
-        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
-    except Exception:
-        # Fail gracefully if cache can't be created; environment will work without it.
-        env.bytecode_cache = None
 
 
 def render(variables: dict) -> str:

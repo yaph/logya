@@ -49,7 +49,6 @@ class Logya:
 
         # Initialize template env.
         init_env(self)
-        print('SETUP CACHE')
         cache_templates(self)
 
 
