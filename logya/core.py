@@ -6,7 +6,7 @@ from sys import exit
 import yaml
 
 from logya.content import process_extensions, read
-from logya.template import init_env, precompile_templates
+from logya.template import init_env, cache_templates
 from logya.util import load_yaml, paths, slugify
 
 
@@ -49,7 +49,8 @@ class Logya:
 
         # Initialize template env.
         init_env(self)
-        precompile_templates(self)
+        print('SETUP CACHE')
+        cache_templates(self)
 
 
     def info(self, msg: str):

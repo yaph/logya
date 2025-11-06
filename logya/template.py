@@ -83,6 +83,9 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
 
 
 def init_env(L):
+    if not L.paths.templates.exists() or not L.paths.templates.is_dir():
+        sys.exit('No templates directory found.')
+
     env.loader = FileSystemLoader(L.paths.templates)
 
     for ext in L.jinja_extensions:
@@ -116,36 +119,16 @@ def init_env(L):
     env.globals.update(L.settings['site'])
 
 
-def precompile_templates(L) -> None:
-    """
-    Walk the site's templates directory and force-load every template so Jinja2
-    compiles them and writes bytecode into the FileSystemBytecodeCache.
-    """
+def cache_templates(L) -> None:
+    """Setup Bytecode cache for templates."""
 
-    if not L.paths.templates.exists() or not L.paths.templates.is_dir():
-        L.info('No templates directory found to precompile.')
-        return
-
-    L.info(f'Precompiling templates in: {L.paths.templates.as_posix()}')
-
-    # Bytecode cache: store compiled templates under site root
     cache_dir = L.paths.root.joinpath('.cache')
     try:
         cache_dir.mkdir(parents=True, exist_ok=True)
-        env.bytecode_cache = FileSystemBytecodeCache(str(cache_dir))
+        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
     except Exception:
         # Fail gracefully if cache can't be created; environment will work without it.
         env.bytecode_cache = None
-
-    for path in L.paths.templates.rglob('*'):
-        if not path.is_file():
-            continue
-        name = path.relative_to(L.paths.templates).as_posix()
-        try:
-            env.get_template(name)
-            L.info(f'Precompiled template: {name}')
-        except Exception as err:
-            L.info(f'Failed to precompile {name}: {err}')
 
 
 def render(variables: dict) -> str:
