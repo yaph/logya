@@ -6,7 +6,7 @@ from sys import exit
 import yaml
 
 from logya.content import process_extensions, read
-from logya.template import init_env, cache_templates
+from logya.template import init_env
 from logya.util import load_yaml, paths, slugify
 
 

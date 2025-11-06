@@ -106,17 +106,6 @@ def add_globals(L) -> None:
     env.globals.update(L.settings['site'])
 
 
-def cache_templates(cache_dir: Path) -> None:
-    """Setup Bytecode cache for templates."""
-
-    try:
-        cache_dir.mkdir(parents=True, exist_ok=True)
-        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
-    except Exception:
-        # Fail gracefully if cache can't be created; environment will work without it.
-        env.bytecode_cache = None
-
-
 def init_env(L):
     if not L.paths.templates.exists() or not L.paths.templates.is_dir():
         sys.exit('No templates directory found.')
@@ -126,9 +115,16 @@ def init_env(L):
     for ext in L.jinja_extensions:
         env.add_extension(ext)
 
+    # Try to setup Bytecode cache for templates.
+    cache_dir = L.paths.root.joinpath('.cache')
+    try:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
+    except Exception:
+        env.bytecode_cache = None
+
     add_filters()
     add_globals(L)
-    cache_templates(L.paths.root.joinpath('.cache'))
 
 
 def render(variables: dict) -> str:
