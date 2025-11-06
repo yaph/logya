@@ -1,5 +1,6 @@
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 from string import punctuation, whitespace
 from typing import NamedTuple
@@ -25,20 +26,6 @@ class Paths(NamedTuple):
     public: Path
     static: Path
     templates: Path
-
-
-def cache(func):
-    """Decorator for caching function calls."""
-
-    mapping = {}
-
-    def f(*args, **kwargs):
-        key = str(args) + str(kwargs)
-        if key not in mapping:
-            mapping[key] = func(*args, **kwargs)
-        return mapping[key]
-
-    return f
 
 
 def encode_content(headers: dict, body: str) -> str:
@@ -67,6 +54,7 @@ def paths(dir_site: str) -> Paths:
     )
 
 
+@lru_cache
 def slugify(s: str) -> str:
     """Return string with forbidden characters replaced with hyphens.
 

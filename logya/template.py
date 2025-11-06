@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime, timezone
+from functools import lru_cache
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
@@ -8,7 +9,7 @@ from typing import Any
 from jinja2 import Environment, FileSystemBytecodeCache, FileSystemLoader, exceptions
 from markupsafe import escape
 
-from logya.util import cache, slugify
+from logya.util import slugify
 
 env = Environment(
     autoescape=False,  # noqa: S701 # Disable autoescaping to allow raw HTML in templates.
@@ -61,13 +62,14 @@ def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = Fal
     return escape(text)
 
 
+@lru_cache
 def _sort_docs(item: dict, key: str) -> Any:
     """Return sort value from item and use casefold for strings to make sorting case insensitive."""
     value = item.get(key)
     return value.casefold() if isinstance(value, str) else value
 
 
-@cache
+@lru_cache
 def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     # A collection index will only exist at the given URL if there is no content document with the same URL.
