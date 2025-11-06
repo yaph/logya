@@ -15,7 +15,7 @@ remove_extensions = {'.htm', '.html', '.markdown', '.md'}
 
 
 def content_type(path: Path) -> str | None:
-    """Return content type based in file extensions."""
+    """Return content type based on file extension."""
 
     if path.suffix in {'.html', '.htm'}:
         return 'html'
