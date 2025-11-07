@@ -93,10 +93,17 @@ def read(path: Path, path_rel: Path, markdown_extensions: list) -> dict | None:
     return doc
 
 
-def write_page(base_path: Path, content: dict) -> None:
-    """Write a rendered content page."""
+def write_page(base_path: Path, content: dict, min_mtime: float | None = None) -> None:
+    """Write a rendered content page.
+
+    Keep the destination file if it exists and is newer than the last change of it's source file
+    or any change within the templates directory. This speeds up generating the site because of
+    less writes and costly template rendering processes.
+    """
 
     path_page = filepath(base_path, content['url'])
+    if min_mtime and path_page.stat().st_mtime > min_mtime:
+        return
     path_page.parent.mkdir(parents=True, exist_ok=True)
     path_page.write_text(render(content))
 

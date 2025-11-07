@@ -3,7 +3,7 @@ import socketserver
 from shutil import copyfile
 from urllib.parse import unquote, urlparse
 
-from logya.content import read, write_collection, write_page
+from logya.content import filepath, read, write_collection, write_page
 from logya.core import Logya
 from logya.template import env
 
@@ -25,11 +25,15 @@ def update_page(url: str, L: Logya) -> bool:
     """Update content or collection page."""
 
     if content := L.doc_index.get(url):
+        min_mtime = max(L.paths.templates.stat().st_mtime, content['path'].stat().st_mtime)
+        if filepath(L.paths.public, url).stat().st_mtime > min_mtime:
+            L.info(f'Keep existing doc: {url}')
+            return True
+
         path_rel = content['path'].relative_to(L.paths.content)
         content['doc'] = read(content['path'], path_rel, L.markdown_extensions)
         if L.collections:
             L.update_collections(content['doc'])
-        # Always write doc because of possible template changes.
         write_page(L.paths.public, content['doc'])
         L.info(f'Refreshed doc: {url}')
         return True

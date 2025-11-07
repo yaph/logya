@@ -29,7 +29,10 @@ def generate(dir_site: str, verbose: bool, keep: bool, **_kwargs):
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
-    if not keep:
+    mtime_templates = None
+    if keep:
+        mtime_templates = L.paths.templates.stat().st_mtime
+    else:
         print('Remove existing public directory.')
         shutil.rmtree(L.paths.public, ignore_errors=True)
 
@@ -41,7 +44,8 @@ def generate(dir_site: str, verbose: bool, keep: bool, **_kwargs):
     print('Write pages.')
     for url, content in L.doc_index.items():
         L.info(f'Write content: {url}')
-        write_page(L.paths.public, content['doc'])
+        min_mtime = max(mtime_templates, content['path'].stat().st_mtime) if keep else None
+        write_page(L.paths.public, content['doc'], min_mtime=min_mtime)
 
     for url, content in L.collection_index.items():
         L.info(f'Write collection: {url}')
