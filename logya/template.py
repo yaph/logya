@@ -117,10 +117,9 @@ def init_env(L):
         env.add_extension(ext)
 
     # Try to setup Bytecode cache for templates.
-    cache_dir = L.paths.root.joinpath('.cache')
     try:
-        cache_dir.mkdir(parents=True, exist_ok=True)
-        env.bytecode_cache = FileSystemBytecodeCache(cache_dir.as_posix())
+        L.paths.cache.mkdir(parents=True, exist_ok=True)
+        env.bytecode_cache = FileSystemBytecodeCache(L.paths.cache.as_posix())
     except OSError:
         env.bytecode_cache = None
 

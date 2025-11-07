@@ -22,6 +22,7 @@ re_forbidden = re.compile(f'[{re.escape("".join(forbidden))}]+')
 # For accessing site paths.
 class Paths(NamedTuple):
     root: Path
+    cache: Path
     content: Path
     public: Path
     static: Path
@@ -47,6 +48,7 @@ def paths(dir_site: str) -> Paths:
     root = Path(dir_site)
     return Paths(
         root=root,
+        cache=root.joinpath('.cache'),
         content=root.joinpath('content'),
         templates=root.joinpath('templates'),
         static=root.joinpath('static'),
