@@ -9,6 +9,9 @@ from logya.util import paths
 
 
 def clean(dir_site: str, **kwargs) -> None:
+    """Remove stale files from public directory.
+    TODO: remove empty directories, walk bottom up
+    """
     L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
     L.build()
 
