@@ -1,10 +1,33 @@
 import shutil
 import sys
 from importlib import resources
+from pathlib import Path
 
 from logya.content import write_collection, write_page
 from logya.core import Logya
 from logya.util import paths
+
+
+def clean(dir_site: str, **kwargs) -> None:
+    L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
+    L.build()
+
+    search_index = L.collection_index.copy()
+    search_index.update(L.doc_index)
+
+    for root, _, files in L.paths.public.walk():
+        for f in files:
+            rel_file = root.relative_to(L.paths.public).joinpath(f)
+            url = '/' + rel_file.as_posix()
+
+            if url in search_index or url.replace('index.html', '') in search_index:
+                continue
+            if L.paths.static.joinpath(rel_file).exists():
+                continue
+
+            stale_file = Path(root, f)
+            L.info(f'Remove: {stale_file} - {url}')
+            stale_file.unlink()
 
 
 def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
@@ -23,10 +46,10 @@ def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     print(f'Site created in "{target}".')
 
 
-def generate(dir_site: str, verbose: bool, keep: bool, **_kwargs):
+def generate(dir_site: str, keep: bool, **kwargs):
     """Generate a site in the public directory."""
 
-    L = Logya(dir_site=dir_site, verbose=verbose)
+    L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
     L.build()
 
     mtime_templates = None

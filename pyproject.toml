@@ -54,6 +54,9 @@ path = "logya/__init__.py"
 [tool.hatch.envs.logya-dev]
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 
+[tool.hatch.envs.logya-dev.env-vars]
+PYTHONBREAKPOINT = "ipdb.set_trace"
+
 [tool.hatch.envs.logya-dev.scripts]
 type_check = "mypy --install-types --non-interactive {args:logya tests}"
 qa = [

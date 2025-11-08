@@ -18,6 +18,10 @@ def main():
     parser.add_argument('--version', '-V', action='version', version=__version__)
     subparsers = parser.add_subparsers()
 
+    # clean up public directory
+    p_clean = subparsers.add_parser('clean', parents=[parent], help='Remove stale files and directories from public directory. Use when deploying a site.')
+    p_clean.set_defaults(func=commands.clean)
+
     # create a basic site with the given name
     p_create = subparsers.add_parser(
         'create', parents=[parent], help='Create a starter site in the specified directory.'
