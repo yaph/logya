@@ -9,10 +9,10 @@ from logya.core import Logya
 from logya.util import paths
 
 
-def clean(dir_site: str, **kwargs) -> None:
+def clean(dir_site: str, verbose: bool, **_kwargs) -> None:
     """Remove files not found in the site's index and empty directories from public directory."""
 
-    L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
+    L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
     search_index = L.collection_index.copy()
@@ -47,6 +47,7 @@ def clean(dir_site: str, **kwargs) -> None:
             if any(check_dir.iterdir()):
                 continue
 
+            L.info(f'Remove empty directory: {check_dir}')
             check_dir.rmdir()
 
 
@@ -66,10 +67,10 @@ def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     print(f'Site created in "{target}".')
 
 
-def generate(dir_site: str, **kwargs):
+def generate(dir_site: str, verbose: bool, **_kwargs):
     """Generate a site in the public directory."""
 
-    L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
+    L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
     mtime_templates = L.paths.templates.stat().st_mtime
