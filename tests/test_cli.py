@@ -1,9 +1,23 @@
 import subprocess
+from pathlib import Path
 from shutil import rmtree
 
 
 def run(command):
     return subprocess.run(command, capture_output=True, shell=True, text=True, check=False)
+
+
+def test_clean():
+    dir_site = 'logya/sites/docs'
+    dir_test = Path(dir_site).joinpath('public', '_test_clean')
+    dir_test.mkdir(exist_ok=True)
+    file_test = dir_test.joinpath('test.txt')
+    file_test.write_text('TEST')
+    out = run('logya clean --dir-site logya/sites/docs --verbose')
+    assert dir_test.as_posix() in out.stdout.lower()
+    assert file_test.as_posix() in out.stdout.lower()
+    assert not dir_test.exists()
+    assert not file_test.exists()
 
 
 def test_generate():
