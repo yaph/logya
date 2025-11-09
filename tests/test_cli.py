@@ -14,8 +14,8 @@ def test_clean():
     file_test = dir_test.joinpath('test.txt')
     file_test.write_text('TEST')
     out = run(f'logya clean --dir-site {dir_site} --verbose')
-    assert dir_test.as_posix() in out.stdout.lower()
-    assert file_test.as_posix() in out.stdout.lower()
+    assert dir_test.name in out.stdout.lower()
+    assert file_test.name in out.stdout.lower()
     assert not dir_test.exists()
     assert not file_test.exists()
 

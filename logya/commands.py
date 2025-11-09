@@ -1,6 +1,7 @@
 import shutil
 import sys
 from importlib import resources
+from os import walk
 from pathlib import Path
 
 from logya.content import write_collection, write_page
@@ -18,7 +19,8 @@ def clean(dir_site: str, **kwargs) -> None:
     search_index.update(L.doc_index)
 
     # Walk bottom up so empty directories can be removed in the same loop as stale files.
-    for root, dirs, files in L.paths.public.walk(top_down=False):
+    for r, dirs, files in walk(L.paths.public, topdown=False):
+        root = Path(r)
         # Remove stale files
         for f in files:
             rel_file = root.relative_to(L.paths.public).joinpath(f)
