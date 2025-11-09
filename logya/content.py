@@ -102,7 +102,7 @@ def write_page(base_path: Path, content: dict, min_mtime: float | None = None) -
     """
 
     path_page = filepath(base_path, content['url'])
-    if min_mtime and path_page.stat().st_mtime > min_mtime:
+    if min_mtime and path_page.exists() and (path_page.stat().st_mtime > min_mtime):
         return
     path_page.parent.mkdir(parents=True, exist_ok=True)
     path_page.write_text(render(content))
