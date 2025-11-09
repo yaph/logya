@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import argparse
 
-from logya import __version__, commands, server
+from logya import __about__, commands, server
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     )
 
     parser = argparse.ArgumentParser(description='Logya a static site generator.')
-    parser.add_argument('--version', '-V', action='version', version=__version__)
+    parser.add_argument('--version', '-V', action='version', version=__about__.__version__)
     subparsers = parser.add_subparsers()
 
     # clean up public directory

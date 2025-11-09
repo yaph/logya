@@ -49,7 +49,7 @@ Issues = "https://github.com/yaph/logya/issues"
 Source = "https://github.com/yaph/logya"
 
 [tool.hatch.version]
-path = "logya/__init__.py"
+path = "logya/__about__.py"
 
 [tool.hatch.envs.logya-dev]
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
