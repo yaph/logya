@@ -19,7 +19,11 @@ def main():
     subparsers = parser.add_subparsers()
 
     # clean up public directory
-    p_clean = subparsers.add_parser('clean', parents=[parent], help='Remove stale files and directories from public directory. Use when deploying a site.')
+    p_clean = subparsers.add_parser(
+        'clean',
+        parents=[parent],
+        help='Remove stale files and directories from public directory. Use when deploying a site.',
+    )
     p_clean.set_defaults(func=commands.clean)
 
     # create a basic site with the given name
@@ -35,8 +39,6 @@ def main():
         'generate', aliases=('gen',), parents=[parent], help='Generate site in public directory.'
     )
     p_generate.set_defaults(func=commands.generate)
-    hlp_keep = 'Keep existing `public` directory, by default it is removed.'
-    p_generate.add_argument('--keep', '-k', action='store_true', default=False, help=hlp_keep)
 
     # serve static pages
     p_serve = subparsers.add_parser('serve', parents=[parent], help='Serve static pages from public directory.')

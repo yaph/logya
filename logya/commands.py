@@ -49,18 +49,13 @@ def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     print(f'Site created in "{target}".')
 
 
-def generate(dir_site: str, keep: bool, **kwargs):
+def generate(dir_site: str, **kwargs):
     """Generate a site in the public directory."""
 
     L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
     L.build()
 
-    mtime_templates = None
-    if keep:
-        mtime_templates = L.paths.templates.stat().st_mtime
-    else:
-        print('Remove existing public directory.')
-        shutil.rmtree(L.paths.public, ignore_errors=True)
+    mtime_templates = L.paths.templates.stat().st_mtime
 
     print(f'Generate site in directory: {L.paths.public.as_posix()}')
     if L.paths.static.exists():
@@ -70,8 +65,7 @@ def generate(dir_site: str, keep: bool, **kwargs):
     print('Write pages.')
     for url, content in L.doc_index.items():
         L.info(f'Write content: {url}')
-        min_mtime = max(mtime_templates, content['path'].stat().st_mtime) if keep else None
-        write_page(L.paths.public, content['doc'], min_mtime=min_mtime)
+        write_page(L.paths.public, content['doc'], min_mtime=max(mtime_templates, content['path'].stat().st_mtime))
 
     for url, content in L.collection_index.items():
         L.info(f'Write collection: {url}')
