@@ -9,7 +9,7 @@ from logya.util import paths
 
 
 def clean(dir_site: str, **kwargs) -> None:
-    """Remove stale files and empty directories from public directory."""
+    """Remove files not found in the site's index and empty directories from public directory."""
 
     L = Logya(dir_site=dir_site, verbose=kwargs.get('verbose'))
     L.build()
@@ -34,12 +34,18 @@ def clean(dir_site: str, **kwargs) -> None:
             L.info(f'Remove stale file: {stale_file}')
             stale_file.unlink()
 
-        # Remove empty directories
+        # Remove empty directories unless they exist in the site's `static` directory.
         for d in dirs:
+            # Check static directory first to avoid unnecessary work.
+            rel_dir = root.relative_to(L.paths.public).joinpath(d)
+            if L.paths.static.joinpath(rel_dir).exists():
+                continue
+            # Keep populated directories.
             check_dir = Path(root, d)
-            if not any(check_dir.iterdir()):
-                L.info(f'Remove empty directory: {check_dir}')
-                check_dir.rmdir()
+            if any(check_dir.iterdir()):
+                continue
+
+            check_dir.rmdir()
 
 
 def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
