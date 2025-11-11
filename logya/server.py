@@ -24,7 +24,7 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 def update_page(url: str, L: Logya) -> bool:
     """Update content or collection page."""
 
-    if content := L.doc_index.get(url):
+    if (content := L.doc_index.get(url)) and content['path'].exists():
         path_rel = content['path'].relative_to(L.paths.content)
         content['doc'] = read(content['path'], path_rel, L.markdown_extensions)
         if L.collections:
