@@ -19,7 +19,12 @@ def test_slugify():
         ('multiple   spaces', 'multiple-spaces'),
         ('c♯dim', 'c♯dim'),
         ('_85QotzbzHY', '_85QotzbzHY'),
+        ('-08LooL_3Gw', '-08LooL_3Gw'),
+        ('c++', 'c++'),
+        ('c--', 'c--'),
+        ('#hash#', 'hash'),
         ('dot.dot', 'dot.dot'),
+        ('@username', '@username'),
     ]:
         assert logya.util.slugify(value) == expected
 

@@ -59,13 +59,11 @@ def paths(dir_site: str) -> Paths:
 
 @lru_cache(maxsize=256)
 def slugify(s: str) -> str:
-    """Return string with forbidden characters replaced with hyphens.
+    """Return string with forbidden characters replaced with hyphens. Different input strings may result in the same output.
 
-    Consecutive forbidden characters are replaced with a single hyphen.
-    Leading and trailing whitespace and hyphens are stripped.
-    Different input strings may result in the same output.
+    Consecutive forbidden characters are replaced with a single hyphen. Leading and trailing whitespace is stripped.
     """
-    return re.sub(re_forbidden, '-', s.strip()).strip('-')
+    return re.sub(re_forbidden, '#', s.strip()).strip('#').replace('#', '-')
 
 
 def latest_file_change(root: str):
@@ -84,7 +82,7 @@ def latest_file_change(root: str):
     for entry in walk_dir(root):
         try:
             mtime = entry.stat().st_mtime
-        except FileNotFoundError: # skip race condition
+        except FileNotFoundError:  # skip race condition
             continue
         if mtime > latest_mtime:
             latest_mtime = mtime
