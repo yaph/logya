@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from functools import lru_cache
 from operator import itemgetter
 from pathlib import Path
