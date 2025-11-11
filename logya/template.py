@@ -102,7 +102,7 @@ def add_globals(L) -> None:
     # Get documents from a URL.
     env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
     # Make current datetime available.
-    env.globals['now'] = datetime.now(timezone.utc)
+    env.globals['now'] = datetime.now
     # Include the site settings last.
     env.globals.update(L.settings['site'])
 
