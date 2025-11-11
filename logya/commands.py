@@ -6,7 +6,7 @@ from pathlib import Path
 
 from logya.content import write_collection, write_page
 from logya.core import Logya
-from logya.util import paths
+from logya.util import latest_file_change, paths
 
 
 def clean(dir_site: str, verbose: bool, **_kwargs) -> None:
@@ -73,7 +73,7 @@ def generate(dir_site: str, verbose: bool, **_kwargs):
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
-    mtime_templates = L.paths.templates.stat().st_mtime
+    mtime_templates = latest_file_change(L.paths.templates.as_posix())
 
     print(f'Generate site in directory: {L.paths.public.as_posix()}')
     if L.paths.static.exists():

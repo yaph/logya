@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 from functools import lru_cache
@@ -65,3 +66,27 @@ def slugify(s: str) -> str:
     Different input strings may result in the same output.
     """
     return re.sub(re_forbidden, '-', s.strip()).strip('-')
+
+
+def latest_file_change(root: str):
+    """Return mtime of the most recently edited file in root."""
+
+    latest_mtime = 0.0
+
+    def walk_dir(path):
+        with os.scandir(path) as it:
+            for entry in it:
+                if entry.is_dir(follow_symlinks=False):
+                    yield from walk_dir(entry.path)
+                else:
+                    yield entry
+
+    for entry in walk_dir(root):
+        try:
+            mtime = entry.stat().st_mtime
+        except FileNotFoundError: # skip race condition
+            continue
+        if mtime > latest_mtime:
+            latest_mtime = mtime
+
+    return latest_mtime
