@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [6.0.0](https://github.com/yaph/logya/releases/tag/6.0.0) - 2025-12-03
+
+<small>[Compare with 5.3.0](https://github.com/yaph/logya/compare/5.3.0...6.0.0)</small>
+
+### Added
+
+- Add .mailmap ([7d329e0](https://github.com/yaph/logya/commit/7d329e0ba0d723817b17a83466b7e8f7b40a5cbb) by Ramiro Gómez).
+- Add test_clean ([b249ded](https://github.com/yaph/logya/commit/b249ded15c257bf547d4ef8b9fc62429d2db8852) by Ramiro Gómez).
+- Add doc string for clean function. ([c012bf0](https://github.com/yaph/logya/commit/c012bf0844a65199380159eabc965bbef6cbdbc2) by Ramiro Gómez).
+- Add clean subcommand to remove stale files from public dir. ([0af636a](https://github.com/yaph/logya/commit/0af636ae58fb00b75575f36c52fbd374b5ceb6bf) by Ramiro Gómez).
+- Add cache path to paths. ([2211a2c](https://github.com/yaph/logya/commit/2211a2c0794af0e8f5e9c6b607a0ff56ada09ce7) by Ramiro Gómez).
+- Add Python 3.13 to CI versions ([8c88370](https://github.com/yaph/logya/commit/8c883701f99e5105e332c3d9aa03f12ed3295d0c) by Ramiro Gómez).
+
+### Removed
+
+- Remove timezone import ([711e061](https://github.com/yaph/logya/commit/711e0618ada75e6e42a37c828ee376c7886ad335) by Ramiro Gómez).
+- Remove empty directories from public directory in clean command. ([559910e](https://github.com/yaph/logya/commit/559910e8e9a157449f1bc60316031a56cf14867d) by Ramiro Gómez).
+
 ## [5.3.0](https://github.com/yaph/logya/releases/tag/5.3.0) - 2025-05-04
 
 <small>[Compare with 5.2.2](https://github.com/yaph/logya/compare/5.2.2...5.3.0)</small>
