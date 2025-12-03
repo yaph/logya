@@ -25,8 +25,7 @@ information on how to use Logya for creating websites.
 
 * https://exploring-data.com
 * https://geeksta.net
-* https://guitarstreams.com
-* https://ramiro.org
 * https://programminglanguages.info
+* https://ramiro.org
 * https://ukealong.com
 * https://www.linux-netbook.com
