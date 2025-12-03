@@ -52,6 +52,7 @@ Source = "https://github.com/yaph/logya"
 path = "logya/__about__.py"
 
 [tool.hatch.envs.logya-dev]
+builder = true
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 
 [tool.hatch.envs.logya-dev.env-vars]
