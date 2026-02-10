@@ -48,11 +48,11 @@ def paths(dir_site: str) -> Paths:
     root = Path(dir_site)
     return Paths(
         root=root,
-        cache=root.joinpath('.cache'),
-        content=root.joinpath('content'),
-        templates=root.joinpath('templates'),
-        static=root.joinpath('static'),
-        public=root.joinpath('public'),
+        cache=root / '.cache',
+        content=root / 'content',
+        templates=root / 'templates',
+        static=root / 'static',
+        public=root / 'public',
     )
 
 

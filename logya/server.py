@@ -41,6 +41,24 @@ def update_page(url: str, L: Logya) -> bool:
     return False
 
 
+def update_static(url: str, L: Logya) -> bool:
+    """Update static file if it was modified."""
+
+    url_rel = url.lstrip('/')
+    src_static = L.paths.static / url_rel
+    if not src_static.is_file():
+        return False
+
+    dst_static = L.paths.public / url_rel
+    dst_static.parent.mkdir(exist_ok=True)
+    if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
+        L.info(f'Update static resource: {dst_static}')
+        copyfile(src_static, dst_static)
+        return True
+
+    return False
+
+
 def update_resource(path: str, L: Logya) -> None:
     """Update resource corresponding to given url.
 
@@ -49,16 +67,9 @@ def update_resource(path: str, L: Logya) -> None:
 
     # Use only the actual path and ignore possible query params (see issue #3).
     url = unquote(urlparse(path).path)
-    url_rel = url.lstrip('/')
 
     # If a static file is requested update it and return.
-    src_static = L.paths.static.joinpath(url_rel)
-    if src_static.is_file():
-        dst_static = L.paths.public.joinpath(url_rel)
-        dst_static.parent.mkdir(exist_ok=True)
-        if not dst_static.exists() or src_static.stat().st_mtime > dst_static.stat().st_mtime:
-            L.info(f'Update static resource: {dst_static}')
-            copyfile(src_static, dst_static)
+    if update_static(url, L):
         return
 
     # Update content or collection existing in respective index.

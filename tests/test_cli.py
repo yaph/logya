@@ -9,9 +9,9 @@ def run(command):
 
 def test_clean():
     dir_site = 'logya/sites/docs'
-    dir_test = Path(dir_site).joinpath('public', '_test_clean')
+    dir_test = Path(dir_site) / 'public' / '_test_clean'
     dir_test.mkdir(exist_ok=True, parents=True)
-    file_test = dir_test.joinpath('test.txt')
+    file_test = dir_test / 'test.txt'
     file_test.write_text('TEST')
     out = run(f'logya clean --dir-site {dir_site} --verbose')
     assert dir_test.name in out.stdout.lower()

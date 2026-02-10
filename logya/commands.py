@@ -58,11 +58,11 @@ def clean(dir_site: str, verbose: bool, **_kwargs) -> None:
 def create(dir_site: str, name: str, site: str, **_kwargs) -> None:
     """Create a new site in the specified directory."""
 
-    target = paths(dir_site=dir_site).root.joinpath(name)
+    target = paths(dir_site=dir_site).root / name
     if target.exists():
         sys.exit(f'Error: "{target}" already exists. Please remove it or specify another location.')
 
-    source = resources.files('logya').joinpath(f'sites/{site}')
+    source = resources.files('logya') / 'sites' / site
     if source.is_dir():
         shutil.copytree(source, target)  # type: ignore
     else:

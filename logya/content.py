@@ -27,15 +27,15 @@ def content_type(path: Path) -> str | None:
 def create_url(path: Path) -> str:
     """Return document URL based on source file path."""
 
-    suffix = ''
+    trailing_slash = ''
     if path.suffix in remove_extensions:
-        suffix = '/'
-        path = Path(path.parent) if path.stem == 'index' else path.parent.joinpath(path.stem)
+        trailing_slash = '/'
+        path = path.parent if path.stem == 'index' else path.parent / path.stem
 
     if not path.parts:
         return '/'
 
-    return f'/{"/".join(slugify(p) for p in path.parts)}{suffix}'
+    return f'/{"/".join(slugify(p) for p in path.parts)}{trailing_slash}'
 
 
 def filepath(base: Path, url: str) -> Path:
@@ -44,9 +44,9 @@ def filepath(base: Path, url: str) -> Path:
     If url does not end in a file name 'index.html' will be appended.
     """
 
-    path = base.joinpath(url.lstrip('/'))
+    path = base / url.lstrip('/')
     if not path.suffix or path.suffix not in process_extensions:
-        path = path.joinpath('index.html')
+        path = path / 'index.html'
     return path
 
 
