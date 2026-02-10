@@ -1,5 +1,4 @@
 from collections import ChainMap
-from os import walk
 from pathlib import Path
 from sys import exit
 
@@ -59,19 +58,17 @@ class Logya:
     def read_content(self):
         """Read content and update index and collections.
 
-        Previously indexed content can exist. If a file inside the content directory has the same URL as already indexed
-        content, the existing content will be replaced.
+        Previously indexed content can exist. If a file inside the content directory has the same URL as already indexed content, the existing content will be replaced.
         """
 
-        for root, _, files in walk(self.paths.content):
-            for f in files:
-                path = Path(root, f)
-                if path.suffix not in process_extensions:
-                    continue
-                if doc := read(path, path.relative_to(self.paths.content), self.markdown_extensions):
-                    if self.collections:
-                        self.update_collections(doc)
-                    self.doc_index[doc['url']] = {'doc': doc, 'path': path}
+        for path in Path(self.paths.content).rglob('*'):
+            if path.suffix not in process_extensions or not path.is_file():
+                continue
+
+            if doc := read(path, path.relative_to(self.paths.content), self.markdown_extensions):
+                if self.collections:
+                    self.update_collections(doc)
+                self.doc_index[doc['url']] = {'doc': doc, 'path': path}
 
     def update_collections(self, doc: dict):
         """Update collections index for given doc."""
@@ -87,11 +84,7 @@ class Logya:
 
             # Process unique values
             for value in set(values):
-                url = f'/{coll["path"]}/{slugify(value).lower()}/'
-
-                # Prepend language code to URL if language is specified in doc and exists in configuration.
-                if 'language' in doc and doc['language'] in self.languages:
-                    url = f'/{doc["language"]}{url}'
+                url = self._collection_url(coll, value, doc)
 
                 # Don't overwrite existing content.
                 if url in self.doc_index:
@@ -103,15 +96,27 @@ class Logya:
                 doc[links] = [*doc.get(links, []), (url, value)]
 
                 # Update or create collection index value.
-                if coll_data := coll['index'].get(url):
-                    if doc['url'] not in coll_data['doc_urls']:
-                        coll_data['doc_urls'].add(doc['url'])
-                        coll_data['docs'].append(doc)
-                else:
-                    coll['index'][url] = {
-                        'doc_urls': {doc['url']},
-                        'docs': [doc],
-                        'title': value,
-                        'template': coll['template'],
-                        'url': url,
-                    }
+                self._register_doc_in_collection(coll, url, value, doc)
+
+    # Private functions
+    def _collection_url(self, coll: dict, value: str, doc: dict) -> str:
+        url = f'/{coll["path"]}/{slugify(value).lower()}/'
+
+        # Prepend language code to URL if language is specified in doc and exists in configuration.
+        if doc.get('language') in self.languages:
+            url = f'/{doc["language"]}{url}'
+        return url
+
+    def _register_doc_in_collection(self, coll: dict, url: str, value: str, doc: dict):
+        if coll_data := coll['index'].get(url):
+            if doc['url'] not in coll_data['doc_urls']:
+                coll_data['doc_urls'].add(doc['url'])
+                coll_data['docs'].append(doc)
+        else:
+            coll['index'][url] = {
+                'doc_urls': {doc['url']},
+                'docs': [doc],
+                'title': value,
+                'template': coll['template'],
+                'url': url,
+            }
