@@ -48,8 +48,8 @@ def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = Fal
     the source code used to render the current example.
     """
 
-    # Call lstrip to prevent loading files outside the site directory.
-    path_src = root / name.lstrip('/')
+    # Remove leading / to prevent loading files outside the site directory.
+    path_src = root / name.removeprefix('/')
     try:
         text = path_src.read_text()
     except UnicodeDecodeError:

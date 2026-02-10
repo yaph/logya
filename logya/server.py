@@ -44,7 +44,7 @@ def update_page(url: str, L: Logya) -> bool:
 def update_static(url: str, L: Logya) -> bool:
     """Update static file if it was modified."""
 
-    url_rel = url.lstrip('/')
+    url_rel = url.removeprefix('/')
     src_static = L.paths.static / url_rel
     if not src_static.is_file():
         return False

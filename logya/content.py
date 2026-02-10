@@ -44,7 +44,7 @@ def filepath(base: Path, url: str) -> Path:
     If url does not end in a file name 'index.html' will be appended.
     """
 
-    path = base / url.lstrip('/')
+    path = base / url.removeprefix('/')
     if not path.suffix or path.suffix not in process_extensions:
         path = path / 'index.html'
     return path
