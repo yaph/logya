@@ -1,6 +1,7 @@
 public/
 
 # Byte-compiled / optimized / DLL files
+.complexipy_cache/
 __pycache__/
 *.py[cod]
 *$py.class
