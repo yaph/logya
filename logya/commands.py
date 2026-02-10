@@ -73,7 +73,9 @@ def generate(dir_site: str, verbose: bool, **_kwargs):
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
 
-    mtime_templates = latest_file_change(L.paths.templates.as_posix())
+    latest_relevant_change = max(
+        latest_file_change(L.paths.templates.as_posix()), latest_file_change(L.paths.content.as_posix())
+    )
 
     print(f'Generate site in directory: {L.paths.public.as_posix()}')
     if L.paths.static.exists():
@@ -83,7 +85,9 @@ def generate(dir_site: str, verbose: bool, **_kwargs):
     print('Write pages.')
     for url, content in L.doc_index.items():
         L.info(f'Write content: {url}')
-        write_page(L.paths.public, content['doc'], min_mtime=max(mtime_templates, content['path'].stat().st_mtime))
+        write_page(
+            L.paths.public, content['doc'], min_mtime=max(latest_relevant_change, content['path'].stat().st_mtime)
+        )
 
     for url, content in L.collection_index.items():
         L.info(f'Write collection: {url}')
