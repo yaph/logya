@@ -1,4 +1,3 @@
-import os
 import re
 import sys
 from functools import lru_cache
@@ -71,17 +70,11 @@ def latest_file_change(root: str):
 
     latest_mtime = 0.0
 
-    def walk_dir(path):
-        with os.scandir(path) as it:
-            for entry in it:
-                if entry.is_dir(follow_symlinks=False):
-                    yield from walk_dir(entry.path)
-                else:
-                    yield entry
-
-    for entry in walk_dir(root):
+    for path in Path(root).rglob('*'):
+        if not path.is_file():
+            continue
         try:
-            mtime = entry.stat().st_mtime
+            mtime = path.stat().st_mtime
         except FileNotFoundError:  # skip race condition
             continue
         if mtime > latest_mtime:
