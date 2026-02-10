@@ -85,17 +85,14 @@ def update_resource(path: str, L: Logya) -> None:
 
 
 def serve(dir_site: str, verbose: bool, host: str, port: int, **_kwargs) -> None:
+    # Make Logya accessible to server.
     L = Logya(dir_site=dir_site, verbose=verbose)
     L.build()
-    # Make Logya object accessible to server.
     HTTPRequestHandler.L = L
-
-    # Make sure absolute links work.
-    base_url = f'http://{host}:{port}'
-    env.globals['base_url'] = base_url
 
     # Avoid "OSError: [Errno 98] Address already in use"
     socketserver.TCPServer.allow_reuse_address = True
+
     with socketserver.TCPServer((host, port), HTTPRequestHandler) as httpd:
-        print(f'Serving on {base_url}')
+        print(f'Serving on http://{host}:{port}')
         httpd.serve_forever()
