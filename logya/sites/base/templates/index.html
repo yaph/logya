@@ -6,11 +6,11 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-{% for doc in docs %}
-<article class="card">
-    <header><h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2></header>
+{% for doc in docs|rejectattr('ignore') %}
+<article>
+    <h2><a href="{{ doc.url }}">{{ doc.title }}</a></h2>
     <p>{{ doc.description }}</p>
-    <footer>{{ doc.created.strftime('%B %d, %Y') }}</footer>
+    {{ doc.created.strftime('%B %d, %Y') }}
 </article>
 {% endfor %}
 {% endblock %}

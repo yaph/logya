@@ -1,25 +1,32 @@
 ---
-title: Contact
 created: 2020-10-07 00:25:42
+ignore: 1
+styles: [/css/contact.css]
 template: page.html
-noindex: 1
+title: Contact
 ---
-<div class="flex two-800">
-    <form role="form" id="sendmail">
-        <label>Subject: <input type="text" id="subject"></label>
-        <label for="message">Message</label>
-        <textarea id="message"></textarea>
-        <button type="submit">Submit</button>
-    </form>
-    <div>
-        <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-2.8711304068565373%2C53.37506926366071%2C-2.867589890956879%2C53.376438958518065&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/>
-        <small><a href="https://www.openstreetmap.org/#map=19/53.37575/-2.86936">View Larger Map</a></small>
-        <h2>Mail address</h2>
+<div class="contact-grid">
+    <div class="contact-form">
+        <h2>Send a Message</h2>
+        <form role="form" id="sendmail">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" required>
+
+            <label for="message">Message</label>
+            <textarea id="message" rows="6" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <div class="contact-info">
+        <h2>Location</h2>
+        <iframe width="100%" height="250" src="https://www.openstreetmap.org/export/embed.html?bbox=-0.12855023145675662%2C51.51738409216305%2C-0.12500971555709842%2C51.51885118756938&amp;layer=mapnik" style="border: 1px solid black"></iframe>
+        <h2>Mail Address</h2>
         <address>
-            <strong>{{ author }}</strong><br>
-            Church Road<br>
-            Woolton, Liverpool, Merseyside<br>
-            England
+            <strong>Jane Developer</strong><br>
+            Great Russell Street, London WC1B 3DG<br>
+            United Kingdom
         </address>
     </div>
 </div>

@@ -13,25 +13,35 @@
     <link rel="canonical" itemprop="url" href="{{ base_url + url }}">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic@7.1.0/picnic.min.css">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    {% for style in styles %}
+        <link rel="stylesheet" href="{{ style }}">
+    {% endfor %}
 </head>
 <body>
     <nav>
-        <a class="button" href="/">Home</a>
-        <!-- responsive-->
-        <input id="bmenub" type="checkbox" class="show">
-        <label for="bmenub" class="burger pseudo button">menu</label>
-        <div class="menu">
-            <a class="button pseudo" href="/about/">About</a>
-            <a class="button pseudo" href="/contact/">Contact</a>
-            <a class="button pseudo" href="/using-tags/">Using Tags</a>
-            <a class="button warning" href="/rss.xml">RSS Feed</a>
-            <a class="button" href="/sitemap.xml">XML Sitemap</a>
+        <div class="nav-container">
+            <a href="/" class="logo">Logya</a>
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/using-tags/">Using Tags</a></li>
+                <li><a href="/rss.xml">RSS</a></li>
+                <li><a href="/sitemap.xml">Sitemap</a></li>
+            </ul>
         </div>
     </nav>
-    <section>
+    <main>
         {% block content %}{% endblock %}
-    </section>
+    </main>
+    <footer>
+        <p>Built with <a href="https://logya.org">Logya</a></p>
+    </footer>
 </body>
 </html>
