@@ -5,7 +5,6 @@ from urllib.parse import unquote, urlparse
 
 from logya.content import read, write_collection, write_page
 from logya.core import Logya
-from logya.template import env
 
 
 class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
