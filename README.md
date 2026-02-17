@@ -1,6 +1,6 @@
 # Logya
 
-Logya is a flexible Python static site generator for building fast, maintainable websites.
+Logya is a flexible static site generator for building fast, maintainable websites.
 
 **Project homepage:** https://ramiro.org/logya/
 
