@@ -1,7 +1,8 @@
-# Logya README
+# Logya
 
-Logya is a static site generator written in Python designed to be easy
-to use and flexible.
+Logya is a flexible Python static site generator for building fast, maintainable websites.
+
+**Project homepage:** https://ramiro.org/logya/
 
 ## Quickstart
 
@@ -18,14 +19,8 @@ to use and flexible.
     # serve the site from public directory on http://localhost:8080
     logya serve
 
-Please see the [documentation](https://ramiro.org/logya/docs/) for more
-information on how to use Logya for creating websites.
+Please see the [documentation](https://ramiro.org/logya/docs/) for more information on how to use Logya for creating websites.
 
-## Sites built with Logya
+## Example Sites
 
-* https://exploring-data.com
-* https://geeksta.net
-* https://programminglanguages.info
-* https://ramiro.org
-* https://ukealong.com
-* https://www.linux-netbook.com
+See [sites built with Logya](https://ramiro.org/logya/#sites) for real-world examples.
