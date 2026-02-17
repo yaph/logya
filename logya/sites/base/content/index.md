@@ -15,7 +15,7 @@ This is your new static site built with Logya. Edit the content, customize the d
 Your site is ready to go. Here's what you can do next:
 
 - Edit this page at `content/index.md`
-- Customize the design in `static/style.css`
+- Customize the design in `static/css/style.css`
 - Add new pages in the `content` directory
 - Modify the template in `templates/base.html`
 
