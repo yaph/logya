@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [6.1.0](https://github.com/yaph/logya/releases/tag/6.1.0) - 2026-02-17
+
+<small>[Compare with 6.0.0](https://github.com/yaph/logya/compare/6.0.0...6.1.0)</small>
+
+### Fixed
+
+- Fix reference ([bd9ad35](https://github.com/yaph/logya/commit/bd9ad355a799a9e7190976de0f5550c728918ce5) by Ramiro Gómez).
+
+### Removed
+
+- Remove unused import ([6be99e9](https://github.com/yaph/logya/commit/6be99e96eefd9d9b2806d13b4678f9adecc49277) by Ramiro Gómez).
+
 ## [6.0.0](https://github.com/yaph/logya/releases/tag/6.0.0) - 2025-12-03
 
 <small>[Compare with 5.3.0](https://github.com/yaph/logya/compare/5.3.0...6.0.0)</small>
