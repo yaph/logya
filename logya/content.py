@@ -2,10 +2,12 @@ from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 
-from markdown import markdown
+from markdown import Markdown
 
 from logya.template import render
 from logya.util import load_yaml, slugify
+
+_markdown_processor = None
 
 # Extensions of content files that will be processed.
 process_extensions = {'.css', '.htm', '.html', '.js', '.json', '.markdown', '.md', '.php', '.txt', '.xml'}
@@ -50,6 +52,13 @@ def filepath(base: Path, url: str) -> Path:
     return path
 
 
+def markdown_processor(extensions: list):
+    global _markdown_processor
+    if _markdown_processor is None:
+        _markdown_processor = Markdown(extensions=extensions)
+    return _markdown_processor
+
+
 def parse(content: str, delimiter: str = '---') -> dict:
     """Parse document and return a dictionary of header fields and body."""
 
@@ -72,7 +81,7 @@ def read(path: Path, path_rel: Path, markdown_extensions: list) -> dict | None:
         return None
 
     if content_type(path) == 'markdown':
-        doc['body'] = markdown(doc['body'], extensions=markdown_extensions)
+        doc['body'] = markdown_processor(markdown_extensions).convert(doc['body'])
 
     # Ensure doc has a title.
     doc['title'] = doc.get('title', path.stem)

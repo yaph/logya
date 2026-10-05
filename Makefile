@@ -67,3 +67,9 @@ requirements:
 	# Keep base requirements only
 	grep -f requirements-base.txt requirements.txt > requirements.tmp
 	mv requirements.tmp requirements.txt
+
+
+# QA
+profile:
+	python -m cProfile -o profile.stats -m logya.main generate
+	python -m pstats profile.stats

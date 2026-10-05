@@ -6,7 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
-## [6.1.0](https://github.com/yaph/logya/releases/tag/6.1.0) - 2026-02-17
+## Unreleased
+
+<small>[Compare with latest](https://github.com/yaph/logya/compare/6.1.0...HEAD)</small>
+
+### Removed
+
+- Remove example site ([b08ea36](https://github.com/yaph/logya/commit/b08ea3667255b9fc02dfb591e0da5e7e491a3a8d) by Ramiro Gómez).
+
+<!-- insertion marker -->
+## [6.1.0](https://github.com/yaph/logya/releases/tag/6.1.0) - 2026-02-18
 
 <small>[Compare with 6.0.0](https://github.com/yaph/logya/compare/6.0.0...6.1.0)</small>
 
@@ -65,11 +74,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Changes. ([b3be03d](https://github.com/yaph/logya/commit/b3be03d1621871e8989d545c9c63ff180178e4b7) by Ramiro Gómez).
 
-## [5.2.1](https://github.com/yaph/logya/releases/tag/5.2.1) - 2024-11-05
+## [5.2.1](https://github.com/yaph/logya/releases/tag/5.2.1) - 2024-11-06
 
 <small>[Compare with 5.2.0](https://github.com/yaph/logya/compare/5.2.0...5.2.1)</small>
 
-## [5.2.0](https://github.com/yaph/logya/releases/tag/5.2.0) - 2024-11-05
+## [5.2.0](https://github.com/yaph/logya/releases/tag/5.2.0) - 2024-11-06
 
 <small>[Compare with 5.1.0](https://github.com/yaph/logya/compare/5.1.0...5.2.0)</small>
 
@@ -270,7 +279,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove support for Python 3.4 as latest Markdown requires at least Python 3.5. Bump Logya version to 4.5.0 ([943f292](https://github.com/yaph/logya/commit/943f292dc71fd30c43ae0de8d7ff2dcc879eecea) by Ramiro Gómez).
 - Remove language prefix from index path when determining the template to use. ([2a6e021](https://github.com/yaph/logya/commit/2a6e02156ec41f3078cddce2c231a97482d5b293) by Ramiro Gómez).
 
-## [4.4.0](https://github.com/yaph/logya/releases/tag/4.4.0) - 2019-02-05
+## [4.4.0](https://github.com/yaph/logya/releases/tag/4.4.0) - 2019-02-06
 
 <small>[Compare with 4.3.0](https://github.com/yaph/logya/compare/4.3.0...4.4.0)</small>
 
