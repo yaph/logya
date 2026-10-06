@@ -15,7 +15,7 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args):
         super().__init__(*args, directory=self.L.paths.public.as_posix())
 
-    def do_GET(self):  # noqa: N802
+    def do_GET(self):
         update_resource(self.path, self.L)
         super().do_GET()
 

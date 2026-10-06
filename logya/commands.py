@@ -15,9 +15,7 @@ def _is_stale(rel_file: Path, search_index: dict, static_path: Path) -> bool:
         return False
     if url.endswith('index.html') and url.removesuffix('index.html') in search_index:
         return False
-    if static_path.joinpath(rel_file).exists():
-        return False
-    return True
+    return not static_path.joinpath(rel_file).exists()
 
 
 def clean(dir_site: str, verbose: bool, **_kwargs) -> None:

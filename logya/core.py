@@ -1,6 +1,6 @@
+import sys
 from collections import ChainMap
 from pathlib import Path
-from sys import exit
 
 from logya.content import process_extensions, read
 from logya.template import init_env
@@ -19,7 +19,7 @@ class Logya:
         try:
             self.settings = load_yaml(self.paths.root.joinpath('site.yaml').read_text())
         except FileNotFoundError:
-            exit('Error: The site configuration file site.yaml was not found.')
+            sys.exit('Error: The site configuration file site.yaml was not found.')
 
         # Initialize index and collections so scripts can generate indexed content before build.
         self.doc_index: dict[str, dict] = {}

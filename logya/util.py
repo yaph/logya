@@ -1,9 +1,9 @@
 import re
-import sys
 from functools import lru_cache
 from pathlib import Path
 from string import punctuation, whitespace
 from typing import NamedTuple
+
 import yamlrocks
 
 # Characters not to be used in URLs, allowing some punctuation.
@@ -64,7 +64,6 @@ def latest_file_change(root: str):
             mtime = path.stat().st_mtime
         except FileNotFoundError:  # skip race condition
             continue
-        if mtime > latest_mtime:
-            latest_mtime = mtime
+        latest_mtime = max(latest_mtime, mtime)
 
     return latest_mtime
