@@ -24,7 +24,8 @@ class Paths(NamedTuple):
 def encode_content(headers: dict, body: str) -> str:
     """Encode headers and body in content format."""
 
-    return f'---\n{yamlrocks.dumps(headers).strip()!r}\n---\n{body.strip()}'
+    yaml_str = yamlrocks.dumps(headers).decode('utf-8').strip()
+    return f'---\n{yaml_str}\n---\n{body.strip()}'
 
 
 def load_yaml(text: str):
