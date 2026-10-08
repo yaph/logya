@@ -1,6 +1,5 @@
 import sys
 from datetime import datetime
-from functools import lru_cache
 from operator import itemgetter
 from pathlib import Path
 from string import ascii_lowercase
@@ -68,7 +67,6 @@ def _sort_docs(item: dict, key: str) -> Any:
     return value.casefold() if isinstance(value, str) else value
 
 
-@lru_cache(maxsize=256)
 def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descending') -> list:
     docs = []
     # A collection index will only exist at the given URL if there is no content document with the same URL.
