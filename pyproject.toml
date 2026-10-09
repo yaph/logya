@@ -7,7 +7,7 @@ name = "logya"
 dynamic = ["version"]
 description = 'Logya: easy to use and flexible static site generator.'
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = "MIT"
 keywords = [
   'static-site-generator',
@@ -24,10 +24,9 @@ authors = [
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
   "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary",
@@ -37,7 +36,7 @@ classifiers = [
 dependencies = [
   "Jinja2>=3.1.4",
   "Markdown>=3.7",
-  "yamlrocks"
+  "yamlrocks>=0.6.1"
 ]
 
 [project.scripts]
