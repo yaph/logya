@@ -38,6 +38,13 @@ def _alpha_index(
     return {key: sorted(index[key], key=itemgetter(sort_attr)) for key in keys}
 
 
+def _contains(value: str, substring: str, case_sensitive: bool = True) -> bool:
+    """Return True if the given substring is found in the value string. Case sensitive by default."""
+    if case_sensitive:
+        return substring in value
+    return substring.casefold() in value.casefold()
+
+
 def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = False) -> str | None:
     """Read and return source of text files.
 
@@ -81,34 +88,6 @@ def _get_docs(L, url: str, sort_attr: str = 'created', sort_order: str = 'descen
     return sorted((d for d in docs if sort_attr in d), key=lambda item: _sort_docs(item, sort_attr), reverse=reverse)
 
 
-def add_filters() -> None:
-    # Create an alphabetical index for a list of objects.
-    env.filters['alpha_index'] = _alpha_index
-    # Filter docs list where the given attribute contains the given value.
-    env.filters['attr_contains'] = lambda docs, attr, val: [d for d in docs if val in d.get(attr, '')]
-    # Make slugify available
-    env.filters['slugify'] = slugify
-
-
-def add_globals(L) -> None:
-    # Include the source of a file.
-    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
-    # Get collection from its name.
-    env.globals['get_collection'] = lambda name: L.collections.get(name)
-    # Get a document from its URL.
-    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
-    # Get documents from a URL.
-    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
-    # Make current datetime available.
-    env.globals['now'] = datetime.now
-    # Include the site settings last.
-    env.globals.update(L.settings['site'])
-
-
-def add_tests() -> None:
-    env.tests['contains'] = lambda value, substring: substring in value
-
-
 def init_env(L):
     if not L.paths.templates.exists() or not L.paths.templates.is_dir():
         sys.exit('No templates directory found.')
@@ -125,9 +104,30 @@ def init_env(L):
     except OSError:
         env.bytecode_cache = None
 
-    add_filters()
-    add_globals(L)
-    add_tests()
+    # Add custom filters to the Jinja2 environment.
+    # Create an alphabetical index for a list of objects.
+    env.filters['alpha_index'] = _alpha_index
+    # Filter docs list where the given attribute contains the given value.
+    env.filters['attr_contains'] = lambda docs, attr, val: [d for d in docs if val in d.get(attr, '')]
+    # Make slugify available
+    env.filters['slugify'] = slugify
+
+    # Add custom globals to the Jinja2 environment.
+    # Include the source of a file.
+    env.globals['filesource'] = lambda name, **kwargs: _filesource(L.paths.root, name, **kwargs)
+    # Get collection from its name.
+    env.globals['get_collection'] = lambda name: L.collections.get(name)
+    # Get a document from its URL.
+    env.globals['get_doc'] = lambda url: L.doc_index.get(url)['doc']
+    # Get documents from a URL.
+    env.globals['get_docs'] = lambda url='', **kwargs: _get_docs(L, url, **kwargs)
+    # Make current datetime available.
+    env.globals['now'] = datetime.now
+    # Include the site settings last.
+    env.globals.update(L.settings['site'])
+
+    # Add custom tests to the Jinja2 environment.
+    env.tests['contains'] = _contains
 
 
 def render(variables: dict) -> str:
