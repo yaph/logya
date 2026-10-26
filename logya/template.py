@@ -105,6 +105,10 @@ def add_globals(L) -> None:
     env.globals.update(L.settings['site'])
 
 
+def add_tests() -> None:
+    env.tests['contains'] = lambda value, substring: substring in value
+
+
 def init_env(L):
     if not L.paths.templates.exists() or not L.paths.templates.is_dir():
         sys.exit('No templates directory found.')
@@ -123,6 +127,7 @@ def init_env(L):
 
     add_filters()
     add_globals(L)
+    add_tests()
 
 
 def render(variables: dict) -> str:
