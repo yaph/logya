@@ -40,9 +40,10 @@ def _alpha_index(
 
 def _contains(value: str, substring: str, case_sensitive: bool = True) -> bool:
     """Return True if the given substring is found in the value string. Case sensitive by default."""
-    if case_sensitive:
-        return substring in value
-    return substring.casefold() in value.casefold()
+    if value is None:
+        return False
+
+    return substring in value if case_sensitive else substring.casefold() in value.casefold()
 
 
 def _filesource(root: Path, name: str, lines: int | None = None, raw: bool = False) -> str | None:
