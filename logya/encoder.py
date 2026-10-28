@@ -7,6 +7,8 @@ class JSONEncoder(json.JSONEncoder):
         if isinstance(obj, datetime.date | datetime.datetime):
             return obj.isoformat(sep=' ', timespec='seconds')
         if isinstance(obj, datetime.timedelta):
-            return (datetime.datetime.min + obj).time().isoformat(sep=' ', timespec='seconds')
+            return (
+                (datetime.datetime.min.replace(tzinfo=datetime.UTC) + obj).time().isoformat(sep=' ', timespec='seconds')
+            )
 
         return json.JSONEncoder.default(self, obj)
